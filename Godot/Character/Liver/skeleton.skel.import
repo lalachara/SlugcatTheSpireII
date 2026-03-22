@@ -1,0 +1,14 @@
+[remap]
+
+importer="spine.skel"
+type="SpineSkeletonFileResource"
+uid="uid://c6afgfx7mbw50"
+path="res://.godot/imported/skeleton.skel-808616a3cd8cb783aa1141d684944807.spskel"
+
+[deps]
+
+source_file="res://Godot/Character/Liver/skeleton.skel"
+dest_files=["res://.godot/imported/skeleton.skel-808616a3cd8cb783aa1141d684944807.spskel"]
+
+[params]
+

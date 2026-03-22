@@ -1,0 +1,16 @@
+[remap]
+
+importer="spine.atlas"
+type="SpineAtlasResource"
+uid="uid://baqfl164677l0"
+path="res://.godot/imported/WhitePlus.atlas-7b9d1ce41cf2267ac2a5e3ac7dc4d93c.spatlas"
+
+[deps]
+
+source_file="res://Godot/Character/Liver/WhitePlus.atlas"
+dest_files=["res://.godot/imported/WhitePlus.atlas-7b9d1ce41cf2267ac2a5e3ac7dc4d93c.spatlas"]
+
+[params]
+
+normal_map_prefix="n"
+specular_map_prefix="s"

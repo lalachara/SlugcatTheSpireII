@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://dsoxwhs51ymua"]
+
+[ext_resource type="Texture2D" uid="uid://dm0fp0o3y4cd4" path="res://Godot/Character/Liver/layer4.png" id="1_2rtx4"]
+
+[node name="Head" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 123.0
+offset_top = 210.0
+offset_right = 123.0
+offset_bottom = 210.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Layer4" type="Sprite2D" parent="."]
+position = Vector2(-92.875, -182)
+scale = Vector2(0.41992185, 0.42187512)
+texture = ExtResource("1_2rtx4")
