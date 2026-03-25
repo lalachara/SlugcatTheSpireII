@@ -26,8 +26,8 @@ using System.Threading.Tasks;
 #nullable enable
 public sealed class WorklockPower : CustomPowerModel
 {
-  public override string? CustomPackedIconPath => "res://Resource/Powers/SuperDefend48.png";
-  public override string? CustomBigIconPath => "res://Resource/Powers/SuperDefend128.png";
+  public override string? CustomPackedIconPath => "res://Resource/Powers/WorkLock48.png";
+  public override string? CustomBigIconPath => "res://Resource/Powers/WorkLock128.png";
   
   public override PowerType Type => PowerType.Buff;
 

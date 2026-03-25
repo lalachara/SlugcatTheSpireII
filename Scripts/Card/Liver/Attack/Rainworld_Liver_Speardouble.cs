@@ -13,7 +13,7 @@ using Rainworld.Scripts.Card.CardVars;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
 
-public class Rainworld_Liver_Speardouble:LiverCardModel
+public class Rainworld_Liver_Speardouble:LiverCardModelAtk
 
 {
     // 基础耗能
@@ -51,14 +51,14 @@ public class Rainworld_Liver_Speardouble:LiverCardModel
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-        await PowerCmd.Apply<ChuangPower>(cardPlay.Target, DynamicVars.Weak.BaseValue, base.Owner.Creature, this);
+        await PowerCmd.Apply<ChuangPower>(cardPlay.Target, DynamicVars["Chuang"].BaseValue, base.Owner.Creature, this);
         await DamageCmd
             .Attack(base.DynamicVars.Damage.BaseValue)
             .FromCard(this)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-        await PowerCmd.Apply<ChuangPower>(cardPlay.Target, DynamicVars.Weak.BaseValue, base.Owner.Creature, this);
+        await PowerCmd.Apply<ChuangPower>(cardPlay.Target,DynamicVars["Chuang"].BaseValue, base.Owner.Creature, this);
 
         await Cmd.Wait(0.5f);
         

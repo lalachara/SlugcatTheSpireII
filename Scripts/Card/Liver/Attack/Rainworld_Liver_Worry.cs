@@ -10,7 +10,7 @@ using Rainworld.Scripts.Powers;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
 
-public class Rainworld_Liver_Worry:LiverCardModel
+public class Rainworld_Liver_Worry:LiverCardModelAtk
 
 {
     // 基础耗能
@@ -49,7 +49,7 @@ public class Rainworld_Liver_Worry:LiverCardModel
             .Execute(choiceContext);
         if (Owner.Character is Slugcat)
         {
-            Scripts.SlugcatField.GetSlugCatData[Owner.Creature].addfood((int)DynamicVars["food"].BaseValue);
+            Scripts.SlugcatField.GetSlugCatDataByCreature(Owner.Creature).addfood((int)DynamicVars["food"].BaseValue);
         }
 
     }

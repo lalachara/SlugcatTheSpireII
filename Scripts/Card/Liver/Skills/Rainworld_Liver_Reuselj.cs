@@ -2,10 +2,13 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
+using MegaCrit.Sts2.Core.Nodes.Rooms;
+using MegaCrit.Sts2.Core.Nodes.Vfx;
 using MegaCrit.Sts2.Core.ValueProps;
 using Rainworld.Scripts;
 using Rainworld.Scripts.Powers;
@@ -45,14 +48,14 @@ public class Rainworld_Liver_Reuselj:LiverCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         //await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
-        List<CardModel> list = (await CardSelectCmd.FromHand(prefs: new CardSelectorPrefs(base.SelectionScreenPrompt, 0, 2), context: choiceContext, player: base.Owner, filter: null, source: this)).ToList();
-        foreach (CardModel item in list)
+        
+        foreach (CardModel item in await CardSelectCmd.FromHand(prefs: new CardSelectorPrefs(base.SelectionScreenPrompt, 0, 2), context: choiceContext, player: base.Owner, filter: null, source: this))
         {
             await CardCmd.Exhaust(choiceContext, item);
             await PlayerCmd.GainEnergy(base.DynamicVars.Energy.IntValue, base.Owner);
 
-
         }
+        
     }
 
     // 升级后的效果逻辑

@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.Metrics;
 using BaseLib.Abstracts;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -26,12 +27,12 @@ using System.Threading.Tasks;
 #nullable enable
 public sealed class WorkerrorPower : CustomPowerModel
 {
-  public override string? CustomPackedIconPath => "res://Resource/Powers/SuperDefend48.png";
-  public override string? CustomBigIconPath => "res://Resource/Powers/SuperDefend128.png";
+  public override string? CustomPackedIconPath => "res://Resource/Powers/WorkError48.png";
+  public override string? CustomBigIconPath => "res://Resource/Powers/WorkError128.png";
   
   public override PowerType Type => PowerType.Buff;
 
-  public override PowerStackType StackType => PowerStackType.Counter;
+  public override PowerStackType StackType => PowerStackType.Single;
 
  // protected override IEnumerable<IHoverTip> ExtraHoverTips => new[] { (HoverTipFactory.FromPower<DoomPower>()) }; 
 
@@ -42,5 +43,12 @@ public sealed class WorkerrorPower : CustomPowerModel
          await CreatureCmd.GainBlock(base.Owner, base.Amount*2, ValueProp.Unpowered, null);
          await PowerCmd.Apply<NimblePower>(base.Owner, Amount, base.Owner, null);
      }
+     
  }
+ public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
+ {
+     await PlayerCmd.GainEnergy(1, Owner.Player);
+ }
+
+ 
 }

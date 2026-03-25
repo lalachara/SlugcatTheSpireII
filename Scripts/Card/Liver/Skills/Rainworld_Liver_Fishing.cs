@@ -38,8 +38,8 @@ public class Rainworld_Liver_Fishing:LiverCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(base.Owner.Creature, base.DynamicVars.Block, cardPlay);
-        await CreatureCmd.Damage(choiceContext,Owner.Creature,new DamageVar(2m, ValueProp.Move),cardPlay.Target);
-        await CreatureCmd.Damage(choiceContext,Owner.Creature,new DamageVar(2m, ValueProp.Move),cardPlay.Target);
+        await CreatureCmd.Damage(choiceContext,Owner.Creature,new DamageVar(2m, ValueProp.Unpowered),cardPlay.Target);
+        await CreatureCmd.Damage(choiceContext,Owner.Creature,new DamageVar(2m, ValueProp.Unpowered),cardPlay.Target);
 
     }
 

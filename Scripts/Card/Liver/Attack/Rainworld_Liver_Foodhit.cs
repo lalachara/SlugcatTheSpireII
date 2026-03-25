@@ -16,7 +16,7 @@ using Rainworld.Scripts.Powers;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
 
-public class Rainworld_Liver_Foodhit:LiverCardModel
+public class Rainworld_Liver_Foodhit:LiverCardModelAtk
 
 {
     // 基础耗能
@@ -43,7 +43,7 @@ public class Rainworld_Liver_Foodhit:LiverCardModel
 
         // 原有的乘法器计算逻辑
 
-        return SlugcatField.GetSlugCatData[owner.Creature].food;
+        return SlugcatField.GetSlugCatDataByCreature(owner.Creature).food;
     }
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [

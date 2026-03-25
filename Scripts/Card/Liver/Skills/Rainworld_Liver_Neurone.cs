@@ -40,10 +40,10 @@ public class Rainworld_Liver_Neurone:LiverCardModel
     {
         await CreatureCmd.GainMaxHp(Owner.Creature,DynamicVars.Cards.BaseValue+10000m);
         if(Owner.Character is Slugcat)
-            SlugcatField.GetSlugCatData[Owner.Creature].addfood(1);
-
-        await CardPileCmd.RemoveFromDeck(this);
-
+            SlugcatField.GetSlugCatDataByCreature(Owner.Creature).addfood(1);
+        if(Owner.Deck.Cards.Contains(base.DeckVersion))
+            await CardPileCmd.RemoveFromDeck(base.DeckVersion);
+        
     }
 
     // 升级后的效果逻辑

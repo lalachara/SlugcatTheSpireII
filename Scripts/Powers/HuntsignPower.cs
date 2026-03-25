@@ -44,7 +44,7 @@ public sealed class HuntsignPower : CustomPowerModel
     {
       if (dealer.Player.Character is Slugcat)
       {
-        SlugcatField.GetSlugCatData[Owner.Player.Creature].addfood(Amount);
+        SlugcatField.GetSlugCatDataByCreature(Owner).addfood(Amount);
 
       }
     }

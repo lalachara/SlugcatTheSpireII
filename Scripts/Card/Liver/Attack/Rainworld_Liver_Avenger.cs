@@ -13,7 +13,7 @@ using Rainworld.Scripts.Powers;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
 
-public class Rainworld_Liver_Avenger:LiverCardModel
+public class Rainworld_Liver_Avenger:LiverCardModelAtk
 
 {
     // 基础耗能
@@ -45,7 +45,7 @@ public class Rainworld_Liver_Avenger:LiverCardModel
         int times = 1;
         if (Owner.Character is Slugcat)
         {
-            int workLevel = SlugcatField.GetSlugCatData[Owner.Creature].workLevel;
+            int workLevel = SlugcatField.GetSlugCatDataByCreature(Owner.Creature).workLevel;
 
             if(workLevel<=4)
                 times++;

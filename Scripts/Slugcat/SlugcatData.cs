@@ -1,8 +1,17 @@
-﻿using Godot;
+﻿using BaseLib;
+using Godot;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Rooms;
+using MegaCrit.Sts2.Core.Saves.Runs;
 using Rainworld.Scripts.Powers;
+using Rainworld;
+using Rainworld.Patches;
+using Rainworld.Scripts.patches;
 
 namespace Rainworld.Scripts
 {
@@ -17,47 +26,87 @@ namespace Rainworld.Scripts
         public int food = 0;
         public int maxFood = 0;
         public int sleepFood = 99;
-        // 你的逻辑方法
-        public Creature creature;
+        public int sleepCD = 0;
+        public NAutoButton Nbutton;
 
-        public SlugcatData(Creature creature)
+        // 你的逻辑方法
+        public Player Player;
+        public WorkLevelIndicator workLevelIndicator;
+
+        public SlugcatData(Player player)
         {
-            this.creature = creature;
+            this.Player = player;
+            Initialize();
+
         }
 
+       
         public void Initialize()
         {
-            if (creature.Player.Character is Slugcat slugcat)
+            try
             {
-                workLevel = slugcat.workLevel;
-                maxWorkLevel = slugcat.maxWorkLevel;
-                food = slugcat.food;
-                maxFood = slugcat.maxFood;
-                sleepFood = slugcat.sleepfood;
+                if (Player.Character is Slugcat slugcat)
+                {
+                    //
+                    // workLevel = slugcat.workLevel;
+                    // maxWorkLevel = slugcat.maxWorkLevel;
+                    // food = slugcat.food;
+                    // maxFood = slugcat.maxFood;
+                    // sleepFood = slugcat.sleepfood;
+                    if (!RainworldData.Current.isinit)
+                    {
+                        workLevel = slugcat.workLevel;
+                        maxWorkLevel = slugcat.maxWorkLevel;
+                        food = slugcat.food;
+                        maxFood = slugcat.maxFood;
+                        sleepFood = slugcat.sleepfood;
+                        SaveDataToCharacter();
+                    }
+                    else
+                    {
+                        workLevel = RainworldData.Current.WorkLevel;
+                        maxWorkLevel = RainworldData.Current.MaxWorkLevel;
+                        food = RainworldData.Current.Food;
+                        maxFood = RainworldData.Current.MaxFood;
+                        sleepFood = RainworldData.Current.SleepFood;
+                    }
+
+                
+
+                }
             }
+            catch (Exception e)
+            {
+                GD.PrintErr("SlugCatDataInitialize报错"+e);
+                throw;
+            }
+           
         }
 
         public void SaveDataToCharacter()
         {
-            if (creature.Player.Character is Slugcat slugcat)
+        
+            if (Player.Character is Slugcat)
             {
-                 slugcat.workLevel =  workLevel;
-                 slugcat.maxWorkLevel = maxWorkLevel;
-                 slugcat.food = food;
-                 slugcat.maxFood = maxFood;
-                 slugcat.sleepfood = sleepFood;
+                RainworldData.Current.WorkLevel =  workLevel;
+                RainworldData.Current.MaxWorkLevel = maxWorkLevel;
+                RainworldData.Current.Food = food;
+                RainworldData.Current.MaxFood = maxFood;
+                RainworldData.Current.SleepFood = sleepFood;
+                RainworldData.Current.isinit = true;
             }
         }
         
         public bool canbekill()
         {
-            if (creature.HasPower<WorklockPower>())
+            if (Player.Creature.HasPower<WorklockPower>())
                 return false;
             return workLevel <= 0;
         }
 
         public async void addfood(int amount)
         {
+            int tempfood = food;
             //音效
             //bool full = food==maxFood;
             food+=amount;
@@ -67,39 +116,41 @@ namespace Rainworld.Scripts
             if(food>maxFood)
             {
                 exfood = food-maxFood;
-                //长腿菌块逻辑
-                // int damage = food-maxFood;
-                // if(hasRelic(Liver_LongLegMushroom.ID)&&AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT){
-                // 	boolean isdamageself = false;
-                // 	for (AbstractMonster mo : AbstractDungeon.getMonsters().monsters) {
-                // 		if (!mo.isDeadOrEscaped()&&mo.currentHealth>0) {
-                // 			AbstractDungeon.actionManager.addToBottom(new DamageAction(mo,new DamageInfo(this,damage, DamageInfo.DamageType.THORNS)));
-                // 			isdamageself = true;
-                // 		}
-                // 	}
-                // 	if(isdamageself){
-                // 		AbstractDungeon.actionManager.addToBottom(new DamageAction(this,new DamageInfo(this,damage, DamageInfo.DamageType.THORNS)));
-                // 	}
-                // }
                 
-                if(creature.HasPower<FatworldPower>())
-                    await PowerCmd.Apply<StrengthPower>(creature, exfood, creature, null);
+                if(Player.Creature.HasPower<FatworldPower>())
+                    await PowerCmd.Apply<StrengthPower>(Player.Creature, exfood, Player.Creature, null);
             }
             if(food<0)
                 food=0;
             food = Math.Min(food,maxFood);
+            if (food != tempfood)
+            {
+                if(sleepCD==0)
+                    CombatUiPatch.SetSleepButton(cansleep());
+                CombatUiPatch.Setfood(food);
+            }
+        }
+
+        public void addMaxWorkLevel(int amount)
+        {
+            int temp =  maxWorkLevel+amount;
+            if (temp > 9)
+                temp = 9;
+            maxWorkLevel = Math.Max(temp,0);
+            if(workLevel>maxWorkLevel)
+                setworklevel(maxWorkLevel);
         }
 
         public async void reLive()
         {
-            if(creature.HasPower<WorklockPower>())
-                await PowerCmd.Decrement(creature.GetPower<WorklockPower>());
+            if(Player.Creature.HasPower<WorklockPower>())
+                await PowerCmd.Decrement(Player.Creature.GetPower<WorklockPower>());
             else
                 this.addworklevel(-1);
         }
         public void addworklevel(int level)
         {
-            if(level>0&&creature.HasPower<WorkerrorPower>())
+            if(level>0&&Player.Creature.HasPower<WorkerrorPower>())
                 return;
             int result = workLevel+level;
             setworklevel(result);
@@ -107,13 +158,85 @@ namespace Rainworld.Scripts
         public void setworklevel(int level)
         {
             GD.PrintErr("业力变化：变化后为" +level);
-
             if(level>maxWorkLevel)
                 level=maxWorkLevel;
             if(level<0)
                 level=0;
             workLevel=level;
-		
+            if (workLevelIndicator != null)
+            {
+                workLevelIndicator.UpdateWorkLevel(workLevel);
+                Player.Creature.SetCurrentHpInternal(Player.Creature.MaxHp);
+            }
+
+        }
+        
+
+        public bool cansleep()
+        {
+            return sleepCD==0&&food >= sleepFood;
+        }
+
+        public  void trysleep()
+        {
+            if ( cansleep())
+            {
+                sleepCD = 3;
+                addfood(-sleepFood);
+                sleep();
+                
+            }
+        }
+
+        public async void sleep()
+        {
+            await CreatureCmd.TriggerAnim(Player.Creature, "sleep", 0);
+            await PowerCmd.Apply<SleepPower>(Player.Creature,1, Player.Creature, null);
+            PlayerCmd.EndTurn(Player, canBackOut: false);
+
+        }
+
+        public void callTurnStart()
+        {
+            if (sleepCD > 0)
+            {
+                sleepCD--;
+                if(sleepCD == 0)
+                    CombatUiPatch.SetSleepButton(cansleep());
+                if (sleepFood == 1)
+                    CombatUiPatch.SetSleepButtonDown1();
+            }
+            else
+            {
+                CombatUiPatch.SetSleepButton(cansleep());
+            }
+
+        }
+
+        public void getRewordFood(RoomType roomType)
+        {
+            if(roomType == RoomType.Monster)
+                addfood(3);
+            if(roomType == RoomType.Elite)
+                addfood(5);
+            if (roomType == RoomType.Boss)
+            {
+                addfood(7); ;
+                addMaxWorkLevel(1);
+            }
+
+        }
+
+
+        public void callCombatStart()
+        {
+            CombatUiPatch.SetSleepButton(cansleep());
+        }
+
+        public void callVictory()
+        {
+            sleepCD = 0;
+            getRewordFood(Player.Creature.Player.RunState.CurrentRoom.RoomType);
         }
     }
 }

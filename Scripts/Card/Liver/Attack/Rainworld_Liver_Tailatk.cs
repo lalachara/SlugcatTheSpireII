@@ -13,7 +13,7 @@ using Rainworld.Scripts.Card.CardVars;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
 
-public class Rainworld_Liver_Tailatk:LiverCardModel
+public class Rainworld_Liver_Tailatk:LiverCardModelAtk
 
 {
     // 基础耗能
@@ -35,6 +35,7 @@ public class Rainworld_Liver_Tailatk:LiverCardModel
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new DamageVar(8m, ValueProp.Move),
         new DynamicVar("Nimble", 2m)
+        
     ];
 
     public Rainworld_Liver_Tailatk() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -52,7 +53,6 @@ public class Rainworld_Liver_Tailatk:LiverCardModel
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
         await PowerCmd.Apply<NimblePower>(Owner.Creature, DynamicVars["Nimble"].BaseValue, base.Owner.Creature, this);
-        
         CardModel card = base.CombatState.CreateCard<Slimed>(base.Owner);
         CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Discard, addedByPlayer: true));
     }

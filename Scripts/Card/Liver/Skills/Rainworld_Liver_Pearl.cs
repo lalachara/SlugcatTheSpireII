@@ -26,7 +26,7 @@ public class Rainworld_Liver_Pearl:LiverCardModel
     public override bool GainsBlock => true;
     protected override HashSet<CardTag> CanonicalTags => new HashSet<CardTag> { };
 
-
+    protected override bool IsPlayable => false;
 
     // 卡牌的基础属性（例如这里是12点伤害）
     protected override IEnumerable<DynamicVar> CanonicalVars => [

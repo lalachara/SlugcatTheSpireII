@@ -2,7 +2,7 @@
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
 
-namespace demo.Scripts.Powers;
+namespace Rainworld.Scripts.Powers;
 
 public class OldframeTemp: TemporaryStrengthPower
 {

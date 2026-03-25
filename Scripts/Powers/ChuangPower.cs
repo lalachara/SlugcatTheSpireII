@@ -32,9 +32,6 @@ public sealed class ChuangPower : CustomPowerModel
   public override string? CustomBigIconPath => "res://Resource/Powers/ChuangImg128.png";
 
   public override PowerStackType StackType => PowerStackType.Counter;
-
-  protected override IEnumerable<IHoverTip> ExtraHoverTips => new[] { (HoverTipFactory.FromPower<DoomPower>()) };
-
   
   public override async Task AfterDamageGiven(PlayerChoiceContext choiceContext, Creature? dealer, DamageResult result, ValueProp props,
     Creature target, CardModel? cardSource)

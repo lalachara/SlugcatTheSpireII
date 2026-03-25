@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using BaseLib;
 using BaseLib.Abstracts;
-using demo.Resource.Card;
+using Rainworld.Resource.Card;
 using Godot;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Characters;
@@ -20,9 +22,11 @@ using MegaCrit.Sts2.Core.Models.RelicPools;
 using MegaCrit.Sts2.Core.Models.Relics;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
 using MegaCrit.Sts2.Core.Nodes;
+using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Saves;
 using MegaCrit.Sts2.Core.Saves.Runs;
+using Rainworld.Patches;
 using Rainworld.relics;
 using Rainworld.Scripts.Powers;
 using Rainworld.Scripts.Card.Liver.Attack;
@@ -32,47 +36,48 @@ namespace Rainworld.Scripts;
 public abstract class Slugcat : PlaceholderCharacterModel
 {
 
+	//此处数据仅用于处理存档读档，不要操作。
 	public int workLevel=2,maxWorkLevel = 4,food=0,maxFood=7,sleepfood=4;
-	[SavedProperty]
-	public int _workLevel
-	{
-		get
-		{
-			return workLevel;
-		}
-		set
-		{
-			AssertMutable();
-			workLevel = value;
-			
-		}
-	}
-	[SavedProperty]
-	public int _maxWorkLevel
-	{
-		get
-		{
-			return maxWorkLevel;
-		}
-		set
-		{
-			AssertMutable();
-			maxWorkLevel = value;
-		}
-	}
-	[SavedProperty]
-	public int _food
-	{
-		get
-		{
-			return food;
-		}
-		set
-		{
-			AssertMutable();
-			food = value;
-		}
-	}
+	// [SavedProperty]
+	// public int WorkLevel
+	// {
+	// 	get
+	// 	{
+	// 		return workLevel;
+	// 	}
+	// 	set
+	// 	{
+	// 		AssertMutable();
+	// 		workLevel = value;
+	// 		
+	// 	}
+	// }
+	// [SavedProperty]
+	// public int MaxWorkLevel
+	// {
+	// 	get
+	// 	{
+	// 		return maxWorkLevel;
+	// 	}
+	// 	set
+	// 	{
+	// 		AssertMutable();
+	// 		maxWorkLevel = value;
+	// 	}
+	// }
+	// [SavedProperty]
+	// public int Food
+	// {
+	// 	get
+	// 	{
+	// 		return food;
+	// 	}
+	// 	set
+	// 	{
+	// 		AssertMutable();
+	// 		food = value;
+	// 	}
+	// }
 	
 	
 	//public override string CustomVisualPath => "res://Godot/CharacterSelectBgs/LiverSelectBg.tscn";
@@ -154,75 +159,22 @@ public abstract class Slugcat : PlaceholderCharacterModel
 		"vfx/vfx_rock_shatter"
 	];
 
-
-	public async void addfood(int amount,Creature c)
+	public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
 	{
-		//音效
-		//bool full = food==maxFood;
-		food+=amount;
-		int exfood = 0;
-		// if(!full)  饱食度增加的特效文本，之后补上
-		// 	AbstractDungeon.effectsQueue.add(new TextAboveCreatureEffect(this.hb.cX - this.animX, this.hb.cY, characterStrings.TEXT[2] + Integer.toString(amount), Settings.GREEN_TEXT_COLOR));
-		if(food>maxFood)
-		{
-			exfood = food-maxFood;
-			//长腿菌块逻辑
-			// int damage = food-maxFood;
-			// if(hasRelic(Liver_LongLegMushroom.ID)&&AbstractDungeon.getCurrRoom().phase == AbstractRoom.RoomPhase.COMBAT){
-			// 	boolean isdamageself = false;
-			// 	for (AbstractMonster mo : AbstractDungeon.getMonsters().monsters) {
-			// 		if (!mo.isDeadOrEscaped()&&mo.currentHealth>0) {
-			// 			AbstractDungeon.actionManager.addToBottom(new DamageAction(mo,new DamageInfo(this,damage, DamageInfo.DamageType.THORNS)));
-			// 			isdamageself = true;
-			// 		}
-			// 	}
-			// 	if(isdamageself){
-			// 		AbstractDungeon.actionManager.addToBottom(new DamageAction(this,new DamageInfo(this,damage, DamageInfo.DamageType.THORNS)));
-			// 	}
-			// }
-			
-			//胖世界逻辑
-			// if(hasPower(FatWorldBuff.POWER_ID)){
-			// 	AbstractDungeon.actionManager.addToBottom(new ApplyPowerAction(this,this,new StrengthPower(this,getPower(FatWorldBuff.POWER_ID).amount),getPower(FatWorldBuff.POWER_ID).amount));
-			// }
-			if(c.HasPower<FatworldPower>())
-				await PowerCmd.Apply<StrengthPower>(c, exfood, c, null);
-		}
-		if(food<0)
-			food=0;
-		food = Math.Min(food,maxFood);
+		MainFile.Logger.Info($"Character执行turnstart");
+		CombatUiPatch.callTurnStart();		
 	}
-	public void setworklevel(int level)
+	public override async Task AfterCombatVictory(CombatRoom room)
 	{
-		if(level>maxWorkLevel)
-			level=maxWorkLevel;
-		if(level<0)
-			level=0;
-		workLevel=level;
-		GD.Print($"【调试】设置完成，业力{workLevel}，是否可杀：{canbekill()}");
+		MainFile.Logger.Info($"Character执行victory");
+		CombatUiPatch.callVictory();		
+	}
+	
+
+	public override async Task BeforeCombatStart()
+	{
+		MainFile.Logger.Info($"Character执行BeforeCombatStart");
 		
+		await base.BeforeCombatStart();
 	}
-
-	public void addworklevel(int level)
-	{
-		int result = workLevel+level;
-		GD.Print($"【调试】当前业力：{workLevel}, 设置业力{result}");
-
-		setworklevel(result);
-	}
-	
-	public bool canbekill()
-	{
-		GD.Print($"【调试】Slugcat 受击！当前业力：{workLevel}, canbekill？{workLevel <= 0}");
-
-		return workLevel <= 0;
-	}
-
-	public void reLive()
-	{
-		GD.Print($"【调试】当前业力：{workLevel}, 触发relive");
-		this.addworklevel(-1);
-	}
-	
-	
 }

@@ -14,7 +14,10 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.RelicPools;
 using MegaCrit.Sts2.Core.Models.Relics;
+using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Rooms;
+using MegaCrit.Sts2.Core.Runs;
+using Rainworld.Scripts;
 using Rainworld.Scripts.Card.Liver.Attack;
 
 namespace Rainworld.relics;
@@ -42,6 +45,24 @@ public sealed class Liver_Fruit1 : CustomRelicModel
 			CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardsToCombat(list, PileType.Hand, addedByPlayer: true, CardPilePosition.Random));
 		}
 	}
+	
+	public override bool TryModifyRestSiteHealRewards(Player player, List<Reward> rewards, bool isMimicked)
+	{
+		if (player != base.Owner)
+		{
+			return false;
+		}
+
+		if (player.Character is Slugcat)
+		{
+			SlugcatField.GetSlugCatDataByCreature(Owner.Creature).addMaxWorkLevel(1);
+			Flash();
+
+		}
+
+		return true;
+	}
+
 	
 	
 }

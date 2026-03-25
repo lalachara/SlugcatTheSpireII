@@ -72,7 +72,7 @@ public sealed class ChiefPower : CustomPowerModel
       Flash();
       IEnumerable<CardModel> distinctForCombat = CardFactory.GetDistinctForCombat(base.Owner.Player, from c in base.Owner.Player.Character.CardPool.GetUnlockedCards(base.Owner.Player.UnlockState, base.Owner.Player.RunState.CardMultiplayerConstraint)
         
-        where ((c.Type==CardType.Attack||c.Type==CardType.Skill)&&(c.Rarity==CardRarity.Common||c.Rarity==CardRarity.Uncommon||c.Rarity==CardRarity.Rare))
+        where ((c.Type==CardType.Attack||c.Type==CardType.Skill)&&(c.Rarity==CardRarity.Common||c.Rarity==CardRarity.Uncommon||c.Rarity==CardRarity.Rare)&&c is not Rainworld_Liver_Neurone)
         select c, base.AmountOnTurnStart, base.Owner.Player.RunState.Rng.CombatCardGeneration);
       foreach (CardModel c in distinctForCombat)
       {

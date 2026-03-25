@@ -16,7 +16,9 @@ public static class  RainworldKeywords
         [CustomEnum("Treasure")]
         [KeywordProperties(AutoKeywordPosition.Before)]
         public static CardKeyword Treasure;
-        
+        [CustomEnum("Treasurespear")]
+        [KeywordProperties(AutoKeywordPosition.Before)]
+        public static CardKeyword Treasurespear;
 
         
         //以下只在提示词出现
@@ -46,8 +48,7 @@ public static class  RainworldKeywords
 
         [CustomEnum("Because")]
         public static CardKeyword Because;
-        [CustomEnum("Treasurespear")]
-        public static CardKeyword Treasurespear;
+        
         [CustomEnum("Livewill")]
         public static CardKeyword Livewill;
         [CustomEnum("Workerror")]

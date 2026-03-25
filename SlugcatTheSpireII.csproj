@@ -38,12 +38,20 @@
 
     <ItemGroup>
       <Content Include="Godot\Character\Liver\layer4.png" />
+      <Content Include="Godot\CombatUI\resource\WorkLevel.png" />
+      <Content Include="Godot\CombatUI\resource\WorkLevelLock.png" />
+      <Content Include="Godot\CombatUI\resource\WorkLevelLock2.png" />
+      <Content Include="Godot\CombatUI\Test.tcsn" />
       <Content Include="Resource\Card\CardSkill1024.png" />
       <Content Include="Resource\SlugCat\card_orb.png" />
       <Content Include="Resource\SlugCat\Head.svg" />
       <Content Include="Resource\SlugCat\Head.png" />
       <Content Include="Resource\SlugCat\Liver_Select_Button.png" />
       <Content Include="Resource\SlugCat\small_orb.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Scripts\patches\CatBagPatch.cs" />
     </ItemGroup>
 
     <!-- 自动复制dll -->

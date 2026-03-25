@@ -10,7 +10,7 @@ using Rainworld.Scripts.Card.CardVars;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
 
-public class Rainworld_Liver_Birdhelp:LiverCardModel
+public class Rainworld_Liver_Birdhelp:LiverCardModelPower
 
 {
     // 基础耗能

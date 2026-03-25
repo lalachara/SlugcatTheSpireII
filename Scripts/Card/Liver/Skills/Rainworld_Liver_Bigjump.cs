@@ -44,7 +44,7 @@ public class Rainworld_Liver_Bigjump:LiverCardModel
     {
         await CreatureCmd.GainBlock(base.Owner.Creature, base.DynamicVars.Block, cardPlay);
         var bigJumpPower = await PowerCmd.Apply<BigjumpPower>(Owner.Creature, 1, base.Owner.Creature, this);
-        bigJumpPower.addCard(new Rainworld_Liver_Fruit());
+        bigJumpPower.addCard(CombatState.CreateCard<Rainworld_Liver_Fruit>(base.Owner));
     }
 
     // 升级后的效果逻辑

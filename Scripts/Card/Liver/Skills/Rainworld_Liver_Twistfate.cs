@@ -49,7 +49,7 @@ public class Rainworld_Liver_Twistfate:LiverCardModel
 
         if (Owner.Character is Slugcat)
         {
-            SlugcatField.GetSlugCatData[Owner.Creature].setworklevel(9);;
+            SlugcatField.GetSlugCatDataByCreature(Owner.Creature).setworklevel(9);;
         }
         await PowerCmd.Apply<BeacusePower>(Owner.Creature,1, base.Owner.Creature, this);
 

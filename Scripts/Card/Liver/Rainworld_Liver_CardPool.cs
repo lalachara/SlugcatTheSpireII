@@ -10,7 +10,7 @@ using MegaCrit.Sts2.Core.Models;
 using Rainworld.Scripts.Card.Liver.Attack;
 
 #nullable enable
-namespace demo.Resource.Card;
+namespace Rainworld.Resource.Card;
 
 public class Rainworld_Liver_CardPool : CustomCardPoolModel
 {
@@ -30,12 +30,5 @@ public class Rainworld_Liver_CardPool : CustomCardPoolModel
 
     public override bool IsColorless => false;
 
-    protected override CardModel[] GenerateAllCards()
-  {
-    return new CardModel[ /*0x40*/]
-    {
-      (CardModel) ModelDb.Card<Rainworld_Liver_Defend>(),
-      
-    };
-  }
+
 }

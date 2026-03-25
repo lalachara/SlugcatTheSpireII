@@ -84,4 +84,9 @@ public sealed class FreespearPower : CustomPowerModel
       }
     }
   }
+
+  public override async Task AfterTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
+  {
+      await PowerCmd.Remove(this);
+  }
 }

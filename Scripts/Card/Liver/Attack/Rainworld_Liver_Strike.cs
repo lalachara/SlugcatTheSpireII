@@ -6,7 +6,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
 
-public class Rainworld_Liver_Strike:LiverCardModel
+public class Rainworld_Liver_Strike:LiverCardModelAtk
 
 {
     // 基础耗能

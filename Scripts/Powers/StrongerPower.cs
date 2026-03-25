@@ -35,7 +35,7 @@ public sealed class StrongerPower : CustomPowerModel
  // protected override IEnumerable<IHoverTip> ExtraHoverTips => new[] { (HoverTipFactory.FromPower<DoomPower>()) }; 
  public override decimal ModifyDamageMultiplicative(Creature? target, decimal amount, ValueProp props, Creature? dealer, CardModel? cardSource)
  {
-     if (props!=ValueProp.Unpowered)
+     if (props==ValueProp.Unpowered)
      {
          return 1m;
      }
@@ -43,14 +43,7 @@ public sealed class StrongerPower : CustomPowerModel
      {
          return 1m;
      }
-     if (dealer != base.Owner && !base.Owner.Pets.Contains<Creature>(dealer))
-     {
-         return 1m;
-     }
-     if (target == null )
-     {
-         return 1m;
-     }
+     
      return base.Amount+1m;
  }
 

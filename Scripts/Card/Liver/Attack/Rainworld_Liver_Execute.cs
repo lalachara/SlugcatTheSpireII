@@ -13,7 +13,7 @@ using Rainworld.Scripts.Powers;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
 
-public class Rainworld_Liver_Execute:LiverCardModel
+public class Rainworld_Liver_Execute:LiverCardModelAtk
 {
     protected override bool HasEnergyCostX => true;
     // 基础耗能

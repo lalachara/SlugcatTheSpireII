@@ -14,7 +14,7 @@ using Rainworld.Scripts.Powers;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
 
-public class Rainworld_Liver_Threeagree:LiverCardModel
+public class Rainworld_Liver_Threeagree:LiverCardModelAtk
 
 {
     // 基础耗能
@@ -34,7 +34,7 @@ public class Rainworld_Liver_Threeagree:LiverCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
     ];
-    protected override bool IsPlayable => Owner.Character is Slugcat&&SlugcatField.GetSlugCatData[Owner.Creature].workLevel>=9;
+    protected override bool IsPlayable => Owner.Character is Slugcat&&SlugcatField.GetSlugCatDataByCreature(Owner.Creature).workLevel>=9;
 
     public Rainworld_Liver_Threeagree() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
@@ -46,7 +46,7 @@ public class Rainworld_Liver_Threeagree:LiverCardModel
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
 
-        if (!(Owner.Character is Slugcat && SlugcatField.GetSlugCatData[Owner.Creature].workLevel >= 9))
+        if (!(Owner.Character is Slugcat && SlugcatField.GetSlugCatDataByCreature(Owner.Creature).workLevel >= 9))
         {
             return;
         }
@@ -60,7 +60,7 @@ public class Rainworld_Liver_Threeagree:LiverCardModel
             await CreatureCmd.Kill(creature);
         }
 
-        SlugcatField.GetSlugCatData[Owner.Creature].setworklevel(4); 
+        SlugcatField.GetSlugCatDataByCreature(Owner.Creature).setworklevel(4); 
     }
 
     // 升级后的效果逻辑

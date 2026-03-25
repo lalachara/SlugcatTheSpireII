@@ -1,0 +1,9 @@
+{
+  "RAINWORLD-WorkLevel_title":"业力",
+  "RAINWORLD-WorkLevel_description":"当你受到[red]致命伤害[/red]时，如果你的[gold]业力[/gold]不为[blue]1[/blue]，[gold]重生[/gold]并失去[red]1[/red][gold]业力[/gold]。\n当前[gold]业力[/gold]：[blue]{work_level}[/blue]/[blue]{max_work_level}[/blue]",
+  "RAINWORLD-Food_title":"饱食度",
+  "RAINWORLD-Food_description":"当你完成普通[gold]怪物[/gold]/[gold]精英[/gold]/[gold]BOSS[/gold]战斗后，获得[blue]3[/blue]/[blue]5[/blue]/[blue]7[/blue][gold]饱食度[/gold]。\n战斗中，你可以消耗[gold]饱食度[/gold]来进行[gold]休眠[/gold]。",
+  "RAINWORLD-Sleep_title":"休眠",
+  "RAINWORLD-Sleep_description":"点击此按钮可以消耗[gold]饱食度[/gold]进行[gold]休眠[/gold]。\n结束你的当前回合，如果你直到下个回合开始时未受到伤害，获得1[gold]业力[/gold]。"
+  
+}

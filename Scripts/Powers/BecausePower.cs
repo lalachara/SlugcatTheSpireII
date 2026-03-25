@@ -41,7 +41,7 @@ public sealed class BeacusePower : CustomPowerModel
       if (Owner.Player.Character is Slugcat)
       {
         Flash();
-        SlugcatField.GetSlugCatData[Owner].addworklevel(-1);
+        SlugcatField.GetSlugCatDataByCreature(Owner).addworklevel(-1);
       }
       else
       {

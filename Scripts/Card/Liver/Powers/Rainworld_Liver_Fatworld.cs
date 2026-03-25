@@ -13,7 +13,7 @@ using Rainworld.Scripts.Card.CardVars;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
 
-public class Rainworld_Liver_Fatworld:LiverCardModel
+public class Rainworld_Liver_Fatworld:LiverCardModelPower
 
 {
     // 基础耗能

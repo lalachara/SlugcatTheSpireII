@@ -41,13 +41,13 @@ public class Rainworld_Liver_Fruit:LiverCardModel
         await PlayerCmd.GainEnergy(base.DynamicVars.Energy.IntValue, base.Owner);
         if (IsUpgraded)
         {
-            CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(new Rainworld_Liver_Fruit() , PileType.Hand, addedByPlayer: true));
-            CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(new Rainworld_Liver_Fruit() , PileType.Hand, addedByPlayer: true));
+            CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(CombatState.CreateCard<Rainworld_Liver_Fruit>(base.Owner) , PileType.Hand, addedByPlayer: true));
+            CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(CombatState.CreateCard<Rainworld_Liver_Fruit>(base.Owner) , PileType.Hand, addedByPlayer: true));
         }
 
         if (Owner.Character is Slugcat)
         {
-            Scripts.SlugcatField.GetSlugCatData[Owner.Creature].addfood((int)DynamicVars["Food"].BaseValue);
+            Scripts.SlugcatField.GetSlugCatDataByCreature(Owner.Creature).addfood((int)DynamicVars["Food"].BaseValue);
         }
     }
 

@@ -16,7 +16,7 @@ using Rainworld.Scripts.Powers;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
 
-public class Rainworld_Liver_Spearslug:LiverCardModel
+public class Rainworld_Liver_Spearslug:LiverCardModelAtk
 
 {
     // 基础耗能

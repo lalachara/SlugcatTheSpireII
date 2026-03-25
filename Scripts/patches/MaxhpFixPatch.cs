@@ -5,7 +5,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Runs.History;
 using Rainworld.Scripts;
 
-namespace demo.Scripts.patches;
+namespace Rainworld.Scripts.patches;
 
 [HarmonyPatch]
 public class MaxhpFixPatch
@@ -54,7 +54,7 @@ public class MaxhpFixPatch
         }
         else
         {
-            SlugcatField.GetSlugCatData[creature].addfood((int)amount);
+            SlugcatField.GetSlugCatDataByCreature(creature).addfood((int)amount);
             
         }
 

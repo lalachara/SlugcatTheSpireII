@@ -13,7 +13,7 @@ using Rainworld.Scripts.Card.CardVars;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
 
-public class Rainworld_Liver_Hunter:LiverCardModel
+public class Rainworld_Liver_Hunter:LiverCardModelAtk
 
 {
     // 基础耗能
@@ -48,7 +48,6 @@ public class Rainworld_Liver_Hunter:LiverCardModel
             .Attack(base.DynamicVars.Damage.BaseValue)
             .FromCard(this)
             .Targeting(cardPlay.Target)
-            .WithHitCount(base.DynamicVars.Repeat.IntValue)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
         await PowerCmd.Apply<HuntsignPower>(cardPlay.Target, DynamicVars["Hunt"].BaseValue, base.Owner.Creature, this);

@@ -44,7 +44,7 @@ public sealed class FatworldPower : CustomPowerModel
          if (!cardList.Contains(cardPlay.Card.Id))
          {
              cardList.Add(cardPlay.Card.Id);
-             SlugcatField.GetSlugCatData[Owner.Player.Creature].addfood(Amount);
+             SlugcatField.GetSlugCatDataByCreature(Owner).addfood(Amount);
              
          }
 

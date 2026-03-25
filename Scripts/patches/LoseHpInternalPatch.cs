@@ -5,7 +5,7 @@ using MegaCrit.Sts2.Core.ValueProps;
 using Godot;
 using Rainworld.Scripts;
 
-namespace demo.Scripts.patches;
+namespace Rainworld.Scripts.patches;
 
 [HarmonyPatch]
 public class LoseHpInternalPatch
@@ -47,8 +47,9 @@ public class LoseHpInternalPatch
         if (isLethalDamage)
         {
             // 伤害致死：判断 canbekill()
-            if (SlugcatField.GetSlugCatData[__instance.Player.Creature].canbekill())
+            if (SlugcatField.GetSlugCatDataByCreature(__instance.Player.Creature).canbekill())
             {
+                
                 return true;
             }
             else
@@ -57,7 +58,7 @@ public class LoseHpInternalPatch
                 wasKilled = false;
                 unblockedDamage = currentHp; // 依然计算全额伤害
                 overkillDamage = 0;
-                SlugcatField.GetSlugCatData[__instance.Player.Creature].reLive();
+                SlugcatField.GetSlugCatDataByCreature(__instance.Player.Creature).reLive();
                 __instance.SetCurrentHpInternal(__instance.MaxHp);
             }
         }

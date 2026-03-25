@@ -46,7 +46,7 @@ public class Rainworld_Liver_Help:LiverCardModel
         CardModel cardModel;
 
             List<CardModel> cards = new List<CardModel>()
-            { new Rainworld_Liver_Monkeyhelp(), new Rainworld_Liver_Cabhelp(), new Rainworld_Liver_Birdhelp() };
+            {CombatState.CreateCard<Rainworld_Liver_Monkeyhelp>(base.Owner), CombatState.CreateCard<Rainworld_Liver_Cabhelp>(base.Owner), CombatState.CreateCard<Rainworld_Liver_Birdhelp>(base.Owner) };
             if (IsUpgraded)
             {
                 foreach (CardModel card in cards)

@@ -48,7 +48,7 @@ public class Rainworld_Liver_Eatwhat:LiverCardModel
         await CreatureCmd.GainBlock(base.Owner.Creature, base.DynamicVars.Block, cardPlay);
         if (Owner.Character is Slugcat)
         {
-            Scripts.SlugcatField.GetSlugCatData[Owner.Creature].addfood((int)DynamicVars["food"].BaseValue);
+            Scripts.SlugcatField.GetSlugCatDataByCreature(Owner.Creature).addfood((int)DynamicVars["food"].BaseValue);
         }
 
         await CardPileCmd.ShuffleIfNecessary(choiceContext, base.Owner);

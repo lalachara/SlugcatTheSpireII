@@ -1,4 +1,4 @@
-﻿using demo.Resource.Card;
+﻿using Rainworld.Resource.Card;
 using Godot.Bridge;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -11,6 +11,7 @@ using Rainworld.relics;
 using Rainworld.Scripts.Card.Liver;
 using Rainworld.Scripts.Card.Liver.Attack;
 using Rainworld.Scripts.Card.Liver.Skills;
+using SlugcatTheSpireII.Scripts.patches;
 
 namespace Rainworld.Scripts;
 
@@ -31,6 +32,8 @@ public class Entry
         ScriptManagerBridge.LookupScriptsInAssembly(typeof(Entry).Assembly);
         InitCard();
         InitRelics();
+        //InitPatch();
+        
     }
     public static void InitCard()
     {      
@@ -128,6 +131,11 @@ public class Entry
         ModHelper.AddModelToPool<Rainworld_Liver_CardPool, Rainworld_Liver_Oldfram>();
         ModHelper.AddModelToPool<Rainworld_Liver_CardPool, Rainworld_Liver_Execute>();
 
+        ModHelper.AddModelToPool<Rainworld_Liver_CardPool, Rainworld_Liver_Workerror>();
+        ModHelper.AddModelToPool<Rainworld_Liver_CardPool, Rainworld_Liver_Roadlight>();
+        ModHelper.AddModelToPool<Rainworld_Liver_CardPool, Rainworld_Liver_Bigchuang>();
+        ModHelper.AddModelToPool<Rainworld_Liver_CardPool, Rainworld_Liver_Void>();
+        ModHelper.AddModelToPool<Rainworld_Liver_CardPool, Rainworld_Liver_Want>();
 
         
         //联机
@@ -172,5 +180,9 @@ public class Entry
     {
         ModHelper.AddModelToPool<Rainworld_Liver_RelicPool, Liver_Fruit1>();
     }
-    
+
+    public static void InitPatch()
+    {
+        ArchaicToothReflectionPatch.AddMyCards();
+    }
 }

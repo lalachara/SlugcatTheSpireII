@@ -25,7 +25,7 @@
   "RAINWORLD-BECAUSE.title": "因果",
   "RAINWORLD-LIVEWILL.description": "1回合内防止受到的伤害，并且所有牌耗能减1。打出攻击牌时，失去所有[gold]潜伏[/gold]。",
   "RAINWORLD-LIVEWILL.title": "潜伏",
-  "RAINWORLD-WORKERROR.description": "无法提升[gold]业力[/gold]。",
+  "RAINWORLD-WORKERROR.description": "无法提升[gold]业力[/gold]。每回合获得1[gold]能量[/gold]",
   "RAINWORLD-WORKERROR.title": "业障",
   "RAINWORLD-WORKLOCK.description": "防止你下1次失去[gold]业力[/gold]。",
   "RAINWORLD-WORKLOCK.title": "业力锁",

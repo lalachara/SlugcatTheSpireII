@@ -41,7 +41,7 @@ public sealed class TiredPower : CustomPowerModel
          Flash();
          if (Owner.Player?.Character is Slugcat)
          {
-             SlugcatField.GetSlugCatData[Owner].addworklevel(-Amount);
+             SlugcatField.GetSlugCatDataByCreature(Owner).addworklevel(-Amount);
          }
      }
      await PowerCmd.Remove(this);
