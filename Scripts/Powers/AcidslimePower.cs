@@ -46,7 +46,7 @@ public sealed class AcidslimePower : CustomPowerModel
  {
      if (target == base.Owner && dealer != null && props!=ValueProp.Unpowered)
      {
-         CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(new Slimed() , PileType.Hand, addedByPlayer: true));
+         CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(CombatState.CreateCard<Slimed>(Owner.Player) , PileType.Hand, addedByPlayer: true));
 
      }
  }

@@ -21,7 +21,7 @@ public static class Tools
         
         
         IEnumerable<CardModel> distinctForCombat = CardFactory.GetDistinctForCombat(player, from c in ModelDb.CardPool<Rainworld_Liver_CardPool>().GetUnlockedCards(player.UnlockState, player.RunState.CardMultiplayerConstraint)
-            where c.Keywords.Contains(RainworldKeywords.Spear)||true
+            where c.Keywords.Contains(RainworldKeywords.Spear)
             select c, 1, player.RunState.Rng.CombatCardGeneration);
         
         

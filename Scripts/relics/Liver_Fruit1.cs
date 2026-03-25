@@ -56,6 +56,7 @@ public sealed class Liver_Fruit1 : CustomRelicModel
 		if (player.Character is Slugcat)
 		{
 			SlugcatField.GetSlugCatDataByCreature(Owner.Creature).addMaxWorkLevel(1);
+			SlugcatField.playerdata.setworklevel(SlugcatField.playerdata.workLevel+1,false);
 			Flash();
 
 		}

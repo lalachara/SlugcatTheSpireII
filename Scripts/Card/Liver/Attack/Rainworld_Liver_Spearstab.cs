@@ -48,7 +48,7 @@ public class Rainworld_Liver_Spearstab:LiverCardModelAtk
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
         
-        await PowerCmd.Apply<ChuangPower>(cardPlay.Target, DynamicVars.Weak.BaseValue, base.Owner.Creature, this);
+        await PowerCmd.Apply<ChuangPower>(cardPlay.Target, DynamicVars["Chuang"].BaseValue, base.Owner.Creature, this);
 
         decimal temp = DynamicVars.Damage.BaseValue;
         foreach (Creature m in base.CombatState.HittableEnemies)

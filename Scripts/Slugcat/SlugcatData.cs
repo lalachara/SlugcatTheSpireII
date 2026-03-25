@@ -1,5 +1,6 @@
 ﻿using BaseLib;
 using Godot;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -155,7 +156,7 @@ namespace Rainworld.Scripts
             int result = workLevel+level;
             setworklevel(result);
         }
-        public void setworklevel(int level)
+        public void setworklevel(int level,Boolean show = true)
         {
             GD.PrintErr("业力变化：变化后为" +level);
             if(level>maxWorkLevel)
@@ -163,8 +164,9 @@ namespace Rainworld.Scripts
             if(level<0)
                 level=0;
             workLevel=level;
-            if (workLevelIndicator != null)
+            if (workLevelIndicator != null&&show)
             {
+                
                 workLevelIndicator.UpdateWorkLevel(workLevel);
                 Player.Creature.SetCurrentHpInternal(Player.Creature.MaxHp);
             }
@@ -198,23 +200,29 @@ namespace Rainworld.Scripts
 
         public void callTurnStart()
         {
-            if (sleepCD > 0)
+            if (Player.Creature.CombatState.CurrentSide == CombatSide.Player)
             {
-                sleepCD--;
-                if(sleepCD == 0)
-                    CombatUiPatch.SetSleepButton(cansleep());
-                if (sleepFood == 1)
-                    CombatUiPatch.SetSleepButtonDown1();
+                if (sleepCD > 0)
+                            {
+                                sleepCD--;
+                                if(sleepCD == 0)
+                                    CombatUiPatch.SetSleepButton(cansleep());
+                                if (sleepCD == 1)
+                                    CombatUiPatch.SetSleepButtonDown1();
+                            }
+                            else
+                            {
+                                CombatUiPatch.SetSleepButton(cansleep());
+                            }
             }
-            else
-            {
-                CombatUiPatch.SetSleepButton(cansleep());
-            }
+
+            
 
         }
 
         public void getRewordFood(RoomType roomType)
         {
+            
             if(roomType == RoomType.Monster)
                 addfood(3);
             if(roomType == RoomType.Elite)

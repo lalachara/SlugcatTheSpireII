@@ -39,7 +39,6 @@ public class Rainworld_Liver_Strangebomb:LiverCardModelAtk
     // 打出时的效果逻辑
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
         foreach (Creature hittableEnemy in base.CombatState.HittableEnemies)
         {
             await CreatureCmd.Damage(choiceContext, hittableEnemy, base.DynamicVars.HpLoss.BaseValue, ValueProp.Unblockable | ValueProp.Unpowered | ValueProp.Move, this);

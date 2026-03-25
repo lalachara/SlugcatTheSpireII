@@ -49,7 +49,7 @@ public class Rainworld_Liver_Worry:LiverCardModelAtk
             .Execute(choiceContext);
         if (Owner.Character is Slugcat)
         {
-            Scripts.SlugcatField.GetSlugCatDataByCreature(Owner.Creature).addfood((int)DynamicVars["food"].BaseValue);
+            Scripts.SlugcatField.playerdata.addfood((int)DynamicVars["Food"].BaseValue);
         }
 
     }
