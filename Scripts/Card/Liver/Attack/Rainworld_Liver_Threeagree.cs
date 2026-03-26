@@ -44,8 +44,6 @@ public class Rainworld_Liver_Threeagree:LiverCardModelAtk
     // 打出时的效果逻辑
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
-
         if (!(Owner.Character is Slugcat && SlugcatField.GetSlugCatDataByCreature(Owner.Creature).workLevel >= 9))
         {
             return;
@@ -55,6 +53,8 @@ public class Rainworld_Liver_Threeagree:LiverCardModelAtk
         {
             return;
         }
+        await Cmd.CustomScaledWait(0.5f, 1f);
+
         foreach (Creature creature in base.CombatState.HittableEnemies)
         {
             await CreatureCmd.Kill(creature);

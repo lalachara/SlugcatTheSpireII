@@ -1,89 +1,96 @@
 
 WhitePlus.png
-size: 934,269
+size: 1246,251
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 Lear
-  rotate: true
-  xy: 860, 97
+  rotate: false
+  xy: 1164, 8
   size: 45, 47
   orig: 45, 47
   offset: 0, 0
   index: -1
 Lhand
   rotate: true
-  xy: 809, 79
+  xy: 760, 12
   size: 63, 49
   orig: 63, 49
   offset: 0, 0
   index: -1
 Rear
   rotate: true
-  xy: 534, 12
+  xy: 621, 8
   size: 30, 49
   orig: 30, 49
   offset: 0, 0
   index: -1
 Rhand
-  rotate: false
-  xy: 760, 62
+  rotate: true
+  xy: 1164, 57
   size: 47, 80
   orig: 47, 80
   offset: 0, 0
   index: -1
 ]tile
-  rotate: false
-  xy: 760, 144
+  rotate: true
+  xy: 760, 77
   size: 172, 123
   orig: 172, 123
   offset: 0, 0
   index: -1
 bizi
   rotate: true
-  xy: 2, 6
+  xy: 477, 12
   size: 12, 7
   orig: 12, 7
   offset: 0, 0
   index: -1
 body
   rotate: false
-  xy: 477, 44
+  xy: 477, 26
   size: 142, 223
   orig: 142, 223
   offset: 0, 0
   index: -1
 bon
   rotate: true
-  xy: 243, 21
+  xy: 243, 3
   size: 246, 232
   orig: 246, 232
   offset: 0, 0
   index: -1
-eyes
+die
   rotate: false
-  xy: 477, 2
+  xy: 885, 106
+  size: 359, 143
+  orig: 359, 143
+  offset: 0, 0
+  index: -1
+eyes
+  rotate: true
+  xy: 811, 20
   size: 55, 40
   orig: 55, 40
   offset: 0, 0
   index: -1
 meow
   rotate: false
-  xy: 2, 20
+  xy: 2, 2
   size: 239, 247
   orig: 239, 247
   offset: 0, 0
   index: -1
 shadow
   rotate: false
-  xy: 621, 2
+  xy: 853, 21
   size: 309, 54
   orig: 309, 54
   offset: 0, 0
   index: -1
 sleep
   rotate: true
-  xy: 621, 58
+  xy: 621, 40
   size: 209, 137
   orig: 209, 137
   offset: 0, 0

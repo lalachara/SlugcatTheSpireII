@@ -1,9 +1,20 @@
 ﻿using System.Reflection;
+using System.Reflection.Emit;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.ValueProps;
 using Godot;
+using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.DevConsole.ConsoleCommands;
+using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Hooks;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Runs;
+using Rainworld.Patches;
 using Rainworld.Scripts;
+using Rainworld.Scripts.Card.Liver.Attack;
 
 namespace Rainworld.Scripts.patches;
 
@@ -79,4 +90,76 @@ public class LoseHpInternalPatch
     // 4. 阻止原方法执行
     return false;
 }
+}
+
+[HarmonyPatch]
+public class ForceKillPatch
+{
+    [HarmonyTargetMethod]
+    public static MethodBase TargetMethod()
+    {
+        var method = AccessTools.Method(
+            typeof(CreatureCmd),
+            nameof(CreatureCmd.Kill),
+            new[] { typeof(IReadOnlyCollection<Creature>), typeof(bool) }
+        );
+        return method;
+    }
+
+    public static bool Prefix(
+        IReadOnlyCollection<Creature> creatures
+    )
+    {
+        foreach (Creature c in creatures)
+        {
+            if (c.Player?.Character is Slugcat)
+            {
+                if(c==CombatUiPatch.creature)
+                    SlugcatField.playerdata.setworklevel(0,false);
+            }
+        }
+        return true;
+    }
+}
+
+[HarmonyPatch]
+public static class StrangeBomb_ModifyHpLostBeforeOstyPatch
+{
+    [HarmonyTargetMethod]
+    public static MethodBase TargetMethod()
+    {
+        return AccessTools.Method(
+            typeof(Hook),
+            nameof(Hook.ModifyHpLostBeforeOsty),
+            new Type[]
+            {
+                typeof(IRunState),
+                typeof(CombatState),
+                typeof(Creature),
+                typeof(decimal),
+                typeof(ValueProp),
+                typeof(Creature),
+                typeof(CardModel),
+                typeof(IEnumerable<AbstractModel>).MakeByRefType()
+            }
+        );
+    }
+
+    [HarmonyPrefix]
+    public static bool Prefix(
+        ref decimal __result,
+        decimal amount,
+        CardModel? cardSource,
+        out IEnumerable<AbstractModel> modifiers)
+    {
+        modifiers = Array.Empty<AbstractModel>();
+
+        if (cardSource is Rainworld_Liver_Strangebomb)
+        {
+            __result = cardSource.DynamicVars.HpLoss.BaseValue;
+            return false;
+        }
+
+        return true;
+    }
 }

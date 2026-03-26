@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Factories;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
+using MegaCrit.Sts2.Core.ValueProps;
 using Rainworld.Resource.Card;
 using Rainworld.Scripts;
 using Rainworld.Scripts.Card.Liver.Attack;
@@ -15,7 +16,6 @@ namespace Rainworld.Scripts;
 public static class Tools
 {
     public const CardTag CatStrike_Tag = (CardTag)4532;
-    
     public static async void  getrandomSpear(Boolean upgraded,Player player)
     {
         

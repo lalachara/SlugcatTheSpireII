@@ -38,7 +38,7 @@ public class Rainworld_Liver_Spearslug:LiverCardModelAtk
         new DamageVar(4m, ValueProp.Move),
         new CalculationBaseVar(1m),
         new CalculationExtraVar(1m),
-        new CalculatedVar("CalculatedHits").WithMultiplier((CardModel card, Creature? _) => CombatManager.Instance.History.CardPlaysFinished.Count((CardPlayFinishedEntry e) => e.HappenedThisTurn(card.CombatState) && e.CardPlay.Card is Slimed && e.CardPlay.Card.Owner == card.Owner))
+        new CalculatedVar("CalculatedHits").WithMultiplier((CardModel card, Creature? _) => card.Owner.PlayerCombatState?.ExhaustPile.Cards.Count((CardModel c) => c is Slimed) ?? 0)
     ];
 
     public Rainworld_Liver_Spearslug() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

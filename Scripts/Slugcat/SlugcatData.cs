@@ -158,13 +158,12 @@ namespace Rainworld.Scripts
         }
         public void setworklevel(int level,Boolean show = true)
         {
-            GD.PrintErr("业力变化：变化后为" +level);
             if(level>maxWorkLevel)
                 level=maxWorkLevel;
             if(level<0)
                 level=0;
             workLevel=level;
-            if (workLevelIndicator != null&&show)
+            if (workLevelIndicator != null&&show&&Player.RunState.CurrentRoom is CombatRoom)
             {
                 
                 workLevelIndicator.UpdateWorkLevel(workLevel);
@@ -244,7 +243,7 @@ namespace Rainworld.Scripts
         public void callVictory()
         {
             sleepCD = 0;
-            getRewordFood(Player.Creature.Player.RunState.CurrentRoom.RoomType);
+            getRewordFood(Player.RunState.CurrentRoom.RoomType);
         }
     }
 }

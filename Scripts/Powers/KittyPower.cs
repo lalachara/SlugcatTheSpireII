@@ -1,7 +1,9 @@
 ﻿using System.Diagnostics.Metrics;
 using BaseLib.Abstracts;
+using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.Hooks;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -37,6 +39,28 @@ public sealed class KittyPower : CustomPowerModel
   {
     await CardPileCmd.Draw(choiceContext, base.Amount, Owner.Player);
     await PlayerCmd.GainEnergy(base.Amount, Owner.Player);
+  }
+  
+  public override async Task BeforeFlushLate(PlayerChoiceContext choiceContext, Player player)
+  {
+    if (player != base.Owner.Player || !Hook.ShouldFlush(player.Creature.CombatState, player))
+    {
+      return;
+    }
+    List<CardModel> list = (await CardSelectCmd.FromHand(prefs: new CardSelectorPrefs(base.SelectionScreenPrompt, 0, base.Amount), context: choiceContext, player: base.Owner.Player, filter: RetainFilter, source: this)).ToList();
+    if (list.Count == 0)
+    {
+      return;
+    }
+    foreach (CardModel item in list)
+    {
+      item.GiveSingleTurnRetain();
+    }
+  }
+
+  private bool RetainFilter(CardModel card)
+  {
+    return !card.ShouldRetainThisTurn;
   }
   
 }
