@@ -23,7 +23,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 #nullable enable
-public sealed class BeacusePower : CustomPowerModel
+public sealed class BecausePower : CustomPowerModel
 {
 
   public override string? CustomPackedIconPath => "res://Resource/Powers/Because48.png";

@@ -58,7 +58,7 @@ public sealed class PullPower : CustomPowerModel
 
  public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult _, ValueProp props, Creature? dealer, CardModel? __)
  {
-     if (target == base.Owner && dealer != null && props!=ValueProp.Unpowered)
+     if (target == base.Owner && dealer != null && props!=ValueProp.Unpowered&&_.TotalDamage>=25)
      {
          
          await PowerCmd.Decrement(this);

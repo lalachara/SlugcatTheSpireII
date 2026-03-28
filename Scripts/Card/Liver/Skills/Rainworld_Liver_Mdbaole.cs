@@ -43,7 +43,7 @@ public class Rainworld_Liver_Mdbaole:LiverCardModel
     {
         await PowerCmd.Apply<MDbaole2>(Owner.Creature, DynamicVars.Strength.BaseValue, base.Owner.Creature, this);
         await PowerCmd.Apply<MDbaole1>(base.Owner.Creature, base.DynamicVars.Dexterity.BaseValue, base.Owner.Creature, this);
-        await CardPileCmd.Draw(choiceContext, base.DynamicVars.Cards.BaseValue, base.Owner);
+        await CardPileCmd.Draw(choiceContext, 3, base.Owner);
         foreach (CardModel card in PileType.Hand.GetPile(base.Owner).Cards)
         {
             if (!card.EnergyCost.CostsX)

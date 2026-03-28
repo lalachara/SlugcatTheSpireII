@@ -31,13 +31,20 @@ public sealed class TwohandsPower : CustomPowerModel
   public override PowerType Type => PowerType.Buff;
 
   public override PowerStackType StackType => PowerStackType.Counter;
-  
+  public bool isfromthis = false;
   public override async Task AfterPowerAmountChanged(PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
   {
+    
     if (!(amount <= 0m) && applier == base.Owner && power is NimblePower)
     {
+      if (isfromthis)
+      {
+        isfromthis =  false;
+        return;
+      }
       Flash();
-      await PowerCmd.Apply<NimblePower>(Owner, Amount, base.Owner, null);
+      isfromthis = true;
+      await PowerCmd.Apply<NimblePower>( Owner, Amount, base.Owner,null);
     }
     
     if (!(amount <= 0m) && applier == base.Owner && power is ChuangPower)

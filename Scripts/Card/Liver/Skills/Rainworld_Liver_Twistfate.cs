@@ -51,7 +51,7 @@ public class Rainworld_Liver_Twistfate:LiverCardModel
         {
             SlugcatField.GetSlugCatDataByCreature(Owner.Creature).setworklevel(9);;
         }
-        await PowerCmd.Apply<BeacusePower>(Owner.Creature,1, base.Owner.Creature, this);
+        await PowerCmd.Apply<BecausePower>(Owner.Creature,1, base.Owner.Creature, this);
 
 
     }

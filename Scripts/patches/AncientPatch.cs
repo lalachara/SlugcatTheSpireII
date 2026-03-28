@@ -1,4 +1,5 @@
-﻿using Rainworld.Scripts.Card.Liver.Attack;
+﻿using Rainworld.relics;
+using Rainworld.Scripts.Card.Liver.Attack;
 
 namespace SlugcatTheSpireII.Scripts.patches;
 using HarmonyLib;
@@ -8,18 +9,65 @@ using MegaCrit.Sts2.Core.Models.Relics;
 using System.Collections.Generic;
 using System.Reflection;
 
-    // 在 Mod 初始化时调用一次，比如在 _Ready() 里
-    public static class ArchaicToothReflectionPatch
+
+    [HarmonyPatch]
+    public static class TouchOfOrobasPatch
     {
-        public static void AddMyCards()
+        [HarmonyTargetMethod]
+        public static MethodBase TargetMethod()
         {
-            var type = typeof(ArchaicTooth);
-            var prop = type.GetProperty("TranscendenceUpgrades", BindingFlags.NonPublic | BindingFlags.Static);
-            if (prop == null) return;
+            return AccessTools.Method(
+                typeof(TouchOfOrobas),
+                nameof(TouchOfOrobas.GetUpgradedStarterRelic),
+                new Type[]
+                {
+                    typeof(RelicModel)
+                }
+            );
+        }
 
-            var dict = (Dictionary<ModelId, CardModel>)prop.GetValue(null);
+        [HarmonyPrefix]
+        public static bool Prefix(
+            ref RelicModel __result,
+            RelicModel starterRelic
+            )
+        {
+            if (starterRelic.Id == ModelDb.Relic<Liver_Fruit1>().Id)
+            {
+                __result = ModelDb.Relic<Liver_Fruit2>();
+                return false;
+            }
 
-            // 在这里添加你的卡牌
-            dict.Add(ModelDb.Card<Rainworld_Liver_Spear>().Id, ModelDb.Card<Rainworld_Liver_Spearfire>());
+            return true;
+        }
+    }
+    
+    public static class ArchaicToothReflectionHelper
+    {
+        public static void AddCustomTranscendenceUpgrades()
+        {
+            // 目标类
+            Type targetType = typeof(ArchaicTooth);
+
+            // 获取私有静态字典字段 (精确匹配：private static Dictionary<ModelId, CardModel> TranscendenceUpgrades)
+            FieldInfo fieldInfo = targetType.GetField(
+                "TranscendenceUpgrades",
+                BindingFlags.NonPublic | BindingFlags.Static
+            );
+
+            // 获取原版字典实例
+            Dictionary<ModelId, CardModel> originalDict = 
+                fieldInfo.GetValue(null) as Dictionary<ModelId, CardModel>;
+
+            // 安全校验
+            if (originalDict == null) return;
+
+            // ==============================================
+            // 在原版基础上 添加你的自定义升级映射
+            // ==============================================
+            originalDict.Add(ModelDb.Card<你的卡牌1>().Id, ModelDb.Card<你的升级卡牌1>());
+            originalDict.Add(ModelDb.Card<你的卡牌2>().Id, ModelDb.Card<你的升级卡牌2>());
+
+            // 想加多少就加多少，原版内容 100% 保留
         }
     }

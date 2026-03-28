@@ -121,7 +121,7 @@
   "RAINWORLD-RAINWORLD_LIVER_DISSOLVE.title": "溶解",
   "RAINWORLD-RAINWORLD_LIVER_DISSOLVE.selectionScreenPrompt": "选择要[gold]变化[/gold]的牌。",
   "RAINWORLD-RAINWORLD_LIVER_DISSOLVE.description": "将你[gold]手牌[/gold]中的任意张牌[gold]变化[/gold]为[gold]黏液[/gold]。",
-  "RAINWORLD-RAINWORLD_LIVER_ITERATION.title": "迭代",
+  "RAINWORLD-RAINWORLD_LIVER_ITERATION.title": "猫迭代",
   "RAINWORLD-RAINWORLD_LIVER_ITERATION.description": "造成{Damage:diff()}伤害，获得{Block:diff()}[gold]格挡[/gold] 。\n然后此牌数值翻倍 。",
   "RAINWORLD-RAINWORLD_LIVER_FATWORLD.title": "胖世界",
   "RAINWORLD-RAINWORLD_LIVER_FATWORLD.description": "当你打出本场战斗[gold]未使用过的牌[/gold]时，获得1[gold]饱食度[/gold]，溢出的[gold]饱食度[/gold]转化为[gold]力量[/gold]。",

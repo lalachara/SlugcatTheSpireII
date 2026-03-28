@@ -26,7 +26,8 @@ position = Vector2(4, -49)
 
 [node name="Visuals" type="SpineSprite" parent="."]
 skeleton_data_res = ExtResource("3_vfdst")
-preview_skin = "Default"
-preview_animation = "-- Empty --"
+preview_skin = "default"
+preview_animation = "idle_loop"
 preview_frame = false
 preview_time = 0.0
+scale = Vector2(0.6, 0.6)

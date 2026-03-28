@@ -7,6 +7,8 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Nodes.Combat;
+using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Saves.Runs;
 using Rainworld.Scripts.Powers;
@@ -191,15 +193,23 @@ namespace Rainworld.Scripts
 
         public async void sleep()
         {
-            await CreatureCmd.TriggerAnim(Player.Creature, "sleep", 0);
             await PowerCmd.Apply<SleepPower>(Player.Creature,1, Player.Creature, null);
+            
+            await CreatureCmd.TriggerAnim(Player.Creature, "die", 0.5f);
+
+            NCreature creatureNode = NCombatRoom.Instance?.GetCreatureNode(Player.Creature);
+            if (creatureNode != null)
+            {
+                creatureNode.SetAnimationTrigger("sleep");
+            }
+
             PlayerCmd.EndTurn(Player, canBackOut: false);
 
         }
 
         public void callTurnStart()
         {
-            if (Player.Creature.CombatState.CurrentSide == CombatSide.Player)
+            if (Player.Creature.CombatState?.CurrentSide == CombatSide.Player)
             {
                 if (sleepCD > 0)
                             {
@@ -229,6 +239,7 @@ namespace Rainworld.Scripts
             if (roomType == RoomType.Boss)
             {
                 addfood(7); ;
+                addworklevel(1);
                 addMaxWorkLevel(1);
             }
 

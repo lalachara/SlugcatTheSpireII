@@ -82,7 +82,7 @@
   "RAINWORLD-CHIEF_POWER.title": "酋长",
   "RAINWORLD-PULL_POWER.description": "下[blue]1[/blue]次受到伤害时，如果伤害大于[blue]25[/blue]，则伤害翻倍并令伤害来源获得[blue]1[/blue][gold]能量[/gold]。",
   "RAINWORLD-PULL_POWER.smartDescription": "下[blue]{Amount}[/blue]次受到伤害时，如果伤害大于[blue]25[/blue]，则伤害翻倍并令伤害来源获得[blue]1[/blue][gold]能量[/gold]。",
-  "RAINWORLD-PULL_POWER.title": "失衡",
+  "RAINWORLD-PULL_POWER.title": "重心不稳",
   "RAINWORLD-SLEEP_POWER.description": "如果你未受到伤害直到下回合开始，获得1[gold]业力[/gold]。",
   "RAINWORLD-SLEEP_POWER.smartDescription": "如果你未受到伤害直到下回合开始，获得1[gold]业力[/gold]。",
   "RAINWORLD-SLEEP_POWER.title": "休眠中",

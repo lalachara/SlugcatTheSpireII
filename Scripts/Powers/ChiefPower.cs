@@ -72,17 +72,24 @@ public sealed class ChiefPower : CustomPowerModel
       Flash();
       IEnumerable<CardModel> distinctForCombat = CardFactory.GetDistinctForCombat(base.Owner.Player, from c in base.Owner.Player.Character.CardPool.GetUnlockedCards(base.Owner.Player.UnlockState, base.Owner.Player.RunState.CardMultiplayerConstraint)
         
-        where ((c.Type==CardType.Attack||c.Type==CardType.Skill)&&(c.Rarity==CardRarity.Common||c.Rarity==CardRarity.Uncommon||c.Rarity==CardRarity.Rare)&&c is not Rainworld_Liver_Neurone)
+        where ((c.Type==CardType.Attack||c.Type==CardType.Skill)&&(c.Rarity==CardRarity.Common||c.Rarity==CardRarity.Uncommon||c.Rarity==CardRarity.Rare)&& notSpecialCard(c))
         select c, base.AmountOnTurnStart, base.Owner.Player.RunState.Rng.CombatCardGeneration);
       foreach (CardModel c in distinctForCombat)
       {
         c.AddKeyword(RainworldKeywords.Treasure);
         c.AddKeyword(CardKeyword.Exhaust);
+        await CardPileCmd.AddGeneratedCardToCombat(c, PileType.Hand, addedByPlayer: true);
+
       }
 
-      await CardPileCmd.AddGeneratedCardsToCombat(distinctForCombat, PileType.Hand, addedByPlayer: true);
+
     }
   }
-  
- 
+
+  public Boolean notSpecialCard(CardModel card)
+  {
+    return card is not Rainworld_Liver_Neurone && card is not Rainworld_Liver_Twistfate && card is not Rainworld_Liver_Pearl;
+  }
+
+
 }

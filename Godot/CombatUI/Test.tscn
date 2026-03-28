@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://cy2n2tkswd32l"]
+
+[ext_resource type="Script" uid="uid://c2cj0v8t7tf0d" path="res://Godot/CombatUI/NAutoButton.cs" id="1_k67k1"]
+[ext_resource type="Texture2D" uid="uid://do8175o7lmj6l" path="res://Godot/CombatUI/Sleep.png" id="2_image"]
+
+[node name="MyButton" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 4.0
+offset_top = 1.0
+offset_right = 78.0
+offset_bottom = 71.0
+pivot_offset = Vector2(75, 35)
+script = ExtResource("1_k67k1")
+metadata/_edit_group_ = true
+
+[node name="Visuals" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Image" type="TextureRect" parent="Visuals"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_image")
+expand_mode = 1
+stretch_mode = 5

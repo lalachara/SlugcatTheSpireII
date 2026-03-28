@@ -32,7 +32,7 @@ public sealed class NimblePower : CustomPowerModel
   public override PowerType Type => PowerType.Buff;
 
   public override PowerStackType StackType => PowerStackType.Counter;
-  
+  public bool fromtwohand = false;
   public override async Task AfterPowerAmountChanged(PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
   {
     if (!(amount <= 0m) && applier == base.Owner && power is NimblePower)

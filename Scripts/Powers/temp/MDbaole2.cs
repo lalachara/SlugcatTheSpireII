@@ -28,6 +28,6 @@ public sealed class MDbaole2 :TemporaryDexterityPower
 {
     public override AbstractModel OriginModel => ModelDb.Card<Rainworld_Liver_Mdbaole>();
 
-    protected override bool IsPositive => false;
+    protected override bool IsPositive => true;
 
 }

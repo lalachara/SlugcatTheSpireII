@@ -1,4 +1,5 @@
-﻿using Rainworld.Resource.Card;
+﻿using BaseLib.Config;
+using Rainworld.Resource.Card;
 using Godot.Bridge;
 using HarmonyLib;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -32,6 +33,8 @@ public class Entry
         ScriptManagerBridge.LookupScriptsInAssembly(typeof(Entry).Assembly);
         InitCard();
         InitRelics();
+        //ModConfigRegistry.Register("SlugcatTheSpireII", new RainworldModConfig());
+
         //InitPatch();
         
     }
@@ -180,9 +183,5 @@ public class Entry
     {
         ModHelper.AddModelToPool<Rainworld_Liver_RelicPool, Liver_Fruit1>();
     }
-
-    public static void InitPatch()
-    {
-        ArchaicToothReflectionPatch.AddMyCards();
-    }
+    
 }

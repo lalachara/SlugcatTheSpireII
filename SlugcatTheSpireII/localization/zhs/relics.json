@@ -1,5 +1,8 @@
 {
-  "RAINWORLD-LIVER_FRUIT1.description": "在每场战斗开始时，将[blue]1[/blue]张[blue]蓝色果实[/blue]放入你的手牌。",
+  "RAINWORLD-LIVER_FRUIT1.description": "在每场战斗开始时，将[blue]1[/blue]张[blue]蓝色果实[/blue]放入你的手牌。\n通过boss房间或在休息处休息时，增加1[gold]业力[/gold]和1[gold]业力上限[/gold]。",
   "RAINWORLD-LIVER_FRUIT1.flavor": "美味多汁，是最常见的食物来源，但这种果实其实是虫子的蛹。",
-  "RAINWORLD-LIVER_FRUIT1.title": "蓝果礼盒"
+  "RAINWORLD-LIVER_FRUIT1.title": "蓝果礼盒",
+  "RAINWORLD-LIVER_FRUIT2.description": "在每场战斗开始时，将[blue]1[/blue]张[blue]蓝色果实+[/blue]放入你的手牌。\n通过boss房间或在休息处休息时，增加1[gold]业力[/gold]和1[gold]业力上限[/gold]。",
+  "RAINWORLD-LIVER_FRUIT2.flavor": "蓝果礼盒限量豪华版，蛞蝓猫们的出门必备品。",
+  "RAINWORLD-LIVER_FRUIT2.title": "豪华蓝果礼盒"
 }

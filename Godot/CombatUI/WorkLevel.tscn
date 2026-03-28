@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://bdmod0ka2af8i"]
+
+[ext_resource type="Script" uid="uid://cvvbnd0n0qxso" path="res://Godot/CombatUI/WorkLevelIndicator.cs" id="1_lyjfo"]
+[ext_resource type="Texture2D" uid="uid://do8175o7lmj6l" path="res://Godot/CombatUI/resource/WorkLevel.png" id="2_worklevel"]
+
+[node name="WorkLevelIndicator" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 130.0
+offset_bottom = 130.0
+tooltip_text = ""
+script = ExtResource("1_lyjfo")
+
+[node name="Visuals" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="WorkLevelSprite" type="Sprite2D" parent="Visuals"]
+texture_filter = 1
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 130, 130)
+mouse_filter = 2
+texture = ExtResource("2_worklevel")
