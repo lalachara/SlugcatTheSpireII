@@ -41,33 +41,25 @@ using System.Reflection;
             return true;
         }
     }
-    
-    public static class ArchaicToothReflectionHelper
+
+    [HarmonyPatch(typeof(ArchaicTooth), "TranscendenceUpgrades", MethodType.Getter)]
+    public static class ArchaicTooth_TranscendenceUpgrades_Patch
     {
-        public static void AddCustomTranscendenceUpgrades()
+        // 只执行一次，防止重复添加
+        private static bool _patched = false;
+
+        [HarmonyPostfix]
+        public static void Postfix(ref Dictionary<ModelId, CardModel> __result)
         {
-            // 目标类
-            Type targetType = typeof(ArchaicTooth);
+            if (_patched) return;
+            _patched = true;
 
-            // 获取私有静态字典字段 (精确匹配：private static Dictionary<ModelId, CardModel> TranscendenceUpgrades)
-            FieldInfo fieldInfo = targetType.GetField(
-                "TranscendenceUpgrades",
-                BindingFlags.NonPublic | BindingFlags.Static
-            );
+            try
+            {
+                __result.TryAdd(ModelDb.Card<Rainworld_Liver_Spear>().Id, ModelDb.Card<Rainworld_Liver_Spearfire>());
+            
 
-            // 获取原版字典实例
-            Dictionary<ModelId, CardModel> originalDict = 
-                fieldInfo.GetValue(null) as Dictionary<ModelId, CardModel>;
-
-            // 安全校验
-            if (originalDict == null) return;
-
-            // ==============================================
-            // 在原版基础上 添加你的自定义升级映射
-            // ==============================================
-            originalDict.Add(ModelDb.Card<你的卡牌1>().Id, ModelDb.Card<你的升级卡牌1>());
-            originalDict.Add(ModelDb.Card<你的卡牌2>().Id, ModelDb.Card<你的升级卡牌2>());
-
-            // 想加多少就加多少，原版内容 100% 保留
+            }
+            catch { }
         }
     }

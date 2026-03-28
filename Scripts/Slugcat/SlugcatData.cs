@@ -7,6 +7,7 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Models.Relics;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Rooms;
@@ -15,6 +16,7 @@ using Rainworld.Scripts.Powers;
 using Rainworld;
 using Rainworld.Patches;
 using Rainworld.Scripts.patches;
+using SlugcatTheSpireII.Scripts.patches;
 
 namespace Rainworld.Scripts
 {
@@ -46,6 +48,8 @@ namespace Rainworld.Scripts
        
         public void Initialize()
         {
+           
+
             try
             {
                 if (Player.Character is Slugcat slugcat)

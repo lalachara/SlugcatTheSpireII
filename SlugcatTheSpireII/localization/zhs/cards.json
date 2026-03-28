@@ -145,7 +145,7 @@
   "RAINWORLD-RAINWORLD_LIVER_FISHING.title": "美食诱惑",
   "RAINWORLD-RAINWORLD_LIVER_FISHING.description": "获得{Block:diff()}格挡 。令目标对你造成2次2点伤害。",
   "RAINWORLD-RAINWORLD_LIVER_METABOLIZE.title": "片叶不沾身",
-  "RAINWORLD-RAINWORLD_LIVER_METABOLIZE.description": "[gold]黏液[/gold]耗能变为0，抽到[gold]状态牌[/gold]时会将其[gold]变化[/gold]为[gold]黏液[/gold]。\n([gold]狂乱逃离[/gold]除外)",
+  "RAINWORLD-RAINWORLD_LIVER_METABOLIZE.description": "[gold]黏液[/gold]耗能变为0，抽到[gold]状态牌[/gold]时会将其[gold]变化[/gold]为[gold]黏液[/gold]。",
   "RAINWORLD-RAINWORLD_LIVER_SPEARFIRE.title": "火矛",
   "RAINWORLD-RAINWORLD_LIVER_SPEARFIRE.description": "造成{Damage:diff()}点伤害，给予{Chuang:diff()}层[gold]创伤[/gold]。[gold]斩杀[/gold]时，伤害永久增加{Increase:diff()}。",
   "RAINWORLD-RAINWORLD_LIVER_USEFULSLIME.title": "多功能黏液",

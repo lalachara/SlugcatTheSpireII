@@ -36,7 +36,7 @@ public class Entry
         //ModConfigRegistry.Register("SlugcatTheSpireII", new RainworldModConfig());
 
         //InitPatch();
-        
+
     }
     public static void InitCard()
     {      
