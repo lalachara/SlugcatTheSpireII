@@ -23,7 +23,8 @@ public class Rainworld_Liver_Workerror:LiverCardModelPower
     private const TargetType targetType = TargetType.Self;
     // 是否在卡牌图鉴中显示
     private const bool shouldShowInCardLibrary = true;
-    
+    protected override bool ShouldGlowRedInternal => true;
+
     protected override HashSet<CardTag> CanonicalTags => new HashSet<CardTag> {  };
     //public override IEnumerable<CardKeyword> CanonicalKeywords => new []{};
     
@@ -39,10 +40,10 @@ public class Rainworld_Liver_Workerror:LiverCardModelPower
     {
         if (Owner.Character is Slugcat)
         {
-            
-            await PowerCmd.Apply(new StrengthPower(), Owner.Creature, (IsUpgraded ? 3 : 2)*(SlugcatField.GetSlugCatDataByCreature(Owner.Creature).maxWorkLevel+1), Owner.Creature, this);
-            await PowerCmd.Apply(new WorkerrorPower(), Owner.Creature, 1, Owner.Creature, this);
-            await PowerCmd.Apply(new WorklockPower(), Owner.Creature, 1, Owner.Creature, this);
+            SlugcatField.playerdata.setworklevel(0);
+            await PowerCmd.Apply<StrengthPower>( Owner.Creature, (IsUpgraded ? 3 : 2)*(SlugcatField.GetSlugCatDataByCreature(Owner.Creature).maxWorkLevel+1), Owner.Creature, this);
+            await PowerCmd.Apply<WorkerrorPower>( Owner.Creature, 1, Owner.Creature, this);
+            await PowerCmd.Apply<WorklockPower>( Owner.Creature, 1, Owner.Creature, this);
 
         }
 

@@ -49,6 +49,6 @@ public class Rainworld_Liver_Neurone:LiverCardModel
     // 升级后的效果逻辑
     protected override void OnUpgrade()
     {
-        DynamicVars.Cards.UpgradeValueBy(1m); // 升级后增加4点伤害
+        DynamicVars.Cards.UpgradeValueBy(1m); 
     }
 }

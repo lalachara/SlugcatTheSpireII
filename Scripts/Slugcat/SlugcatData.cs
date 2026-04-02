@@ -15,6 +15,7 @@ using MegaCrit.Sts2.Core.Saves.Runs;
 using Rainworld.Scripts.Powers;
 using Rainworld;
 using Rainworld.Patches;
+using Rainworld.relics;
 using Rainworld.Scripts.patches;
 using SlugcatTheSpireII.Scripts.patches;
 
@@ -181,6 +182,7 @@ namespace Rainworld.Scripts
 
         public bool cansleep()
         {
+            
             return sleepCD==0&&food >= sleepFood;
         }
 
@@ -199,7 +201,6 @@ namespace Rainworld.Scripts
         {
             await PowerCmd.Apply<SleepPower>(Player.Creature,1, Player.Creature, null);
             
-            await CreatureCmd.TriggerAnim(Player.Creature, "die", 0.5f);
 
             NCreature creatureNode = NCombatRoom.Instance?.GetCreatureNode(Player.Creature);
             if (creatureNode != null)
@@ -213,11 +214,19 @@ namespace Rainworld.Scripts
 
         public void callTurnStart()
         {
+            if (Player.Creature.CombatState == null)
+            {
+                Player = CombatUiPatch.creature.Player;
+            }
+
             if (Player.Creature.CombatState?.CurrentSide == CombatSide.Player)
             {
+                
                 if (sleepCD > 0)
                             {
                                 sleepCD--;
+                                if (Player.Creature.CombatState.RoundNumber == 1)
+                                    sleepCD = 0;
                                 if(sleepCD == 0)
                                     CombatUiPatch.SetSleepButton(cansleep());
                                 if (sleepCD == 1)
@@ -227,6 +236,10 @@ namespace Rainworld.Scripts
                             {
                                 CombatUiPatch.SetSleepButton(cansleep());
                             }
+            }
+            else
+            {
+                GD.PrintErr("非玩家回合");
             }
 
             
@@ -248,12 +261,7 @@ namespace Rainworld.Scripts
             }
 
         }
-
-
-        public void callCombatStart()
-        {
-            CombatUiPatch.SetSleepButton(cansleep());
-        }
+        
 
         public void callVictory()
         {

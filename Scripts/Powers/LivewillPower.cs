@@ -69,7 +69,7 @@ public sealed class LivewillPower : CustomPowerModel
      }
  }
  
- public override Decimal ModifyHpLostAfterOstyLate(
+ public override Decimal ModifyHpLostAfterOsty(
      Creature target,
      Decimal amount,
      ValueProp props,
@@ -78,9 +78,16 @@ public sealed class LivewillPower : CustomPowerModel
  {
      return target != this.Owner ? amount : 0M;
  }
+ 
+ public override Task AfterModifyingDamageAmount(CardModel? cardSource)
+ {
+     Flash();
+     return Task.CompletedTask;
+ }
+ 
  public override async Task BeforeTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
  {
-     if (side == Owner.Side)
+     if (side != Owner.Side)
      {
              await PowerCmd.Decrement(this);
              

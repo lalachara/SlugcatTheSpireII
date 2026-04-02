@@ -5,7 +5,7 @@
   "RAINWORLD-TREASURE.title": "拾荒者的宝物",
   "RAINWORLD-TREASURESPEAR.description": "打出后将随机1张[gold]矛[/gold]放入手牌，其获得[gold]猫之宝库[/gold]、[gold]消耗[/gold]、[gold]保留[/gold]。",
   "RAINWORLD-TREASURESPEAR.title": "猫之宝库",
-  "RAINWORLD-NIMBLE.description": "每积累[blue]10[/blue]层[gold]灵巧[/gold]，获得[blue]1[/blue]层[gold]缓冲[/gold]和[gold]敏捷[/gold]。",
+  "RAINWORLD-NIMBLE.description": "每积累[blue]10[/blue]层[gold]灵巧[/gold]，获得[blue]1[/blue]层[gold]缓冲[/gold]。",
   "RAINWORLD-NIMBLE.title": "灵巧",
   "RAINWORLD-CHUANG.description": "在[red]攻击[/red]时，受到相当于[gold]创伤[/gold]层数的伤害。",
   "RAINWORLD-CHUANG.title": "创伤",

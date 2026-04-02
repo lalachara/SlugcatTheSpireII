@@ -58,6 +58,7 @@
   "RAINWORLD-LIVEWILL_POWER.title": "潜伏",
   "RAINWORLD-KITTY_POWER.description": "回合开始时，获得[blue]1[/blue][gold]能量[/gold]并抽[blue]1[/blue]张牌。",
   "RAINWORLD-KITTY_POWER.smartDescription": "回合开始时，获得[blue]{Amount}[/blue][gold]能量[/gold]并抽[blue]{Amount}[/blue]张牌。",
+  "RAINWORLD-KITTY_POWER.selectionScreenPrompt": "选择{Amount}张牌保留。",
   "RAINWORLD-KITTY_POWER.title": "猫崽",
   "RAINWORLD-WORKERROR_POWER.description": "你[red]无法[/red]提升[gold]业力[/gold]。每回合额外获得1[gold]能量[/gold]。",
   "RAINWORLD-WORKERROR_POWER.smartDescription": "你[red]无法[/red]提升[gold]业力[/gold]。每回合额外获得1[gold]能量[/gold]。",

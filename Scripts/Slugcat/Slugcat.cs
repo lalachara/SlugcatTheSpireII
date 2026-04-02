@@ -38,47 +38,6 @@ public abstract class Slugcat : PlaceholderCharacterModel
 
 	//此处数据仅用于处理存档读档，不要操作。
 	public int workLevel=2,maxWorkLevel = 4,food=0,maxFood=7,sleepfood=4;
-	// [SavedProperty]
-	// public int WorkLevel
-	// {
-	// 	get
-	// 	{
-	// 		return workLevel;
-	// 	}
-	// 	set
-	// 	{
-	// 		AssertMutable();
-	// 		workLevel = value;
-	// 		
-	// 	}
-	// }
-	// [SavedProperty]
-	// public int MaxWorkLevel
-	// {
-	// 	get
-	// 	{
-	// 		return maxWorkLevel;
-	// 	}
-	// 	set
-	// 	{
-	// 		AssertMutable();
-	// 		maxWorkLevel = value;
-	// 	}
-	// }
-	// [SavedProperty]
-	// public int Food
-	// {
-	// 	get
-	// 	{
-	// 		return food;
-	// 	}
-	// 	set
-	// 	{
-	// 		AssertMutable();
-	// 		food = value;
-	// 	}
-	// }
-	
 	
 	//public override string CustomVisualPath => "res://Godot/CharacterSelectBgs/LiverSelectBg.tscn";
 	// 卡牌拖尾路径。
@@ -101,13 +60,7 @@ public abstract class Slugcat : PlaceholderCharacterModel
 	// public override string CustomArmPaperTexturePath => null;
 	// 多人模式剪刀石头布-剪刀。
 	// public override string CustomArmScissorsTexturePath => null;
-
-	// 人物选择背景。
-	//public override string CustomCharacterSelectBg => "res://Godot/CharacterSelectBgs/LiverSelectBg.tscn";
-	// 人物选择图标。
-	//public override string CustomCharacterSelectIconPath => "res://Resource/SlugCat/Liver_Select_Button.png";
-	// 人物选择图标-锁定状态。
-	//public override string CustomCharacterSelectLockedIconPath => "res://Resource/SlugCat/Liver_Select_Button.png";
+	
 	
 	public override CardPoolModel CardPool => ModelDb.CardPool<Rainworld_Liver_CardPool>();
 	public override PotionPoolModel PotionPool => ModelDb.PotionPool<Rainworld_Liver_PotionPool>();
@@ -159,22 +112,4 @@ public abstract class Slugcat : PlaceholderCharacterModel
 		"vfx/vfx_rock_shatter"
 	];
 
-	public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
-	{
-		MainFile.Logger.Info($"Character执行turnstart");
-		CombatUiPatch.callTurnStart();		
-	}
-	public override async Task AfterCombatVictory(CombatRoom room)
-	{
-		MainFile.Logger.Info($"Character执行victory");
-		CombatUiPatch.callVictory();		
-	}
-	
-
-	public override async Task BeforeCombatStart()
-	{
-		MainFile.Logger.Info($"Character执行BeforeCombatStart");
-		
-		await base.BeforeCombatStart();
-	}
 }

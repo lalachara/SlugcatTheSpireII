@@ -4,5 +4,20 @@
   "RAINWORLD-LIVER_FRUIT1.title": "蓝果礼盒",
   "RAINWORLD-LIVER_FRUIT2.description": "在每场战斗开始时，将[blue]1[/blue]张[blue]蓝色果实+[/blue]放入你的手牌。\n通过boss房间或在休息处休息时，增加1[gold]业力[/gold]和1[gold]业力上限[/gold]。",
   "RAINWORLD-LIVER_FRUIT2.flavor": "蓝果礼盒限量豪华版，蛞蝓猫们的出门必备品。",
-  "RAINWORLD-LIVER_FRUIT2.title": "豪华蓝果礼盒"
+  "RAINWORLD-LIVER_FRUIT2.title": "豪华蓝果礼盒",
+  "RAINWORLD-LIVER_TUBULARIS.description": "在战斗开始时，将[blue]2[/blue]张黏液加入你的[gold]抽牌堆[/gold]。当你打出黏液时，获得{Energy:energyIcons()}和1[gold]饱食度[/gold]。",
+  "RAINWORLD-LIVER_TUBULARIS.flavor": "吸噜噜噜噜噜……咳咳咳！",
+  "RAINWORLD-LIVER_TUBULARIS.title": "吸管",
+  "RAINWORLD-LIVER_SLEEPPOTION.description": "[gold]休眠[/gold]不再会被攻击打断。[gold]休眠[/gold]结束时，获得{Energy:energyIcons()}{Energy:energyIcons()}并抽[blue]2[/blue]张牌。",
+  "RAINWORLD-LIVER_SLEEPPOTION.flavor": "陷入了猫崽般的睡眠。",
+  "RAINWORLD-LIVER_SLEEPPOTION.title": "安眠药",
+  "RAINWORLD-LIVER_FIREBLOOD.description": "敌人[gold]创伤[/gold]层数不再会自然降低，并且受到来自[gold]创伤[/gold]的伤害时使[gold]创伤[/gold]层数+[blue]1[/blue]。",
+  "RAINWORLD-LIVER_FIREBLOOD.flavor": "火红的蜥蜴头领带来的创伤无法愈合。",
+  "RAINWORLD-LIVER_FIREBLOOD.title": "烈焰血",
+  "RAINWORLD-LIVER_WHITESKIN.description": "如果你在本回合中没有打出过[gold]攻击牌[/gold]，在回合结束时获得1层[gold]无实体[/gold]。\n每场战斗仅触发[blue]1[/blue]次。",
+  "RAINWORLD-LIVER_WHITESKIN.flavor": "剥离后仍保持着短暂的活性，没人在意它的原主人怎么样了。",
+  "RAINWORLD-LIVER_WHITESKIN.title": "白蜥蜴皮",
+  "RAINWORLD-LIVER_BIRDMASK.description": "当你触发[gold]格挡[/gold]时，获得[blue]2[/blue]层[gold]灵巧[/gold] 。",
+  "RAINWORLD-LIVER_BIRDMASK.flavor": "弱小的生物会恐惧这从天而降的阴影。",
+  "RAINWORLD-LIVER_BIRDMASK.title": "魔王秃鹫面具"
 }

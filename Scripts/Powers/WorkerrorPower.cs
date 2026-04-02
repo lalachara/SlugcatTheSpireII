@@ -35,16 +35,7 @@ public sealed class WorkerrorPower : CustomPowerModel
   public override PowerStackType StackType => PowerStackType.Single;
 
  // protected override IEnumerable<IHoverTip> ExtraHoverTips => new[] { (HoverTipFactory.FromPower<DoomPower>()) }; 
-
- public override async Task AfterCardExhausted(PlayerChoiceContext choiceContext, CardModel card, bool _)
- {
-     if (card.Owner.Creature == base.Owner)
-     {
-         await CreatureCmd.GainBlock(base.Owner, base.Amount*2, ValueProp.Unpowered, null);
-         await PowerCmd.Apply<NimblePower>(base.Owner, Amount, base.Owner, null);
-     }
-     
- }
+ 
  public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
  {
      await PlayerCmd.GainEnergy(1, Owner.Player);

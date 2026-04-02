@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics.Metrics;
 using BaseLib.Abstracts;
+using Godot;
+using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -34,21 +36,28 @@ public sealed class FatworldPower : CustomPowerModel
   public override PowerStackType StackType => PowerStackType.Counter;
   
  // protected override IEnumerable<IHoverTip> ExtraHoverTips => new[] { (HoverTipFactory.FromPower<DoomPower>()) }; 
- private List<ModelId> cardList = new List<ModelId>();
 
+ public override async Task AfterPowerAmountChanged(PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
+ {
+     if (power is FatworldPower&&amount == 1)
+     {
+         
+     }
+ }
 
  public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
  {
+     
      if (cardPlay.Card.Owner == base.Owner.Player&&Owner.Player.Character is Slugcat )
      {
-         if (!cardList.Contains(cardPlay.Card.Id))
+         if (CombatManager.Instance.History.CardPlaysFinished.Count((CardPlayFinishedEntry e) =>
+                 e.CardPlay.Card.Id == cardPlay.Card.Id&&e.CardPlay.Card.Owner == Owner.Player)==1)
          {
-             cardList.Add(cardPlay.Card.Id);
              SlugcatField.GetSlugCatDataByCreature(Owner).addfood(Amount);
-             
          }
-
+         
      }
+
  }
  
 }

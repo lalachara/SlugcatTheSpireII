@@ -33,7 +33,7 @@ public static class Tools
             c.AddKeyword(RainworldKeywords.Treasurespear);
             c.AddKeyword(CardKeyword.Exhaust);
             c.AddKeyword(CardKeyword.Retain);
-            
+
         }
 
     }

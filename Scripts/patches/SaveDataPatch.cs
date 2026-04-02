@@ -78,6 +78,7 @@ public static class RainworldData
             string path = GetSaveFilePath();
             string json = JsonSerializer.Serialize(Current);
             File.WriteAllText(path, json);
+
         }
         catch (Exception ex)
         {
@@ -87,23 +88,38 @@ public static class RainworldData
     // 读档：从文件读取
     public static void LoadFromDisk()
     {
-        
+        try
+        {
             string path = GetSaveFilePath();
+
             if (File.Exists(path))
             {
                 string json = File.ReadAllText(path);
-                Current = JsonSerializer.Deserialize<RainworldPlayerData>(json) ?? new RainworldPlayerData();
-                if (SlugcatField.playerdata?.Player != null)
+
+                // 核心修复：判断 json 内容是否为空/空白/全是 0x00
+                if (string.IsNullOrWhiteSpace(json))
                 {
-                    SlugcatField.playerdata.Initialize();
+                    Current = new RainworldPlayerData();
+                    return;
                 }
+
+                Current = JsonSerializer.Deserialize<RainworldPlayerData>(json) ?? new RainworldPlayerData();
             }
             else
             {
                 Current = new RainworldPlayerData();
             }
-        
-        
+
+            if (SlugcatField.playerdata?.Player != null)
+            {
+                SlugcatField.playerdata.Initialize();
+            }
+        }
+        catch
+        {
+            // 兜底：任何损坏都直接新建，永不报错
+            Current = new RainworldPlayerData();
+        }
     }
 }
 

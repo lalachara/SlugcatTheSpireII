@@ -61,7 +61,7 @@ public class Rainworld_Liver_Kick:LiverCardModelAtk
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
         
-        await DamageCmd.Attack(base.DynamicVars.CalculatedDamage.BaseValue).WithHitCount(Owner.Creature.HasPower<NimblePower>()?2:1).FromCard(this).Targeting(cardPlay.Target)
+        await DamageCmd.Attack(base.DynamicVars.CalculatedDamage).WithHitCount(Owner.Creature.HasPower<NimblePower>()?2:1).FromCard(this).Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_blunt", null, "blunt_attack.mp3")
             .Execute(choiceContext);
 

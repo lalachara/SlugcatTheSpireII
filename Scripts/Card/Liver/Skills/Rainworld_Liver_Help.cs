@@ -56,7 +56,6 @@ public class Rainworld_Liver_Help:LiverCardModel
             
         if (cardModel != null)
         {
-            cardModel.EnergyCost.SetThisTurnOrUntilPlayed(0);
             await CardPileCmd.AddGeneratedCardToCombat(cardModel, PileType.Hand, addedByPlayer: true);
         }
     }

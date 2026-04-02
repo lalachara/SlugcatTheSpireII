@@ -27,7 +27,7 @@ public class Rainworld_Liver_Catbag:LiverCardModel
     public override bool GainsBlock => true;
     protected override HashSet<CardTag> CanonicalTags => new HashSet<CardTag> { };
     public override IEnumerable<CardKeyword> CanonicalKeywords => new []{RainworldKeywords.Treasurespear,CardKeyword.Retain,CardKeyword.Exhaust};
-
+    protected override bool ShouldGlowGoldInternal => true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
     ];

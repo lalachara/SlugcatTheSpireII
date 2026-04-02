@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.Factories;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
@@ -22,46 +23,48 @@ using Rainworld.Scripts.Card.Liver.Attack;
 
 namespace Rainworld.relics;
 [Pool(typeof(Rainworld_Liver_RelicPool))]
-public sealed class Liver_Fruit2 : CustomRelicModel
+public sealed class Liver_Tubularis : CustomRelicModel
 {
-	public override RelicRarity Rarity => RelicRarity.Ancient;
+	public override RelicRarity Rarity => RelicRarity.Shop;
 	// 小图标
-	public override string PackedIconPath =>  $"res://Resource/Relics/fruit2.png";
+	public override string PackedIconPath =>  $"res://Resource/Relics/xiguan.png";
 	// 轮廓图标
-	protected override string PackedIconOutlinePath =>  $"res://Resource/Relics/outline/fruit2.png";
+	protected override string PackedIconOutlinePath =>  $"res://Resource/Relics/outline/xiguan.png";
 	// 大图标
-	protected override string BigIconPath => $"res://Resource/Relics/fruit2.png";
+	protected override string BigIconPath => $"res://Resource/Relics/xiguan.png";
 
-	
+	protected override IEnumerable<IHoverTip> ExtraHoverTips => new[]
+	{
+		HoverTipFactory.ForEnergy(this),
+		HoverTipFactory.FromCard<Slimed>()
+	};
+	protected override IEnumerable<DynamicVar> CanonicalVars => new []{new EnergyVar(1)};
+
+
 	public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, CombatState combatState)
 	{
 		if (player == base.Owner && combatState.RoundNumber == 1)
 		{
 			Flash();
-			CardModel card = combatState.CreateCard<Rainworld_Liver_Fruit>(base.Owner);
-			CardCmd.Upgrade(card);			
-			CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, addedByPlayer: true, CardPilePosition.Random));
+			List<CardModel> list = new List<CardModel>();
+			for (int i = 0; i < 2; i++)
+			{
+				list.Add(combatState.CreateCard<Slimed>(base.Owner));
+			}
+			CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardsToCombat(list, PileType.Draw, addedByPlayer: true, CardPilePosition.Random));
+			await Cmd.Wait(3f);
 		}
 	}
-	
-	public override bool TryModifyRestSiteHealRewards(Player player, List<Reward> rewards, bool isMimicked)
+
+	public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
 	{
-		if (player != base.Owner)
+		if (cardPlay.Card is Slimed)
 		{
-			return false;
+			await PlayerCmd.GainEnergy(1, Owner);
+			if (Owner.Character is Slugcat)
+			{
+				SlugcatField.playerdata?.addfood(1);
+			}
 		}
-
-		if (player.Character is Slugcat)
-		{
-			SlugcatField.GetSlugCatDataByCreature(Owner.Creature).addMaxWorkLevel(1);
-			SlugcatField.playerdata.setworklevel(SlugcatField.playerdata.workLevel+1,false);
-			Flash();
-
-		}
-
-		return true;
 	}
-
-	
-	
 }

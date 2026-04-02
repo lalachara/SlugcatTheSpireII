@@ -119,12 +119,11 @@ public static class CombatUiPatch
     public static void callVictory() => SlugcatField.GetSlugCatDataByCreature(creature).callVictory();
     public static void callSleep() => SlugcatField.GetSlugCatDataByCreature(creature).trysleep();
     public static void callDead() { }
-    public static void callCombatStart() => SlugcatField.GetSlugCatDataByCreature(creature).callCombatStart();
-
     public static void SetSleepButton(bool enabled)
     {
         if (IsInstanceValid(_myButton))
             _myButton.SetState(enabled ? NAutoButton.ButtonState.Active : NAutoButton.ButtonState.Down);
+        GD.Print("设置休眠按钮状态："+enabled);
     }
 
     public static void Setfood(int food)

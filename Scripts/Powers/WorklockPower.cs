@@ -34,13 +34,5 @@ public sealed class WorklockPower : CustomPowerModel
   public override PowerStackType StackType => PowerStackType.Counter;
 
  // protected override IEnumerable<IHoverTip> ExtraHoverTips => new[] { (HoverTipFactory.FromPower<DoomPower>()) }; 
-
- public override async Task AfterCardExhausted(PlayerChoiceContext choiceContext, CardModel card, bool _)
- {
-     if (card.Owner.Creature == base.Owner)
-     {
-         await CreatureCmd.GainBlock(base.Owner, base.Amount*2, ValueProp.Unpowered, null);
-         await PowerCmd.Apply<NimblePower>(base.Owner, Amount, base.Owner, null);
-     }
- }
+ 
 }

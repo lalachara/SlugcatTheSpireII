@@ -2,9 +2,11 @@
 using BaseLib.Abstracts;
 using Godot;
 using MegaCrit.Sts2.Core.Commands.Builders;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
+using Rainworld.relics;
 
 namespace Rainworld.Scripts.Powers;
 
@@ -40,6 +42,11 @@ public sealed class ChuangPower : CustomPowerModel
     {
       await CreatureCmd.Damage(new ThrowingPlayerChoiceContext(), base.Owner, base.Amount,  ValueProp.Unpowered, null, null);
       active = true;
+      if (getfireblood() && Owner.Side!=CombatSide.Player)
+      {
+        await PowerCmd.ModifyAmount(this, 1, Owner,null);
+      }
+      
     }
 
   }
@@ -48,7 +55,7 @@ public sealed class ChuangPower : CustomPowerModel
   {
     if (side == CombatSide.Enemy)
     {
-      if (!active)
+      if (!active&&!getfireblood())
       {
         await PowerCmd.Decrement(this);
       }
@@ -58,6 +65,19 @@ public sealed class ChuangPower : CustomPowerModel
       }
     }
   }
-  
+
+  public bool getfireblood()
+  {
+    foreach (Player player in CombatState.Players)
+    {
+      if (player.GetRelic<Liver_Fireblood>() != null)
+      {
+        player.GetRelic<Liver_Fireblood>().Flash();
+        return true;
+      }
+    } 
+    return false;
+  }
+
 
 }

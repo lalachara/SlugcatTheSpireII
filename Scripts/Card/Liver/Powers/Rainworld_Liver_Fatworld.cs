@@ -27,8 +27,7 @@ public class Rainworld_Liver_Fatworld:LiverCardModelPower
     // 是否在卡牌图鉴中显示
     private const bool shouldShowInCardLibrary = true;
     
-    protected override HashSet<CardTag> CanonicalTags => new HashSet<CardTag> {  };
-    //public override IEnumerable<CardKeyword> CanonicalKeywords => new []{};
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new []{CardKeyword.Innate};
     
     protected override IEnumerable<DynamicVar> CanonicalVars => [
     ];
@@ -40,6 +39,7 @@ public class Rainworld_Liver_Fatworld:LiverCardModelPower
     // 打出时的效果逻辑
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        
         await PowerCmd.Apply<FatworldPower>(Owner.Creature,1, base.Owner.Creature, this);
      
 

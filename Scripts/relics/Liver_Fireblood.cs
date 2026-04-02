@@ -23,46 +23,15 @@ using Rainworld.Scripts.Card.Liver.Attack;
 
 namespace Rainworld.relics;
 [Pool(typeof(Rainworld_Liver_RelicPool))]
-public sealed class Liver_Tubularis : CustomRelicModel
+public sealed class Liver_Fireblood : CustomRelicModel
 {
-	public override RelicRarity Rarity => RelicRarity.Shop;
+	public override RelicRarity Rarity => RelicRarity.Rare;
 	// 小图标
-	public override string PackedIconPath =>  $"res://Resource/Relics/xiguan.png";
+	public override string PackedIconPath =>  $"res://Resource/Relics/juice.png";
 	// 轮廓图标
-	protected override string PackedIconOutlinePath =>  $"res://Resource/Relics/outline/xiguan.png";
+	protected override string PackedIconOutlinePath =>  $"res://Resource/Relics/outline/juice.png";
 	// 大图标
-	protected override string BigIconPath => $"res://Resource/Relics/xiguan.png";
+	protected override string BigIconPath => $"res://Resource/Relics/juice.png";
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => new[]
-	{
-		HoverTipFactory.ForEnergy(this),
-		HoverTipFactory.FromCard<Slimed>()
-	};
-
-	public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, CombatState combatState)
-	{
-		if (player == base.Owner && combatState.RoundNumber == 1)
-		{
-			Flash();
-			List<CardModel> list = new List<CardModel>();
-			for (int i = 0; i < 2; i++)
-			{
-				list.Add(combatState.CreateCard<Slimed>(base.Owner));
-			}
-			CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardsToCombat(list, PileType.Draw, addedByPlayer: true, CardPilePosition.Random));
-			await Cmd.Wait(3f);
-		}
-	}
-
-	public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
-	{
-		if (cardPlay.Card is Slimed)
-		{
-			await PlayerCmd.GainEnergy(1, Owner);
-			if (Owner.Character is Slugcat)
-			{
-				SlugcatField.playerdata?.addfood(1);
-			}
-		}
-	}
+	
 }

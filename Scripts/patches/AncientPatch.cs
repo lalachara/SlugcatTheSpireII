@@ -46,20 +46,12 @@ using System.Reflection;
     public static class ArchaicTooth_TranscendenceUpgrades_Patch
     {
         // 只执行一次，防止重复添加
-        private static bool _patched = false;
 
         [HarmonyPostfix]
         public static void Postfix(ref Dictionary<ModelId, CardModel> __result)
         {
-            if (_patched) return;
-            _patched = true;
-
-            try
-            {
-                __result.TryAdd(ModelDb.Card<Rainworld_Liver_Spear>().Id, ModelDb.Card<Rainworld_Liver_Spearfire>());
             
-
-            }
-            catch { }
+            __result.TryAdd(ModelDb.Card<Rainworld_Liver_Spear>().Id, ModelDb.Card<Rainworld_Liver_Spearfire>());
+                
         }
     }

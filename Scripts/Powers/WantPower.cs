@@ -44,7 +44,7 @@ public sealed class WantPower : CustomPowerModel
          return 1m;
      }
      if(target.HasPower<ChuangPower>())
-         return 1m+0.1m*amount*target.GetPower<ChuangPower>().Amount;
+         return 1m+0.1m*target.GetPower<ChuangPower>().Amount;
      return 1m;
  }
 

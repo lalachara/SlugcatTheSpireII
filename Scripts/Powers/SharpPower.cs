@@ -37,22 +37,12 @@ public sealed class SharpPower : CustomPowerModel
 
  public override decimal ModifyDamageAdditive(Creature? target, decimal amount, ValueProp props, Creature? dealer,
      CardModel? cardSource)
- {if (props == ValueProp.Unpowered)
+ {
+     if (props != ValueProp.Unpowered&&cardSource!=null&&cardSource.Keywords.Contains(RainworldKeywords.Spear)&&dealer==base.Owner)
+         return Amount;
+     else
      {
-         return amount;
+         return 0;
      }
-     if (cardSource == null||!cardSource.Keywords.Contains(RainworldKeywords.Spear))
-     {
-         return amount;
-     }
-     if (dealer != base.Owner && !base.Owner.Pets.Contains<Creature>(dealer))
-     {
-         return amount;
-     }
-     if (target == null )
-     {
-         return amount;
-     }
-     return base.Amount+amount;
  }
 }

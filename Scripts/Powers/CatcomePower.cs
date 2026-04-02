@@ -38,7 +38,7 @@ public sealed class CatcomePower : CustomPowerModel
  {
      if (cardPlay.Card.Owner == base.Owner.Player && cardPlay.Card.Keywords.Contains(RainworldKeywords.Spear))
      {
-         await CardPileCmd.Draw(context, Amount*2, base.Owner.Player);
+         await CardPileCmd.Draw(context, Amount, base.Owner.Player);
      }
  }
  

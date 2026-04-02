@@ -1,11 +1,13 @@
 ﻿using System.Diagnostics.Metrics;
 using BaseLib.Abstracts;
+using Godot;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
+using Rainworld.relics;
 using Rainworld.Scripts;
 using Rainworld.Scripts.Card.Liver.Attack;
 
@@ -42,13 +44,23 @@ public sealed class SleepPower : CustomPowerModel
          if(Owner.Player?.Character is not Slugcat)
              return;
          SlugcatField.GetSlugCatDataByCreature(Owner).addworklevel(1);
-         await PowerCmd.Remove(this);
      }
+ }
+
+ public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
+ {
+     if (Owner.Player?.GetRelic<Liver_Sleeppotion>() != null)
+     {
+         await PlayerCmd.GainEnergy(2,Owner.Player);
+         await CardPileCmd.Draw(choiceContext,2, Owner.Player);
+     }
+     await PowerCmd.Remove(this);
+
  }
 
  public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult _, ValueProp props, Creature? dealer, CardModel? __)
  {
-     if (target == base.Owner && dealer != null && _.UnblockedDamage>0)
+     if (target == base.Owner && dealer != null && _.UnblockedDamage>0&&Owner.Player?.GetRelic<Liver_Sleeppotion>()==null)
      {
          await PowerCmd.Remove(this);
 

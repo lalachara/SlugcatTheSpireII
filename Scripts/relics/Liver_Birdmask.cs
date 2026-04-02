@@ -5,6 +5,7 @@ using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.Factories;
@@ -18,24 +19,31 @@ using MegaCrit.Sts2.Core.Models.Relics;
 using MegaCrit.Sts2.Core.Rewards;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
+using MegaCrit.Sts2.Core.ValueProps;
 using Rainworld.Scripts;
 using Rainworld.Scripts.Card.Liver.Attack;
+using Rainworld.Scripts.Powers;
 
 namespace Rainworld.relics;
 [Pool(typeof(Rainworld_Liver_RelicPool))]
-public sealed class Liver_Sleeppotion : CustomRelicModel
+public sealed class Liver_Birdmask : CustomRelicModel
 {
-	public override RelicRarity Rarity => RelicRarity.Rare;
+	public override RelicRarity Rarity => RelicRarity.Uncommon;
 	// 小图标
-	public override string PackedIconPath =>  $"res://Resource/Relics/SleepPotions.png";
+	public override string PackedIconPath =>  $"res://Resource/Relics/birdmask.png";
 	// 轮廓图标
-	protected override string PackedIconOutlinePath =>  $"res://Resource/Relics/outline/SleepPotions.png";
+	protected override string PackedIconOutlinePath =>  $"res://Resource/Relics/outline/birdmask.png";
 	// 大图标
-	protected override string BigIconPath => $"res://Resource/Relics/SleepPotions.png";
-	protected override IEnumerable<DynamicVar> CanonicalVars => new []{new EnergyVar(1)};
+	protected override string BigIconPath => $"res://Resource/Relics/birdmask.png";
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => new[]
+	public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult result, ValueProp props, Creature? dealer, CardModel? cardSource)
 	{
-		HoverTipFactory.ForEnergy(this),
-	};
+		if (CombatManager.Instance.IsInProgress && target == base.Owner.Creature && result.UnblockedDamage==0)
+		{
+			Flash();
+			await PowerCmd.Apply<NimblePower>(Owner.Creature, 2, Owner.Creature, null);
+
+		}
+	}
+
 }

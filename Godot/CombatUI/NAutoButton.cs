@@ -68,7 +68,7 @@ public partial class NAutoButton : NButton
 	/// <param name="newState">新状态（Down/Down1/Down2/Active）</param>
 	public void SetState(ButtonState newState)
 	{
-		if (_currentState == newState) return;
+		//if (_currentState == newState) return;
 
 		_currentState = newState;
 		UpdateButtonTexture();

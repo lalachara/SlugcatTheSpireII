@@ -42,6 +42,8 @@
       <Content Include="Godot\CombatUI\resource\WorkLevelLock.png" />
       <Content Include="Godot\CombatUI\resource\WorkLevelLock2.png" />
       <Content Include="Godot\CombatUI\Test.tcsn" />
+      <Content Include="Godot\RestSiteAnim\liver_merchant.tscn" />
+      <Content Include="Godot\RestSiteAnim\Liver_rest_site.tscn" />
       <Content Include="Resource\Card\CardSkill1024.png" />
       <Content Include="Resource\SlugCat\card_orb.png" />
       <Content Include="Resource\SlugCat\Head.svg" />

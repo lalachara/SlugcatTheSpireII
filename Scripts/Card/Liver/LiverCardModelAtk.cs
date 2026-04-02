@@ -14,6 +14,8 @@ namespace Rainworld.Scripts.Card;
 public abstract class LiverCardModelAtk : LiverCardModel
 {
     
+    protected override bool ShouldGlowGoldInternal => Keywords.Contains(RainworldKeywords.Treasurespear);
+
     public override Texture2D? CustomFrame => GD.Load<Texture2D>("res://Resource/Card/CardAtk1024.png");
     public LiverCardModelAtk(int energyCost, CardType type, CardRarity rarity, TargetType targetType, bool shouldShowInCardLibrary) : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {

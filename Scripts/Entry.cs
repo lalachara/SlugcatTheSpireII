@@ -182,6 +182,14 @@ public class Entry
     public static void InitRelics()
     {
         ModHelper.AddModelToPool<Rainworld_Liver_RelicPool, Liver_Fruit1>();
+        ModHelper.AddModelToPool<Rainworld_Liver_RelicPool, Liver_Fruit2>();
+        ModHelper.AddModelToPool<Rainworld_Liver_RelicPool, Liver_Tubularis>();
+        ModHelper.AddModelToPool<Rainworld_Liver_RelicPool, Liver_Sleeppotion>();
+        ModHelper.AddModelToPool<Rainworld_Liver_RelicPool, Liver_Fireblood>();
+        ModHelper.AddModelToPool<Rainworld_Liver_RelicPool, Liver_Whiteskin>();
+        ModHelper.AddModelToPool<Rainworld_Liver_RelicPool, Liver_Birdmask>();
+
+
     }
     
 }
