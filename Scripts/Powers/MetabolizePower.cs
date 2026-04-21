@@ -39,10 +39,10 @@ public sealed class MetabolizePower : CustomPowerModel
 
  public override async Task AfterCardDrawnEarly(PlayerChoiceContext choiceContext, CardModel card, bool fromHandDraw)
  {
-     if (card.Owner.Creature == base.Owner && card.Type==CardType.Status)
+     if (card.Owner.Creature == base.Owner && card.Type==CardType.Status&&Owner.Player!=null)
      {
          
-         CardModel cardModel = new Slimed();
+         CardModel cardModel = base.CombatState.CreateCard<Slimed>(base.Owner.Player);
          await CardCmd.Transform(card, cardModel);
 
      }

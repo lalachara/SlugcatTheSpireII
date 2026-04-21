@@ -23,8 +23,6 @@ public static class CombatUiPatch
     [HarmonyPatch("_Ready")]
     [HarmonyPostfix]
     public static void Postfix_Ready(NCombatUi __instance) {
-        MainFile.Logger.Info("Injecting UI elements into CombatUi...");
-
         try {
             // 1. 加载测试按钮（不变）
             if (_myButton == null || !IsInstanceValid(_myButton))
@@ -42,7 +40,6 @@ public static class CombatUiPatch
                 _myButton.OffsetRight = 160;
                 _myButton.OffsetBottom = -450;
                 _myButton.TreeExiting += () => _myButton = null;
-                MainFile.Logger.Info("Test button injected successfully!");
             }
 
             // 2. 加载业力指示器（✅ 修正实例化类型，匹配NButton场景）
@@ -63,11 +60,9 @@ public static class CombatUiPatch
 
                 __instance.AddChild(_workLevelIndicator);
                 _workLevelIndicator.TreeExiting += () => _workLevelIndicator = null;
-                MainFile.Logger.Info("WorkLevelIndicator injected successfully!");
             }
         }
         catch (System.Exception ex) {
-            MainFile.Logger.Error($"Failed to inject UI elements: {ex}");
         }
     }
 
@@ -111,7 +106,7 @@ public static class CombatUiPatch
     {
         if (!IsInstanceValid(_workLevelIndicator)) return;
         try { _workLevelIndicator.UpdateWorkLevel(newWorkLevel); }
-        catch { MainFile.Logger.Error("Failed to update WorkLevel"); }
+        catch {  }
     }
 
     // 其余方法完全不变

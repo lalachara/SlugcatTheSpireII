@@ -27,7 +27,7 @@ public class Rainworld_Liver_Cabhelp:LiverCardModelAtk
     // 是否在卡牌图鉴中显示
     private const bool shouldShowInCardLibrary = true;
     
-    public override IEnumerable<CardKeyword> CanonicalKeywords => new []{CardKeyword.Exhaust,RainworldKeywords.Treasure};
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new []{CardKeyword.Exhaust};
 
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [

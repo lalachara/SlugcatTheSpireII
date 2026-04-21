@@ -105,7 +105,6 @@ public partial class NAutoButton : NButton
 		 if(_currentState == ButtonState.Active&&CombatUiPatch.creature.CombatState.CurrentSide==CombatSide.Player) {
 			 SetState(ButtonState.Down2);
 					 CombatUiPatch.callSleep();
-					 MainFile.Logger.Info($"MyButton clicked! Switched to Down2 state");
 		 }
 
 		 // Active状态下点击 → 切换到Down2
