@@ -76,7 +76,7 @@ public class Rainworld_Liver_Lovemoney:LiverCardModelAtk
         {
             if (monsterPos.HasValue)
             {
-                VfxCmd.PlayVfx(monsterPos.Value, "vfx/vfx_coin_explosion_regular");
+                //VfxCmd.PlayVfx(monsterPos.Value, "vfx/vfx_coin_explosion_regular",null);
             }
             await PlayerCmd.GainGold(base.DynamicVars["Gold"].IntValue, base.Owner);
         }

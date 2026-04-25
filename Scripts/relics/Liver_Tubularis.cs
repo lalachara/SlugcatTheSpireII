@@ -41,7 +41,7 @@ public sealed class Liver_Tubularis : CustomRelicModel
 	protected override IEnumerable<DynamicVar> CanonicalVars => new []{new EnergyVar(1)};
 
 
-	public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, CombatState combatState)
+	public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, ICombatState combatState)
 	{
 		if (player == base.Owner && combatState.RoundNumber == 1)
 		{
@@ -51,7 +51,7 @@ public sealed class Liver_Tubularis : CustomRelicModel
 			{
 				list.Add(combatState.CreateCard<Slimed>(base.Owner));
 			}
-			CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardsToCombat(list, PileType.Draw, addedByPlayer: true, CardPilePosition.Random));
+			CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardsToCombat(list, PileType.Draw, Owner, CardPilePosition.Random));
 			await Cmd.Wait(3f);
 		}
 	}

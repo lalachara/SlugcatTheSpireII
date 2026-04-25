@@ -57,7 +57,7 @@ public class Rainworld_Liver_Treasurebag:LiverCardModel
         Rainworld_Liver_Bag bag = new  Rainworld_Liver_Bag(list,cardPlay.Target.Player);
         bag.Owner = cardPlay.Target.Player;
         
-        IReadOnlyList<CardPileAddResult> results = await CardPileCmd.AddGeneratedCardsToCombat(new List<CardModel>(){bag}, PileType.Draw, addedByPlayer: true, CardPilePosition.Random);
+        IReadOnlyList<CardPileAddResult> results = await CardPileCmd.AddGeneratedCardsToCombat(new List<CardModel>(){bag}, PileType.Draw, Owner, CardPilePosition.Random);
         if (LocalContext.IsMe(cardPlay.Target.Player))
         {
             CardCmd.PreviewCardPileAdd(results);

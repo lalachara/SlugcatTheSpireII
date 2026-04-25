@@ -28,5 +28,36 @@
   // 角色名（作宾语用）
   "RAINWORLD-RAINWORLD_LIVER.titleObject": "白猫",
   // 解锁条件文案，{Prerequisite} 会被替换
-  "RAINWORLD-RAINWORLD_LIVER.unlockText": "进行一局游戏来解锁这个角色。"
+  "RAINWORLD-RAINWORLD_LIVER.unlockText": "进行一局游戏来解锁这个角色。",
+
+  // 混沌香气事件中的内心独白
+  "RAINWORLD-RAINWORLD_REDCAT.aromaPrinciple": "[sine][blue]……喵……[/blue][/sine]",
+  // 多人模式：存活时回合结束对白
+  "RAINWORLD-RAINWORLD_REDCAT.banter.alive.endTurnPing": "…喵？…",
+  // 多人模式：死亡后回合结束对白
+  "RAINWORLD-RAINWORLD_REDCAT.banter.dead.endTurnPing": "…喵！…",
+  // 自定义模式文本
+  "RAINWORLD-RAINWORLD_REDCAT.cardsModifierDescription": "求生者的卡牌现在会出现在奖励和商店中。",
+  // 卡池名字
+  "RAINWORLD-RAINWORLD_REDCAT.cardsModifierTitle": "求生者卡牌",
+  // 角色选择界面描述
+  "RAINWORLD-RAINWORLD_REDCAT.description": "一只流浪的蛞蝓猫。\n在周而复始的生态轮回中，它既是捕食者又是猎物。",
+  // 死亡时事件对话
+  "RAINWORLD-RAINWORLD_REDCAT.eventDeathPrevention": "×.×",
+  // 沉没宝库事件中对金币的独白
+  "RAINWORLD-RAINWORLD_REDCAT.goldMonologue": "[sine]喵喵……喵喵喵喵喵……[/sine]",
+  // 物主形容词，用于动态文本
+  "RAINWORLD-RAINWORLD_REDCAT.possessiveAdjective": "它的",
+  // 宾语代词
+  "RAINWORLD-RAINWORLD_REDCAT.pronounObject": "它",
+  // 所有格代词
+  "RAINWORLD-RAINWORLD_REDCAT.pronounPossessive": "它的",
+  // 主语代词
+  "RAINWORLD-RAINWORLD_REDCAT.pronounSubject": "它",
+  // 角色名（标题用）
+  "RAINWORLD-RAINWORLD_REDCAT.title": "求生者",
+  // 角色名（作宾语用）
+  "RAINWORLD-RAINWORLD_REDCAT.titleObject": "白猫",
+  // 解锁条件文案，{Prerequisite} 会被替换
+  "RAINWORLD-RAINWORLD_REDCAT.unlockText": "进行一局游戏来解锁这个角色。"
 }

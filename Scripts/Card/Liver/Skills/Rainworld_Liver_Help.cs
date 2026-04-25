@@ -56,7 +56,7 @@ public class Rainworld_Liver_Help:LiverCardModel
             
         if (cardModel != null)
         {
-            await CardPileCmd.AddGeneratedCardToCombat(cardModel, PileType.Hand, addedByPlayer: true);
+            await CardPileCmd.AddGeneratedCardToCombat(cardModel, PileType.Hand, Owner);
         }
     }
 

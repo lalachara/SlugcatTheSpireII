@@ -49,7 +49,7 @@ public class Rainworld_Liver_Pull:LiverCardModelAtk
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-        await PowerCmd.Apply<PullPower>(cardPlay.Target,IsUpgraded?2:1,Owner.Creature,this);
+        await PowerCmd.Apply<PullPower>(choiceContext,cardPlay.Target,IsUpgraded?2:1,Owner.Creature,this);
     }
 
     // 升级后的效果逻辑

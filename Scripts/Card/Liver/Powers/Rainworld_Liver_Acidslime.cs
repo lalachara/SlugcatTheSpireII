@@ -43,7 +43,7 @@ public class Rainworld_Liver_Acidslime:LiverCardModelPower
     // 打出时的效果逻辑
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<AcidslimePower>(Owner.Creature,DynamicVars["Slime"].BaseValue, base.Owner.Creature, this);
+        await PowerCmd.Apply<AcidslimePower>(choiceContext,Owner.Creature,DynamicVars["Slime"].BaseValue, base.Owner.Creature, this);
      
 
     }

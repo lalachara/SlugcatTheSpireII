@@ -31,9 +31,9 @@ public sealed class Liver_Fruit1 : CustomRelicModel
 	protected override string PackedIconOutlinePath =>  $"res://Resource/Relics/outline/fruit1.png";
 	// 大图标
 	protected override string BigIconPath => $"res://Resource/Relics/fruit1.png";
-
 	
-	public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, CombatState combatState)
+
+	public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, ICombatState combatState)
 	{
 		if (player == base.Owner && combatState.RoundNumber == 1)
 		{
@@ -42,7 +42,7 @@ public sealed class Liver_Fruit1 : CustomRelicModel
 			
 			list.Add(combatState.CreateCard<Rainworld_Liver_Fruit>(base.Owner));
 			
-			CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardsToCombat(list, PileType.Hand, addedByPlayer: true, CardPilePosition.Random));
+			CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardsToCombat(list, PileType.Hand, Owner, CardPilePosition.Random));
 		}
 	}
 	

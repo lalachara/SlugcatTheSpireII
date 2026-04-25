@@ -42,7 +42,7 @@ public class Rainworld_Liver_Livewill:LiverCardModel
     // 打出时的效果逻辑
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<LivewillPower>(Owner.Creature, 2, base.Owner.Creature, this);
+        await PowerCmd.Apply<LivewillPower>(choiceContext,Owner.Creature, 2, base.Owner.Creature, this);
         
     }
 

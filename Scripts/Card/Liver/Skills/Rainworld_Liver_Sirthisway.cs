@@ -93,14 +93,14 @@ public class Rainworld_Liver_Sirthisway:LiverCardModel
                 rock(choiceContext,IsUpgraded?30:20);
                 break;
             case 7://debuff
-                applydebuff();
+                applydebuff(choiceContext);
                 break;
             case 8://金币
                 await PlayerCmd.GainGold(IsUpgraded?20:10, base.Owner);
                 break;
             case 9://悔恨和仙人指路
-                CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(CombatState.CreateCard<Rainworld_Liver_Sirthisway>(base.Owner) , PileType.Hand, addedByPlayer: true));
-                CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(CombatState.CreateCard<Regret>(base.Owner) , PileType.Hand, addedByPlayer: true));
+                CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(CombatState.CreateCard<Rainworld_Liver_Sirthisway>(base.Owner) , PileType.Hand, Owner));
+                CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(CombatState.CreateCard<Regret>(base.Owner) , PileType.Hand, Owner));
                 break;
             case 10://弃置所有手牌并获得奇怪的东西
                 discardand(choiceContext, cardPlay);
@@ -154,46 +154,52 @@ public class Rainworld_Liver_Sirthisway:LiverCardModel
         }
     }
 
-    private async void applydebuff()
+    private async void applydebuff(PlayerChoiceContext choiceContext)
     {
-        int random = Owner.RunState.Rng.CombatCardGeneration.NextInt(0, 6);
+        int random = Owner.RunState.Rng.CombatCardGeneration.NextInt(0, 7);
 
         switch (random)
         {
             case 0://灾厄
-                await PowerCmd.Apply<DoomPower>(Owner.Creature, 3, base.Owner.Creature, this);
+                await PowerCmd.Apply<DoomPower>(choiceContext,Owner.Creature, 3, base.Owner.Creature, this);
                 break;
             case 1://创伤
-                await PowerCmd.Apply<ChuangPower>(Owner.Creature, 2, base.Owner.Creature, this);
+                await PowerCmd.Apply<ChuangPower>(choiceContext,Owner.Creature, 2, base.Owner.Creature, this);
                 break;
             case 2://魂缚
                 if(Owner.Creature.GetPower<ChainsOfBindingPower>()==null)
-                    await PowerCmd.Apply<ChainsOfBindingPower>(Owner.Creature, 1, base.Owner.Creature, this);
+                    await PowerCmd.Apply<ChainsOfBindingPower>(choiceContext,Owner.Creature, 1, base.Owner.Creature, this);
                 else
                 {
-                    await PowerCmd.Apply<DoomPower>(Owner.Creature, 3, base.Owner.Creature, this);
+                    await PowerCmd.Apply<DoomPower>(choiceContext,Owner.Creature, 3, base.Owner.Creature, this);
                 }
                 break;
             case 3://柔嫩
                 if(Owner.Creature.GetPower<TenderPower>()==null)
-                    await PowerCmd.Apply<TenderPower>(Owner.Creature, 1, base.Owner.Creature, this);
+                    await PowerCmd.Apply<TenderPower>(choiceContext,Owner.Creature, 1, base.Owner.Creature, this);
                 else
                 {
-                    await PowerCmd.Apply<DoomPower>(Owner.Creature, 3, base.Owner.Creature, this);
+                    await PowerCmd.Apply<DoomPower>(choiceContext,Owner.Creature, 3, base.Owner.Creature, this);
                 }
                 break;
             case 4://烟雾弥漫
                 if(Owner.Creature.GetPower<SmoggyPower>()==null)
-                    await PowerCmd.Apply<SmoggyPower>(Owner.Creature, 1, base.Owner.Creature, this);
+                    await PowerCmd.Apply<SmoggyPower>(choiceContext,Owner.Creature, 1, base.Owner.Creature, this);
                 else
                 {
-                    await PowerCmd.Apply<DoomPower>(Owner.Creature, 3, base.Owner.Creature, this);
+                    await PowerCmd.Apply<DoomPower>(choiceContext,Owner.Creature, 3, base.Owner.Creature, this);
                 }
                 break;
             case 5://因果
-                await PowerCmd.Apply<BecausePower>(Owner.Creature, 1, base.Owner.Creature, this);
+                await PowerCmd.Apply<BecausePower>(choiceContext,Owner.Creature, 1, base.Owner.Creature, this);
                 break;
-            
+            case 6://大补汤
+                await PowerCmd.Apply<WeakPower>(choiceContext,Owner.Creature, 99, base.Owner.Creature, this);
+                await PowerCmd.Apply<FrailPower>(choiceContext,Owner.Creature, 99, base.Owner.Creature, this);
+                await PowerCmd.Apply<VulnerablePower>(choiceContext,Owner.Creature, 99, base.Owner.Creature, this);
+
+                break;
+
         }
     }
 
@@ -206,7 +212,7 @@ public class Rainworld_Liver_Sirthisway:LiverCardModel
             case 0://3张黏液
               for (int i = 0; i < 3; i++)
                       {
-                          CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(CombatState.CreateCard<Slimed>(base.Owner) , PileType.Hand, addedByPlayer: true));
+                          CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(CombatState.CreateCard<Slimed>(base.Owner) , PileType.Hand, Owner));
                       }  
               break;
             case 1://印随机牌
@@ -214,7 +220,7 @@ public class Rainworld_Liver_Sirthisway:LiverCardModel
         
                     where ((c.Type==CardType.Attack||c.Type==CardType.Skill)&&(c.Rarity==CardRarity.Common||c.Rarity==CardRarity.Uncommon||c.Rarity==CardRarity.Rare))
                     select c, 1, base.Owner.RunState.Rng.CombatCardGeneration);
-                await CardPileCmd.AddGeneratedCardsToCombat(distinctForCombat, PileType.Hand, addedByPlayer: true);
+                await CardPileCmd.AddGeneratedCardsToCombat(distinctForCombat, PileType.Hand, Owner);
                 break;
             
         }
@@ -256,17 +262,17 @@ public class Rainworld_Liver_Sirthisway:LiverCardModel
                     SlugcatField.playerdata.addworklevel(10);
                 break;
             case 5://5种形态
-                await PowerCmd.Apply<EchoFormPower>(Owner.Creature, 1, base.Owner.Creature, this);
-                await PowerCmd.Apply<VoidFormPower>(Owner.Creature, 1, base.Owner.Creature, this);
-                await PowerCmd.Apply<DemonFormPower>(Owner.Creature, 1, base.Owner.Creature, this);
-                await PowerCmd.Apply<ReaperFormPower>(Owner.Creature, 1, base.Owner.Creature, this);
-                await PowerCmd.Apply<WraithFormPower>(Owner.Creature, 1, base.Owner.Creature, this);
-                await PowerCmd.Apply<SerpentFormPower>(Owner.Creature, 1, base.Owner.Creature, this);
+                await PowerCmd.Apply<EchoFormPower>(choiceContext,Owner.Creature, 1, base.Owner.Creature, this);
+                await PowerCmd.Apply<VoidFormPower>(choiceContext,Owner.Creature, 1, base.Owner.Creature, this);
+                await PowerCmd.Apply<DemonFormPower>(choiceContext,Owner.Creature, 1, base.Owner.Creature, this);
+                await PowerCmd.Apply<ReaperFormPower>(choiceContext,Owner.Creature, 1, base.Owner.Creature, this);
+                await PowerCmd.Apply<WraithFormPower>(choiceContext,Owner.Creature, 1, base.Owner.Creature, this);
+                await PowerCmd.Apply<SerpentFormPower>(choiceContext,Owner.Creature, 1, base.Owner.Creature, this);
                 break;
             case 6:
                 discardand(choiceContext, cardPlay);
                 drawcard();
-                applydebuff();
+                applydebuff(choiceContext);
                 break;
             
         }
@@ -282,36 +288,36 @@ public class Rainworld_Liver_Sirthisway:LiverCardModel
                 CardModel card = CombatState.CreateCard<Rainworld_Liver_Sirthisway>(base.Owner);
                         CardCmd.Upgrade(card);
                         card.BaseReplayCount = 2;
-                        CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card , PileType.Hand, addedByPlayer: true));
-                        CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(CombatState.CreateCard<Reboot>(base.Owner) , PileType.Hand, addedByPlayer: true));
+                        CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card , PileType.Hand, Owner));
+                        CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(CombatState.CreateCard<Reboot>(base.Owner) , PileType.Hand, Owner));
                         break;
             case 1://3张蛇咬
                 for (int i = 0; i < 3; i++)
                 {
-                    CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(CombatState.CreateCard<Snakebite>(base.Owner) , PileType.Hand, addedByPlayer: true));
+                    CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(CombatState.CreateCard<Snakebite>(base.Owner) , PileType.Hand, Owner));
                 }
                 break;
             case 2://区和呼唤
                 if (CombatState?.MultiplayerScalingModel != null)
                 {
-                    CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(CombatState.CreateCard<Rainworld_Liver_Treasurebag>(base.Owner) , PileType.Hand, addedByPlayer: true));
+                    CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(CombatState.CreateCard<Rainworld_Liver_Treasurebag>(base.Owner) , PileType.Hand,Owner));
                 }
-                CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(CombatState.CreateCard<Infection>(base.Owner) , PileType.Hand, addedByPlayer: true));
-                CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(CombatState.CreateCard<Beckon>(base.Owner) , PileType.Hand, addedByPlayer: true));
-                CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(CombatState.CreateCard<Infection>(base.Owner) , PileType.Hand, addedByPlayer: true));
+                CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(CombatState.CreateCard<Infection>(base.Owner) , PileType.Hand, Owner));
+                CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(CombatState.CreateCard<Beckon>(base.Owner) , PileType.Hand, Owner));
+                CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(CombatState.CreateCard<Infection>(base.Owner) , PileType.Hand, Owner));
                 break;
             case 3://宝物猫库
                 CardModel arsenal = CombatState.CreateCard<Arsenal>(base.Owner);
                 arsenal.AddKeyword(RainworldKeywords.Treasurespear);
                 arsenal.AddKeyword(CardKeyword.Retain);
-                CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(arsenal , PileType.Hand, addedByPlayer: true));
+                CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(arsenal , PileType.Hand, Owner));
                 break;
             case 4://3随机牌
                 IEnumerable<CardModel> distinctForCombat = CardFactory.GetDistinctForCombat(base.Owner, from c in base.Owner.Character.CardPool.GetUnlockedCards(base.Owner.UnlockState, base.Owner.RunState.CardMultiplayerConstraint)
         
                     where ((c.Type==CardType.Attack||c.Type==CardType.Skill)&&(c.Rarity==CardRarity.Common||c.Rarity==CardRarity.Uncommon||c.Rarity==CardRarity.Rare))
                     select c, 3, base.Owner.RunState.Rng.CombatCardGeneration);
-                await CardPileCmd.AddGeneratedCardsToCombat(distinctForCombat, PileType.Hand, addedByPlayer: true);
+                await CardPileCmd.AddGeneratedCardsToCombat(distinctForCombat, PileType.Hand,Owner);
                 break;
            
 

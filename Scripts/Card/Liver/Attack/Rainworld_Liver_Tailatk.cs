@@ -52,9 +52,9 @@ public class Rainworld_Liver_Tailatk:LiverCardModelAtk
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-        await PowerCmd.Apply<NimblePower>(Owner.Creature, DynamicVars["Nimble"].BaseValue, base.Owner.Creature, this);
+        await PowerCmd.Apply<NimblePower>(choiceContext,Owner.Creature, DynamicVars["Nimble"].BaseValue, base.Owner.Creature, this);
         CardModel card = base.CombatState.CreateCard<Slimed>(base.Owner);
-        CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Discard, addedByPlayer: true));
+        CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Discard,Owner));
     }
 
     // 升级后的效果逻辑

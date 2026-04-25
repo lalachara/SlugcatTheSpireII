@@ -40,7 +40,7 @@ public class Rainworld_Liver_Chief:LiverCardModelPower
     // 打出时的效果逻辑
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<ChiefPower>(Owner.Creature,1, base.Owner.Creature, this);
+        await PowerCmd.Apply<ChiefPower>(choiceContext,Owner.Creature,1, base.Owner.Creature, this);
         
     }
 

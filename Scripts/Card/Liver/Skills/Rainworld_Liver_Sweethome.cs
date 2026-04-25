@@ -46,10 +46,10 @@ public class Rainworld_Liver_Sweethome:LiverCardModel
         foreach (Player item in enumerable)
         {
             if(item is Slugcat)
-                await PowerCmd.Apply<WorklockPower>(item.Creature,1, item.Creature, this);
+                await PowerCmd.Apply<WorklockPower>(choiceContext,item.Creature,1, item.Creature, this);
             else
             {
-                await PowerCmd.Apply<BufferPower>(item.Creature,1, item.Creature, this);
+                await PowerCmd.Apply<BufferPower>(choiceContext,item.Creature,1, item.Creature, this);
             }
         }
         

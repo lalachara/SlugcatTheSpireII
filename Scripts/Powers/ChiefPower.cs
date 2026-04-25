@@ -65,7 +65,7 @@ public sealed class ChiefPower : CustomPowerModel
     return true;
   }
   
-  public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, CombatState combatState)
+  public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, ICombatState combatState)
   {
     if (player == base.Owner.Player && base.AmountOnTurnStart >= 1)
     {
@@ -78,7 +78,7 @@ public sealed class ChiefPower : CustomPowerModel
       {
         c.AddKeyword(RainworldKeywords.Treasure);
         c.AddKeyword(CardKeyword.Exhaust);
-        await CardPileCmd.AddGeneratedCardToCombat(c, PileType.Hand, addedByPlayer: true);
+        await CardPileCmd.AddGeneratedCardToCombat(c, PileType.Hand, Owner.Player);
 
       }
 

@@ -37,7 +37,7 @@ public class Rainworld_Liver_Keepeye:LiverCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CardPileCmd.Draw(choiceContext, 1, base.Owner);
-        await PowerCmd.Apply<HuntsignPower>(cardPlay.Target, 3, base.Owner.Creature, this);
+        await PowerCmd.Apply<HuntsignPower>(choiceContext,cardPlay.Target, 3, base.Owner.Creature, this);
 
     }
 

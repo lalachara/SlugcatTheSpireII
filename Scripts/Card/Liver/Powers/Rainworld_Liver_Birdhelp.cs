@@ -37,7 +37,7 @@ public class Rainworld_Liver_Birdhelp:LiverCardModelPower
     // 打出时的效果逻辑
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<FlyPower>( Owner.Creature, IsUpgraded ? 3 : 2, Owner.Creature, this);
+        await PowerCmd.Apply<FlyPower>(choiceContext, Owner.Creature, IsUpgraded ? 3 : 2, Owner.Creature, this);
     }
 
     // 升级后的效果逻辑

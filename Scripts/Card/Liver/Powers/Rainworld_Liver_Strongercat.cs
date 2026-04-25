@@ -41,7 +41,7 @@ public class Rainworld_Liver_Strongercat:LiverCardModelPower
     // 打出时的效果逻辑
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<StrongerPower>(Owner.Creature,IsUpgraded?3:2, base.Owner.Creature, this);
+        await PowerCmd.Apply<StrongerPower>(choiceContext,Owner.Creature,IsUpgraded?3:2, base.Owner.Creature, this);
      
 
     }

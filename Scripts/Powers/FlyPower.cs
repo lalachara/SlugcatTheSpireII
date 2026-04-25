@@ -58,7 +58,7 @@ public sealed class FlyPower : CustomPowerModel
  public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
  {
      if(Amount<basenum)
-         await PowerCmd.ModifyAmount(this,basenum-Amount,Owner,null);
+         await PowerCmd.ModifyAmount(choiceContext,this,basenum-Amount,Owner,null);
  }
  public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult _, ValueProp props, Creature? dealer, CardModel? __)
  {

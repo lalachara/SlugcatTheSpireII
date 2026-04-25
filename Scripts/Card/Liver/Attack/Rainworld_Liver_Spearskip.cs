@@ -56,7 +56,7 @@ public class Rainworld_Liver_Spearskip:LiverCardModelAtk
         {
             await CardCmd.Discard(choiceContext, cardModel);
             if(cardModel.Keywords.Contains(RainworldKeywords.Spear))
-                await PowerCmd.Apply<DarkShacklesPower>(cardPlay.Target, base.DynamicVars["StrengthLoss"].BaseValue, base.Owner.Creature, this);
+                await PowerCmd.Apply<DarkShacklesPower>(choiceContext,cardPlay.Target, base.DynamicVars["StrengthLoss"].BaseValue, base.Owner.Creature, this);
         }
 
     }

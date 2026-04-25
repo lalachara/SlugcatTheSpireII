@@ -44,7 +44,7 @@ public sealed class ChuangPower : CustomPowerModel
       active = true;
       if (getfireblood() && Owner.Side!=CombatSide.Player)
       {
-        await PowerCmd.ModifyAmount(this, 1, Owner,null);
+        await PowerCmd.ModifyAmount(choiceContext,this, 1, Owner,null);
       }
       
     }

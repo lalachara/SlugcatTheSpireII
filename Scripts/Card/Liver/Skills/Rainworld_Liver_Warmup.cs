@@ -42,7 +42,7 @@ public class Rainworld_Liver_Warmup:LiverCardModel
     // 打出时的效果逻辑
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<NimblePower>(Owner.Creature, DynamicVars["Nimble"].BaseValue, base.Owner.Creature, this);
+        await PowerCmd.Apply<NimblePower>(choiceContext,Owner.Creature, DynamicVars["Nimble"].BaseValue, base.Owner.Creature, this);
 
     }
 

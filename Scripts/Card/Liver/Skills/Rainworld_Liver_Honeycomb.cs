@@ -35,8 +35,8 @@ public class Rainworld_Liver_Honeycomb:LiverCardModel
     // 打出时的效果逻辑
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<SlowPower>(cardPlay.Target, 1, base.Owner.Creature, this);
-        await PowerCmd.Apply<ConstrictPower>(cardPlay.Target, base.DynamicVars["ConstrictPower"].BaseValue, base.Owner.Creature, this);
+        await PowerCmd.Apply<SlowPower>(choiceContext,cardPlay.Target, 1, base.Owner.Creature, this);
+        await PowerCmd.Apply<ConstrictPower>(choiceContext,cardPlay.Target, base.DynamicVars["ConstrictPower"].BaseValue, base.Owner.Creature, this);
 
     }
 

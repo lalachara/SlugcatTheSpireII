@@ -35,15 +35,6 @@ public sealed class FatworldPower : CustomPowerModel
 
   public override PowerStackType StackType => PowerStackType.Counter;
   
- // protected override IEnumerable<IHoverTip> ExtraHoverTips => new[] { (HoverTipFactory.FromPower<DoomPower>()) }; 
-
- public override async Task AfterPowerAmountChanged(PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
- {
-     if (power is FatworldPower&&amount == 1)
-     {
-         
-     }
- }
 
  public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
  {

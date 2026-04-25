@@ -43,7 +43,7 @@ public sealed class ComboPower : CustomPowerModel
      attack = false;
  }
 
- public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
+ public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
  {
      if (cardPlay.Card.Owner == base.Owner.Player )
      {
@@ -55,8 +55,8 @@ public sealed class ComboPower : CustomPowerModel
          {
              skill = false;
              attack = false;
-             await PowerCmd.Apply<StrengthPower>(Owner, Amount, Owner, null);
-             await PowerCmd.Apply<DexterityPower>(Owner, Amount, Owner, null);
+             await PowerCmd.Apply<StrengthPower>(choiceContext,Owner, Amount, Owner, null);
+             await PowerCmd.Apply<DexterityPower>(choiceContext,Owner, Amount, Owner, null);
          }
 
      }

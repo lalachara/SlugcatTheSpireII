@@ -40,7 +40,7 @@ public class Rainworld_Liver_Fatworld:LiverCardModelPower
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         
-        await PowerCmd.Apply<FatworldPower>(Owner.Creature,1, base.Owner.Creature, this);
+        await PowerCmd.Apply<FatworldPower>(choiceContext,Owner.Creature,1, base.Owner.Creature, this);
      
 
     }

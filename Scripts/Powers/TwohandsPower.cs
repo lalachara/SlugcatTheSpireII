@@ -31,7 +31,7 @@ public sealed class TwohandsPower : CustomPowerModel
   public override PowerType Type => PowerType.Buff;
 
   public override PowerStackType StackType => PowerStackType.Counter;
-  public override async Task AfterPowerAmountChanged(PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
+  public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext,PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
   {
     
     if (amount > 0m && applier == base.Owner )
@@ -39,13 +39,13 @@ public sealed class TwohandsPower : CustomPowerModel
       if (power is NimblePower)
       {
          Flash();
-         await PowerCmd.Apply<NimblePower>( Owner, Amount, null,null);
+         await PowerCmd.Apply<NimblePower>(choiceContext, Owner, Amount, null,null);
       }
 
       if (power is ChuangPower)
       {
         Flash();
-        await PowerCmd.Apply<ChuangPower>( power.Owner, Amount, null,null);
+        await PowerCmd.Apply<ChuangPower>(choiceContext, power.Owner, Amount, null,null);
       }
 
 

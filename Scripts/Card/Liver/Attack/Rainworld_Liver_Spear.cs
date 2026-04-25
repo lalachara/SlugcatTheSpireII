@@ -47,7 +47,7 @@ public class Rainworld_Liver_Spear:LiverCardModelAtk
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-        await PowerCmd.Apply<ChuangPower>(cardPlay.Target, DynamicVars["Chuang"].BaseValue, base.Owner.Creature, this);
+        await PowerCmd.Apply<ChuangPower>(choiceContext,cardPlay.Target, DynamicVars["Chuang"].BaseValue, base.Owner.Creature, this);
 
     }
 

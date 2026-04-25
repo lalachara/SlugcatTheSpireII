@@ -41,8 +41,8 @@ public class Rainworld_Liver_Fruit:LiverCardModel
         await PlayerCmd.GainEnergy(base.DynamicVars.Energy.IntValue, base.Owner);
         if (IsUpgraded)
         {
-            CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(CombatState.CreateCard<Rainworld_Liver_Fruit>(base.Owner) , PileType.Hand, addedByPlayer: true));
-            CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(CombatState.CreateCard<Rainworld_Liver_Fruit>(base.Owner) , PileType.Hand, addedByPlayer: true));
+            CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(CombatState.CreateCard<Rainworld_Liver_Fruit>(base.Owner) , PileType.Hand, Owner));
+            CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(CombatState.CreateCard<Rainworld_Liver_Fruit>(base.Owner) , PileType.Hand, Owner));
         }
 
         if (Owner.Character is Slugcat)

@@ -126,7 +126,7 @@ namespace Rainworld.Scripts
                 exfood = food-maxFood;
                 
                 if(Player.Creature.HasPower<FatworldPower>())
-                    await PowerCmd.Apply<StrengthPower>(Player.Creature, exfood, Player.Creature, null);
+                    await PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(),Player.Creature, exfood, Player.Creature, null);
             }
             if(food<0)
                 food=0;
@@ -199,7 +199,7 @@ namespace Rainworld.Scripts
 
         public async void sleep()
         {
-            await PowerCmd.Apply<SleepPower>(Player.Creature,1, Player.Creature, null);
+            await PowerCmd.Apply<SleepPower>(new ThrowingPlayerChoiceContext(),Player.Creature,1, Player.Creature, null);
             
 
             NCreature creatureNode = NCombatRoom.Instance?.GetCreatureNode(Player.Creature);

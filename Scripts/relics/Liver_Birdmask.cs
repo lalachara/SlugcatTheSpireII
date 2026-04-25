@@ -41,7 +41,7 @@ public sealed class Liver_Birdmask : CustomRelicModel
 		if (CombatManager.Instance.IsInProgress && target == base.Owner.Creature && result.UnblockedDamage==0)
 		{
 			Flash();
-			await PowerCmd.Apply<NimblePower>(Owner.Creature, 2, Owner.Creature, null);
+			await PowerCmd.Apply<NimblePower>(choiceContext,Owner.Creature, 2, Owner.Creature, null);
 
 		}
 	}

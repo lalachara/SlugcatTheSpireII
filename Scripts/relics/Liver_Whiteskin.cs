@@ -37,7 +37,7 @@ public sealed class Liver_Whiteskin : CustomRelicModel
 	private bool relicused = false;
 	private bool atkused = false;
 
-	public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, CombatState combatState)
+	public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, ICombatState combatState)
 	{
 		if (player == base.Owner && combatState.RoundNumber == 1)
 		{
@@ -78,7 +78,7 @@ public sealed class Liver_Whiteskin : CustomRelicModel
 			relicused = true;
 			Flash();
 			base.Status = RelicStatus.Disabled;
-			await PowerCmd.Apply<IntangiblePower>(Owner.Creature, 1, Owner.Creature, null);
+			await PowerCmd.Apply<IntangiblePower>(choiceContext,Owner.Creature, 1, Owner.Creature, null);
 		}
 	}
 

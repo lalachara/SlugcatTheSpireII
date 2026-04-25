@@ -41,7 +41,7 @@ public class Rainworld_Liver_Workcat:LiverCardModelPower
     // 打出时的效果逻辑
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<WorkCatPower>(Owner.Creature,DynamicVars.Gold.BaseValue, base.Owner.Creature, this);
+        await PowerCmd.Apply<WorkCatPower>(choiceContext,Owner.Creature,DynamicVars.Gold.BaseValue, base.Owner.Creature, this);
      
 
     }

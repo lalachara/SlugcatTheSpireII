@@ -40,7 +40,7 @@ public sealed class OldframPower : CustomPowerModel
         if (dealer != null && (dealer == base.Owner || dealer.PetOwner?.Creature == base.Owner) && props!=ValueProp.Unpowered && result.TotalDamage > 0)
         {
             Flash();
-            await PowerCmd.Apply<OldframeTemp>(target, base.Amount, base.Owner, null, silent: true);
+            await PowerCmd.Apply<OldframeTemp>(choiceContext,target, base.Amount, base.Owner, null, silent: true);
         }
     }
 

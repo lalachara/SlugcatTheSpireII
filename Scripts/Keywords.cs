@@ -12,14 +12,15 @@ public static class  RainworldKeywords
         [CustomEnum("Spear")]
         [KeywordProperties(AutoKeywordPosition.Before)]
         public static CardKeyword Spear;
-        
         [CustomEnum("Treasure")]
         [KeywordProperties(AutoKeywordPosition.Before)]
         public static CardKeyword Treasure;
         [CustomEnum("Treasurespear")]
         [KeywordProperties(AutoKeywordPosition.Before)]
         public static CardKeyword Treasurespear;
-
+        [CustomEnum("Corrupt")]
+        [KeywordProperties(AutoKeywordPosition.Before)]
+        public static CardKeyword Corrupt;
         
         //以下只在提示词出现
         [CustomEnum("Nimble")]
@@ -57,5 +58,6 @@ public static class  RainworldKeywords
         public static CardKeyword Worklock;
         [CustomEnum("Pull")]
         public static CardKeyword Pull;
-
+        [CustomEnum("CorruptText")]
+        public static CardKeyword CorruptText;
 }

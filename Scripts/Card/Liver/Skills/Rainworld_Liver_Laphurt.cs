@@ -42,7 +42,7 @@ public class Rainworld_Liver_Laphurt:LiverCardModel
         {
             Scripts.SlugcatField.GetSlugCatDataByCreature(Owner.Creature).addfood(-1);
             int temphp = Owner.Creature.MaxHp - Owner.Creature.CurrentHp;
-            await PowerCmd.Apply<PlatingPower>(base.Owner.Creature, temphp, base.Owner.Creature, this);
+            await PowerCmd.Apply<PlatingPower>(choiceContext,base.Owner.Creature, temphp, base.Owner.Creature, this);
             await CreatureCmd.Heal(base.Owner.Creature, temphp);
         }
 

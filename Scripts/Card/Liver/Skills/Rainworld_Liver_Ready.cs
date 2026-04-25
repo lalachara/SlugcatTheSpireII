@@ -38,7 +38,7 @@ public class Rainworld_Liver_Ready:LiverCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(base.Owner.Creature, base.DynamicVars.Block, cardPlay);
-        await PowerCmd.Apply<VigorPower>(base.Owner.Creature, base.DynamicVars["VigorPower"].IntValue, base.Owner.Creature, this);
+        await PowerCmd.Apply<VigorPower>(choiceContext,base.Owner.Creature, base.DynamicVars["VigorPower"].IntValue, base.Owner.Creature, this);
     }
 
     // 升级后的效果逻辑

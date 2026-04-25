@@ -60,7 +60,7 @@ public class Rainworld_Liver_Spearboom:LiverCardModelAtk
         }
         
         CardModel card = base.CombatState.CreateCard<Rainworld_Liver_Spear>(base.Owner);
-        CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Discard, addedByPlayer: true));
+        CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Discard,Owner));
 
     }
 

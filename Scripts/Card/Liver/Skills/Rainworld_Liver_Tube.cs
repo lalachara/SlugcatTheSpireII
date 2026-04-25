@@ -41,7 +41,7 @@ public class Rainworld_Liver_Tube:LiverCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         decimal block =  await CreatureCmd.GainBlock(base.Owner.Creature, base.DynamicVars.Block, cardPlay);
-        await PowerCmd.Apply<TubePower>(Owner.Creature, block, base.Owner.Creature, this);
+        await PowerCmd.Apply<TubePower>(choiceContext,Owner.Creature, block, base.Owner.Creature, this);
 
     }
 

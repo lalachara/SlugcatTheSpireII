@@ -35,11 +35,11 @@ public sealed class SlugfeelPower : CustomPowerModel
   
  // protected override IEnumerable<IHoverTip> ExtraHoverTips => new[] { (HoverTipFactory.FromPower<DoomPower>()) }; 
 
- public override async Task AfterPowerAmountChanged(PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
+ public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext,PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
  {
      if ((amount < 0m) && applier == base.Owner && power is BufferPower)
      {
-         await PowerCmd.Apply<DexterityPower>(Owner, Amount, base.Owner, null);
+         await PowerCmd.Apply<DexterityPower>(choiceContext,Owner, Amount, base.Owner, null);
          Flash();
      }
      

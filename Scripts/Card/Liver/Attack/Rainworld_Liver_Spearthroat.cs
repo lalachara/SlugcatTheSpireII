@@ -53,8 +53,8 @@ public class Rainworld_Liver_Spearthroat:LiverCardModelAtk
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-        await PowerCmd.Apply<ChuangPower>(cardPlay.Target, DynamicVars["Chuang"].BaseValue, base.Owner.Creature, this);
-        await PowerCmd.Apply<NimblePower>(Owner.Creature, DynamicVars["Nimble"].BaseValue, base.Owner.Creature, this);
+        await PowerCmd.Apply<ChuangPower>(choiceContext,cardPlay.Target, DynamicVars["Chuang"].BaseValue, base.Owner.Creature, this);
+        await PowerCmd.Apply<NimblePower>(choiceContext,Owner.Creature, DynamicVars["Nimble"].BaseValue, base.Owner.Creature, this);
 
         
 

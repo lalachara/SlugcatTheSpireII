@@ -33,14 +33,14 @@ public sealed class Liver_Fruit2 : CustomRelicModel
 	protected override string BigIconPath => $"res://Resource/Relics/fruit2.png";
 
 	
-	public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, CombatState combatState)
+	public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, ICombatState combatState)
 	{
 		if (player == base.Owner && combatState.RoundNumber == 1)
 		{
 			Flash();
 			CardModel card = combatState.CreateCard<Rainworld_Liver_Fruit>(base.Owner);
 			CardCmd.Upgrade(card);			
-			CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, addedByPlayer: true, CardPilePosition.Random));
+			CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, Owner, CardPilePosition.Random));
 		}
 	}
 	

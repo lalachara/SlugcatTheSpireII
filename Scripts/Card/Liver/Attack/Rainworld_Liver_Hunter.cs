@@ -50,7 +50,7 @@ public class Rainworld_Liver_Hunter:LiverCardModelAtk
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-        await PowerCmd.Apply<HuntsignPower>(cardPlay.Target, DynamicVars["Hunt"].BaseValue, base.Owner.Creature, this);
+        await PowerCmd.Apply<HuntsignPower>(choiceContext,cardPlay.Target, DynamicVars["Hunt"].BaseValue, base.Owner.Creature, this);
 
     }
     

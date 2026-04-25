@@ -33,15 +33,17 @@ public sealed class NimblePower : CustomPowerModel
 
   public override PowerStackType StackType => PowerStackType.Counter;
   public bool fromtwohand = false;
-  public override async Task AfterPowerAmountChanged(PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
+  
+
+  public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext,PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
   {
     if (!(amount <= 0m) && applier == base.Owner && power is NimblePower)
     {
       Flash();
       if (Amount >= 10m||(Amount >=8m&&Owner.HasPower<SlugfeelPower>()))
       {
-        await PowerCmd.ModifyAmount(power,Owner.HasPower<SlugfeelPower>()?-8m:-10m , applier, cardSource);
-        await PowerCmd.Apply<BufferPower>(Owner, 1, base.Owner, null);
+        await PowerCmd.ModifyAmount(choiceContext,power,Owner.HasPower<SlugfeelPower>()?-8m:-10m , applier, cardSource);
+        await PowerCmd.Apply<BufferPower>(choiceContext,Owner, 1, base.Owner, null);
       }
     }
   }

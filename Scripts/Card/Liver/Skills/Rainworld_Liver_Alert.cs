@@ -41,7 +41,7 @@ public class Rainworld_Liver_Alert:LiverCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(base.Owner.Creature, base.DynamicVars.Block, cardPlay);
-        await PowerCmd.Apply<NimblePower>(Owner.Creature, DynamicVars["Nimble"].BaseValue, base.Owner.Creature, this);
+        await PowerCmd.Apply<NimblePower>(choiceContext,Owner.Creature, DynamicVars["Nimble"].BaseValue, base.Owner.Creature, this);
 
     }
 

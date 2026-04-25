@@ -37,14 +37,14 @@ public sealed class UsefulslimePower : CustomPowerModel
 
  // protected override IEnumerable<IHoverTip> ExtraHoverTips => new[] { (HoverTipFactory.FromPower<DoomPower>()) }; 
 
- public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
+ public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
  {
      if (cardPlay.Card.Owner == base.Owner.Player && cardPlay.Card is Slimed)
      {
          Flash();
-         await CardPileCmd.Draw(context, Amount, base.Owner.Player);
-         await PowerCmd.Apply<PlatingPower>(base.Owner, Amount, base.Owner, null);
-         await PowerCmd.Apply<NimblePower>(base.Owner, Amount, base.Owner, null);
+         await CardPileCmd.Draw(choiceContext, Amount, base.Owner.Player);
+         await PowerCmd.Apply<PlatingPower>(choiceContext,base.Owner, Amount, base.Owner, null);
+         await PowerCmd.Apply<NimblePower>(choiceContext,base.Owner, Amount, base.Owner, null);
 
      }
  }

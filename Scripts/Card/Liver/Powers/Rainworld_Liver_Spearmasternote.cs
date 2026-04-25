@@ -39,7 +39,7 @@ public class Rainworld_Liver_Spearmasternote:LiverCardModelPower
     // 打出时的效果逻辑
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<SpearmasternotePower>(Owner.Creature,DynamicVars["Spaermasternote"].BaseValue, base.Owner.Creature, this);
+        await PowerCmd.Apply<SpearmasternotePower>(choiceContext,Owner.Creature,DynamicVars["Spaermasternote"].BaseValue, base.Owner.Creature, this);
      
 
     }

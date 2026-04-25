@@ -29,7 +29,7 @@ public static class Tools
         {
             if(upgraded)
                 CardCmd.Upgrade(c);
-            await CardPileCmd.AddGeneratedCardToCombat(c, PileType.Hand, true);
+            await CardPileCmd.AddGeneratedCardToCombat(c, PileType.Hand, player);
             c.AddKeyword(RainworldKeywords.Treasurespear);
             c.AddKeyword(CardKeyword.Exhaust);
             c.AddKeyword(CardKeyword.Retain);

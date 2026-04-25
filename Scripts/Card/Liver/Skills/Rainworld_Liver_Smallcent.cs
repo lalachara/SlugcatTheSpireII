@@ -38,7 +38,7 @@ public class Rainworld_Liver_Smallcent:LiverCardModel
     // 打出时的效果逻辑
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<StrengthPower>(Owner.Creature, base.DynamicVars.Strength.BaseValue, base.Owner.Creature, this);
+        await PowerCmd.Apply<StrengthPower>(choiceContext,Owner.Creature, base.DynamicVars.Strength.BaseValue, base.Owner.Creature, this);
         SlugcatField.playerdata.addfood(1);
     }
 

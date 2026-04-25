@@ -43,7 +43,7 @@ public class Rainworld_Liver_Bigjump:LiverCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(base.Owner.Creature, base.DynamicVars.Block, cardPlay);
-        var bigJumpPower = await PowerCmd.Apply<BigjumpPower>(Owner.Creature, 1, base.Owner.Creature, this);
+        var bigJumpPower = await PowerCmd.Apply<BigjumpPower>(choiceContext,Owner.Creature, 1, base.Owner.Creature, this);
         bigJumpPower.addCard(CombatState.CreateCard<Rainworld_Liver_Fruit>(base.Owner));
     }
 

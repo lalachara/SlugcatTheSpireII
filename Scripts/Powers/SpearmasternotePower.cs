@@ -34,11 +34,11 @@ public sealed class SpearmasternotePower : CustomPowerModel
 
  // protected override IEnumerable<IHoverTip> ExtraHoverTips => new[] { (HoverTipFactory.FromPower<DoomPower>()) }; 
 
- public override async Task AfterCardPlayed(PlayerChoiceContext context, CardPlay cardPlay)
+ public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
  {
      if (cardPlay.Card.Owner == base.Owner.Player && cardPlay.Card.Keywords.Contains(RainworldKeywords.Spear))
      {
-         await PowerCmd.Apply<SharpPower>(Owner, Amount, Owner, null);
+         await PowerCmd.Apply<SharpPower>(choiceContext,Owner, Amount, Owner, null);
      }
  }
  

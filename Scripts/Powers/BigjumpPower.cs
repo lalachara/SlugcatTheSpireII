@@ -39,11 +39,11 @@ public sealed class BigjumpPower : CustomPowerModel
   }
 
 
-  public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, CombatState combatState)
+  public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, ICombatState combatState)
   {
     if (player == base.Owner.Player)
     {
-      IReadOnlyList<CardPileAddResult> combat = await CardPileCmd.AddGeneratedCardsToCombat(cards, PileType.Hand, true);
+      IReadOnlyList<CardPileAddResult> combat = await CardPileCmd.AddGeneratedCardsToCombat(cards, PileType.Hand, Owner.Player);
     }
     cards.Clear();
     await PowerCmd.Remove(this);

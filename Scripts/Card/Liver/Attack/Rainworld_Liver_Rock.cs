@@ -49,8 +49,8 @@ public class Rainworld_Liver_Rock:LiverCardModelAtk
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-        await PowerCmd.Apply<WeakPower>(cardPlay.Target, base.DynamicVars.Weak.BaseValue, base.Owner.Creature, this);
-        await PowerCmd.Apply<FreespearPower>(Owner.Creature, DynamicVars["Rock"].BaseValue, base.Owner.Creature, this);
+        await PowerCmd.Apply<WeakPower>(choiceContext,cardPlay.Target, base.DynamicVars.Weak.BaseValue, base.Owner.Creature, this);
+        await PowerCmd.Apply<FreespearPower>(choiceContext,Owner.Creature, DynamicVars["Rock"].BaseValue, base.Owner.Creature, this);
 
     }
 

@@ -41,9 +41,9 @@ public class Rainworld_Liver_Workerror:LiverCardModelPower
         if (Owner.Character is Slugcat)
         {
             SlugcatField.playerdata.setworklevel(0);
-            await PowerCmd.Apply<StrengthPower>( Owner.Creature, (IsUpgraded ? 3 : 2)*(SlugcatField.GetSlugCatDataByCreature(Owner.Creature).maxWorkLevel+1), Owner.Creature, this);
-            await PowerCmd.Apply<WorkerrorPower>( Owner.Creature, 1, Owner.Creature, this);
-            await PowerCmd.Apply<WorklockPower>( Owner.Creature, 1, Owner.Creature, this);
+            await PowerCmd.Apply<StrengthPower>( choiceContext,Owner.Creature, (IsUpgraded ? 3 : 2)*(SlugcatField.GetSlugCatDataByCreature(Owner.Creature).maxWorkLevel+1), Owner.Creature, this);
+            await PowerCmd.Apply<WorkerrorPower>( choiceContext,Owner.Creature, 1, Owner.Creature, this);
+            await PowerCmd.Apply<WorklockPower>( choiceContext,Owner.Creature, 1, Owner.Creature, this);
 
         }
 

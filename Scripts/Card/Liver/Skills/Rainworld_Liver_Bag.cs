@@ -50,7 +50,7 @@ public class Rainworld_Liver_Bag:LiverCardModel
     {
         if (Cards.Count == 0)
         {
-            CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(new Void() , PileType.Hand, addedByPlayer: true));
+            CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(new Void() , PileType.Hand,Owner));
             
         }
 
@@ -59,7 +59,7 @@ public class Rainworld_Liver_Bag:LiverCardModel
             foreach (var card in Cards)
             {
                 card.Owner = Owner;
-                CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card , PileType.Hand, addedByPlayer: true));
+                CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card , PileType.Hand, Owner));
 
             }
 

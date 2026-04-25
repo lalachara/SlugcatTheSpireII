@@ -51,14 +51,14 @@ public class Rainworld_Liver_Speardouble:LiverCardModelAtk
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-        await PowerCmd.Apply<ChuangPower>(cardPlay.Target, DynamicVars["Chuang"].BaseValue, base.Owner.Creature, this);
+        await PowerCmd.Apply<ChuangPower>(choiceContext,cardPlay.Target, DynamicVars["Chuang"].BaseValue, base.Owner.Creature, this);
         await DamageCmd
             .Attack(base.DynamicVars.Damage.BaseValue)
             .FromCard(this)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-        await PowerCmd.Apply<ChuangPower>(cardPlay.Target,DynamicVars["Chuang"].BaseValue, base.Owner.Creature, this);
+        await PowerCmd.Apply<ChuangPower>(choiceContext,cardPlay.Target,DynamicVars["Chuang"].BaseValue, base.Owner.Creature, this);
 
         await Cmd.Wait(0.5f);
         

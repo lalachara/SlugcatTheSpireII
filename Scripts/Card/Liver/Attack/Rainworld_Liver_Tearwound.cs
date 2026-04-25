@@ -49,7 +49,7 @@ public class Rainworld_Liver_Tearwound:LiverCardModelAtk
         int num = (cardPlay.Target.IsAlive ? cardPlay.Target.GetPowerAmount<ChuangPower>() : 0);
         if (num > 0)
         {
-            await PowerCmd.Apply<ChuangPower>(cardPlay.Target, IsUpgraded?num*2:num, base.Owner.Creature, this);
+            await PowerCmd.Apply<ChuangPower>(choiceContext,cardPlay.Target, IsUpgraded?num*2:num, base.Owner.Creature, this);
         }
     }
 

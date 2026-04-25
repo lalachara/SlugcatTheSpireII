@@ -40,7 +40,7 @@ public sealed class AcmedefendPower : CustomPowerModel
      if (card.Owner.Creature == base.Owner)
      {
          await CreatureCmd.GainBlock(base.Owner, base.Amount*2, ValueProp.Unpowered, null);
-         await PowerCmd.Apply<NimblePower>(base.Owner, Amount, base.Owner, null);
+         await PowerCmd.Apply<NimblePower>(choiceContext,base.Owner, Amount, base.Owner, null);
      }
  }
 }

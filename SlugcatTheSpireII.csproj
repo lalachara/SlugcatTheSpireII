@@ -56,6 +56,10 @@
       <Compile Remove="Scripts\patches\CatBagPatch.cs" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Scripts\Card\RedCat\Powers\" />
+    </ItemGroup>
+
     <!-- 自动复制dll -->
     <Target Name="Copy Mod" AfterTargets="PostBuildEvent">
         <Message Text="Copying mod to Slay the Spire 2 mods folder..." Importance="high" />

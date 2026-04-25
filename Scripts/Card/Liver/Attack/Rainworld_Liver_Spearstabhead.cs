@@ -53,8 +53,8 @@ public class Rainworld_Liver_Spearstabhead:LiverCardModelAtk
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-        await PowerCmd.Apply<ChuangPower>(cardPlay.Target, DynamicVars.Vulnerable.BaseValue, base.Owner.Creature, this);
-        await PowerCmd.Apply<VulnerablePower>(cardPlay.Target, DynamicVars.Vulnerable.BaseValue, base.Owner.Creature, this);
+        await PowerCmd.Apply<ChuangPower>(choiceContext,cardPlay.Target, DynamicVars.Vulnerable.BaseValue, base.Owner.Creature, this);
+        await PowerCmd.Apply<VulnerablePower>(choiceContext,cardPlay.Target, DynamicVars.Vulnerable.BaseValue, base.Owner.Creature, this);
 
         
 

@@ -40,7 +40,7 @@ public class Rainworld_Liver_Twohands:LiverCardModelPower
     // 打出时的效果逻辑
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<TwohandsPower>(Owner.Creature,1, base.Owner.Creature, this);
+        await PowerCmd.Apply<TwohandsPower>(choiceContext,Owner.Creature,1, base.Owner.Creature, this);
      
 
     }

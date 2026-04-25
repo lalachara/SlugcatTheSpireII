@@ -39,7 +39,7 @@ public class Rainworld_Liver_Wawawa:LiverCardModel
     {
         foreach (Creature hittableEnemy in base.CombatState.HittableEnemies)
         {
-            await PowerCmd.Apply<WeakPower>(hittableEnemy,99, base.Owner.Creature, this);
+            await PowerCmd.Apply<WeakPower>(choiceContext,hittableEnemy,99, base.Owner.Creature, this);
         }
     }
 
