@@ -1,0 +1,214 @@
+[
+  {
+    "NAMES": ["spear"],
+    "DESCRIPTION": "Cards using spears"
+  },
+  {
+    "NAMES": ["trauma"],
+    "DESCRIPTION": "Take damage equal to stacks when attacking. Reduce 1 stack at end of turn if no attack was made."
+  },
+  {
+    "NAMES": ["fullness"],
+    "DESCRIPTION": "Gain 1 when executing non-minion enemies (extra 1 per 30 max HP of target). #yAll max HP gains become fullness gains. "
+  },
+  {
+    "NAMES": ["karma"],
+    "DESCRIPTION": "When HP reaches 0, if karma ≠1, revive with full HP and reduce karma by 1."
+  },
+  {
+    "NAMES": ["forced_hibernation"],
+    "DESCRIPTION": "This hibernation costs no fullness and grants no karma. After trigger, next hibernation in combat requires 10 fullness and cannot be forced."
+  },
+  {
+    "NAMES": ["nimble"],
+    "DESCRIPTION": "Every 10 stacks: gain 1 buffer and 1 dexterity."
+  },
+  {
+    "NAMES": ["Scavenger_Treasure"],
+    "DESCRIPTION": "Scavenger's treasures."
+  },
+  {
+    "NAMES": ["Hunt_mark"],
+    "DESCRIPTION": "Gain 1 fullness when be damaged by Slug Cat."
+  },
+  {
+    "NAMES": ["exhaustion"],
+    "DESCRIPTION": "Draw 1 less card per turn, gain 1 less energy."
+  },
+  {
+    "NAMES": ["karmic_burden"],
+    "DESCRIPTION": "Gain 1 extra energy per turn. Cannot gain karma. Cannot be removed."
+  },
+  {
+    "NAMES": ["causality"],
+    "DESCRIPTION": "Your karma decreases by 1 per turn. Cannot be removed."
+  },
+  {
+    "NAMES": ["lurking"],
+    "DESCRIPTION": "Gain equal stacks of #yintangible , reduce cost of powers/skills by 1. Next attack deals double damage, then end lurking and lose equal intangible."
+  },
+  {
+    "NAMES": ["preparation"],
+    "DESCRIPTION": "Next turn put a blue fruit in hand."
+  },
+  {
+    "NAMES": ["prep_counter"],
+    "DESCRIPTION": "Next turn draw extra counter cards, gain 3x counter block. Playing cards increases counter."
+  },
+  {
+    "NAMES": ["iteration"],
+    "DESCRIPTION": "When playing next card, if identical card in hand/draw pile, exhaust it and automatically play all identical cards."
+  },
+  {
+    "NAMES": ["karma_lock"],
+    "DESCRIPTION": "Next revival won't reduce karma (even at karma 0)."
+  },
+  {
+    "NAMES": ["stone_toss"],
+    "DESCRIPTION": "Next spear card played costs 0."
+  },
+  {
+    "NAMES": ["unique"],
+    "DESCRIPTION": "Only one copy takes effect even if multiple in deck."
+  },
+  {
+    "NAMES": ["aid"],
+    "DESCRIPTION": "Vulture's Aid: NL Gain flight. NL Lizard's Aid: NL Destroy block, deal damage. NL Scavenger's Aid: NL Gain gold."
+  },
+  {
+    "NAMES": ["unused_card"],
+    "DESCRIPTION": "After gaining this, when playing a card not recorded before (upgraded/unupgraded share name), record it and gain #yfullness ."
+  },
+  {
+    "NAMES": ["corruption_value"],
+    "DESCRIPTION": "Playing a #ycorrupted card grants #ycorruption_value . When #ycorruption_value reaches #b5 , enter #yRottification state."
+  },
+  {
+    "NAMES": ["corrupt"],
+    "DESCRIPTION": "When played, gain 1 stack of #ycorruption_value . (Only effective for Rain World Hunter)."
+  },
+  {
+    "NAMES": ["rottification"],
+    "DESCRIPTION": " When #ycorruption_value reaches #b5 , enter #yRottification state. For each #ycorrupted card in the exhausted pile, gain #b1 stack of #ycorruption_power . Cannot revive via #ykarma while in #yRottification state."
+  },
+  {
+    "NAMES": ["return_to_hand"],
+    "DESCRIPTION": "Return this card from the discard pile to your hand (only effective for non-exhausted attack/skill cards)."
+  },
+  {
+    "NAMES": ["different_state"],
+    "DESCRIPTION": "If this card is #ycorrupted , select un-#ycorrupted cards; otherwise, select all #ycorrupted cards."
+  },
+  {
+    "NAMES": ["immunity_factor"],
+    "DESCRIPTION": "Cannot be #ycorrupted . Gain [E] when drawn; if in #yRottification state, #rlose [E] instead."
+  },
+  {
+    "NAMES": ["corruption_strength"],
+    "DESCRIPTION": "While in #yRottification state, increase damage dealt by attacks. #rlose all corruption_strength when exiting #yRottification state."
+  },
+  {
+    "NAMES": ["devour"],
+    "DESCRIPTION": "Enemies with HP lower than the number of devour stacks die instantly. Enemies with devour gain 1 stack of #yentanglement each turn. (Clear all devour stacks of enemies when exiting #yRottification state.)"
+  },
+  {
+    "NAMES": ["karma_retribution"],
+    "DESCRIPTION": "Effect triggered when karma decreases during combat."
+  },
+  {
+    "NAMES": ["Hibernate"],
+    "DESCRIPTION": " #rEnd your turn and enter #Hibernate . If you take no damage by the start of your next turn, exit Hibernate and gain #b1 #yKarma . NL If your Karma has already reached the cap, gain #b1 Strength and #b1 Dexterity instead."
+  },
+  {
+    "NAMES": ["coordination"],
+    "DESCRIPTION": "Empowers ally's damage and intent."
+  },
+  {
+    "NAMES": ["ally"],
+    "DESCRIPTION": "Friendly unit. Executes its intent at the end of each turn."
+  },
+  {
+    "NAMES": ["core_ability"],
+    "DESCRIPTION": "Survivor: Nimble NL Hunter: Vitality NL Monk: Coordination NL Rivulet: Adroit NL Spear Master: Sharpness NL (You cannot gain your own core ability.)"
+  },
+  {
+    "NAMES": ["coordinated_strike"],
+    "DESCRIPTION": "When the target takes damage from a source other than you, deal 1 damage to the target."
+  },
+  {
+    "NAMES": ["rainbow"],
+    "DESCRIPTION": "This card's color is treated as belonging to all Slug Cat card colors."
+  },
+  {
+    "NAMES": ["erosion"],
+    "DESCRIPTION": "At the end of the turn, if #yErosion stacks are no less than 10, take damage equal to #yErosion stacks. NL Units with #yErosion transfer #b1 stack of #yErosion to the target when dealing damage."
+  },
+  {
+    "NAMES": ["adroit"],
+    "DESCRIPTION": "Damage dealt and #yBlock gained are increased. NL Each card played reduces Adroit stacks by 1. At the start of each turn, Adroit stacks reset to the Adroit cap."
+  },
+  {
+    "NAMES": ["levitate"],
+    "DESCRIPTION": "The next damage received is reduced by 25%."
+  },
+  {
+    "NAMES": ["ice_crystal"],
+    "DESCRIPTION": "Reduce damage taken. Equivalent to #yBlock but does not expire at end of turn. Applied after #yBlock ."
+  },
+  {
+    "NAMES": ["storm_eye"],
+    "DESCRIPTION": "When you play a #yStorm Spear , additionally target units with Storm Eye for 1 extra attack (the extra attack does not apply Storm Eye)."
+  },
+  {
+    "NAMES": ["footwork"],
+    "DESCRIPTION": "This card does not consume Adroit stacks."
+  },
+  {
+    "NAMES": ["combo"],
+    "DESCRIPTION": "If the #yCombo condition is met, this card triggers an additional effect."
+  },
+  {
+    "NAMES": ["combo_chain"],
+    "DESCRIPTION": "When you successfully trigger #yCombo on a card play, count 1 Combo Chain. If you play consecutive cards that trigger #yCombo , the Combo Chain count accumulates until you play a card that does not trigger #yCombo . NL (Playing cards without #yCombo effects will also break the Combo Chain.)"
+  },
+  {
+    "NAMES": ["sharpness"],
+    "DESCRIPTION": "Increases damage dealt by #ySpears ."
+  },
+  {
+    "NAMES": ["messenger"],
+    "DESCRIPTION": "When you successfully trigger #yCombo with a card play, gain 1 stack. At the end of your turn, gain Block equal to your Messenger stacks."
+  },
+  {
+    "NAMES": ["ripple"],
+    "DESCRIPTION": "This card can only be played when your Ripple Level is no less than X."
+  },
+  {
+    "NAMES": ["region"],
+    "DESCRIPTION": "Each #yRegion grants you a unique ability, but you can only benefit from the ability of 1 #yRegion at a time."
+  },
+  {
+    "NAMES": ["water"],
+    "DESCRIPTION": "This region contains #yWater ."
+  },
+  {
+    "NAMES": ["lost"],
+    "DESCRIPTION": "When your #yLost stacks reach your #yRipple Level, lose #b1 #yRipple Level."
+  },
+  {
+    "NAMES": ["camouflage"],
+    "DESCRIPTION": "Damage taken becomes #b0 . Playing an #yAttack card removes #yCamouflage . Each time you are attacked, gain #yLost 1."
+  },
+  {
+    "NAMES": ["neurotoxin"],
+    "DESCRIPTION": "When taking damage from a #ySpear , apply #yToxic to the attacker."
+  },
+  {
+    "NAMES": ["toxic"],
+    "DESCRIPTION": "If the target has #yNeurotoxin , apply 3 #yPoison ."
+  },
+  {
+    "NAMES": ["lightning"],
+    "DESCRIPTION": "Deal #b8 damage to the target. If the target has #yErosion , deal equal damage to all other units with #yErosion ."
+  }
+]

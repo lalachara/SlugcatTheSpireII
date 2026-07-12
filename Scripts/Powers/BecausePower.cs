@@ -1,11 +1,11 @@
-﻿using System.Diagnostics.Metrics;
-using BaseLib.Abstracts;
-using MegaCrit.Sts2.Core.Entities.Cards;
+﻿﻿﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using Rainworld.Scripts;
 using Rainworld.Scripts.Card.Liver.Attack;
+using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Scaffolding.Content;
 
 namespace Rainworld.Scripts.Powers;
 
@@ -23,25 +23,30 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 #nullable enable
-public sealed class BecausePower : CustomPowerModel
+[RegisterPower]
+public sealed class BecausePower : ModPowerTemplate
 {
 
-  public override string? CustomPackedIconPath => "res://Resource/Powers/Because48.png";
-  public override string? CustomBigIconPath => "res://Resource/Powers/Because128.png";
+  public override PowerAssetProfile AssetProfile => new(
+    IconPath: "res://Resource/Powers/Because128.png",
+    BigIconPath: "res://Resource/Powers/Because128.png"
+  );
   
   public override PowerType Type => PowerType.Buff;
 
   public override PowerStackType StackType => PowerStackType.Counter;
   
 
-  public override async Task AfterSideTurnStart(CombatSide side, ICombatState combatState)
-  {
+  public override async Task BeforeSideTurnEnd(
+    PlayerChoiceContext choiceContext,
+    CombatSide side,
+    IEnumerable<Creature> participants)	{
     if (side == base.Owner.Side)
     {
       if (Owner.Player.Character is Slugcat)
       {
         Flash();
-        SlugcatField.GetSlugCatDataByCreature(Owner).addworklevel(-1);
+        SlugcatData.addworklevel(Owner.Player, -1);
       }
       else
       {

@@ -1,0 +1,27 @@
+
+red.png
+size: 626,223
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+图层 1
+  rotate: false
+  xy: 2, 2
+  size: 206, 219
+  orig: 206, 219
+  offset: 0, 0
+  index: -1
+图层 2
+  rotate: false
+  xy: 210, 2
+  size: 206, 219
+  orig: 206, 219
+  offset: 0, 0
+  index: -1
+图层 3
+  rotate: false
+  xy: 418, 2
+  size: 206, 219
+  orig: 206, 219
+  offset: 0, 0
+  index: -1

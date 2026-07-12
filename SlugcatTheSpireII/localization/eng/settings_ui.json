@@ -1,0 +1,14 @@
+{
+  "RAINWORLD-WorkLevel_title":"Karma",
+  "RAINWORLD-WorkLevel_description":"When you take [red]fatal damage[/red], if your [gold]Karma[/gold] is not [blue]1[/blue], [gold]Rebirth[/gold] and lose [red]1[/red] [gold]Karma[/gold].\nCurrent [gold]Karma[/gold]: [blue]{work_level}[/blue]/[blue]{max_work_level}[/blue]",
+  "RAINWORLD-Food_title":"Fullness",
+  "RAINWORLD-Food_description":"In combat, you can spend [gold]Fullness[/gold] to perform [gold]Hibernate[/gold].",
+  "RAINWORLD-Food_Liver_description":"Diet: [gold]Omnivorous[/gold]\nAfter completing a normal [gold]Monster[/gold]/[gold]Elite[/gold]/[gold]Boss[/gold] combat, gain [blue]3[/blue]/[blue]5[/blue]/[blue]7[/blue] [gold]Fullness[/gold]. Entering a non-combat room grants [blue]2[/blue] [gold]Fullness[/gold].",
+  "RAINWORLD-Food_River_description":"Diet: [gold]Omnivorous[/gold]\nAfter completing a normal [gold]Monster[/gold]/[gold]Elite[/gold]/[gold]Boss[/gold] combat, gain [blue]3[/blue]/[blue]5[/blue]/[blue]6[/blue] [gold]Fullness[/gold]. Entering a non-combat room grants [blue]2[/blue] [gold]Fullness[/gold].",
+  "RAINWORLD-Food_RedCat_description":"Diet: [red]Carnivorous[/red]\nAfter completing a normal [gold]Monster[/gold]/[gold]Elite[/gold]/[gold]Boss[/gold] combat, gain [blue]5[/blue]/[blue]7[/blue]/[blue]9[/blue] [gold]Fullness[/gold].",
+
+  "RAINWORLD-Sleep_title":"Hibernate",
+  "RAINWORLD-Sleep_description":"Click this button to spend [gold]Fullness[/gold] to perform [gold]Hibernate[/gold].\nEnd your current turn. If you take no damage until the start of your next turn, gain 1 [gold]Karma[/gold].\nIf your [gold]Karma[/gold] is already full, gain 1 [gold]Karma Lock[/gold] instead.",
+  "RAINWORLD-Corruption_description":"Current Corruption: {corruption_value}/5",
+  "RAINWORLD-Corruption_title":"Corruption"
+}

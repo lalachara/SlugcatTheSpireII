@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using BaseLib.Abstracts;
 using Rainworld.Resource.Card;
 using Godot;
 using MegaCrit.Sts2.Core.Entities.Characters;
@@ -13,56 +12,72 @@ using MegaCrit.Sts2.Core.Models.Characters;
 using MegaCrit.Sts2.Core.Models.PotionPools;
 using MegaCrit.Sts2.Core.Models.RelicPools;
 using MegaCrit.Sts2.Core.Models.Relics;
+using MegaCrit.Sts2.Core.Nodes.Combat;
 using Rainworld.relics;
 using Rainworld.Scripts;
 using Rainworld.Scripts.Card.Liver.Attack;
 using Rainworld.Scripts.Potions;
+using STS2RitsuLib.Data.Models;
+using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Scaffolding.Characters;
+using STS2RitsuLib.Scaffolding.Godot;
+using STS2RitsuLib.Utils;
 
 namespace Rainworld.Scripts;
 
-public sealed class Rainworld_Liver : Slugcat
+[RegisterCharacter]
+public sealed class Rainworld_Liver : Slugcat<Rainworld_Liver_CardPool, Rainworld_Liver_RelicPool, Rainworld_Liver_PotionPool>,Slugcat
 {
-	public int workLevel,maxWorkLevel = 4,food,maxFood=7,sleepfood=4;
+	public int workLevel { get; set; } = 4;
+	public int maxWorkLevel { get; set; } = 4;
+	public int food { get; set; } = 0;
+	public int maxFood { get; set; } = 7;
+	public int sleepfood { get; set; } = 4;	
+	public int enemyfood { get; set; } = 3;
+	public int jyFood { get; set; } = 5;
+	public int bossfood { get; set; } = 7;
+	public int roomfood { get; set; } = 2;
+	
+	public override CharacterAssetProfile AssetProfile => CharacterAssetProfiles.Merge(
+		CharacterAssetProfiles.Ironclad(),
+		new(
+			Scenes: new(
+				VisualsPath: "res://Godot/Character/Liver/Liver.tscn",
+				EnergyCounterPath: "res://Godot/EnergyLable/EnergyCounter.tscn",
+				MerchantAnimPath: "res://Godot/Character/Liver/shop.tscn",
+				RestSiteAnimPath: "res://Godot/Character/Liver/Liver_rest_site.tscn"
+				
+			),
+			Ui: new(
+				IconTexturePath: "res://Godot/Character/Liver/layer4.png",
+				IconPath: "res://Godot/Character/Liver/Head.tscn",
+				CharacterSelectBgPath: "res://Godot/CharacterSelectBgs/LiverSelectBg.tscn",
+				CharacterSelectIconPath: "res://Resource/SlugCat/Liver_Select_Button.png",
+				CharacterSelectLockedIconPath: "res://Resource/SlugCat/Liver_Select_Button.png",
+				IconOutlineTexturePath: "res://Godot/Character/Liver/layer4.png"
+			),
+			Audio: new(
+				CharacterTransitionSfx: "event:/sfx/ui/wipe_ironclad",
+				CharacterSelectSfx: "event:/Rainworld/sfx/Meow"
 
-	public override string CustomVisualPath => "res://Godot/Character/Liver.tscn";
-	// 卡牌拖尾路径。
-	// public override string CustomTrailPath => "res://scenes/vfx/card_trail_ironclad.tscn";
-	// 人物头像路径。
-	public override string CustomIconTexturePath => "res://Godot/Character/Liver/layer4.png";
-	// 人物头像2号。
-	public override string CustomIconPath => "res://Godot/Character/Liver/Head.tscn";
-	
-	// 篝火休息动画。
-	 public override string CustomRestSiteAnimPath => "res://Godot/RestSiteAnim/Liver_rest_site.tscn";
-	// 商店人物动画。
-	 public override string CustomMerchantAnimPath => "res://Godot/RestSiteAnim/liver_merchant.tscn";
-	// 多人模式-手指。
-	// public override string CustomArmPointingTexturePath => null;
-	// 多人模式剪刀石头布-石头。
-	// public override string CustomArmRockTexturePath => null;
-	// 多人模式剪刀石头布-布。
-	// public override string CustomArmPaperTexturePath => null;
-	// 多人模式剪刀石头布-剪刀。
-	// public override string CustomArmScissorsTexturePath => null;
-
-	// 人物选择背景。
-	public override string CustomCharacterSelectBg => "res://Godot/CharacterSelectBgs/LiverSelectBg.tscn";
-	// 人物选择图标。
-	public override string CustomCharacterSelectIconPath => "res://Resource/SlugCat/Liver_Select_Button.png";
-	// 人物选择图标-锁定状态。
-	public override string CustomCharacterSelectLockedIconPath => "res://Resource/SlugCat/Liver_Select_Button.png";
-	
-	public override CardPoolModel CardPool => ModelDb.CardPool<Rainworld_Liver_CardPool>();
-	public override PotionPoolModel PotionPool => ModelDb.PotionPool<Rainworld_Liver_PotionPool>();
-	public override RelicPoolModel RelicPool => ModelDb.RelicPool<Rainworld_Liver_RelicPool>();
-	
-	
+			),
+			Multiplayer: new(
+				// 多人模式-手指。
+				 ArmPointingTexturePath:"res://Godot/Character/Liver/mult_hand_1.png",
+				// 多人模式剪刀石头布-石头。
+				 ArmRockTexturePath:"res://Godot/Character/Liver/mult_hand_0.png",
+				// 多人模式剪刀石头布-布。
+				 ArmPaperTexturePath:"res://Godot/Character/Liver/mult_hand_3.png",
+				// 多人模式剪刀石头布-剪刀。
+				 ArmScissorsTexturePath:"res://Godot/Character/Liver/mult_hand_2.png"
+			)
+			
+			
+		));
 
 	public const string energyColorName = "ironclad";
 
 	public override CharacterGender Gender => CharacterGender.Neutral;
-
-	protected override CharacterModel? UnlocksAfterRunAs => null;
 
 	public override Color NameColor => new(0f, 0f, 0f);
 
@@ -70,30 +85,24 @@ public sealed class Rainworld_Liver : Slugcat
 
 	public override int StartingGold => 99;
 
-	//初始卡牌
-	public override IEnumerable<CardModel> StartingDeck => new CardModel[10]
-	{
-		ModelDb.Card<Rainworld_Liver_Strike>(),
-		ModelDb.Card<Rainworld_Liver_Strike>(),
-		ModelDb.Card<Rainworld_Liver_Strike>(),
-		ModelDb.Card<Rainworld_Liver_Strike>(),
-		ModelDb.Card<Rainworld_Liver_Spear>(),
-		ModelDb.Card<Rainworld_Liver_Defend>(),
-		ModelDb.Card<Rainworld_Liver_Defend>(),
-		ModelDb.Card<Rainworld_Liver_Defend>(),
-		ModelDb.Card<Rainworld_Liver_Defend>(),
-		ModelDb.Card<Rainworld_Liver_Rock>()
-	};
+	protected override IEnumerable<StartingDeckEntry> StartingDeckEntries => [
+		new(typeof(Rainworld_Liver_Strike), 4),
+		new(typeof(Rainworld_Liver_Spear), 1),
+		new(typeof(Rainworld_Liver_Defend), 4),
+		new(typeof(Rainworld_Liver_Rock), 1)
+	];
 
-	public override IReadOnlyList<RelicModel> StartingRelics => new []{(ModelDb.Relic<Liver_Fruit1>())};
+	protected override IEnumerable<Type> StartingRelicTypes => [typeof(Liver_Fruit1)];
 
 	public override float AttackAnimDelay => 0.15f;
 	public override float CastAnimDelay => 0.25f;
 	public override Color EnergyLabelOutlineColor => new(0.1f, 0.1f, 1f);
-	public override Color DialogueColor => new Color("000000");
-	public override Color MapDrawingColor => new Color("000000");
-	public override Color RemoteTargetingLineColor => new Color("000000");
-	public override Color RemoteTargetingLineOutline => new Color("000000");
+	public override Color DialogueColor => new Color("2a2a2a");
+	public override Color MapDrawingColor => new Color("FFFFFF");
+	public override Color RemoteTargetingLineColor => new Color("FFFFFF");
+	public override Color RemoteTargetingLineOutline => new Color("FFFFFF");
+	
+	protected override NCreatureVisuals? TryCreateCreatureVisuals() => RitsuGodotNodeFactories.CreateFromScenePath<NCreatureVisuals>(AssetProfile.Scenes!.VisualsPath!);
 
 	public override List<string> GetArchitectAttackVfx() => [
 		"vfx/vfx_attack_blunt",

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dsoxwhs51ymua"]
 
-[ext_resource type="Texture2D" uid="uid://dm0fp0o3y4cd4" path="res://Godot/Character/Liver/layer4.png" id="1_2rtx4"]
+[ext_resource type="Texture2D"  path="res://Godot/Character/Liver/layer4.png" id="1_2rtx4"]
 
 [node name="Head" type="Control"]
 layout_mode = 3

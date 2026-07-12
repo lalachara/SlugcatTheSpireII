@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Abstracts;
-using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -20,20 +18,21 @@ using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
 using Rainworld.Scripts;
 using Rainworld.Scripts.Card.Liver.Attack;
+using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Scaffolding.Content;
 
 namespace Rainworld.relics;
-[Pool(typeof(Rainworld_Liver_RelicPool))]
-public sealed class Liver_Tubularis : CustomRelicModel
+[RegisterRelic(typeof(Rainworld_Liver_RelicPool))]
+public sealed class Liver_Tubularis : ModRelicTemplate
 {
 	public override RelicRarity Rarity => RelicRarity.Shop;
-	// 小图标
-	public override string PackedIconPath =>  $"res://Resource/Relics/xiguan.png";
-	// 轮廓图标
-	protected override string PackedIconOutlinePath =>  $"res://Resource/Relics/outline/xiguan.png";
-	// 大图标
-	protected override string BigIconPath => $"res://Resource/Relics/xiguan.png";
+	public override RelicAssetProfile AssetProfile => new(
+		IconPath: "res://Resource/Relics/xiguan.png",
+		IconOutlinePath: "res://Resource/Relics/outline/xiguan.png",
+		BigIconPath: "res://Resource/Relics/xiguan.png"
+	);
 
-	protected override IEnumerable<IHoverTip> ExtraHoverTips => new[]
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[]
 	{
 		HoverTipFactory.ForEnergy(this),
 		HoverTipFactory.FromCard<Slimed>()
@@ -63,7 +62,7 @@ public sealed class Liver_Tubularis : CustomRelicModel
 			await PlayerCmd.GainEnergy(1, Owner);
 			if (Owner.Character is Slugcat)
 			{
-				SlugcatField.playerdata?.addfood(1);
+				SlugcatData.addfood(Owner, 1);
 			}
 		}
 	}

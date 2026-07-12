@@ -1,7 +1,8 @@
-﻿using MegaCrit.Sts2.Core.Commands;
+﻿﻿using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
@@ -9,34 +10,38 @@ using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using Rainworld.Scripts;
 using Rainworld.Scripts.Powers;
-using Rainworld.Scripts.Card.CardVars;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
 
-public class Rainworld_Liver_Spearstabhead:LiverCardModelAtk
+public class Rainworld_Liver_Spearstabhead : LiverCardModel
 
 {
     // 基础耗能
     private const int energyCost = 2;
+
     // 卡牌类型
     private const CardType type = CardType.Attack;
+
     // 卡牌稀有度
     private const CardRarity rarity = CardRarity.Uncommon;
+
     // 目标类型（AnyEnemy表示任意敌人）
     private const TargetType targetType = TargetType.AnyEnemy;
+
     // 是否在卡牌图鉴中显示
     private const bool shouldShowInCardLibrary = true;
-    
-    public override IEnumerable<CardKeyword> CanonicalKeywords => new []{RainworldKeywords.Spear,RainworldKeywords.Chuang};
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<ChuangPower>(), HoverTipFactory.FromPower<VulnerablePower>()};
+
+    public override IEnumerable<CardKeyword> CanonicalKeywords =>
+        new[] { RainworldKeywords.Spear };
 
     //public override IEnumerable<CardKeyword> CanonicalKeywords => new []{CardKeyword.Exhaust};
 
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
         new DamageVar(12m, ValueProp.Move),
         new PowerVar<VulnerablePower>(2m)
-
-
     ];
 
     public Rainworld_Liver_Spearstabhead() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -48,22 +53,21 @@ public class Rainworld_Liver_Spearstabhead:LiverCardModelAtk
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
         await DamageCmd
-            .Attack(base.DynamicVars.Damage.BaseValue)
-            .FromCard(this)
+            .Attack(DynamicVars.Damage.BaseValue)
+            .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx(sfx:"event:/Rainworld/sfx/spear")
             .Execute(choiceContext);
-        await PowerCmd.Apply<ChuangPower>(choiceContext,cardPlay.Target, DynamicVars.Vulnerable.BaseValue, base.Owner.Creature, this);
-        await PowerCmd.Apply<VulnerablePower>(choiceContext,cardPlay.Target, DynamicVars.Vulnerable.BaseValue, base.Owner.Creature, this);
-
-        
-
+        await PowerCmd.Apply<ChuangPower>(choiceContext, cardPlay.Target, DynamicVars.Vulnerable.BaseValue,
+            Owner.Creature, this);
+        await PowerCmd.Apply<VulnerablePower>(choiceContext, cardPlay.Target, DynamicVars.Vulnerable.BaseValue,
+            Owner.Creature, this);
     }
 
     // 升级后的效果逻辑
     protected override void OnUpgrade()
     {
-        base.DynamicVars.Damage.UpgradeValueBy(3m);
-        base.DynamicVars.Vulnerable.UpgradeValueBy(1m);
+        DynamicVars.Damage.UpgradeValueBy(3m);
+        DynamicVars.Vulnerable.UpgradeValueBy(1m);
     }
 }

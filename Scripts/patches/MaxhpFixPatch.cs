@@ -1,36 +1,31 @@
-﻿using System.Reflection;
-using HarmonyLib;
-using MegaCrit.Sts2.Core.Commands;
+﻿﻿﻿using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Runs.History;
+using Rainworld.relics;
 using Rainworld.Scripts;
+using STS2RitsuLib.Patching.Models;
 
 namespace Rainworld.Scripts.patches;
 
-[HarmonyPatch]
-public class MaxhpFixPatch
+public sealed class MaxhpFixPatch : IPatchMethod
 {
-    [HarmonyTargetMethod]
-    public static MethodBase TargetMethod()
-    {
-        return AccessTools.Method(
-            typeof(CreatureCmd), 
-            nameof(CreatureCmd.GainMaxHp),
-            new[] { typeof(Creature), typeof(decimal) } // 方法参数类型
-        );
-    }
+	public static string PatchId => "rainworld_maxhp_fix";
+	public static string Description => "蛞蝓猫 GainMaxHp 转为增加食物";
+	public static bool IsCritical => false;
 
-    // 2. Prefix 补丁：核心条件判断
-    // 返回值说明：true = 执行原方法；false = 跳过原方法
-    public static bool Prefix(
-        Creature creature,          // 原方法参数1：目标生物
-        decimal amount,             // 原方法参数2：增加的最大血量
-        ref Task __result  // 原方法返回值（async Task<decimal>）
-    )
+	public static ModPatchTarget[] GetTargets() =>
+		[new(typeof(CreatureCmd), nameof(CreatureCmd.GainMaxHp), new[] { typeof(Creature), typeof(decimal) })];
+
+	public static bool Prefix(
+		Creature creature,
+		decimal amount,
+		ref Task __result
+	)
     {
         
         // ========== 第二步：根据条件执行逻辑 ==========
-        if (creature.Player.Character is Slugcat||amount>10000)
+        if (creature.Player?.Character is Slugcat&&creature.Player.GetRelic<Redmushroom>()==null)
         {
             // 跳过原方法，执行你的自定义逻辑
             __result = CustomGainMaxHpLogic(creature, amount);
@@ -43,9 +38,9 @@ public class MaxhpFixPatch
     }
     private static async Task CustomGainMaxHpLogic(Creature creature, decimal amount)
     {
-        if (amount > 10000)
+        if (amount>=5)
         {
-            amount-=10000;
+            amount /= 5;
             Decimal amount1 = await CreatureCmd.SetMaxHp(creature, (Decimal) creature.MaxHp + amount);
             MapPointHistoryEntry pointHistoryEntry = creature.Player?.RunState.CurrentMapPointHistoryEntry;
             if (pointHistoryEntry != null)
@@ -54,10 +49,38 @@ public class MaxhpFixPatch
         }
         else
         {
-            SlugcatField.GetSlugCatDataByCreature(creature).addfood((int)amount);
+            SlugcatData.addfood(creature.Player, (int)amount);
             
         }
 
        
+    }
+    
+    
+
+}
+
+public sealed class LoseMaxHpPatch : IPatchMethod
+{
+    public static string PatchId => "rainworld_lose_max_hp";
+    public static string Description => "蛞蝓猫单次失去生命上限固定为1";
+    public static bool IsCritical => false;
+
+    public static ModPatchTarget[] GetTargets() =>
+        [new(typeof(CreatureCmd), nameof(CreatureCmd.LoseMaxHp), new[] { typeof(PlayerChoiceContext), typeof(Creature), typeof(Decimal), typeof(bool) })];
+
+    public static bool Prefix(
+        PlayerChoiceContext choiceContext,
+        Creature creature,
+        ref Decimal amount,
+        bool isFromCard
+    )
+    {
+        if (creature.Player?.Character is Slugcat)
+        {
+            amount = 1;
+        }
+
+        return true;
     }
 }

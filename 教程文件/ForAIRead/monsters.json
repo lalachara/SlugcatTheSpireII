@@ -1,0 +1,50 @@
+{
+  "Liver:Cabrite": {
+    "NAME": "Lizard"
+  },
+  "Liver:RedCabrite": {
+    "NAME": "Red Lizard"
+  },
+  "Liver:GreenCabrite": {
+    "NAME": "Green Lizard",
+    "DIALOG": ["and provides you with #b"," block."]
+  },
+  "Liver:IronBird": {
+    "NAME": "Steel Vulture"
+  },
+  "Liver:MushRoom": {
+    "NAME": "Mutant Leggy Mushroom"
+  },
+  "Rainworld:ThreeChicken": {
+    "NAME": "Inspector",
+    "DIALOG":["~cat……have a touch……~","@continue……patrol……@","clearing danger..."]
+  },
+  "Rainworld:FireCent": {
+    "NAME": "Red Centipede"
+  },
+  "Rainworld:WaterCent": {
+    "NAME": "Aquapede"
+  },
+  "Monk:Test": {
+    "NAME": "Test Ally"
+  },
+  "Monk:YellowCab": {
+    "NAME": "Yellow Lizard",
+    "DIALOG":["and attempts to summon a #yGolden Lizard ally."]
+  },
+  "Monk:BlackCab": {
+    "NAME": "Black Lizard",
+    "DIALOG":["When you play an #yAttack card, this unit acts an additional time."]
+  },
+  "Monk:SugarCab": {
+    "NAME": "Caramel Lizard"
+  },
+  "Monk:FireCab": {
+    "NAME": "Red Lizard",
+    "DIALOG":["Gain #b1 Strength, apply #b1 Vulnerable to target."]
+  },
+  "Monk:Monkey": {
+    "NAME": "Scavenger",
+    "DIALOG":["Provides you with #b3 Gold. When you play a #yScavenger's Treasure, this unit acts an additional time."]
+  }
+}

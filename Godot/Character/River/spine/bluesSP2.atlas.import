@@ -1,0 +1,16 @@
+[remap]
+
+importer="spine.atlas"
+type="SpineAtlasResource"
+uid="uid://ckh5xvliybig3"
+path="res://.godot/imported/bluesSP2.atlas-3dbf26396256e6308062a9b83a99661f.spatlas"
+
+[deps]
+
+source_file="res://Godot/Character/River/spine/bluesSP2.atlas"
+dest_files=["res://.godot/imported/bluesSP2.atlas-3dbf26396256e6308062a9b83a99661f.spatlas"]
+
+[params]
+
+normal_map_prefix="n"
+specular_map_prefix="s"

@@ -1,0 +1,52 @@
+[gd_scene load_steps=2 format=3 uid="uid://fc5x7hciyofl"]
+
+[ext_resource type="SpineSkeletonDataResource" uid="uid://bpsjeciph4mqm" path="res://Godot/Character/Liver/spine/rest.tres" id="1_2gdqj"]
+
+[node name="IroncladRestSite" type="Node2D"]
+position = Vector2(6.0000005, 25)
+scale = Vector2(-0.7, 0.7)
+
+[node name="Node" type="SpineSprite" parent="."]
+skeleton_data_res = ExtResource("1_2gdqj")
+preview_skin = "Default"
+preview_animation = "-- Empty --"
+preview_frame = false
+preview_time = 0.0
+position = Vector2(32.572117, 109.758514)
+scale = Vector2(2.2, 2.2)
+
+[node name="ControlRoot" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="SelectionReticle" type="Control" parent="ControlRoot"]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_left = -153.0
+offset_top = -350.0
+offset_right = 267.0
+offset_bottom = 320.0
+
+[node name="Hitbox" type="Control" parent="ControlRoot"]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_left = -160.52504
+offset_top = -371.04968
+offset_right = 260.47498
+offset_bottom = 311.95032
+
+[node name="ThoughtBubbleRight" type="Control" parent="ControlRoot"]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_left = 209.209
+offset_top = -317.103
+offset_right = 209.209
+offset_bottom = -317.103
+
+[node name="ThoughtBubbleLeft" type="Control" parent="ControlRoot"]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_left = -73.6836
+offset_top = -324.997
+offset_right = -73.6836
+offset_bottom = -324.997

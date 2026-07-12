@@ -1,0 +1,56 @@
+﻿﻿using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Powers;
+using Rainworld.Scripts.Card.Liver.Attack;
+using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Scaffolding.Content;
+
+namespace Rainworld.Scripts.Powers;
+
+using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Powers;
+using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.ValueProps;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+#nullable enable
+[RegisterPower]
+public sealed class BloodPower : ModPowerTemplate
+{
+    public override PowerAssetProfile AssetProfile => new(
+        IconPath: "res://Resource/Powers/Fake128.png",
+        BigIconPath: "res://Resource/Powers/Fake128.png"
+    );
+    
+    public override PowerType Type => PowerType.Buff;
+    public override PowerStackType StackType => PowerStackType.Counter;
+    bool wait = true;
+
+    
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+        new[] {         HoverTipFactory.FromPower<StrengthPower>()
+        };
+    
+    public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target,
+        DamageResult _, ValueProp props, Creature? dealer, CardModel? __)
+    {
+        if (target != Owner || dealer == null || props == ValueProp.Unpowered)
+            return;
+
+        if (_.UnblockedDamage == 0)
+        {
+            return;
+        }
+        await PowerCmd.Apply<StrengthPower>(choiceContext, Owner, (int)_.UnblockedDamage*Amount, Owner, null);
+        
+   
+        
+    }
+
+   
+}

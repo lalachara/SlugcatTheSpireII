@@ -1,0 +1,27 @@
+
+white.png
+size: 749,291
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+white1
+  rotate: false
+  xy: 2, 2
+  size: 247, 287
+  orig: 247, 287
+  offset: 0, 0
+  index: -1
+white2
+  rotate: false
+  xy: 251, 2
+  size: 247, 287
+  orig: 247, 287
+  offset: 0, 0
+  index: -1
+white3
+  rotate: false
+  xy: 500, 2
+  size: 247, 287
+  orig: 247, 287
+  offset: 0, 0
+  index: -1

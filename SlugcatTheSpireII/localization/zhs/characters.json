@@ -1,63 +1,94 @@
 ﻿{
   // 混沌香气事件中的内心独白
-  "RAINWORLD-RAINWORLD_LIVER.aromaPrinciple": "[sine][blue]……喵……[/blue][/sine]",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_LIVER.aromaPrinciple": "[sine][blue]……喵……[/blue][/sine]",
   // 多人模式：存活时回合结束对白
-  "RAINWORLD-RAINWORLD_LIVER.banter.alive.endTurnPing": "…喵？…",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_LIVER.banter.alive.endTurnPing": "…喵？…",
   // 多人模式：死亡后回合结束对白
-  "RAINWORLD-RAINWORLD_LIVER.banter.dead.endTurnPing": "…喵！…",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_LIVER.banter.dead.endTurnPing": "…喵！…",
   // 自定义模式文本
-  "RAINWORLD-RAINWORLD_LIVER.cardsModifierDescription": "求生者的卡牌现在会出现在奖励和商店中。",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_LIVER.cardsModifierDescription": "求生者的卡牌现在会出现在奖励和商店中。",
   // 卡池名字
-  "RAINWORLD-RAINWORLD_LIVER.cardsModifierTitle": "求生者卡牌",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_LIVER.cardsModifierTitle": "求生者卡牌",
   // 角色选择界面描述
-  "RAINWORLD-RAINWORLD_LIVER.description": "一只流浪的蛞蝓猫。\n在周而复始的生态轮回中，它既是捕食者又是猎物。",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_LIVER.description": "一只流浪的蛞蝓猫。\n在周而复始的生态轮回中，它既是捕食者又是猎物。",
   // 死亡时事件对话
-  "RAINWORLD-RAINWORLD_LIVER.eventDeathPrevention": "×.×",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_LIVER.eventDeathPrevention": "×.×",
   // 沉没宝库事件中对金币的独白
-  "RAINWORLD-RAINWORLD_LIVER.goldMonologue": "[sine]喵喵……喵喵喵喵喵……[/sine]",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_LIVER.goldMonologue": "[sine]喵喵……喵喵喵喵喵……[/sine]",
   // 物主形容词，用于动态文本
-  "RAINWORLD-RAINWORLD_LIVER.possessiveAdjective": "它的",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_LIVER.possessiveAdjective": "它的",
   // 宾语代词
-  "RAINWORLD-RAINWORLD_LIVER.pronounObject": "它",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_LIVER.pronounObject": "它",
   // 所有格代词
-  "RAINWORLD-RAINWORLD_LIVER.pronounPossessive": "它的",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_LIVER.pronounPossessive": "它的",
   // 主语代词
-  "RAINWORLD-RAINWORLD_LIVER.pronounSubject": "它",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_LIVER.pronounSubject": "它",
   // 角色名（标题用）
-  "RAINWORLD-RAINWORLD_LIVER.title": "求生者",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_LIVER.title": "求生者",
   // 角色名（作宾语用）
-  "RAINWORLD-RAINWORLD_LIVER.titleObject": "白猫",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_LIVER.titleObject": "白猫",
   // 解锁条件文案，{Prerequisite} 会被替换
-  "RAINWORLD-RAINWORLD_LIVER.unlockText": "进行一局游戏来解锁这个角色。",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_LIVER.unlockText": "进行一局游戏来解锁这个角色。",
 
   // 混沌香气事件中的内心独白
-  "RAINWORLD-RAINWORLD_REDCAT.aromaPrinciple": "[sine][blue]……喵……[/blue][/sine]",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_REDCAT.aromaPrinciple": "[sine][blue]……喵……[/blue][/sine]",
   // 多人模式：存活时回合结束对白
-  "RAINWORLD-RAINWORLD_REDCAT.banter.alive.endTurnPing": "…喵？…",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_REDCAT.banter.alive.endTurnPing": "…喵？…",
   // 多人模式：死亡后回合结束对白
-  "RAINWORLD-RAINWORLD_REDCAT.banter.dead.endTurnPing": "…喵！…",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_REDCAT.banter.dead.endTurnPing": "…喵！…",
   // 自定义模式文本
-  "RAINWORLD-RAINWORLD_REDCAT.cardsModifierDescription": "求生者的卡牌现在会出现在奖励和商店中。",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_REDCAT.cardsModifierDescription": "猎手的卡牌现在会出现在奖励和商店中。",
   // 卡池名字
-  "RAINWORLD-RAINWORLD_REDCAT.cardsModifierTitle": "求生者卡牌",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_REDCAT.cardsModifierTitle": "猎手卡牌",
   // 角色选择界面描述
-  "RAINWORLD-RAINWORLD_REDCAT.description": "一只流浪的蛞蝓猫。\n在周而复始的生态轮回中，它既是捕食者又是猎物。",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_REDCAT.description": "强壮而迅捷，且新陈代谢旺盛，需要持续进食肉类。 \n 但饥饿并非唯一的挑战，因为它将面对一段极端艰险的旅途。",
   // 死亡时事件对话
-  "RAINWORLD-RAINWORLD_REDCAT.eventDeathPrevention": "×.×",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_REDCAT.eventDeathPrevention": "×.×",
   // 沉没宝库事件中对金币的独白
-  "RAINWORLD-RAINWORLD_REDCAT.goldMonologue": "[sine]喵喵……喵喵喵喵喵……[/sine]",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_REDCAT.goldMonologue": "[sine]喵喵……喵喵喵喵喵……[/sine]",
   // 物主形容词，用于动态文本
-  "RAINWORLD-RAINWORLD_REDCAT.possessiveAdjective": "它的",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_REDCAT.possessiveAdjective": "它的",
   // 宾语代词
-  "RAINWORLD-RAINWORLD_REDCAT.pronounObject": "它",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_REDCAT.pronounObject": "它",
   // 所有格代词
-  "RAINWORLD-RAINWORLD_REDCAT.pronounPossessive": "它的",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_REDCAT.pronounPossessive": "它的",
   // 主语代词
-  "RAINWORLD-RAINWORLD_REDCAT.pronounSubject": "它",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_REDCAT.pronounSubject": "它",
   // 角色名（标题用）
-  "RAINWORLD-RAINWORLD_REDCAT.title": "求生者",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_REDCAT.title": "猎手",
   // 角色名（作宾语用）
-  "RAINWORLD-RAINWORLD_REDCAT.titleObject": "白猫",
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_REDCAT.titleObject": "红猫",
   // 解锁条件文案，{Prerequisite} 会被替换
-  "RAINWORLD-RAINWORLD_REDCAT.unlockText": "进行一局游戏来解锁这个角色。"
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_REDCAT.unlockText": "进行一局游戏来解锁这个角色。",
+
+  // 混沌香气事件中的内心独白
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_RIVER.aromaPrinciple": "[sine][blue]……喵……[/blue][/sine]",
+  // 多人模式：存活时回合结束对白
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_RIVER.banter.alive.endTurnPing": "…喵？…",
+  // 多人模式：死亡后回合结束对白
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_RIVER.banter.dead.endTurnPing": "…喵！…",
+  // 自定义模式文本
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_RIVER.cardsModifierDescription": "溪流的卡牌现在会出现在奖励和商店中。",
+  // 卡池名字
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_RIVER.cardsModifierTitle": "溪流卡牌",
+  // 角色选择界面描述
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_RIVER.description": "能够在水下呼吸，轻巧地穿梭于世界之中。 \n 这些进化至关重要，因为你将面对一个洪水愈加泛滥的世界，时间弥足珍贵。",
+  // 死亡时事件对话
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_RIVER.eventDeathPrevention": "×.×",
+  // 沉没宝库事件中对金币的独白
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_RIVER.goldMonologue": "[sine]喵喵……喵喵喵喵喵……[/sine]",
+  // 物主形容词，用于动态文本
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_RIVER.possessiveAdjective": "它的",
+  // 宾语代词
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_RIVER.pronounObject": "它",
+  // 所有格代词
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_RIVER.pronounPossessive": "它的",
+  // 主语代词
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_RIVER.pronounSubject": "它",
+  // 角色名（标题用）
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_RIVER.title": "溪流",
+  // 角色名（作宾语用）
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_RIVER.titleObject": "水猫",
+  // 解锁条件文案，{Prerequisite} 会被替换
+  "SLUGCAT_THE_SPIRE_II_CHARACTER_RAINWORLD_RIVER.unlockText": "进行一局游戏来解锁这个角色。"
 }

@@ -1,0 +1,14 @@
+[remap]
+
+importer="spine.skel"
+type="SpineSkeletonFileResource"
+uid="uid://de7seskw0cifd"
+path="res://.godot/imported/rest.skel-22f25ecadb71643a89899c729b15a572.spskel"
+
+[deps]
+
+source_file="res://Godot/Character/RedCat/spine/rest.skel"
+dest_files=["res://.godot/imported/rest.skel-22f25ecadb71643a89899c729b15a572.spskel"]
+
+[params]
+

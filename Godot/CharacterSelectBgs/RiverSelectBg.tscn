@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://vxd4phhk31jn"]
+
+[ext_resource type="Texture2D" uid="uid://dhs407bl8j6vx" path="res://Godot/CharacterSelectBgs/MenuBg4.png" id="1_wwem5"]
+
+[node name="LiverSelectBg" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="MenuBg1" type="Sprite2D" parent="."]
+position = Vector2(1450, 600)
+texture = ExtResource("1_wwem5")

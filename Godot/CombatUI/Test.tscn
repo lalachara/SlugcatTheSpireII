@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cy2n2tkswd32l"]
 
-[ext_resource type="Script" uid="uid://c2cj0v8t7tf0d" path="res://Godot/CombatUI/NAutoButton.cs" id="1_k67k1"]
-[ext_resource type="Texture2D" uid="uid://do8175o7lmj6l" path="res://Godot/CombatUI/Sleep.png" id="2_image"]
+[ext_resource type="Script" path="res://Godot/CombatUI/NAutoButton.cs" id="1_k67k1"]
+[ext_resource type="Texture2D" path="res://Godot/CombatUI/Sleep.png" id="2_image"]
 
 [node name="MyButton" type="Control"]
 layout_mode = 3

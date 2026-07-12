@@ -1,4 +1,4 @@
-﻿using MegaCrit.Sts2.Core.Commands;
+﻿﻿using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -8,30 +8,35 @@ using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using Rainworld.Scripts;
-using Rainworld.Scripts.Card.CardVars;
 using Rainworld.Scripts.Powers;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
 
-public class Rainworld_Liver_Spearboom:LiverCardModelAtk
+public class Rainworld_Liver_Spearboom : LiverCardModel
 
 {
     // 基础耗能
     private const int energyCost = 2;
+
     // 卡牌类型
     private const CardType type = CardType.Attack;
+
     // 卡牌稀有度
     private const CardRarity rarity = CardRarity.Uncommon;
+
     // 目标类型（AnyEnemy表示任意敌人）
     private const TargetType targetType = TargetType.AnyEnemy;
+
     // 是否在卡牌图鉴中显示
     private const bool shouldShowInCardLibrary = true;
-    
-    public override IEnumerable<CardKeyword> CanonicalKeywords => new []{CardKeyword.Exhaust,RainworldKeywords.Spear,RainworldKeywords.Treasure};
+
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[]
+        { CardKeyword.Exhaust, RainworldKeywords.Spear, RainworldKeywords.Treasure };
 
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(8m, ValueProp.Move),
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new DamageVar(8m, ValueProp.Move)
     ];
 
     public Rainworld_Liver_Spearboom() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -43,25 +48,22 @@ public class Rainworld_Liver_Spearboom:LiverCardModelAtk
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
         await DamageCmd
-            .Attack(base.DynamicVars.Damage.BaseValue)
-            .FromCard(this)
+            .Attack(DynamicVars.Damage.BaseValue)
+            .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx(sfx:"event:/Rainworld/sfx/bombspear")
             .Execute(choiceContext);
         await Cmd.Wait(0.5f);
-        foreach (Creature m in base.CombatState.HittableEnemies)
-        {
+        foreach (var m in CombatState.HittableEnemies)
             await DamageCmd
                 .Attack(DynamicVars.Damage.BaseValue)
-                .FromCard(this)
+                .FromCard(this, cardPlay)
                 .Targeting(m)
                 .WithHitFx("vfx/vfx_attack_slash")
-                .Execute(choiceContext);   
-        }
-        
-        CardModel card = base.CombatState.CreateCard<Rainworld_Liver_Spear>(base.Owner);
-        CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Discard,Owner));
+                .Execute(choiceContext);
 
+        CardModel card = CombatState.CreateCard<Rainworld_Liver_Spear>(Owner);
+        CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Discard, Owner));
     }
 
     // 升级后的效果逻辑

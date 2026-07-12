@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=3 uid="uid://dsk16dykfssrg"]
+
+[ext_resource type="Script" uid="uid://c53ajo03tw1x" path="res://Godot/Character/Liver/NLiver.cs" id="1_rbn6m"]
+[ext_resource type="SpineSkeletonDataResource" uid="uid://50og41srdhn6" path="res://Godot/Character/Liver/SlugCat_Liver.tres" id="3_vfdst"]
+
+[node name="Liver" type="Node2D"]
+light_mask = 0
+script = ExtResource("1_rbn6m")
+
+[node name="Visuals" type="SpineSprite" parent="."]
+skeleton_data_res = ExtResource("3_vfdst")
+preview_skin = "default"
+preview_animation = "idle_loop"
+preview_frame = false
+preview_time = 0.0
+unique_name_in_owner = true
+scale = Vector2(0.6, 0.6)
+
+[node name="Bounds" type="Control" parent="."]
+unique_name_in_owner = true
+modulate = Color(0, 1, 1, 1)
+layout_mode = 3
+anchors_preset = 0
+offset_left = -96.0
+offset_top = -259.0
+offset_right = 104.0
+offset_bottom = 41.0
+metadata/_edit_use_anchors_ = true
+
+[node name="IntentPos" type="Marker2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CenterPos" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(4, -49)
+
+[node name="TalkPos" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(58, -117)

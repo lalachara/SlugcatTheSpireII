@@ -6,25 +6,31 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
 
-public class Rainworld_Liver_Strike:LiverCardModelAtk
+public class Rainworld_Liver_Strike : LiverCardModel
 
 {
     // 基础耗能
     private const int energyCost = 1;
+
     // 卡牌类型
     private const CardType type = CardType.Attack;
+
     // 卡牌稀有度
     private const CardRarity rarity = CardRarity.Basic;
+
     // 目标类型（AnyEnemy表示任意敌人）
     private const TargetType targetType = TargetType.AnyEnemy;
+
     // 是否在卡牌图鉴中显示
     private const bool shouldShowInCardLibrary = true;
-    
-    protected override HashSet<CardTag> CanonicalTags => new HashSet<CardTag> { CardTag.Strike ,Tools.CatStrike_Tag};
+
+    protected override HashSet<CardTag> CanonicalTags => new() { CardTag.Strike };
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { RainworldKeywords.CatStrike };
 
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(6m, ValueProp.Move),
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new DamageVar(6m, ValueProp.Move)
     ];
 
     public Rainworld_Liver_Strike() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -36,8 +42,8 @@ public class Rainworld_Liver_Strike:LiverCardModelAtk
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
         await DamageCmd
-            .Attack(base.DynamicVars.Damage.BaseValue)
-            .FromCard(this)
+            .Attack(DynamicVars.Damage.BaseValue)
+            .FromCard(this,cardPlay)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);

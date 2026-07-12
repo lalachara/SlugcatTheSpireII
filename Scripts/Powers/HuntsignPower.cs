@@ -1,12 +1,13 @@
-﻿using System.Diagnostics.Metrics;
-using BaseLib.Abstracts;
-using Godot;
+﻿﻿﻿﻿using Godot;
 using MegaCrit.Sts2.Core.Commands.Builders;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
+using Rainworld.relics;
 using Rainworld.Scripts;
+using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Scaffolding.Content;
 
 namespace Rainworld.Scripts.Powers;
 
@@ -24,14 +25,18 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 #nullable enable
-public sealed class HuntsignPower : CustomPowerModel
+[RegisterPower]
+public sealed class HuntsignPower : ModPowerTemplate
 {
+  public static event Action<Creature>? OnMarkedCreatureKilled;
   
   public override PowerType Type => PowerType.Debuff;
   private Boolean active = false;
   
-  public override string? CustomPackedIconPath => "res://Resource/Powers/Huntbuff48.png";
-  public override string? CustomBigIconPath => "res://Resource/Powers/Huntbuff128.png";
+  public override PowerAssetProfile AssetProfile => new(
+    IconPath: "res://Resource/Powers/Huntbuff128.png",
+    BigIconPath: "res://Resource/Powers/Huntbuff128.png"
+  );
 
   public override PowerStackType StackType => PowerStackType.Counter;
   
@@ -42,23 +47,14 @@ public sealed class HuntsignPower : CustomPowerModel
   {
     if (target == base.Owner && dealer != null && (props!=ValueProp.Unpowered || cardSource is Omnislice))
     {
-      if (dealer.Player.Character is Slugcat)
+      if (dealer.Player?.Character is Slugcat)
       {
-        SlugcatField.GetSlugCatDataByCreature(Owner).addfood(Amount);
-
+        await SlugcatData.addfood(dealer.Player, 1);
+        if(dealer.Player.GetRelic<Redcat_Book2>()==null)
+          await PowerCmd.Decrement(this);
       }
     }
   }
 
-  public override async Task BeforeTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
-  {
-    if (side == CombatSide.Enemy)
-    {
-      
-        await PowerCmd.Decrement(this);
-        
-    }
-  }
-  
 
 }

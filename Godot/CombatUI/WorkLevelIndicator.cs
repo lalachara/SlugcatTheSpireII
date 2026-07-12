@@ -7,6 +7,8 @@ using MegaCrit.Sts2.Core.Nodes.HoverTips;
 using MegaCrit.Sts2.Core.Nodes.GodotExtensions;
 using Rainworld.Patches;
 using Rainworld.Scripts;
+using Rainworld.Scripts.Powers;
+using STS2RitsuLib.Combat.SecondaryResources;
 
 // 完全抄你的：继承 NButton
 public partial class WorkLevelIndicator : NButton
@@ -45,7 +47,7 @@ public partial class WorkLevelIndicator : NButton
 	private IHoverTip _hoverTip,_hoverTipFood;
 	private LocString workleveltitle = new LocString("settings_ui", "RAINWORLD-WorkLevel_title");
 	private LocString foodtitle = new LocString("settings_ui", "RAINWORLD-Food_title");
-	private LocString fooddes = new LocString("settings_ui", "RAINWORLD-Food_description");
+	private LocString fooddes ;
 	private HoverTip FoodHoverTip;
 
 	public override void _Ready()
@@ -59,22 +61,39 @@ public partial class WorkLevelIndicator : NButton
 			_mushroomTexture = GD.Load<Texture2D>(MushroomTexturePath);
 			_maxLevel = (int)(_baseTexture.GetHeight() / SQUARE_SIZE) - 1;
 			_workLevelSprite.Texture = GetCurrentTexture();
+			_workLevelSprite.Modulate = GetSpriteModulate();
 			_workLevelSprite.RegionEnabled = true;
 			_workLevelSprite.Centered = false;
 			_workLevelSprite.TextureFilter = CanvasItem.TextureFilterEnum.Nearest;
 			UpdateSpriteUV(_currentWorkLevel);
 
 			InitFoodSystem();
-			FoodHoverTip =  new HoverTip(foodtitle,fooddes);
+
+			// 动态更新数值
+
 
 	}
 
 	protected override void OnFocus()
 	{
-		// 动态更新数值
+		if (CombatUiPatch.creature != null && CombatUiPatch.creature.Player?.Character is Slugcat slugcat)
+		{
+			if(slugcat is Rainworld_Liver)
+				fooddes = new LocString("settings_ui", "RAINWORLD-Food_Liver_description");
+			else if(slugcat is Rainworld_Redcat)
+			{
+				fooddes = new LocString("settings_ui", "RAINWORLD-Food_RedCat_description");
+			}
+			else if(slugcat is Rainworld_River)
+			{
+				fooddes = new LocString("settings_ui", "RAINWORLD-Food_River_description");
+			}
+		}
+		FoodHoverTip =  new HoverTip(foodtitle,fooddes);
+
 		LocString locString = new LocString("settings_ui", "RAINWORLD-WorkLevel_description");
-		locString.Add("work_level", SlugcatField.playerdata.workLevel + 1);
-		locString.Add("max_work_level", SlugcatField.playerdata.maxWorkLevel + 1);
+		locString.Add("work_level", SlugcatData.GetWorkLevel(CombatUiPatch.creature.Player)+1);
+		locString.Add("max_work_level", SlugcatData.GetMaxWorkLevel(CombatUiPatch.creature.Player)+1);
 		_hoverTip = new HoverTip(workleveltitle, locString);
 		
 		IEnumerable<IHoverTip> hoverTips = new []{_hoverTip,FoodHoverTip};
@@ -117,6 +136,7 @@ public partial class WorkLevelIndicator : NButton
 		_foodContainer.OffsetTop = 20;
 		_foodContainer.OffsetLeft = -50; 
 		_foodContainer.Alignment = BoxContainer.AlignmentMode.Center;
+		
 		AddChild(_foodContainer);
 	}
 
@@ -139,7 +159,17 @@ public partial class WorkLevelIndicator : NButton
 		_sleepFood = value;
 		RefreshFoodVisuals();
 	}
+	public override void _Process(double delta)
+	{
+		_workLevelSprite.Texture = GetCurrentTexture();
+		_workLevelSprite.Modulate = GetSpriteModulate();
+	}
 
+	private Color GetSpriteModulate()
+	{
+		return HasRedMushroomBuff() ? new Color(1, 0, 0, 1) : Colors.White;
+	}
+	
 	private void RebuildFoodIcons()
 	{
 		foreach (var c in _foodIcons) c.QueueFree();
@@ -203,8 +233,8 @@ public partial class WorkLevelIndicator : NButton
 		return _baseTexture;
 	}
 
-	private bool HasRedMushroomBuff() => false;
-	private bool HasWorkLevelLockBuff() => false;
+	private bool HasRedMushroomBuff() => (CombatUiPatch.creature?.HasPower<WorkerrorPower>()??false)||((CombatUiPatch.creature?.HasPower<RedmushroomPower>()??false)&&!CombatUiPatch.creature.HasPower<RefusePower>());
+	private bool HasWorkLevelLockBuff() => CombatUiPatch.creature?.HasPower<WorklockPower>() ?? false;
 
 	public void UpdateWorkLevel(int newLevel)
 	{

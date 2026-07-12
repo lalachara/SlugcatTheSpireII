@@ -1,0 +1,27 @@
+
+blue.png
+size: 452,163
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+图层 1
+  rotate: false
+  xy: 2, 2
+  size: 148, 159
+  orig: 148, 159
+  offset: 0, 0
+  index: -1
+图层 2
+  rotate: false
+  xy: 152, 2
+  size: 148, 159
+  orig: 148, 159
+  offset: 0, 0
+  index: -1
+图层 3
+  rotate: false
+  xy: 302, 2
+  size: 148, 159
+  orig: 148, 159
+  offset: 0, 0
+  index: -1

@@ -1,4 +1,3 @@
-using BaseLib;
 using Godot;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Context;

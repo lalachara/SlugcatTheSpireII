@@ -2,6 +2,7 @@
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
@@ -9,32 +10,37 @@ using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using Rainworld.Scripts;
 using Rainworld.Scripts.Powers;
-using Rainworld.Scripts.Card.CardVars;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
 
-public class Rainworld_Liver_Speardouble:LiverCardModelAtk
+public class Rainworld_Liver_Speardouble : LiverCardModel
 
 {
     // 基础耗能
     private const int energyCost = 2;
+
     // 卡牌类型
     private const CardType type = CardType.Attack;
+
     // 卡牌稀有度
     private const CardRarity rarity = CardRarity.Common;
+
     // 目标类型（AnyEnemy表示任意敌人）
     private const TargetType targetType = TargetType.AnyEnemy;
+
     // 是否在卡牌图鉴中显示
     private const bool shouldShowInCardLibrary = true;
-    
-    public override IEnumerable<CardKeyword> CanonicalKeywords => new []{RainworldKeywords.Spear,RainworldKeywords.Chuang};
+
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<ChuangPower>() };
+
 
     //public override IEnumerable<CardKeyword> CanonicalKeywords => new []{CardKeyword.Exhaust};
 
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
         new DamageVar(6m, ValueProp.Move),
-        new DynamicVar("Chuang", 2m)
+        new("Chuang", 2m)
     ];
 
     public Rainworld_Liver_Speardouble() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -46,23 +52,23 @@ public class Rainworld_Liver_Speardouble:LiverCardModelAtk
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
         await DamageCmd
-            .Attack(base.DynamicVars.Damage.BaseValue)
-            .FromCard(this)
+            .Attack(DynamicVars.Damage.BaseValue)
+            .FromCard(this,cardPlay)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx(sfx:"event:/Rainworld/sfx/spear")
             .Execute(choiceContext);
-        await PowerCmd.Apply<ChuangPower>(choiceContext,cardPlay.Target, DynamicVars["Chuang"].BaseValue, base.Owner.Creature, this);
+        await PowerCmd.Apply<ChuangPower>(choiceContext, cardPlay.Target, DynamicVars["Chuang"].BaseValue,
+            Owner.Creature, this);
         await DamageCmd
-            .Attack(base.DynamicVars.Damage.BaseValue)
-            .FromCard(this)
+            .Attack(DynamicVars.Damage.BaseValue)
+            .FromCard(this,cardPlay)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx(sfx:"event:/Rainworld/sfx/spear")
             .Execute(choiceContext);
-        await PowerCmd.Apply<ChuangPower>(choiceContext,cardPlay.Target,DynamicVars["Chuang"].BaseValue, base.Owner.Creature, this);
+        await PowerCmd.Apply<ChuangPower>(choiceContext, cardPlay.Target, DynamicVars["Chuang"].BaseValue,
+            Owner.Creature, this);
 
         await Cmd.Wait(0.5f);
-        
-
     }
 
     // 升级后的效果逻辑

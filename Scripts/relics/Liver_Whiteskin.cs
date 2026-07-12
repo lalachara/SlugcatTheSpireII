@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Abstracts;
-using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.Factories;
@@ -21,18 +20,19 @@ using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
 using Rainworld.Scripts;
 using Rainworld.Scripts.Card.Liver.Attack;
+using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Scaffolding.Content;
 
 namespace Rainworld.relics;
-[Pool(typeof(Rainworld_Liver_RelicPool))]
-public sealed class Liver_Whiteskin : CustomRelicModel
+[RegisterRelic(typeof(Rainworld_Liver_RelicPool))]
+public sealed class Liver_Whiteskin : ModRelicTemplate
 {
-	public override RelicRarity Rarity => RelicRarity.Rare;
-	// 小图标
-	public override string PackedIconPath =>  $"res://Resource/Relics/whiteskin.png";
-	// 轮廓图标
-	protected override string PackedIconOutlinePath =>  $"res://Resource/Relics/outline/whiteskin.png";
-	// 大图标
-	protected override string BigIconPath => $"res://Resource/Relics/whiteskin.png";
+	public override RelicRarity Rarity => RelicRarity.Ancient;
+	public override RelicAssetProfile AssetProfile => new(
+		IconPath: "res://Resource/Relics/whiteskin.png",
+		IconOutlinePath: "res://Resource/Relics/outline/whiteskin.png",
+		BigIconPath: "res://Resource/Relics/whiteskin.png"
+	);
 
 	private bool relicused = false;
 	private bool atkused = false;
@@ -71,10 +71,12 @@ public sealed class Liver_Whiteskin : CustomRelicModel
 		return Task.CompletedTask;
 	}
 	
-	public override async Task BeforeTurnEnd(PlayerChoiceContext choiceContext, CombatSide side)
-	{
-		if (!atkused&&!relicused)
-		{
+	public override async Task BeforeSideTurnEnd(
+		PlayerChoiceContext choiceContext,
+		CombatSide side,
+		IEnumerable<Creature> participants)	{
+		if (!atkused&&!relicused&&side==CombatSide.Player)
+		{	
 			relicused = true;
 			Flash();
 			base.Status = RelicStatus.Disabled;

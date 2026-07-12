@@ -11,48 +11,54 @@ using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using Rainworld.Scripts;
-using Rainworld.Scripts.Card.CardVars;
 using Rainworld.Scripts.Powers;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
 
-public class Rainworld_Liver_Spearslug:LiverCardModelAtk
+public class Rainworld_Liver_Spearslug : LiverCardModel
 
 {
     // 基础耗能
     private const int energyCost = 1;
+
     // 卡牌类型
     private const CardType type = CardType.Attack;
+
     // 卡牌稀有度
     private const CardRarity rarity = CardRarity.Uncommon;
+
     // 目标类型（AnyEnemy表示任意敌人）
     private const TargetType targetType = TargetType.AnyEnemy;
+
     // 是否在卡牌图鉴中显示
     private const bool shouldShowInCardLibrary = true;
-    
-    public override IEnumerable<CardKeyword> CanonicalKeywords => new []{RainworldKeywords.Spear};
 
-    protected override IEnumerable<IHoverTip> ExtraHoverTips => new []{HoverTipFactory.FromCard<Slimed>()};
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { RainworldKeywords.Spear };
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromCard<Slimed>() };
+
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
         new DamageVar(4m, ValueProp.Move),
         new CalculationBaseVar(1m),
         new CalculationExtraVar(1m),
-        new CalculatedVar("CalculatedHits").WithMultiplier((CardModel card, Creature? _) => card.Owner.PlayerCombatState?.ExhaustPile.Cards.Count((CardModel c) => c is Slimed) ?? 0)
+        new CalculatedVar("CalculatedHits").WithMultiplier((CardModel card, Creature? _) =>
+            card.Owner.PlayerCombatState?.ExhaustPile.Cards.Count((CardModel c) => c is Slimed) ?? 0)
     ];
 
     public Rainworld_Liver_Spearslug() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
     }
+
     // 打出时的效果逻辑
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
-        await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue).WithHitCount((int)((CalculatedVar)base.DynamicVars["CalculatedHits"]).Calculate(cardPlay.Target)).FromCard(this)
+        await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
+            .WithHitCount((int)((CalculatedVar)DynamicVars["CalculatedHits"]).Calculate(cardPlay.Target)).FromCard(this,cardPlay)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_blunt", null, "blunt_attack.mp3")
+            .WithHitFx(sfx:"event:/Rainworld/sfx/spear")
             .Execute(choiceContext);
-
     }
 
     // 升级后的效果逻辑

@@ -1,0 +1,16 @@
+[remap]
+
+importer="spine.atlas"
+type="SpineAtlasResource"
+uid="uid://dd5myphw6iqeg"
+path="res://.godot/imported/red.atlas-29dd14e15a22a772f6c49488ff37f68b.spatlas"
+
+[deps]
+
+source_file="res://Godot/Character/RedCat/spine/red.atlas"
+dest_files=["res://.godot/imported/red.atlas-29dd14e15a22a772f6c49488ff37f68b.spatlas"]
+
+[params]
+
+normal_map_prefix="n"
+specular_map_prefix="s"

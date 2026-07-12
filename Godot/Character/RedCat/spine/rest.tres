@@ -1,0 +1,8 @@
+[gd_resource type="SpineSkeletonDataResource" load_steps=3 format=3 uid="uid://b7ih82sq1qw0t"]
+
+[ext_resource type="SpineAtlasResource" uid="uid://dd5myphw6iqeg" path="res://Godot/Character/RedCat/spine/red.atlas" id="1_wjr0y"]
+[ext_resource type="SpineSkeletonFileResource" uid="uid://de7seskw0cifd" path="res://Godot/Character/RedCat/spine/rest.skel" id="2_xk2ij"]
+
+[resource]
+atlas_res = ExtResource("1_wjr0y")
+skeleton_file_res = ExtResource("2_xk2ij")

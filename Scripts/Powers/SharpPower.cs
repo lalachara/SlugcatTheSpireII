@@ -1,11 +1,11 @@
-﻿using System.Diagnostics.Metrics;
-using BaseLib.Abstracts;
-using MegaCrit.Sts2.Core.Entities.Cards;
+﻿﻿﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using Rainworld.Scripts;
 using Rainworld.Scripts.Card.Liver.Attack;
+using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Scaffolding.Content;
 
 namespace Rainworld.Scripts.Powers;
 
@@ -23,10 +23,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 #nullable enable
-public sealed class SharpPower : CustomPowerModel
+[RegisterPower]
+public sealed class SharpPower : ModPowerTemplate
 {
-  public override string? CustomPackedIconPath => "res://Resource/Powers/Tired48.png";
-  public override string? CustomBigIconPath => "res://Resource/Powers/Tired128.png";
+  public override PowerAssetProfile AssetProfile => new(
+    IconPath: "res://Resource/Powers/Sharp128.png",
+    BigIconPath: "res://Resource/Powers/Sharp128.png"
+  );
   
   public override PowerType Type => PowerType.Buff;
 
@@ -36,7 +39,7 @@ public sealed class SharpPower : CustomPowerModel
 
 
  public override decimal ModifyDamageAdditive(Creature? target, decimal amount, ValueProp props, Creature? dealer,
-     CardModel? cardSource)
+     CardModel? cardSource, CardPlay? cardPlay)
  {
      if (props != ValueProp.Unpowered&&cardSource!=null&&cardSource.Keywords.Contains(RainworldKeywords.Spear)&&dealer==base.Owner)
          return Amount;

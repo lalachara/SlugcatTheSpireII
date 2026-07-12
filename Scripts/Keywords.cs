@@ -1,63 +1,45 @@
-﻿using BaseLib.Patches.Content;
-using MegaCrit.Sts2.Core.Entities.Cards;
+﻿﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.HoverTips;
+using STS2RitsuLib.Content;
+using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Keywords;
 
 namespace Rainworld.Scripts;
 
-public static class  RainworldKeywords
-{
-    
-        // 自定义枚举的名字。最终会变成{前缀}-{枚举值大写}的形式，例如TEST-UNIQUE
-        //前缀关键词
-        [CustomEnum("Spear")]
-        [KeywordProperties(AutoKeywordPosition.Before)]
-        public static CardKeyword Spear;
-        [CustomEnum("Treasure")]
-        [KeywordProperties(AutoKeywordPosition.Before)]
-        public static CardKeyword Treasure;
-        [CustomEnum("Treasurespear")]
-        [KeywordProperties(AutoKeywordPosition.Before)]
-        public static CardKeyword Treasurespear;
-        [CustomEnum("Corrupt")]
-        [KeywordProperties(AutoKeywordPosition.Before)]
-        public static CardKeyword Corrupt;
-        
-        //以下只在提示词出现
-        [CustomEnum("Nimble")]
-        public static CardKeyword Nimble;
-        
-        [CustomEnum("Chuang")]
-        public static CardKeyword Chuang;
-        
-        [CustomEnum("Rock")]
-        public static CardKeyword Rock;
-        
-        [CustomEnum("Huntsign")]
-        public static CardKeyword Huntsign;
-        
-        [CustomEnum("Food")]
-        public static CardKeyword Food;
-        
-        [CustomEnum("Worklevel")]
-        public static CardKeyword Worklevel;
-        
-        [CustomEnum("Sharp")]
-        public static CardKeyword Sharp;
-        
-        [CustomEnum("Tube")]
-        public static CardKeyword Tube;
+[RegisterOwnedCardKeyword(nameof(Spear), CardDescriptionPlacement = ModKeywordCardDescriptionPlacement.BeforeCardDescription)]
+[RegisterOwnedCardKeyword(nameof(Treasure), CardDescriptionPlacement = ModKeywordCardDescriptionPlacement.BeforeCardDescription)]
+[RegisterOwnedCardKeyword(nameof(Treasurespear), CardDescriptionPlacement = ModKeywordCardDescriptionPlacement.BeforeCardDescription)]
+[RegisterOwnedCardKeyword(nameof(Corrupt), CardDescriptionPlacement = ModKeywordCardDescriptionPlacement.BeforeCardDescription)]
+[RegisterOwnedCardKeyword(nameof(AdroitNotUsed), CardDescriptionPlacement = ModKeywordCardDescriptionPlacement.BeforeCardDescription)]
+[RegisterOwnedCardKeyword(nameof(Immunity), CardDescriptionPlacement = ModKeywordCardDescriptionPlacement.BeforeCardDescription)]
+[RegisterOwnedCardKeyword(nameof(Simulated), CardDescriptionPlacement = ModKeywordCardDescriptionPlacement.BeforeCardDescription)]
 
-        [CustomEnum("Because")]
-        public static CardKeyword Because;
-        
-        [CustomEnum("Livewill")]
-        public static CardKeyword Livewill;
-        [CustomEnum("Workerror")]
-        public static CardKeyword Workerror;
-        [CustomEnum("Worklock")]
-        public static CardKeyword Worklock;
-        [CustomEnum("Pull")]
-        public static CardKeyword Pull;
-        [CustomEnum("CorruptText")]
-        public static CardKeyword CorruptText;
+[RegisterOwnedCardKeyword(nameof(Lightning))]
+[RegisterOwnedCardKeyword(nameof(Food))]
+[RegisterOwnedCardKeyword(nameof(Worklevel))]
+[RegisterOwnedCardKeyword(nameof(CatStrike))]
+[RegisterOwnedCardKeyword(nameof(Workreport))]
+[RegisterOwnedCardKeyword(nameof(Backtohand))]
+[RegisterOwnedCardKeyword(nameof(Last))]
+[RegisterOwnedCardKeyword(nameof(Cantcorrupt))]
+
+
+
+public class RainworldKeywords
+{
+	public static readonly CardKeyword Spear = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Spear)).GetModCardKeyword();
+	public static readonly CardKeyword Treasure = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Treasure)).GetModCardKeyword();
+	public static readonly CardKeyword Treasurespear = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Treasurespear)).GetModCardKeyword();
+	public static readonly CardKeyword Corrupt = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Corrupt)).GetModCardKeyword();
+	public static readonly CardKeyword Food = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Food)).GetModCardKeyword();
+	public static readonly CardKeyword Worklevel = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Worklevel)).GetModCardKeyword();
+	public static readonly CardKeyword CatStrike = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(CatStrike)).GetModCardKeyword();
+	public static readonly CardKeyword AdroitNotUsed = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(AdroitNotUsed)).GetModCardKeyword();
+	public static readonly CardKeyword Lightning = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Lightning)).GetModCardKeyword();
+	public static readonly CardKeyword Immunity = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Immunity)).GetModCardKeyword();
+	public static readonly CardKeyword Workreport = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Workreport)).GetModCardKeyword();
+	public static readonly CardKeyword Backtohand = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Backtohand)).GetModCardKeyword();
+	public static readonly CardKeyword Simulated = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Simulated)).GetModCardKeyword();
+	public static readonly CardKeyword Last = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Last)).GetModCardKeyword();
+	public static readonly CardKeyword Cantcorrupt = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Cantcorrupt)).GetModCardKeyword();
 }

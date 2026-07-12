@@ -1,12 +1,12 @@
-﻿using System.Diagnostics.Metrics;
-using BaseLib.Abstracts;
-using MegaCrit.Sts2.Core.Entities.Cards;
+﻿﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using Rainworld.Scripts;
 using Rainworld.Scripts.Card.Liver.Attack;
 using Rainworld.Scripts.Powers;
+using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Scaffolding.Content;
 
 namespace Rainworld.Scripts.Powers;
 
@@ -24,10 +24,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 #nullable enable
-public sealed class OldframPower : CustomPowerModel
+[RegisterPower]
+public sealed class OldframPower : ModPowerTemplate
 {
-    public override string? CustomPackedIconPath => "res://Resource/Powers/SuperDefend48.png";
-    public override string? CustomBigIconPath => "res://Resource/Powers/SuperDefend128.png";
+    public override PowerAssetProfile AssetProfile => new(
+        IconPath: "res://Resource/Powers/OlderFormPower128.png",
+        BigIconPath: "res://Resource/Powers/OlderFormPower128.png"
+    );
 
   
     public override PowerType Type => PowerType.Buff;
@@ -40,7 +43,7 @@ public sealed class OldframPower : CustomPowerModel
         if (dealer != null && (dealer == base.Owner || dealer.PetOwner?.Creature == base.Owner) && props!=ValueProp.Unpowered && result.TotalDamage > 0)
         {
             Flash();
-            await PowerCmd.Apply<OldframeTemp>(choiceContext,target, base.Amount, base.Owner, null, silent: true);
+            await CreatureCmd.GainBlock(base.Owner, (decimal)(result.UnblockedDamage*0.5*Amount),ValueProp.Unpowered, null);
         }
     }
 

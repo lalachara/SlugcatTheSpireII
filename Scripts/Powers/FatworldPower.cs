@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.Metrics;
-using BaseLib.Abstracts;
-using Godot;
+﻿﻿﻿using Godot;
 using MegaCrit.Sts2.Core.Combat.History.Entries;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -9,6 +7,8 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using Rainworld.Scripts;
 using Rainworld.Scripts.Card.Liver.Attack;
+using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Scaffolding.Content;
 
 namespace Rainworld.Scripts.Powers;
 
@@ -26,10 +26,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 #nullable enable
-public sealed class FatworldPower : CustomPowerModel
+[RegisterPower]
+public sealed class FatworldPower : ModPowerTemplate
 {
-  public override string? CustomPackedIconPath => "res://Resource/Powers/FatWorld48.png";
-  public override string? CustomBigIconPath => "res://Resource/Powers/FatWorld128.png";
+  public override PowerAssetProfile AssetProfile => new(
+    IconPath: "res://Resource/Powers/FatWorld128.png",
+    BigIconPath: "res://Resource/Powers/FatWorld128.png"
+  );
   
   public override PowerType Type => PowerType.Buff;
 
@@ -44,7 +47,7 @@ public sealed class FatworldPower : CustomPowerModel
          if (CombatManager.Instance.History.CardPlaysFinished.Count((CardPlayFinishedEntry e) =>
                  e.CardPlay.Card.Id == cardPlay.Card.Id&&e.CardPlay.Card.Owner == Owner.Player)==1)
          {
-             SlugcatField.GetSlugCatDataByCreature(Owner).addfood(Amount);
+             SlugcatData.addfood(Owner.Player, Amount);
          }
          
      }

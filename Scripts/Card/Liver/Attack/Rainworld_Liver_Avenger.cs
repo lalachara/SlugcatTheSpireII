@@ -8,31 +8,36 @@ using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using Rainworld.Scripts;
-using Rainworld.Scripts.Card.CardVars;
 using Rainworld.Scripts.Powers;
+using STS2RitsuLib.RunData;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
 
-public class Rainworld_Liver_Avenger:LiverCardModelAtk
+public class Rainworld_Liver_Avenger : LiverCardModel
 
 {
     // 基础耗能
     private const int energyCost = 2;
+
     // 卡牌类型
     private const CardType type = CardType.Attack;
+
     // 卡牌稀有度
     private const CardRarity rarity = CardRarity.Rare;
+
     // 目标类型（AnyEnemy表示任意敌人）
     private const TargetType targetType = TargetType.AllEnemies;
+
     // 是否在卡牌图鉴中显示
     private const bool shouldShowInCardLibrary = true;
-    
+
     //public override IEnumerable<CardKeyword> CanonicalKeywords => new []{CardKeyword.Exhaust};
-    public override IEnumerable<CardKeyword> CanonicalKeywords => new []{RainworldKeywords.Worklevel};
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { RainworldKeywords.Worklevel };
 
 
-    protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(12m, ValueProp.Move),
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new DamageVar(12m, ValueProp.Move)
     ];
 
     public Rainworld_Liver_Avenger() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -42,21 +47,21 @@ public class Rainworld_Liver_Avenger:LiverCardModelAtk
     // 打出时的效果逻辑
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        int times = 1;
+        var times = 1;
         if (Owner.Character is Slugcat)
         {
-            int workLevel = SlugcatField.GetSlugCatDataByCreature(Owner.Creature).workLevel;
+            var workLevel = SlugcatResources.Data.Get(Owner).WorkLevel;
 
-            if(workLevel<=4)
+            if (workLevel <= 4)
                 times++;
-            if(workLevel==0)
+            if (workLevel == 0)
                 times++;
         }
 
         //ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
-        await DamageCmd.Attack(base.DynamicVars.Damage.BaseValue).WithHitCount(times).FromCard(this).TargetingAllOpponents(base.CombatState)
+        await DamageCmd.Attack(DynamicVars.Damage.BaseValue).WithHitCount(times).FromCard(this,cardPlay)
+            .TargetingAllOpponents(CombatState)
             .Execute(choiceContext);
-
     }
 
     // 升级后的效果逻辑

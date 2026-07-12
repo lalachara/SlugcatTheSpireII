@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using BaseLib;
-using BaseLib.Abstracts;
 using Rainworld.Resource.Card;
 using Godot;
+using MegaCrit.Sts2.Core.Animation;
+using MegaCrit.Sts2.Core.Bindings.MegaSpine;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -31,71 +31,48 @@ using Rainworld.relics;
 using Rainworld.Scripts.Powers;
 using Rainworld.Scripts.Card.Liver.Attack;
 using Rainworld.Scripts.Potions;
+using STS2RitsuLib.Scaffolding.Characters;
+using STS2RitsuLib.Scaffolding.Content;
+using STS2RitsuLib.Utils;
 
 namespace Rainworld.Scripts;
-public abstract class Slugcat : PlaceholderCharacterModel
-{
 
-	//此处数据仅用于处理存档读档，不要操作。
-	public int workLevel=2,maxWorkLevel = 4,food=0,maxFood=7,sleepfood=4;
+public interface Slugcat
+{
 	
-	//public override string CustomVisualPath => "res://Godot/CharacterSelectBgs/LiverSelectBg.tscn";
-	// 卡牌拖尾路径。
-	// public override string CustomTrailPath => "res://scenes/vfx/card_trail_ironclad.tscn";
-	// 人物头像路径。
-	//public override string CustomIconTexturePath => "res://Resource/SlugCat/Head.png";
-	// 人物头像2号。
-	 //public override string CustomIconPath => "res://Godot/Character/Liver/Head.tscn";
-	// 能量表盘tscn路径。要自定义见下。
-	public override string CustomEnergyCounterPath => "res://Godot/EnergyLable/EnergyCounter.tscn";
-	// 篝火休息动画。
-	// public override string CustomRestSiteAnimPath => "res://scenes/rest_site/characters/ironclad_rest_site.tscn";
-	// 商店人物动画。
-	// public override string CustomMerchantAnimPath => "res://scenes/merchant/characters/ironclad_merchant.tscn";
-	// 多人模式-手指。
-	// public override string CustomArmPointingTexturePath => null;
-	// 多人模式剪刀石头布-石头。
-	// public override string CustomArmRockTexturePath => null;
-	// 多人模式剪刀石头布-布。
-	// public override string CustomArmPaperTexturePath => null;
-	// 多人模式剪刀石头布-剪刀。
-	// public override string CustomArmScissorsTexturePath => null;
+	public int workLevel { get; set; } 
+	public int maxWorkLevel { get; set; }
+	public int food { get; set; }
+	public int maxFood { get; set; } 
+	public int sleepfood { get; set; }
 	
+	public int enemyfood { get; set; }
+	public int jyFood { get; set; } 
+	public int bossfood { get; set; }
 	
-	public override CardPoolModel CardPool => ModelDb.CardPool<Rainworld_Liver_CardPool>();
-	public override PotionPoolModel PotionPool => ModelDb.PotionPool<Rainworld_Liver_PotionPool>();
-	public override RelicPoolModel RelicPool => ModelDb.RelicPool<Rainworld_Liver_RelicPool>();
+	public int roomfood { get; set; }
 	
-	//音效不能删
-	public override string CharacterTransitionSfx => "event:/sfx/ui/wipe_ironclad";
+	public bool SuppressHurtAnim { get; set; }
+	
+	public bool wawawa { get; set; }
+
+	
+}
+public abstract class Slugcat<TCardPool, TRelicPool, TPotionPool> 
+	: ModCharacterTemplate<TCardPool, TRelicPool, TPotionPool>
+	where TCardPool : TypeListCardPoolModel
+	where TRelicPool : TypeListRelicPoolModel
+	where TPotionPool : TypeListPotionPoolModel
+{
+	public override bool RequiresEpochAndTimeline => false;  // 加这行
 	
 	public override CharacterGender Gender => CharacterGender.Neutral;
 
-	protected override CharacterModel? UnlocksAfterRunAs => null;
-
+	public bool SuppressHurtAnim { get; set; }  // ← 新增，实现接口
+	public bool wawawa { get; set; }  // ← 新增，实现接口
+	
 	public override Color NameColor => StsColors.red;
-
-	public override int StartingHp => 9;
-
-	public override int StartingGold => 99;
-
-	//初始卡牌
-	public override IEnumerable<CardModel> StartingDeck => new CardModel[10]
-	{
-		ModelDb.Card<Rainworld_Liver_Strike>(),
-		ModelDb.Card<Rainworld_Liver_Strike>(),
-		ModelDb.Card<Rainworld_Liver_Strike>(),
-		ModelDb.Card<Rainworld_Liver_Strike>(),
-		ModelDb.Card<Rainworld_Liver_Spear>(),
-		ModelDb.Card<Rainworld_Liver_Defend>(),
-		ModelDb.Card<Rainworld_Liver_Defend>(),
-		ModelDb.Card<Rainworld_Liver_Defend>(),
-		ModelDb.Card<Rainworld_Liver_Defend>(),
-		ModelDb.Card<Rainworld_Liver_Rock>()
-	};
-
-	public override IReadOnlyList<RelicModel> StartingRelics => new []{(ModelDb.Relic<Liver_Fruit1>())};
-
+	
 	public override float AttackAnimDelay => 0.15f;
 	public override float CastAnimDelay => 0.25f;
 	public override Color EnergyLabelOutlineColor => new(0.1f, 0.1f, 1f);
@@ -103,7 +80,8 @@ public abstract class Slugcat : PlaceholderCharacterModel
 	public override Color MapDrawingColor => new Color("000000");
 	public override Color RemoteTargetingLineColor => new Color("000000");
 	public override Color RemoteTargetingLineOutline => new Color("000000");
-
+	private static readonly Material?
+		_poolFrameMaterial = MaterialUtils.CreateUnmodulatedHsvShaderMaterial(); // 如果你是自定义卡框，使用这个
 	public override List<string> GetArchitectAttackVfx() => [
 		"vfx/vfx_attack_blunt",
 		"vfx/vfx_heavy_blunt",
@@ -111,5 +89,47 @@ public abstract class Slugcat : PlaceholderCharacterModel
 		"vfx/vfx_bloody_impact",
 		"vfx/vfx_rock_shatter"
 	];
+	
+	protected override CreatureAnimator? SetupCustomCreatureAnimator(MegaSprite controller)
+	{
+		// 定义各动画状态及是否循环
+		AnimState idle = new("idle_loop", isLooping: true);
+		AnimState attack = new("attack");
+		AnimState cast = new("cast");
+		AnimState hurt = new("hurt");
+		AnimState die = new("die");
+		AnimState relaxed = new("relaxed_loop", isLooping: true);
+		AnimState sleep = new("sleep", isLooping: true);  // 新增 sleep，循环播放
+		AnimState Corrupt = new("xianggu", isLooping: true);
+		AnimState Meow = new("meow");
+		AnimState FakeDeath = new("relive_loop", isLooping: true);
+
+		// 设置播放完后自动回到 idle
+		 attack.NextState = idle;
+		 cast.NextState = idle;
+		 hurt.NextState = idle;
+		 Meow.NextState = idle;
+		// idle.NextState = idle;
+		// sleep.NextState = idle;  // sleep 结束后回到 idle
+		// Corrupt.NextState = idle;
+		// FakeDeath.NextState = die;
+		
+
+		// 创建 CreatureAnimator，idle 为默认状态
+		CreatureAnimator creatureAnimator = new(idle, controller);
+
+		// 绑定状态名到动画
+		creatureAnimator.AddAnyState("Idle", idle);
+		creatureAnimator.AddAnyState("Dead", die);
+		creatureAnimator.AddAnyState("Hit", hurt,() => !SuppressHurtAnim);
+		creatureAnimator.AddAnyState("Attack", attack,() => !SuppressHurtAnim);
+		creatureAnimator.AddAnyState("Cast", cast,() => !SuppressHurtAnim);
+		creatureAnimator.AddAnyState("Relaxed", relaxed);
+		creatureAnimator.AddAnyState("Sleep", sleep);  // 注册 sleep 状态
+		creatureAnimator.AddAnyState("Corrupt", Corrupt);
+		creatureAnimator.AddAnyState("Meow", Meow,() => !SuppressHurtAnim);
+		creatureAnimator.AddAnyState("FakeDeath", FakeDeath);
+		return creatureAnimator;
+	}
 
 }

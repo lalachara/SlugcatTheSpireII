@@ -1,0 +1,1849 @@
+{
+  "RainWorld:KeyWorld": {
+    "NAME": "1",
+    "EXTENDED_DESCRIPTION": [
+      " Retain ."," Innate ."," Ethereal ."," Exhaust ."," rainworld:immunity_factor ."," rainworld:Nimble ."," rainworld:Ripple ","."," rainworld:Poisoned ."
+    ]
+  },
+  "Liver:Strike": {
+    "NAME": "Cat Punch",
+    "DESCRIPTION": "Deal !D! damage ."
+  },
+  "Liver:Defend": {
+    "NAME": "Cat Defense",
+    "DESCRIPTION": "Gain !B! Block ."
+  },
+  "Liver:Rock": {
+    "NAME": "Stone Toss",
+    "DESCRIPTION": "Deal !D! damage, apply !M! Weak. Gain !M! rainworld:Stone_Toss ."
+  },
+  "Liver:Spear": {
+    "NAME": "Spear",
+    "DESCRIPTION": " rainworld:Spear NL Deal !D! damage, apply !M! rainworld:Trauma ."
+  },
+  "Liver:Worry": {
+    "NAME": "Bite",
+    "DESCRIPTION": "Deal !D! damage. Gain !M! rainworld:Fullness ."
+  },
+  "Liver:SpearStab": {
+    "NAME": "Piercing Spear",
+    "DESCRIPTION": " rainworld:Spear NL Deal !D! damage. Deal damage to other enemies, damage decreases by 2 per target. NL Apply !M! rainworld:Trauma ."
+  },
+  "Liver:TailAtk": {
+    "NAME": "Slugcat Tail Whip",
+    "DESCRIPTION": "Deal !D! damage. NL Gain !M! rainworld:Nimble , put 1 Slime into discard pile."
+  },
+  "Liver:SpearBoom": {
+    "NAME": "Explosive Spear",
+    "DESCRIPTION": " rainworld:Scavenger_Treasure . rainworld:Spear . Exhaust . NL Deal !D! damage. Then deal !D! damage to ALL enemies. NL Put a Spear into discard pile.",
+    "UPGRADE_DESCRIPTION": " rainworld:Scavenger_Treasure . rainworld:Spear . Exhaust . NL Deal !D! damage. Then deal !D! damage to ALL enemies. NL Put a Spear+ into discard pile."
+  },
+  "Liver:Bomb": {
+    "NAME": "Bomb",
+    "DESCRIPTION": " rainworld:Scavenger_Treasure . Exhaust . NL Deal !D! damage to ALL enemies. "
+  },
+  "Liver:SpearDouble": {
+    "NAME": "Spear Combo",
+    "DESCRIPTION": " rainworld:Spear . NL Deal !D! damage 2 times. NL Apply !M! rainworld:Trauma each time."
+  },
+  "Liver:SmallCent": {
+    "NAME": "Spicy Strip",
+    "DESCRIPTION": " Exhaust . NL Gain !M! Strength . NL Gain 2 rainworld:Fullness . ",
+    "UPGRADE_DESCRIPTION": " What did you just eat?! "
+  },
+  "Liver:SpearElec": {
+    "NAME": "Electric Spear",
+    "DESCRIPTION": " rainworld:Scavenger_Treasure . rainworld:Spear . NL Deal !D! damage, apply !M! rainworld:Trauma . NL Each time this card is played, its cost decreases by 1.",
+    "UPGRADE_DESCRIPTION":" rainworld:Scavenger_Treasure . rainworld:Spear . NL Deal !D! damage, apply !M! rainworld:Trauma . NL Each time this card is played, its cost decreases by 1."
+  },
+  "Liver:Fruit": {
+    "NAME": "Blue Fruit",
+    "DESCRIPTION": "  Retain . NL Gain !M! rainworld:Fullness . Gain [E] . NL Exhaust .",
+    "UPGRADE_DESCRIPTION": "  Retain . NL Gain !M! rainworld:Fullness . Gain [E] . NL Put two Blue Fruits into your hand. NL Exhaust ."
+  },
+  "Liver:JumpHit": {
+    "NAME": "Bounce Counter",
+    "DESCRIPTION": "Deal !D! damage, gain !B! Block. NL If target intends to attack, deal damage an additional time."
+  },
+  "Liver:SpearSkip": {
+    "NAME": "Flip Spear",
+    "DESCRIPTION": " rainworld:Spear . NL Deal !D! damage, discard a card. NL If discarded card is rainworld:Spear , target loses !M! Strength this turn."
+  },
+  "Liver:SpearThroat": {
+    "NAME": "Throat Pierce",
+    "DESCRIPTION": " rainworld:Spear . NL Deal !D! unblocked damage, gain !M! rainworld:Nimble . NL Apply !M! rainworld:Trauma ."
+  },
+  "Liver:SpearStabHead": {
+    "NAME": "Jaw Pierce",
+    "DESCRIPTION": " rainworld:Spear . NL Deal !D! damage, apply !M! Vulnerable and rainworld:Trauma ."
+  },
+  "Liver:Raid": {
+    "NAME": "Sneak Attack",
+    "DESCRIPTION": "Deal !D! damage, draw !M! cards. NL  Exhaust ."
+  },
+  "Liver:Chase": {
+    "NAME": "Pursue Victory",
+    "DESCRIPTION": "Deal !D! damage !M! times. NL For each Attack played this turn, this card's cost is reduced by 1 on next play."
+  },
+  "Liver:Backflip": {
+    "NAME": "Backflip",
+    "DESCRIPTION": "Gain !B! Block . NL Draw 2 cards."
+  },
+  "Liver:SuperSlide":  {
+    "NAME": "Super Slide",
+    "DESCRIPTION": "Gain !B! Block . NL Gain !M! rainworld:Nimble , put 2 Slimes into discard pile. "
+  },
+  "Liver:BigJump":  {
+    "NAME": "Big Jump",
+    "DESCRIPTION": "Gain !B! Block . NL Next turn start: put a Blue Fruit into your hand. "
+  },
+  "Liver:SlimeBlock":  {
+    "NAME": "Slime Armor",
+    "DESCRIPTION": "Whenever a Slime is exhausted, gain 1 Metallicize .",
+    "UPGRADE_DESCRIPTION": " Whenever a Slime is exhausted, gain 1 Metallicize ."
+  },
+  "Liver:Pearl": {
+    "NAME": "Pearl",
+    "DESCRIPTION": " rainworld:Scavenger_Treasure . Unplayable. NL When playing a rainworld:Scavenger_Treasure , if this is in hand, exhaust it and gain !M! Gold. NL Gain 10 Block when exhausted."
+  },
+  "Liver:LoveMoney": {
+    "NAME": "Mammonism",
+    "DESCRIPTION": "Deal !D! damage. NL For each rainworld:Scavenger_Treasure or 40 Gold you have, damage +2. NL On Fatal , gain 10 Gold. NL Current bonus: "
+  },
+  "Liver:Hunter": {
+    "NAME": "Hunt",
+    "DESCRIPTION": "Deal !D! damage. NL Apply !M! rainworld:Hunt_Mark . "
+  },
+  "Liver:TearWound": {
+    "NAME": "Tear Wound",
+    "DESCRIPTION": "Deal !D! damage. NL Multiply target's rainworld:Trauma stacks by !M!. NL Exhaust . "
+  },
+  "Liver:Balance": {
+    "NAME": "Equality",
+    "DESCRIPTION": "Play !M! Attacks from your draw pile. Cost increases by 1 each time used this combat."
+  },
+  "Liver:Thinkless":{
+    "NAME": "No-Mind",
+    "DESCRIPTION": "Deal !D! damage. Choose a card in hand, Exhaust it. NL  Exhaust ."
+  },
+  "Liver:ThreeAgree":{
+    "NAME": "Triple Affirmation",
+    "DESCRIPTION": " Reduce all enemies' HP to 0. NL Usable only when rainworld:Karma equals 10. NL Karma becomes 5 after use.",
+    "EXTENDED_DESCRIPTION": ["Reduce all enemies' HP to 0. NL Usable only when rainworld:Karma equals 10."," Innate . NL Reduce all enemies' HP to 0. NL Usable only when rainworld:Karma equals 10."],
+    "UPGRADE_DESCRIPTION": " Innate . NL Reduce all enemies' HP to 0. NL Usable only when rainworld:Karma equals 10. NL Karma becomes 5 after use."
+  },
+  "Liver:Rolling":{
+    "NAME": "Rolling Tackle",
+    "DESCRIPTION": " Deal !D! damage X times. Gain !B! Block X times."
+  },
+  "Liver:Avenger":{
+    "NAME": "Vengeance",
+    "DESCRIPTION": "Deal !D! damage to ALL enemies. If rainworld:Karma is below 5 or equals 1, deal damage 1 additional time."
+  },
+  "Liver:Honeycomb":{
+    "NAME": "Honeycomb Snare",
+    "DESCRIPTION": " Ethereal . NL Apply 1 Slow , !M! Constricted . NL Exhaust ."
+  },
+  "Liver:CatRun":{
+    "NAME": "Golden Cat Escape",
+    "DESCRIPTION": " Consume 1 rainworld:Fullness  NL Gain !B! Block . Remove 1 debuff from yourself. NL  Exhaust .",
+    "UPGRADE_DESCRIPTION":" Consume 1 rainworld:Fullness  NL Gain !B! Block . Remove 1 debuff from yourself."
+  },
+  "Liver:QuickJump":{
+    "NAME": "Emergency Backflip",
+    "DESCRIPTION": "Auto-play when drawn. NL Draw !M! cards, choose 1 card from discard pile and place it on top of draw pile. NL Exhaust ."
+  },
+  "Liver:TreasureBag":{
+    "NAME": "Scavenger's Treasure Bag",
+    "DESCRIPTION": " rainworld:Scavenger_Treasure . NL Put 1 Explosive Spear, 1 Bomb, 1 Pearl into your hand. NL Exhaust .",
+    "UPGRADE_DESCRIPTION":" rainworld:Scavenger_Treasure . NL Put 1 Explosive Spear+, 1 Bomb+, 1 Pearl+ into your hand. NL Exhaust ."
+  },
+  "Liver:MDBaole":{
+    "NAME": "Hunting Hour",
+    "DESCRIPTION": "Gain !M! temporary Strength Dexterity . NL Draw 3 cards, then cards in hand cost 0 on next play this turn. NL After this turn, rainworld:Karma decreases by 1."
+  },
+  "Liver:Ruminate":{
+    "NAME": "Ruminate",
+    "DESCRIPTION": "Consume 1 rainworld:Fullness . NL Choose a card from discard pile and put it into your hand. Its next play this turn costs 1 less. NL Exhaust .",
+    "UPGRADE_DESCRIPTION": "Consume 1 rainworld:Fullness . NL Choose a card from discard pile and put it into your hand. Its next play this turn costs 1 less."
+  },
+  "Liver:Neurone":{
+    "NAME": "Neuron",
+    "DESCRIPTION": " Ethereal . NL Gain !M! rainworld:Fullness . NL Max HP +!M!. (Unaffected by Karma) NL Remove this card from your deck after use. Exhaust ."
+  },
+  "Liver:AcmeDefend":{
+    "NAME": "Ultimate Defense",
+    "DESCRIPTION": "Whenever a card is Exhausted , gain 1 rainworld:Nimble and 2 Block .",
+    "UPGRADE_DESCRIPTION": " Innate . NL Whenever a card is Exhausted , gain 1 rainworld:Nimble and 2 Block ."
+  },
+  "Liver:SpearMasterNote":{
+    "NAME": "Spear Master's Notes",
+    "DESCRIPTION": "When playing a rainworld:Spear , gain !M! rainworld:Sharpness ."
+  },
+  "Liver:Kitty":{
+    "NAME": "Warrior Kitten",
+    "DESCRIPTION": " Ethereal . NL At start of each turn, if you have rainworld:Fullness , consume 1 rainworld:Fullness , draw 1 card, gain [E] , and you may Retain 1 card at end of turn."
+  },
+  "Liver:WorkError":{
+    "NAME": "Karmic Inescapability",
+    "EXTENDED_DESCRIPTION": [" Innate . NL "," For each combat you've completed this run, gain 1 Strength. (Current: ","). NL Set your Karma to 1. NL Gain rainworld:Karmic_Burden and "," rainworld:Karma_Lock ."]
+  },
+  "Liver:Chief":{
+    "NAME": "Chieftain",
+    "DESCRIPTION": " rainworld:Scavenger_Treasure cards cost 0. NL At start of each turn, add a random rainworld:Scavenger_Treasure card to your hand, which gains Exhaust ."
+  },
+  "Liver:Together":{
+    "NAME": "Combo Attack",
+    "DESCRIPTION": "Each time you play an Attack and a Skill in the same turn, gain 1 Strength and 1 Dexterity ."
+  },
+  "Liver:ReUseLJ":{
+    "NAME": "Recycle",
+    "DESCRIPTION": " Consume 1 rainworld:Fullness . NL Exhaust up to !M! cards from hand. NL For each card exhausted this way, gain [E] . NL Exhaust ."
+  },
+  "Liver:Metabolize":{
+    "NAME": "Untouched by Leaf",
+    "DESCRIPTION": " Ethereal . NL When drawing a Status card, exhaust it and draw 1 card. If it's Slime, gain 1 rainworld:Nimble .",
+    "UPGRADE_DESCRIPTION": "When drawing a Status card, exhaust it and draw 1 card. If it's Slime, gain 1 rainworld:Nimble ."
+  },
+  "Liver:TwoHands":{
+    "NAME": "Two-Handed Prep",
+    "DESCRIPTION": "When applying rainworld:Trauma , apply 1 extra stack. NL When gaining rainworld:Nimble , gain 1 extra stack.",
+    "UPGRADE_DESCRIPTION": " Innate . NL When applying rainworld:Trauma , apply 1 extra stack. NL When gaining rainworld:Nimble , gain 1 extra stack."
+  },
+  "Liver:TwistFate":{
+    "NAME": "Reverse Fate",
+    "DESCRIPTION": " Set your rainworld:Karma to maximum. NL Upgrade all your cards for this combat. NL At start of each turn, rainworld:Karma ",
+    "EXTENDED_DESCRIPTION": ["-1. NL Exhaust .","+1. NL Exhaust ."],
+    "UPGRADE_DESCRIPTION": " Retain . NL Set your rainworld:Karma to maximum. NL Upgrade all your cards for this combat. NL At start of each turn, rainworld:Karma "
+  },
+  "Liver:Help":{
+    "NAME": "Ally Aid",
+    "DESCRIPTION": "Choose 1 of 3 rainworld:Aid cards to add to your hand. NL Exhaust .",
+    "UPGRADE_DESCRIPTION": "Choose 1 of 3 upgraded rainworld:Aid cards to add to your hand. NL Exhaust ."
+  },
+  "Liver:HelpVulture":{
+    "NAME": "Vulture's Aid",
+    "DESCRIPTION": "Gain !M! Flight . NL Exhaust ."
+  },
+  "Liver:HelpMalou":{
+    "NAME": "Scavenger's Aid",
+    "DESCRIPTION": "Gain !M! Gold. NL Exhaust ."
+  },
+  "Liver:HelpCabrite":{
+    "NAME": "Lizard's Aid",
+    "DESCRIPTION": "Remove all Block from target, deal !D! damage. NL Exhaust ."
+  },
+  "Liver:LiveWill":{
+    "NAME": "Will to Survive",
+    "DESCRIPTION": " Ethereal . Gain !M! rainworld:Lurking . NL Exhaust .",
+    "UPGRADE_DESCRIPTION": "Gain !M! rainworld:Lurking . NL Exhaust ."
+  },
+  "Liver:CatCantDie":{
+    "NAME": "Unkillable Slugcat",
+    "DESCRIPTION": " Gain 99 Regeneration . If played by non-Slugcat, gain 5 Regeneration instead. NL  Exhaust ."
+  },
+  "Liver:CatThesaurus":{
+    "NAME": "Cat's Treasury",
+    "DESCRIPTION": "Put a random rainworld:Spear into your hand. It gains Retain and Exhaust . When played, re-trigger this effect. NL Exhaust ."
+  },
+  "Liver:ChilopodBlock":{
+    "NAME": "Fire Centipede Armor",
+    "DESCRIPTION": "Gain !B! Block . Gain !M! Buffer ."
+  },
+  "Liver:AcidSlime":{
+    "NAME": "Acidic Slime",
+    "DESCRIPTION": "When your Block is triggered, deal half your remaining Block as damage to attacker, and put a Slime into discard pile."
+  },
+  "Liver:KeepEye":{
+    "NAME": "Stare Down",
+    "DESCRIPTION": "Draw 1 card, apply !M! rainworld:Hunt_Mark to target."
+  },
+  "Liver:WallJump":{
+    "NAME": "Wall Jump",
+    "DESCRIPTION": "Gain !B! Block twice, gain !M! rainworld:Nimble ."
+  },
+  "Liver:Wawawawa":{
+    "NAME": "wawawawa",
+    "DESCRIPTION": "Apply 99 Weak to ALL enemies. NL Exhaust "
+  },
+  "Liver:Ready":{
+    "NAME": "Ready Stance",
+    "DESCRIPTION": "Gain !B! Block , next attack deals !M! more damage."
+  },
+  "Liver:Prepare":{
+    "NAME": "Stockpiling",
+    "DESCRIPTION": "For every !M! cards in your deck, gain [E] .",
+    "UPGRADE_DESCRIPTION": "Gain 1 rainworld:Preparation ."
+  },
+  "Liver:StrongerCat":{
+    "NAME": "Stronger Slugcat",
+    "DESCRIPTION": "Your Cat Punch damage is multiplied by !M!."
+  },
+  "Liver:CatAdaptation": {
+    "NAME": "Fierce Cat Charge",
+    "DESCRIPTION": "When you play a rainworld:Spear , draw !M! cards ."
+  },
+  "Liver:Iteration": {
+    "NAME": "Cat Iteration",
+    "DESCRIPTION": "Deal !D! damage , gain !B! Block . NL Each play doubles the values ."
+  },
+  "Liver:WorkCat": {
+    "NAME": "Tip",
+    "DESCRIPTION": "When playing or Exhausting a rainworld:Scavenger_Treasure , gain !M! Gold. "
+  },
+  "Liver:HeartFear": {
+    "NAME": "Light Thief",
+    "DESCRIPTION": " Innate. Retain . NL When Retained, lose 1 Max HP. NL When exhausted, lose all Block . NL If transformed or removed from your deck, lose 5 Max HP. NL Exhaust . "
+  },
+  "Liver:StrangeBomb": {
+    "NAME": "Singularity Bomb",
+    "DESCRIPTION": " Ethereal . NL ALL enemies lose !D! HP. End current turn. NL Exhaust ."
+  },
+  "Liver:SpearShape": {
+    "NAME": "Fire Spear",
+    "DESCRIPTION": " rainworld:Spear NL Deal !D! damage. Each stack of Trauma on target increases this damage by 1 . On Fatal , upgrade this card. NL Can be upgraded multiple times. NL Exhaust ."
+  },
+  "Liver:SlimeGrow": {
+    "NAME": "Regenerative Slime",
+    "DESCRIPTION": " Each turn, gain !M! rainworld:Nimble , put 2 Slimes into discard pile."
+  },
+  "Liver:WhoIsFood": {
+    "NAME": "Who's the Prey?",
+    "DESCRIPTION": " Deal !D! damage. If Fullness > 6, consume 2 Fullness and deal damage an additional time. Otherwise, recover 2 Fullness."
+  },
+  "Liver:WorkDefend": {
+    "NAME": "Karma Shield",
+    "DESCRIPTION": " For each level of rainworld:Karma , gain !M! Block . (Unaffected by Dexterity) NL When Block is broken this turn, deal equal damage to ALL enemies."
+  },
+  "Liver:Provoke": {
+    "NAME": "Provoke",
+    "DESCRIPTION": " Make target enter Rage."
+  },
+  "Liver:EatWhat": {
+    "NAME": "Eat Anything",
+    "DESCRIPTION": " Exhaust the top card of draw pile, gain !M! rainworld:Fullness ."
+  },
+  "Liver:FoodHit": {
+    "NAME": "Full Belly Punch",
+    "DESCRIPTION": " Deal !D! damage. For each rainworld:Fullness , damage +!M!."
+  },
+  "Liver:TubeRun": {
+    "NAME": "Pipe Runner",
+    "DESCRIPTION": " Gain !B! Block . If you took no damage this turn, gain !B! Block next turn."
+  },
+  "Liver:Tread": {
+    "NAME": "Heavy Stomp",
+    "DESCRIPTION": " Deal !D! damage. If target has rainworld:Trauma , gain [E] and draw 1 card."
+  },
+  "Liver:LapHurt": {
+    "NAME": "Lick Wounds",
+    "DESCRIPTION": " Consume 1 rainworld:Fullness , gain Metallicize equal to HP lost, heal to full HP. NL Exhaust .",
+    "UPGRADE_DESCRIPTION": " Consume 1 rainworld:Fullness , gain Metallicize equal to HP lost, heal to full HP."
+  },
+  "Liver:BigRock": {
+    "NAME": "Big Rock",
+    "DESCRIPTION": " Deal !D! damage. Gain rainworld:Stone_Toss ."
+  },
+  "Liver:Alert": {
+    "NAME": "Advance Warning",
+    "DESCRIPTION": " Innate . NL Gain !B! Block and !M! rainworld:Nimble . NL Exhaust . Ethereal ."
+  },
+  "Liver:WarmUp": {
+    "NAME": "Stretch",
+    "DESCRIPTION": "Gain !M! rainworld:Nimble ."
+  },
+  "Liver:OlderForm": {
+    "NAME": "Ancestral Form",
+    "DESCRIPTION": " Ethereal . NL When you deal damage, gain Block equal to half the damage.",
+    "UPGRADE_DESCRIPTION": "When you deal damage, gain Block equal to half the damage."
+  },
+  "Liver:Random": {
+    "NAME": "Divine Guidance",
+    "DESCRIPTION": "Gain a random effect.",
+    "UPGRADE_DESCRIPTION": "Gain an even more random effect."
+  },
+  "Liver:Peel": {
+    "NAME": "Molting",
+    "DESCRIPTION": "Lose 1 Karma level, gain !M! Metallicize ."
+  },
+  "Liver:stubborn": {
+    "NAME": "Stubbornness",
+    "DESCRIPTION": " Unplayable . NL While in your deck, your max Karma -1. NL rainworld:Unique ."
+  },
+  "Liver:HateWork": {
+    "NAME": "Karmic Hatred",
+    "DESCRIPTION": " Deal !D! damage to ALL enemies. If rainworld:Karma is below 5 or equals 1, deal damage 1 additional time each. "
+  },
+  "Liver:Fishing": {
+    "NAME": "Delicious Bait",
+    "DESCRIPTION": " Gain !B! Block . Target deals !M! damage to itself 2 times. "
+  },
+  "Liver:FireGrass": {
+    "NAME": "Firecracker Grass",
+    "DESCRIPTION": " Deal !D! damage, change target's intent. NL Exhaust .",
+    "UPGRADE_DESCRIPTION": " Retain . NL Deal !D! damage, change target's intent. NL Exhaust ."
+  },
+  "Liver:FatWorld": {
+    "NAME": "Fat World",
+    "DESCRIPTION": " When you play a card unused this combat, gain 1 rainworld:Fullness . Excess rainworld:Fullness converts to Strength .",
+    "UPGRADE_DESCRIPTION": " Retain . NL Deal !D! damage, change target's intent. NL Exhaust ."
+  },
+  "Liver:Kick": {
+    "NAME": "Nimble Kick",
+    "DESCRIPTION": " Deal !D! damage. Damage scales with rainworld:Nimble . If you have rainworld:Nimble , deal damage 1 additional time."
+  },
+  "Liver:Keep": {
+    "NAME": "Keep Going",
+    "DESCRIPTION": " Next X card plays: gain [E] , gain 2 rainworld:Nimble , draw 1 card.",
+    "UPGRADE_DESCRIPTION": " Next X+1 card plays: gain [E] , gain 2 rainworld:Nimble , draw 1 card."
+  },
+  "Liver:SlimeStrike": {
+    "NAME": "Slime Strike",
+    "DESCRIPTION": "Deal !D! damage. For each Slime in hand, Exhaust it and deal damage 1 additional time."
+  },
+  "Liver:CatEat": {
+    "NAME": "Cat Bite",
+    "DESCRIPTION": " Retain . NL Apply !M! rainworld:Trauma , NL Gain 1 rainworld:Fullness ."
+  },
+  "RedCat:OriginalCorrupt": {
+    "NAME": "Primordial Corruption",
+    "DESCRIPTION": " rainworld:corrupt . NL Choose 1 card in hand, rainworld:corrupt it. All rainworld:corrupt ed cards in hand cost 1 less on next play this turn.",
+    "UPGRADE_DESCRIPTION": " rainworld:corrupt . NL Choose 1 card in hand, rainworld:corrupt it. All rainworld:corrupt ed cards in hand cost 1 less on next play this turn. NL Put 1 Corrupted Matter into draw pile. NL First play each turn: rainworld:return_to_hand ."
+  },
+  "RedCat:Corrupt": {
+    "NAME": "Corrupted Matter",
+    "DESCRIPTION": " rainworld:corrupt . Gain !M! Temporary HP ."
+  },
+  "RedCat:Spear": {
+    "NAME": "Spear",
+    "DESCRIPTION": " rainworld:spear NL Deal !D! damage, apply !M! rainworld:trauma . NL When rainworld:corrupt ed , play an additional time and Exhaust . "
+  },
+  "RedCat:LifeCatalyst": {
+    "NAME": "Life Catalyst",
+    "DESCRIPTION": "At start of each turn, draw 3 extra cards, put 1 Corrupted Matter into your hand, and increase rainworld:corruption_value by 1."
+  },
+  "RedCat:MeetFuture": {
+    "NAME": "Meet the Future",
+    "DESCRIPTION": "Increase 1 rainworld:karma ."
+  },
+  "RedCat:Rock": {
+    "NAME": "Stone Toss",
+    "DESCRIPTION": "Deal !D! damage, apply !M! Weak . Gain !M! rainworld:stone_toss ."
+  },
+  "RedCat:Tame": {
+    "NAME": "Subdue",
+    "DESCRIPTION": "Deal !D! damage. If your Strength is higher than the target's, apply 1 rainworld:unbalance ."
+  },
+  "RedCat:PopCorn": {
+    "NAME": "Popcorn",
+    "DESCRIPTION": "Gain !M! rainworld:fullness ."
+  },
+  "RedCat:LifeWeight": {
+    "NAME": "Weight of Life",
+    "DESCRIPTION": "Deal !D! damage. For each !M! Max HP you have, damage +1."
+  },
+  "RedCat:Circulation": {
+    "NAME": "Systemic Circulation",
+    "DESCRIPTION": "Draw X cards, then you may discard up to X cards and gain equal [E] .",
+    "UPGRADE_DESCRIPTION": "Draw X cards, then you may discard any number of cards and gain equal [E] ."
+  },
+  "RedCat:CorruptBlock": {
+    "NAME": "Corrupt Shell",
+    "DESCRIPTION": " rainworld:corrupt . NL Gain !B! Block . While in rainworld:rottification , gain Temporary HP instead."
+  },
+  "RedCat:BigJump": {
+    "NAME": "Big Jump",
+    "DESCRIPTION": "Gain !B! Block . NL Next turn start: put 1 Spicy Strip into your hand.",
+    "UPGRADE_DESCRIPTION": "Gain !B! Block . NL Next turn start: put 1 Spicy Strip+ into your hand."
+  },
+  "RedCat:FireWind": {
+    "NAME": "Fire Dance Whirlwind",
+    "DESCRIPTION": "Deal !D! damage to ALL enemies !M! times. Draw !M! cards. NL Can be upgraded multiple times."
+  },
+  "RedCat:Excite": {
+    "NAME": "Neural Stimulation",
+    "DESCRIPTION": "When rainworld:karma_retribution is triggered, reset Hibernation cooldown and deal !M! damage to ALL enemies."
+  },
+  "RedCat:DeepCorrupt": {
+    "NAME": "Deep Corruption",
+    "DESCRIPTION": "While in rainworld:rottification , playing cards no longer consumes rainworld:corruption_value. Excess rainworld:corruption_value converts to Fullness."
+  },
+  "RedCat:TwistForm": {
+    "NAME": "Aberrant Form",
+    "DESCRIPTION": "rainworld:corruption_value gain is doubled. Excess rainworld:corruption_value converts to Strength ."
+  },
+  "RedCat:Break": {
+    "NAME": "Break Through",
+    "DESCRIPTION": "Deal !D! damage. For each enemy on the field, deal damage 1 additional time. On Fatal , gain 1 rainworld:karma ."
+  },
+  "RedCat:KillAll": {
+    "NAME": "Exterminate",
+    "DESCRIPTION": "Deal !D! damage 2 times. On Fatal , rainworld:return_to_hand and this card's cost becomes 0."
+  },
+  "RedCat:Spread": {
+    "NAME": "Spread",
+    "DESCRIPTION": "When playing a rainworld:corrupt ed card, rainworld:corrupt the leftmost corruptible card in hand."
+  },
+  "RedCat:CantControl": {
+    "NAME": "Loss of Control",
+    "DESCRIPTION": "Enter rainworld:rottification and cannot exit. NL When playing an Attack or Skill, draw 1 card and take 2 damage."
+  },
+  "RedCat:Inveteracy": {
+    "NAME": "Ingrained",
+    "DESCRIPTION": " rainworld:corrupt . NL When exiting rainworld:rottification , rainworld:corruption_strength is no longer cleared. "
+  },
+  "RedCat:HunterInstinct": {
+    "NAME": "Hunter's Instinct",
+    "DESCRIPTION": "When dealing damage to enemies with rainworld:hunt_mark , gain !M! Vigor . "
+  },
+  "RedCat:FightPosture": {
+    "NAME": "Battle Stance",
+    "DESCRIPTION": "Next attack deals +!M! damage, next Block gained is doubled. "
+  },
+  "RedCat:Metabolize": {
+    "NAME": "Potent Metabolism",
+    "DESCRIPTION": "At start of each turn, gain !M! Vigor ."
+  },
+  "RedCat:SpearMelee": {
+    "NAME": "Flying Spear Boomerang",
+    "DESCRIPTION": " rainworld:spear . NL Deal !D! damage to a random enemy !M! times. NL At start of turn, if this card entered discard from play, rainworld:return_to_hand ."
+  },
+  "RedCat:CorruptStrike": {
+    "NAME": "Corrupt Strike",
+    "DESCRIPTION": " rainworld:corrupt . NL Deal !D! damage. NL When entering rainworld:rottification , rainworld:return_to_hand ."
+  },
+  "RedCat:CorruptArmaments": {
+    "NAME": "Corrupt Armaments",
+    "DESCRIPTION": "Upgrade all rainworld:corrupt ed cards in your hand."
+  },
+  "RedCat:Time": {
+    "NAME": "Life and Death Race",
+    "DESCRIPTION": "When Corrupted Matter is Exhausted , gain 1 Metallicize ."
+  },
+  "RedCat:Silent": {
+    "NAME": "Sanitize",
+    "DESCRIPTION": "Remove all buffs from target.",
+    "EXTENDED_DESCRIPTION": [" It'll thank us for it!","Where... do creatures come from...?","Cat... touch... "]
+  },
+  "RedCat:WillFlower": {
+    "NAME": "Flower of Hope",
+    "DESCRIPTION": "Gain [E] . For each rainworld:karma_retribution triggered this combat, gain additional [E] . NL Put 1 Wound into draw pile."
+  },
+  "RedCat:AcmeAttack": {
+    "NAME": "Don't Touch Me!",
+    "DESCRIPTION": "When attacking or being hit, if in rainworld:rottification , apply !M! Constricted to opponent."
+  },
+  "RedCat:DoubleVigor": {
+    "NAME": "Full of Vigor",
+    "DESCRIPTION": "Gain !M! Vigor . Each time this is played this combat, Vigor gained +3."
+  },
+  "RedCat:Misfortune": {
+    "NAME": "Unfortunate Development",
+    "DESCRIPTION": " rainworld:corrupt . NL Damage and Block from rainworld:corrupt ed cards are doubled."
+  },
+  "RedCat:Embolden": {
+    "NAME": "Embolden",
+    "DESCRIPTION": "When applying a debuff to an enemy, gain !M! Block ."
+  },
+  "RedCat:KillIntent": {
+    "NAME": "Killing Intent",
+    "DESCRIPTION": "Enemies below half HP gain rainworld:fear ."
+  },
+  "RedCat:Restrain": {
+    "NAME": "Restraint",
+    "DESCRIPTION": "Draw !M! cards. rainworld:corruption_value cannot increase this turn."
+  },
+  "RedCat:ReBuild": {
+    "NAME": "Reconstruct",
+    "DESCRIPTION": "Choose an exhausted card, rainworld:corrupt it and put it into your hand."
+  },
+  "RedCat:Raid": {
+    "NAME": "Sneak Attack",
+    "DESCRIPTION": "Deal !D! damage, draw !M! cards."
+  },
+  "RedCat:Wawawawa":{
+    "NAME": "wawawawa",
+    "DESCRIPTION": "Apply 99 Weak to ALL enemies."
+  },
+  "RedCat:Braver":{
+    "NAME": "Brave One's Medal",
+    "DESCRIPTION": "Gain !B! Block . NL When exhausted , gain [E] and !M! Strength. NL When rainworld:corrupt ed , gains Exhaust ."
+  },
+  "RedCat:Better":{
+    "NAME": "Departure",
+    "DESCRIPTION": "Deal !D! damage. Gain Vigor equal to unblocked damage dealt."
+  },
+  "RedCat:Cripple":{
+    "NAME": "Crippling Strike",
+    "DESCRIPTION": "Deal !D! damage. Target becomes rainworld:crippled until end of turn."
+  },
+  "RedCat:Solidify":{
+    "NAME": "Muscle Hunter",
+    "DESCRIPTION": "Convert Vigor to Strength at a !M!:1 ratio."
+  },
+  "RedCat:StopFight":{
+    "NAME": "Ceasefire",
+    "DESCRIPTION": "This turn, immune to damage exceeding your Max HP."
+  },
+  "RedCat:ShakeOff":{
+    "NAME": "Shake Off",
+    "DESCRIPTION": "Gain !B! Block . This Block scales with Vigor (doesn't consume Vigor )."
+  },
+  "RedCat:Mix":{
+    "NAME": "Blending",
+    "DESCRIPTION": "When gaining rainworld:corruption_value, gain !M!x Temporary HP . NL When losing rainworld:corruption_value, gain !M!x Vigor ."
+  },
+  "RedCat:RemainHot":{
+    "NAME": "Cat Soup",
+    "DESCRIPTION": "Gain !B! Block . If you have no [E] , gain [E] ",
+    "UPGRADE_DESCRIPTION": "Gain !B! Block . If you have no [E] , gain [E] [E] ."
+  },
+  "RedCat:SpearCorrupt":{
+    "NAME": "Corrupt Spear",
+    "DESCRIPTION": " rainworld:corrupt . rainworld:spear NL Deal !D! damage, apply !M! rainworld:trauma ."
+  },
+  "RedCat:Bloody":{
+    "NAME": "Bloodbath",
+    "DESCRIPTION": "Next !M! time(s) you lose HP, reduce HP loss by 6, and put a Wound into discard pile."
+  },
+  "RedCat:SpearDance":{
+    "NAME": "Flying Spear Dance",
+    "DESCRIPTION": "Dealing damage with rainworld:spear doesn't consume Vigor ."
+  },
+  "RedCat:CantStop":{
+    "NAME": "Still the Edge",
+    "DESCRIPTION": "Deal !D! damage. For each unplayable card in hand, deal damage 1 additional time."
+  },
+  "RedCat:Evolution":{
+    "NAME": "Adaptive Evolution",
+    "DESCRIPTION": "After taking damage from a monster, reduce damage from that same monster type by 1."
+  },
+  "RedCat:Calm":{
+    "NAME": "Tranquilize",
+    "DESCRIPTION": "Cannot be rainworld:corrupt ed . NL Gain !B! Block . For each rainworld:corruption_value, gain +!M!. NL Clear rainworld:corruption_value ."
+  },
+  "RedCat:Substrate":{
+    "NAME": "Culture Medium",
+    "DESCRIPTION": "At start of each turn, put 1 Corrupted Matter into your hand."
+  },
+  "RedCat:Upcycle":{
+    "NAME": "Turn Waste to Treasure",
+    "DESCRIPTION": " Exhaust Corrupted Matter in hand, gain equal [E] ."
+  },
+  "RedCat:Eat":{
+    "NAME": "Devour",
+    "DESCRIPTION": " rainworld:corrupt . NL Only playable in rainworld:rottification . NL Fatal all enemies with HP below yours (counting Temp HP)."
+  },
+  "RedCat:Whimsical":{
+    "NAME": "Whimsical",
+    "DESCRIPTION": "Gain [E] [E] . Next !M! card plays: rainworld:return_to_hand . "
+  },
+  "RedCat:SpearBack":{
+    "NAME": "Cat Carries Spear",
+    "DESCRIPTION": " rainworld:spear . NL Gain !B! Block . For each rainworld:spear in your deck, gain +!M! Block ."
+  },
+  "RedCat:Twist":{
+    "NAME": "Martyrdom",
+    "DESCRIPTION": "At start of turn, if rainworld:karma is 1, trigger 1 rainworld:karma_retribution . NL When triggering rainworld:karma_retribution , draw !M! cards."
+  },
+  "RedCat:EatBlood":{
+    "NAME": "Bloodthirst",
+    "DESCRIPTION": "Deal !D! damage, gain !M! Temporary HP . NL When rainworld:karma_retribution is triggered, this card's values permanently increase by 2 this run.",
+    "UPGRADE_DESCRIPTION": "Deal !D! damage, gain !M! Temporary HP . NL When rainworld:karma_retribution is triggered, this card's values permanently increase by 3 this run."
+  },
+  "RedCat:Angry":{
+    "NAME": "Hair-Raising Fury",
+    "DESCRIPTION": "When you spend [E] , gain !M! Vigor ."
+  },
+  "RedCat:Tabu":{
+    "NAME": "Eruption",
+    "DESCRIPTION": " rainworld:corrupt . NL Deal !D! damage to ALL enemies. For each rainworld:corrupt ed card in exhaust pile, deal damage 1 additional time."
+  },
+  "RedCat:BorrowLife": {
+    "NAME": "Negative Reincarnation",
+    "DESCRIPTION": "When Karma drops below 1, don't die immediately. Instead, game over in 3 turns."
+  },
+  "RedCat:WoundHit": {
+    "NAME": "Cat Scratches",
+    "DESCRIPTION": "Deal !D! damage, put 1 Slime into your hand. If hand not full, this card rainworld:return_to_hand ."
+  },
+  "RedCat:Fightback": {
+    "NAME": "Desperate Counter",
+    "DESCRIPTION": "Deal !D! damage. If Weakened , damage doubled. For each debuff on you, damage +!M!."
+  },
+  "RedCat:HumanCat": {
+    "NAME": "Artificial Cat",
+    "DESCRIPTION": "Deal !D! damage, randomly remove 1 debuff.",
+    "UPGRADE_DESCRIPTION": "Deal !D! damage, remove ALL debuffs."
+  },
+  "RedCat:Save": {
+    "NAME": "Purge Sin",
+    "DESCRIPTION": "Consume all rainworld:corruption_value, deal !D! damage to ALL enemies. NL When rainworld:karma_retribution is triggered, this card's cost -1 for this combat. NL "
+  },
+  "RedCat:Summon": {
+    "NAME": "Summon",
+    "DESCRIPTION": "Draw !M! cards. NL When rainworld:corrupt ed , rainworld:corrupt the drawn cards."
+  },
+  "RedCat:MimicrySpear": {
+    "NAME": "Mimicry Spear",
+    "DESCRIPTION": " rainworld:corrupt ed Attacks are treated as rainworld:spear , and dealing damage applies 1 rainworld:trauma ."
+  },
+  "RedCat:SmallCent": {
+    "NAME": "Spicy Strip",
+    "DESCRIPTION": "Gain !M! Strength . NL Gain 2 rainworld:fullness .",
+    "UPGRADE_DESCRIPTION": "What did you just eat?!"
+  },
+  "RedCat:Inject": {
+    "NAME": "Inject",
+    "DESCRIPTION": "Next Attack or Skill played will be rainworld:corrupt ed and played 1 additional time. Then Exhaust it."
+  },
+  "RedCat:SpearThroat": {
+    "NAME": "Throat Pierce",
+    "DESCRIPTION": " rainworld:spear . NL Deal !D! unblocked damage, gain !M! Vigor . NL Apply !M! rainworld:trauma ."
+  },
+  "RedCat:Bomb": {
+    "NAME": "Mycelial Bomb",
+    "DESCRIPTION": " rainworld:corrupt . NL Deal !D! damage to ALL enemies. "
+  },
+  "RedCat:PullOut": {
+    "NAME": "Instant Rebound",
+    "DESCRIPTION": "Deal !D! damage, doesn't consume Vigor . Next Attack or Skill played: rainworld:return_to_hand ."
+  },
+  "RedCat:Study": {
+    "NAME": "Practice Makes Perfect",
+    "DESCRIPTION": "When a card rainworld:return_to_hand s, increase its base Attack by !M!. It also gains Retain for 1 turn."
+  },
+  "RedCat:Kick": {
+    "NAME": "Vigor Kick",
+    "DESCRIPTION": "Deal !D! damage. If you have Vigor , deal damage 1 additional time."
+  },
+  "RedCat:QuickRun": {
+    "NAME": "High-Speed Movement",
+    "DESCRIPTION": "Gain !M!X Vigor . Next X Attacks don't consume Vigor ."
+  },
+  "RedCat:PurityStrike": {
+    "NAME": "Pure Strike",
+    "DESCRIPTION": "Cannot be rainworld:corrupt ed . NL Deal !D! damage. Only playable when rainworld:corruption_value is 0. "
+  },
+  "RedCat:FastHit": {
+    "NAME": "First Strike",
+    "DESCRIPTION": "Deal !D! damage. If this is the first card you play this turn, gain !M! Vigor ."
+  },
+  "RedCat:Bypass": {
+    "NAME": "Excuse Me, I'm in a Hurry",
+    "DESCRIPTION": "If you win within !M! turns of combat start, add 1 extra relic to combat rewards and rainworld:karma +1.",
+    "UPGRADE_DESCRIPTION": "If you win within 3 turns of combat start, add 1 extra relic to combat rewards and rainworld:karma +1."
+  },
+  "RedCat:CreateSong": {
+    "NAME": "Creator's Song",
+    "DESCRIPTION": "At start of each turn, gain [E] . NL When gaining rainworld:corruption_value, lose 2 HP."
+  },
+  "RedCat:Mania": {
+    "NAME": "Mania",
+    "DESCRIPTION": "When played, cannot play Skill cards this turn. Each time you play an Attack, gain !M! Vigor ."
+  },
+  "RedCat:BigClean": {
+    "NAME": "Great Purge",
+    "DESCRIPTION": " Exhaust all cards in hand with rainworld:different_state from this card. For each card exhausted , deal !D! damage to a random enemy. "
+  },
+  "RedCat:BeSame": {
+    "NAME": "Homogenization",
+    "DESCRIPTION": "In rainworld:rottification : clear rainworld:corruption_value . Otherwise: gain 5 rainworld:corruption_value ."
+  },
+  "RedCat:SpearBoom": {
+    "NAME": "Explosive Spear",
+    "DESCRIPTION": " rainworld:spear . NL Deal !D! damage. Then deal !D! damage to ALL enemies. NL Put a Spear into discard pile.",
+    "UPGRADE_DESCRIPTION": " rainworld:spear . NL Deal !D! damage. Then deal !D! damage to ALL enemies. NL Put a Spear+ into discard pile."
+  },
+  "RedCat:CatLost": {
+    "NAME": "Cat Got Lost",
+    "DESCRIPTION": "Deal !D! damage !M! times. NL Base attack count and damage are randomized at start of each turn.",
+    "UPGRADE_DESCRIPTION": "Deal !D! damage !M! times. NL Base attack count and damage are randomized at start of each turn (with higher limits)."
+  },
+  "RedCat:Expand": {
+    "NAME": "Whimsical",
+    "DESCRIPTION": "Gain [E] [E] . Next !M! card plays: rainworld:return_to_hand . "
+  },
+  "RedCat:Immunity": {
+    "NAME": "Immunity Factor",
+    "DESCRIPTION": "All non-rainworld:corrupt ed Attacks and Skills in hand gain rainworld:immunity_factor . "
+  },
+  "RedCat:KeenStrike": {
+    "NAME": "Keen Strike",
+    "DESCRIPTION": "Deal !D! damage. For each distinct debuff on target, draw 1 card.  "
+  },
+  "RedCat:Hunter": {
+    "NAME": "Hunt",
+    "DESCRIPTION": "Deal !D! damage. NL Apply !M! rainworld:hunt_mark . "
+  },
+  "RedCat:Ruminate":{
+    "NAME": "Ruminate",
+    "DESCRIPTION": "Consume 1 rainworld:fullness . NL Choose a card from discard pile and put it into your hand. Its next play this turn costs 1 less.",
+    "UPGRADE_DESCRIPTION": "Insufficient Fullness, cannot play."
+  },
+  "RedCat:Avenger":{
+    "NAME": "Vengeance",
+    "DESCRIPTION": "Deal !D! damage to ALL enemies. For each rainworld:karma_retribution triggered this combat, deal damage 1 additional time."
+  },
+  "RedCat:Grow":{
+    "NAME": "Wild Growth",
+    "DESCRIPTION": " rainworld:corrupt . NL Double your Temporary HP . Then convert your Block to Temporary HP . "
+  },
+  "RedCat:FinalHunt":{
+    "NAME": "Bountiful Harvest",
+    "DESCRIPTION": "Deal !D! damage. If target has rainworld:hunt_mark , deal +!M! damage."
+  },
+  "RedCat:Slime":{
+    "NAME": "Sticky",
+    "DESCRIPTION": "Deal !D! damage, put !M! Corrupted Matter into your hand."
+  },
+  "RedCat:SpearStabHead": {
+    "NAME": "Jaw Pierce",
+    "DESCRIPTION": " rainworld:spear . NL Deal !D! damage, apply !M! Vulnerable and rainworld:trauma ."
+  },
+  "RedCat:Iteration": {
+    "NAME": "Cat Iteration",
+    "DESCRIPTION": "Deal !D! damage, gain !B! Block . NL Each play doubles the values."
+  },
+  "RedCat:Fucycle": {
+    "NAME": "Negative Cycle",
+    "DESCRIPTION": "Unplayable. NL At end of combat, add 1 copy of this card to your deck (max 1).",
+    "UPGRADE_DESCRIPTION": "Draw 1 card, gain 1 rainworld:karma . NL At end of combat, add 1 copy of this card to your deck (max 1). NL Exhaust ."
+  },
+  "Monk:QuitMagic": {
+    "NAME": "Dispel",
+    "DESCRIPTION": "Target loses 1/!M! of its current HP."
+  },
+  "Monk:MyFriend": {
+    "NAME": "My Animal Friend",
+    "DESCRIPTION": "Summon a Lizard that deals !M! damage each turn."
+  },
+  "Monk:FriendStrenge": {
+    "NAME": "Pack Strength",
+    "DESCRIPTION": "All rainworld:Companion s gain !M! temporary Strength."
+  },
+  "Monk:only": {
+    "NAME": "Elite",
+    "DESCRIPTION": "Your rainworld:Companion cap becomes 1. Gain !M! Harmony."
+  },
+  "Monk:Kick": {
+    "NAME": "Harmony Kick",
+    "DESCRIPTION": "Deal !D! damage. If you have rainworld:Harmony , deal damage 1 additional time. NL This card's damage scales with rainworld:Harmony ."
+  },
+  "Monk:Allin": {
+    "NAME": "Swarm Assault",
+    "DESCRIPTION": "You and each Companion deal !D! damage to target."
+  },
+  "Monk:justyou": {
+    "NAME": "Strategic Command",
+    "DESCRIPTION": "End your turn (enters rainworld:Hibernate if available). NL This turn, your rainworld:Companion s act !M! additional time(s)."
+  },
+  "Monk:BigJump": {
+    "NAME": "Big Jump",
+    "DESCRIPTION": "Gain !B! Block . NL Next turn start: put 1 ??? into your hand. ",
+    "UPGRADE_DESCRIPTION": "Gain !B! Block . NL Next turn start: put 1 ???+ into your hand. "
+  },
+  "Monk:probe": {
+    "NAME": "Probing Strike",
+    "DESCRIPTION": "Deal !D! damage. NL For each rainworld:Companion in play, draw 1 card."
+  },
+  "Monk:Freedom": {
+    "NAME": "Release",
+    "DESCRIPTION": "Clear your rainworld:Companion s. Draw equal cards and gain equal [E] ."
+  },
+  "Monk:QuickMove": {
+    "NAME": "Timely Response",
+    "DESCRIPTION": "When your rainworld:Companion arrives, it immediately acts 1 time."
+  },
+  "Monk:Together":{
+    "NAME": "Harmonization",
+    "DESCRIPTION": "Each time you play an Attack and a Skill in the same turn, gain 1 rainworld:Harmony ."
+  },
+  "Monk:hightime":{
+    "NAME": "You Came at the Right Time",
+    "DESCRIPTION": "Gain 1 extra Companion slot (max 5)."
+  },
+  "Monk:heartRoad":{
+    "NAME": "Guidance",
+    "DESCRIPTION": "At start of each turn, 1 random card in hand costs 0 on next play, and gain 1 rainworld:Harmony when played."
+  },
+  "Monk:Physics":{
+    "NAME": "From Heart to Matter",
+    "DESCRIPTION": "Convert your rainworld:Harmony to Strength . NL When you gain rainworld:Harmony , gain equal Strength instead."
+  },
+  "Monk:AllMyWing":{
+    "NAME": "United Effort",
+    "DESCRIPTION": "When playing other Slugcats' cards, gain 2 of the corresponding rainworld:Core_Ability ."
+  },
+  "Monk:ShamanForm":{
+    "NAME": "Shaman Form",
+    "DESCRIPTION": "At start of your turn, add a random card from other Slugcats to your hand. NL Playing other Slugcats' cards costs no Energy for you."
+  },
+  "Monk:Feed":{
+    "NAME": "Feeding",
+    "DESCRIPTION": "Choose 1 card in hand to Exhaust, gain 2 Harmony."
+  },
+  "Monk:Tooth":{
+    "NAME": "Steel Teeth",
+    "DESCRIPTION": "When Lizard rainworld:Companion s deal damage, apply 1 rainworld:Trauma ."
+  },
+  "Monk:Iteration": {
+    "NAME": "Cat Iteration",
+    "DESCRIPTION": "Deal !D! damage , gain !B! Block . NL Each play doubles the values ."
+  },
+  "Monk:HelpMe": {
+    "NAME": "Companion Cover",
+    "DESCRIPTION": "Gain !B! Block. For each rainworld:Companion , gain !B! additional Block. NL (Scales with rainworld:Harmony )"
+  },
+  "Monk:InternalBreak": {
+    "NAME": "Internal Injury",
+    "DESCRIPTION": "When you deal 5 or less damage, target loses !M! additional HP."
+  },
+  "Monk:Breakout": {
+    "NAME": "Desperate Burst",
+    "DESCRIPTION": "Deal !D! damage !M! times. NL Lose 1 Strength ."
+  },
+  "Monk:Qigong": {
+    "NAME": "Qi Wave",
+    "DESCRIPTION": "Deal !D! damage X times. On kill, gain [E] and use remaining attacks on the lowest HP enemy."
+  },
+  "Monk:GreenCab": {
+    "NAME": "Companion: Green Lizard",
+    "DESCRIPTION": "Summon 1 Green Lizard rainworld:Companion . NL Intent: Deal 3 damage, provide 3 Block ."
+  },
+  "Monk:YellowCab": {
+    "NAME": "Companion: Golden Lizard",
+    "DESCRIPTION": "Summon 1 Golden Lizard rainworld:Companion . NL Intent: Deal !M! damage, summon another Golden Lizard rainworld:Companion ."
+  },
+  "Monk:BlackCab": {
+    "NAME": "Companion: Black Lizard",
+    "DESCRIPTION": "Summon 1 Black Lizard rainworld:Companion . NL Intent: Deal !M! damage. NL Black Lizard acts 1 additional time when you play an Attack."
+  },
+  "Monk:SugarCab": {
+    "NAME": "Companion: Caramel Lizard",
+    "DESCRIPTION": "Summon 1 Caramel Lizard rainworld:Companion . NL Intent: Deal !M! damage to ALL enemies. "
+  },
+  "Monk:FireCab": {
+    "NAME": "Companion: Fire Lizard",
+    "DESCRIPTION": "Summon 1 Fire Lizard rainworld:Companion . NL Intent: Apply 1 Vulnerable, deal !M! damage 2 times, then gain 1 Strength. "
+  },
+  "Monk:Bomb": {
+    "NAME": "Bomb",
+    "DESCRIPTION": " rainworld:Scavenger_Treasure . NL Deal !D! damage to ALL enemies. "
+  },
+  "Monk:SpearBoom": {
+    "NAME": "Explosive Spear",
+    "DESCRIPTION": " rainworld:Scavenger_Treasure . rainworld:Spear . NL Deal !D! damage. Then deal !D! damage to ALL enemies. NL Put a Spear into discard pile."
+  },
+  "Monk:Monkey": {
+    "NAME": "Companion: Scavenger",
+    "DESCRIPTION": " Summon 1 Scavenger rainworld:Companion . NL Intent: Deal 4 damage, gain 3 Gold. NL When you play a rainworld:Scavenger_Treasure , this Companion acts 1 additional time."
+  },
+  "Monk:peace": {
+    "NAME": "Pacifism",
+    "DESCRIPTION": " Gain [E] [E] . Cannot play Attacks this turn.",
+    "UPGRADE_DESCRIPTION": " Gain [E] [E] [E] . Cannot play Attacks this turn."
+  },
+  "Monk:Flash": {
+    "NAME": "Flash of Insight",
+    "DESCRIPTION": " Gain rainworld:Harmony equal to your rainworld:Karma this turn."
+  },
+  "Monk:SlugCatCard": {
+    "NAME": "Cat from Another Stone",
+    "DESCRIPTION": " Choose 1 card from 3 other Slugcat colors to obtain."
+  },
+  "Monk:SpearCharge": {
+    "NAME": "Spear of Friendship and Bond",
+    "DESCRIPTION": "No description available"
+  },
+  "Monk:StopFight": {
+    "NAME": "Armistice",
+    "DESCRIPTION": "Gain 1 Intangible . Until end of next turn, your damage dealt becomes 1."
+  },
+  "Monk:MindBreak": {
+    "NAME": "Mental Strike",
+    "DESCRIPTION": "Deal !D! damage, target loses !M! HP."
+  },
+  "Monk:Colorful": {
+    "NAME": "Iridescence",
+    "DESCRIPTION": " rainworld:Rainbow . NL Deal !D! damage to ALL enemies. "
+  },
+  "Monk:BigSong": {
+    "NAME": "Grand Chorus",
+    "DESCRIPTION": "Deal !D! damage. For each color of card played this turn, deal damage 1 additional time."
+  },
+  "Monk:Diversity": {
+    "NAME": "Diversification",
+    "DESCRIPTION": "Draw cards until you draw cards of the same color."
+  },
+  "Monk:10000Live": {
+    "NAME": "Myriad Lives in Harmony",
+    "DESCRIPTION": "If the card you play is a different color from the previous card played this turn, gain [E] ."
+  },
+  "Monk:Seduce": {
+    "NAME": "Lure",
+    "DESCRIPTION": "Deal !D! damage. Target deals and takes double damage this turn."
+  },
+  "Monk:Evolution": {
+    "NAME": "Evolution",
+    "DESCRIPTION": "Evolve your rainworld:Companion s (Unfinished)."
+  },
+  "Monk:nature": {
+    "NAME": "Natural Energy",
+    "DESCRIPTION": "Gain !B! Block, gain !M! [E] . For each time played this combat, gain additional [E] ."
+  },
+  "Monk:SevenRock": {
+    "NAME": "Seven-Color Prism",
+    "DESCRIPTION": " rainworld:Rainbow . NL Deal !D! damage to ALL enemies 7 times. For each color of card played this combat, cost -1. "
+  },
+  "Monk:FiveRock": {
+    "NAME": "Five-Color Prism",
+    "DESCRIPTION": " rainworld:Rainbow . NL Deal !D! damage to ALL enemies 5 times. For each color of card played this turn, cost -1. "
+  },
+  "Monk:BigRock": {
+    "NAME": "Meteor Impact",
+    "DESCRIPTION": " Deal !D! damage. Target loses Strength equal to unblocked damage this turn. Gain 1 rainworld:Stone_Toss . "
+  },
+  "Monk:SpearSave": {
+    "NAME": "Spear of Redemption",
+    "DESCRIPTION": " rainworld:Spear . NL Deal !D! damage. Damage doubled against Weakened targets.  "
+  },
+  "Monk:Resolve": {
+    "NAME": "Resolution",
+    "DESCRIPTION": " Deal !D! damage, gain !M! Buffer .  "
+  },
+  "Monk:AirBreak": {
+    "NAME": "Sky-Splitting Palm",
+    "DESCRIPTION": " Deal !D! damage, then ALL enemies lose HP equal to damage dealt by this card.  "
+  },
+  "Monk:Raid": {
+    "NAME": "Raid",
+    "DESCRIPTION": "Deal !D! damage, draw !M! cards. Then this card's draw -1."
+  },
+  "Monk:Grind": {
+    "NAME": "Honing",
+    "DESCRIPTION": "Gain !B! Block, gain !M! Thorns ."
+  },
+  "Monk:refuse": {
+    "NAME": "Refuse",
+    "DESCRIPTION": "Gain !B! Block, lose 1 Strength."
+  },
+  "Monk:Fight1": {
+    "NAME": "Capture to Win",
+    "DESCRIPTION": " Deal !D! damage, put 1 Read the Enemy into draw pile.",
+    "UPGRADE_DESCRIPTION": " Deal !D! damage, put 1 Read the Enemy+ into draw pile."
+  },
+  "Monk:Fight2": {
+    "NAME": "Read the Enemy",
+    "DESCRIPTION": " Exhaust . NL Gain !B! Block , put 1 Capture to Win into draw pile.",
+    "UPGRADE_DESCRIPTION": " Exhaust . NL Gain !B! Block , put 1 Capture to Win+ into draw pile."
+  },
+  "Monk:WindRain": {
+    "NAME": "Gale and Rain",
+    "DESCRIPTION": "Deal !D! damage. Play all Cat Punches from your hand and draw pile against target.",
+    "UPGRADE_DESCRIPTION": "Deal !D! damage. Play and upgrade all Cat Punches from your hand and draw pile against target."
+  },
+  "Monk:BoneBreak": {
+    "NAME": "Bone-Softening Palm",
+    "DESCRIPTION": "Deal !D! damage. Target cannot gain Block this turn."
+  },
+  "Monk:Nonesee": {
+    "NAME": "Nobody's Watching",
+    "DESCRIPTION": "Deal !D! damage. If you have no rainworld:Companion s, damage multiplied by !M!."
+  },
+  "Monk:CantBreathe": {
+    "NAME": "Hold Breath",
+    "DESCRIPTION": "Gain !B! Block . Gain [E] . NL Cannot draw cards this turn.",
+    "UPGRADE_DESCRIPTION": "Gain !B! Block . Gain [E] [E] . NL Cannot draw cards this turn."
+  },
+  "Monk:Prepare": {
+    "NAME": "Preparedness",
+    "DESCRIPTION": "Choose !M! cards, they gain Retain . For each Retained card in hand, gain [E] ."
+  },
+  "Monk:Seed": {
+    "NAME": "Sowing",
+    "DESCRIPTION": "At end of each turn, you may Retain up to !M! cards. NL When a card is Retained, upgrade it."
+  },
+  "Monk:GoldBlock": {
+    "NAME": "Golden Bell Shield",
+    "DESCRIPTION": "Gain !M! Metallicize . When Retained, increase this card's value by 1.",
+    "UPGRADE_DESCRIPTION": "Gain !M! Metallicize . When Retained, increase this card's value by 2."
+  },
+  "Monk:Dream": {
+    "NAME": "Dream",
+    "DESCRIPTION": "At end of each turn, choose 1 card from discard pile and put it into your hand."
+  },
+  "Monk:Warn": {
+    "NAME": "Warning",
+    "DESCRIPTION": "Choose up to X cards to Retain. Next turn start, gain X [E] .",
+    "UPGRADE_DESCRIPTION": "Choose any number of cards to Retain. Next turn start, gain X [E] ."
+  },
+  "River:FairyForm": {
+    "NAME": "Fairy Form",
+    "DESCRIPTION": "When you take unblocked damage, immediately gain 1 Buffer ."
+  },
+  "River:FoamBomb": {
+    "NAME": "Foam Bomb",
+    "DESCRIPTION": "Deal !D! damage to a random enemy !M! times."
+  },
+  "River:TidalBore": {
+    "NAME": "Geyser",
+    "DESCRIPTION": "Deal !D! damage. If unblocked damage is higher than last time this was played, gain [E] . NL Last damage dealt: !M!.",
+    "UPGRADE_DESCRIPTION": "Deal !D! damage. If unblocked damage is higher than last time this was played, gain [E] [E] . NL Last damage dealt: !M!."
+  },
+  "River:WaterDefend": {
+    "NAME": "Water Curtain",
+    "DESCRIPTION": "Gain !M! Buffer . For each Buffer you have, draw 1 card."
+  },
+  "River:Bubble": {
+    "NAME": "Blow Bubbles",
+    "DESCRIPTION": "On enemy: Deal !D! damage. NL On self: Gain !B! Block ."
+  },
+  "River:Wash": {
+    "NAME": "Cleansing Dust",
+    "DESCRIPTION": "Deal !D! damage to ALL enemies. Transfer your Weak , Vulnerable , and rainworld:Erosion to enemies."
+  },
+  "River:Kick": {
+    "NAME": "Agile Kick",
+    "DESCRIPTION": "Deal !D! damage. If you have [#91CCF0]Adroit[] stacks, deal damage 1 additional time."
+  },
+  "River:Backflip": {
+    "NAME": "Backflip",
+    "DESCRIPTION": "Gain !B! Block . NL Draw 2 cards."
+  },
+  "River:WaterWave": {
+    "NAME": "Water Slash Wave",
+    "DESCRIPTION": "Deal !D! damage, gain !B! Block ."
+  },
+  "River:PourRain": {
+    "NAME": "Pour Rain",
+    "DESCRIPTION": "At end of this turn, deal !D! damage to yourself and ALL enemies. If in rainworld:Hibernate , you don't take this damage."
+  },
+  "River:DriftingBottle": {
+    "NAME": "Drifting Bottle",
+    "DESCRIPTION": "Choose 1 card in hand to Exhaust , then remove it from your deck."
+  },
+  "River:WallJump":{
+    "NAME": "Wall Jump",
+    "DESCRIPTION": "Gain !B! Block !M! times."
+  },
+  "River:Inertia":{
+    "NAME": "Splashing",
+    "DESCRIPTION": "Gain !B! Block . If you have [#91CCF0]Adroit[] stacks, gain 1 [#91CCF0]Adroit[] cap."
+  },
+  "River:Limbo":{
+    "NAME": "Walking on Water",
+    "DESCRIPTION": "When attacked, if you fully Block the damage, gain 1 [#91CCF0]Adroit[] cap. Otherwise, lose 1 [#91CCF0]Adroit[] cap."
+  },
+  "River:SeeDeep":{
+    "NAME": "Gaze into the Abyss",
+    "DESCRIPTION": "Gain [E] . Gain !M! rainworld:Erosion .",
+    "UPGRADE_DESCRIPTION": "Gain [E] [E] . Gain !M! rainworld:Erosion ."
+  },
+  "River:DeepSee":{
+    "NAME": "Abyss Gazes Back",
+    "DESCRIPTION": "Auto-play when drawn. NL For all units: NL No rainworld:Erosion : gain 2 rainworld:Erosion ; NL rainworld:Erosion below 10: raise to 10; NL rainworld:Erosion at 10+: double stacks.",
+    "UPGRADE_DESCRIPTION": "For all units: NL No rainworld:Erosion : gain 2 rainworld:Erosion ; NL rainworld:Erosion below 10: raise to 10; NL rainworld:Erosion at 10+: double stacks."
+  },
+  "River:Ball":{
+    "NAME": "Bouncing Ball",
+    "DESCRIPTION": "Cycle: Deal !D! damage, deal !D! damage to yourself. Until you take damage or target dies. NL Damage increases by 2 after each hit."
+  },
+  "River:Near":{
+    "NAME": "Gradual Progress",
+    "DESCRIPTION": "Next !M! card(s) played: draw 1 card."
+  },
+  "River:Eddy":{
+    "NAME": "Whirlpool",
+    "DESCRIPTION": "Deal !D! damage X times to ALL enemies, and apply !M! rainworld:Erosion X times."
+  },
+  "River:Immerse":{
+    "NAME": "Immersive",
+    "DESCRIPTION": "Reset your [#91CCF0]Adroit[] stacks."
+  },
+  "River:Drain":{
+    "NAME": "Drain",
+    "DESCRIPTION": "Deal !D! damage. Lose all [#91CCF0]Adroit[] stacks this turn."
+  },
+  "River:Dream":{
+    "NAME": "Dreamy Bubbles",
+    "DESCRIPTION": "Gain !M! [#91CCF0]Adroit[] cap. NL This card's cost +1."
+  },
+  "River:Tide":{
+    "NAME": "Water Cycle",
+    "DESCRIPTION": "Each time you shuffle, gain 1 [#91CCF0]Adroit[] cap. Deal !M! damage to ALL enemies."
+  },
+  "River:WaterGun":{
+    "NAME": "Water Gun",
+    "DESCRIPTION": "Deal !D! damage. Target loses all Block."
+  },
+  "River:Moisturizer":{
+    "NAME": "Moisturizer",
+    "DESCRIPTION": "Reset your [#91CCF0]Adroit[] stacks. Your [#91CCF0]Adroit[] stacks won't decrease this turn."
+  },
+  "River:SpearRust":{
+    "NAME": "Rusted Spear",
+    "DESCRIPTION": " rainworld:Spear . NL Deal !D! damage, apply !M! rainworld:Erosion . Target takes 50% more damage from rainworld:Erosion ."
+  },
+  "River:BigJump": {
+    "NAME": "Big Jump",
+    "DESCRIPTION": "Gain !B! Block . NL Next turn start: put a Water Fruit into your hand. "
+  },
+  "River:SaveWater": {
+    "NAME": "Saving Water",
+    "DESCRIPTION": "At end of turn, unused [#91CCF0]Adroit[] stacks carry over to next turn."
+  },
+  "River:ForgetSea": {
+    "NAME": "Dream the Sea Away",
+    "DESCRIPTION": "The first Power card played each turn refunds its Energy cost."
+  },
+  "River:Flexibility": {
+    "NAME": "Elastic Skin",
+    "DESCRIPTION": "When using rainworld:Agility or taking an attack, gain !M! Block ."
+  },
+  "River:Wet": {
+    "NAME": "Realizer",
+    "DESCRIPTION": "For every 2 [#91CCF0]Adroit[] stacks consumed, draw 1 card."
+  },
+  "River:WaterFly": {
+    "NAME": "Splashing Water",
+    "DESCRIPTION": "Consume X [#91CCF0]Adroit[] stacks. Deal !D! damage to random enemies X times."
+  },
+  "River:AirWater": {
+    "NAME": "Evaporation",
+    "DESCRIPTION": "When your Block naturally fades, deal equal damage to ALL enemies."
+  },
+  "River:IceWater": {
+    "NAME": "Freeze",
+    "DESCRIPTION": "Gain !B! Block . Convert all your Block to rainworld:Ice_Crystal ."
+  },
+  "River:AirGrass": {
+    "NAME": "Bubble Grass",
+    "DESCRIPTION": "While in hand, you are immune to damage from rainworld:Erosion ."
+  },
+  "River:WaterRecycle": {
+    "NAME": "Water Cycle",
+    "DESCRIPTION": "Gain [E] equal to your current [#91CCF0]Adroit[] stacks."
+  },
+  "River:Lifeline": {
+    "NAME": "Lifeline",
+    "DESCRIPTION": "Gain !B! Block, draw !M! cards. Cost -1 each time you fully Block damage."
+  },
+  "River:Smoke": {
+    "NAME": "Faint Misty Waves",
+    "DESCRIPTION": "Gain Block equal to your rainworld:Erosion stacks."
+  },
+  "River:SpearStorm": {
+    "NAME": "Storm Spear",
+    "DESCRIPTION": " rainworld:Spear . rainworld:Lightning . NL Deal !D! damage. Damage doubled against targets with rainworld:Erosion ."
+  },
+  "River:WaterRock": {
+    "NAME": "Water Break Pebbles",
+    "DESCRIPTION": "Deal !D! damage. This card's damage permanently increases by 1 this run. NL At start of each turn, put this card from exhaust pile into your hand."
+  },
+  "River:Wetwet": {
+    "NAME": "Soaked",
+    "DESCRIPTION": "Gain !B! Block . Gain 2 rainworld:Erosion ."
+  },
+  "River:LightRain": {
+    "NAME": "Oath of the Luo River",
+    "DESCRIPTION": " rainworld:Lightning . NL Gain !B! Block ."
+  },
+  "River:BombSkip": {
+    "NAME": "Cannonball Jump",
+    "DESCRIPTION": " Lose 1 [#91CCF0]Adroit[] cap. Draw !M! cards. Gain [E] .",
+    "UPGRADE_DESCRIPTION": "  Lose 1 [#91CCF0]Adroit[] cap. Draw !M! cards. Gain [E] [E] ."
+  },
+  "River:AdroitStrike": {
+    "NAME": "Agile Strike",
+    "DESCRIPTION": "Deal !D! damage. Gain !M! [#91CCF0]Adroit[] stacks this turn."
+  },
+  "River:HideCat": {
+    "NAME": "Hide and Seek Cat",
+    "DESCRIPTION": "Gain !B! Block. Gain !M! [#91CCF0]Adroit[] stacks this turn."
+  },
+  "River:SharpHeart": {
+    "NAME": "I Understand",
+    "DESCRIPTION": "Put 1 card from your draw pile into your hand, Then put a card from your hand on top of your draw pile.",
+    "UPGRADE_DESCRIPTION": "Put 1 card from your draw pile into your hand, Then put a card from your hand on top of your draw pile. NL If you have no [#91CCF0]Adroit[] stacks, Exhaust ."
+  },
+  "River:Forward": {
+    "NAME": "Ever Forward",
+    "DESCRIPTION": "At start of your turn, gain [E] and 3 rainworld:Erosion ."
+  },
+  "River:Lotus": {
+    "NAME": "Portable Shelter",
+    "DESCRIPTION": "When you draw cards during your turn, gain !M! Block ."
+  },
+  "River:BackToSea": {
+    "NAME": "Return to the Sea",
+    "DESCRIPTION": "Deal !D! damage. For each [#91CCF0]Adroit[] stack consumed this combat, damage +!M!."
+  },
+  "River:Fish": {
+    "NAME": "Fishing Missile",
+    "DESCRIPTION": "Deal !D! damage to a random enemy. Gain !B! Block , draw 1 card."
+  },
+  "River:Adventure": {
+    "NAME": "Adventure",
+    "DESCRIPTION": "Double your [#91CCF0]Adroit[] stacks this turn."
+  },
+  "River:UpAndDown": {
+    "NAME": "Ebb and Flow",
+    "DESCRIPTION": "Draw cards until hand is full, then discard that many cards."
+  },
+  "River:SeaSound": {
+    "NAME": "Liquid Cat",
+    "DESCRIPTION": "Your rainworld:Erosion stacks can't go below 1. For every 10 rainworld:Erosion applied, gain 1 [#91CCF0]Adroit[] cap."
+  },
+  "River:Watch": {
+    "NAME": "Hydrophobia",
+    "DESCRIPTION": "Gain !B! Block . Apply !M! rainworld:Erosion to an enemy."
+  },
+  "River:SeaDeath": {
+    "NAME": "Burial at Sea",
+    "DESCRIPTION": "All enemies with rainworld:Erosion trigger rainworld:Erosion !M! time(s). NL Gain Block equal to damage dealt this way."
+  },
+  "River:Both": {
+    "NAME": "One Begets All",
+    "DESCRIPTION": "This turn, after you play a card, if you have no [E] , gain [E] ."
+  },
+  "River:Flower": {
+    "NAME": "Butterfly Dance",
+    "DESCRIPTION": "Each time you Exhaust a card, gain !M! [#91CCF0]Adroit[] stack this turn."
+  },
+  "River:Ocean": {
+    "NAME": "Ocean Current",
+    "DESCRIPTION": "Deal !D! damage. Play a random Power from your draw pile."
+  },
+  "River:SpearThree": {
+    "NAME": "Trident",
+    "DESCRIPTION": " rainworld:Spear . NL Deal !D! damage. On the 3rd play each combat, damage is tripled."
+  },
+  "River:Unstained": {
+    "NAME": "Untainted by the World",
+    "DESCRIPTION": " Remove all debuffs. Choose any number of cards to Exhaust ."
+  },
+  "River:Sky": {
+    "NAME": "Apocalypse",
+    "DESCRIPTION": "When playing a Power , gain [E] . Then increase this card's value by 1."
+  },
+  "River:Confused": {
+    "NAME": "Maze Array",
+    "DESCRIPTION": "Gain !B! X Block . For the next X turns, Block doesn't naturally fade."
+  },
+  "River:SkipStone": {
+    "NAME": "Stone Skipping",
+    "DESCRIPTION": "Exhaust 1 card. Deal !D! damage X times, where X is the exhausted card's Energy cost."
+  },
+  "River:Breakdown": {
+    "NAME": "Undercurrent",
+    "DESCRIPTION": "Deal !D! damage. If target has at least 10 rainworld:Erosion stacks, apply !M! Vulnerable ."
+  },
+  "River:SpearSight": {
+    "NAME": "Aimed Spear",
+    "DESCRIPTION": " rainworld:Spear . NL Deal !D! damage. At start of each turn, damage +!M!."
+  },
+  "River:Pond": {
+    "NAME": "Cat Torpedo",
+    "DESCRIPTION": " Deal !D! damage. Apply !M! rainworld:Erosion . If you have [#91CCF0]Adroit[] stacks, deal damage to ALL enemies instead."
+  },
+  "River:Wave": {
+    "NAME": "Flood",
+    "DESCRIPTION": " Deal !D! damage to ALL enemies. Apply rainworld:Erosion equal to total cost of cards in hand."
+  },
+  "River:Spear": {
+    "NAME": "Spear",
+    "DESCRIPTION": " rainworld:Spear . Deal !D! damage. Apply !M! rainworld:Erosion ."
+  },
+  "River:Tempt": {
+    "NAME": "Defensive Counter",
+    "DESCRIPTION": " Deal !D! damage. Next time you gain Block this turn, deal equal damage to ALL enemies."
+  },
+  "River:Flood": {
+    "NAME": "Submerge",
+    "DESCRIPTION": "Double target's rainworld:Erosion . NL If target's rainworld:Erosion more than target's current health, kill target ."
+  },
+  "River:WaterToLight": {
+    "NAME": "Hydroelectric Power",
+    "DESCRIPTION": " rainworld:Lightning . Consume all your rainworld:Erosion ."
+  },
+  "River:Twist": {
+    "NAME": "Swim Against the Current",
+    "DESCRIPTION": " Deal !D! damage 2 times. The highest-cost card in hand costs 0 on next play this turn."
+  },
+  "River:WaterWorld": {
+    "NAME": "Water World",
+    "DESCRIPTION": " The threshold for rainworld:Erosion to trigger damage becomes 0. Damage you take from rainworld:Erosion is halved."
+  },
+  "River:MainField": {
+    "NAME": "Water Fight",
+    "DESCRIPTION": " Only playable if both you and target have rainworld:Erosion . NL Deal !D! damage ."
+  },
+  "River:SunRain": {
+    "NAME": "Sunshower",
+    "DESCRIPTION": " Deal !D! damage 2 times to ALL enemies. Gain [E] , draw !M! cards.",
+    "UPGRADE_DESCRIPTION": " Deal !D! damage 2 times to ALL enemies. Gain [E] [E] , draw !M! cards."
+  },
+  "River:CantCatch": {
+    "NAME": "Keep Your Distance",
+    "DESCRIPTION": " Deal !D! damage 3 times. Can only target enemies that haven't damaged you.",
+    "UPGRADE_DESCRIPTION": " Unplayable. This unit has already damaged you."
+  },
+  "River:CatFoam": {
+    "NAME": "Cat Bubble",
+    "DESCRIPTION": "Deal !D! damage. NL If you have [#91CCF0]Adroit[] stacks, this card costs 0."
+  },
+  "River:CatWaterFoam": {
+    "NAME": "Cat Water Cannon",
+    "DESCRIPTION": "Deal !D! damage. Fill your hand with Cat Bubbles up to hand limit.",
+    "UPGRADE_DESCRIPTION": "Deal !D! damage. Fill your hand with Cat Bubble+ up to hand limit. "
+  },
+  "River:LightRainSky": {
+    "NAME": "Thunderstorm",
+    "DESCRIPTION": "The first card you play each turn gains rainworld:Lightning .",
+    "UPGRADE_DESCRIPTION": "The first card you play each turn gains rainworld:Lightning . "
+  },
+  "River:SkyZed": {
+    "NAME": "Tribulation",
+    "DESCRIPTION": " rainworld:Lightning until target has no rainworld:Erosion . During this, rainworld:Lightning damage removes 4 rainworld:Erosion from target."
+  },
+  "SpearMaster:CJ": {
+    "NAME": "Punishment",
+    "DESCRIPTION": "Deal !D! damage. NL rainworld:Combo : If last card was Cat Punch / Cat Defense, deal damage 1 extra time / gain !B! Block."
+  },
+  "SpearMaster:Continue": {
+    "NAME": "Transition",
+    "DESCRIPTION": "Gain !B! Block . NL rainworld:Combo : If last card satisfied Combo, your next card is treated as satisfying Combo condition."
+  },
+  "SpearMaster:Rock": {
+    "NAME": "Gravel",
+    "DESCRIPTION": "Deal !D! damage, apply !M! Weak. rainworld:Combo : Gain !M! rainworld:Stone_Toss . NL Exhaust ."
+  },
+  "SpearMaster:BigJump": {
+    "NAME": "Big Jump",
+    "DESCRIPTION": "Gain !B! Block . NL Next turn start: put 1 Gravel into your hand. NL rainworld:Combo : If last card was a Skill, cost -1 . "
+  },
+  "SpearMaster:Backflip": {
+    "NAME": "Backflip",
+    "DESCRIPTION": "Gain !B! Block . NL Draw 2 cards. This card doesn't interrupt rainworld:Combo_Chain ."
+  },
+  "SpearMaster:SpearKick": {
+    "NAME": "Flying Spear Kick",
+    "DESCRIPTION": " rainworld:Spear . NL Deal !D! damage. NL rainworld:Combo : If you have rainworld:Sharpness , attack 1 additional time."
+  },
+  "SpearMaster:ComboMaster": {
+    "NAME": "Combo Master",
+    "DESCRIPTION": "When rainworld:Combo triggers, draw 1 card."
+  },
+  "SpearMaster:SpearBone": {
+    "NAME": "Bone Spear",
+    "DESCRIPTION": " rainworld:Spear . NL Deal !D! damage. NL rainworld:Combo : If target has Weak , gain 1 rainworld:Fullness ."
+  },
+  "SpearMaster:SpearAndRock": {
+    "NAME": "Spear and Stone",
+    "DESCRIPTION": " Put 1 Gravel and 1 Bone Spear into your hand. NL rainworld:Combo : If last card was Colorless, gain !B! Block."
+  },
+  "SpearMaster:SpearDance": {
+    "NAME": "Spear Dance Formation",
+    "DESCRIPTION": "When rainworld:Combo triggers, gain Block equal to current rainworld:Combo_Chain count."
+  },
+  "SpearMaster:Polish": {
+    "NAME": "Polish",
+    "DESCRIPTION": "Gain !M! rainworld:Sharpness . rainworld:Combo : No rainworld:Spear played this turn. NL If Combo fails, lose 2 rainworld:Sharpness at end of turn."
+  },
+  "SpearMaster:InfiniteStrike": {
+    "NAME": "Infinite Strike",
+    "DESCRIPTION": "Deal !D! damage 1+ rainworld:Combo_Chain count times. rainworld:Combo : If rainworld:Combo_Chain > 3, damage +!M!."
+  },
+  "SpearMaster:Thief": {
+    "NAME": "Turn the Tables",
+    "DESCRIPTION": "Deal !D! damage. rainworld:Combo : If target intends to attack, deal damage equal to its intent."
+  },
+  "SpearMaster:AtkToDefend": {
+    "NAME": "Offense as Defense",
+    "DESCRIPTION": "Deal !D! damage. rainworld:Combo : If you have no Block, gain !B! Block."
+  },
+  "SpearMaster:Spin": {
+    "NAME": "Advance",
+    "DESCRIPTION": " rainworld:Combo : If rainworld:Combo_Chain count is odd, draw !M! cards."
+  },
+  "SpearMaster:Roll": {
+    "NAME": "Backstep",
+    "DESCRIPTION": " rainworld:Combo : If rainworld:Combo_Chain count is even, gain [E] .",
+    "UPGRADE_DESCRIPTION": " rainworld:Combo : If rainworld:Combo_Chain count is even, gain [E] [E] ."
+  },
+  "SpearMaster:Messenger": {
+    "NAME": "Messenger",
+    "DESCRIPTION": "Gain 1 rainworld:Messenger ."
+  },
+  "SpearMaster:Slash": {
+    "NAME": "Diagonal Slash",
+    "DESCRIPTION": "Deal !D! damage. rainworld:Combo : If last card was an Attack, hits ALL enemies instead."
+  },
+  "SpearMaster:Restrain": {
+    "NAME": "Self-Restraint",
+    "DESCRIPTION": "Each time rainworld:Combo_Chain is interrupted, gain [E] and draw 1 card."
+  },
+  "SpearMaster:Think": {
+    "NAME": "Meditation",
+    "DESCRIPTION": "Gain !B! Block . NL rainworld:Combo : If you haven't drawn cards since turn start, draw !M! cards."
+  },
+  "SpearMaster:SpearRen": {
+    "NAME": "Spear of Benevolence",
+    "DESCRIPTION": " rainworld:Spear . NL Deal !D! damage, gain !M! temporary Strength. NL rainworld:Combo : If Spear of Righteousness played this turn, put 1 Heartless Spear into hand. "
+  },
+  "SpearMaster:SpearYi": {
+    "NAME": "Spear of Righteousness",
+    "DESCRIPTION": " rainworld:Spear . NL Deal !D! damage, gain !M! temporary Dexterity. NL rainworld:Combo : If Spear of Benevolence played this turn, put 1 Heartless Spear into hand. "
+  },
+  "SpearMaster:SpearHeartless": {
+    "NAME": "Heartless Spear",
+    "DESCRIPTION": " rainworld:Spear . NL Deal !D! damage. NL rainworld:Combo : Convert temporary Strength / Dexterity to permanent Strength / Dexterity . "
+  },
+  "SpearMaster:Excrete": {
+    "NAME": "Secrete",
+    "DESCRIPTION": "Put !M! Bone Spear(s) into your hand."
+  },
+  "SpearMaster:MasterForm": {
+    "NAME": "Master Form",
+    "DESCRIPTION": "All your cards with rainworld:Combo effects are treated as satisfying Combo condition."
+  },
+  "SpearMaster:Auto": {
+    "NAME": "Auto Pickup",
+    "DESCRIPTION": "At start of each turn, put 1 Gravel into your hand.",
+    "UPGRADE_DESCRIPTION": "At start of each turn, put 1 Gravel+ into your hand."
+  },
+  "SpearMaster:CantNoSpear": {
+    "NAME": "Slugcat Won't Die Empty-Handed",
+    "DESCRIPTION": "Draw until you have a rainworld:Spear in hand.",
+    "UPGRADE_DESCRIPTION": "Draw until you draw a rainworld:Spear ."
+  },
+  "SpearMaster:SpearMasterNote":{
+    "NAME": "Spear Master's Notes",
+    "DESCRIPTION": "When playing a rainworld:Spear , gain !M! rainworld:Sharpness ."
+  },
+  "SpearMaster:Perfect":{
+    "NAME": "Perfectionism",
+    "DESCRIPTION": "When you play your last card, if you have no [E] , gain !M! [E] and draw !M! cards."
+  },
+  "SpearMaster:Pause":{
+    "NAME": "Intermission",
+    "DESCRIPTION": "Gain !B! Block . NL Interrupt current rainworld:Combo_Chain . Next turn start, gain current Combo count."
+  },
+  "SpearMaster:SpearSkip": {
+    "NAME": "Flip Spear",
+    "DESCRIPTION": " rainworld:Spear . NL Deal !D! damage, discard 1 card. NL rainworld:Combo : If discarded card is rainworld:Spear , target loses !M! Strength this turn."
+  },
+  "SpearMaster:Remember": {
+    "NAME": "Unforgettable",
+    "DESCRIPTION": " When attacking with a Bone Spear, apply 1 Vulnerable ."
+  },
+  "SpearMaster:DoubleSpear": {
+    "NAME": "Dual Spear Style",
+    "DESCRIPTION": " When you play a card, if you have an identical copy in hand, that copy is played 1 additional time."
+  },
+  "SpearMaster:MoreCard": {
+    "NAME": "Good Cards to Grab",
+    "DESCRIPTION": " Choose a card in hand. At start of each turn, put an Exhausting copy of it into your hand."
+  },
+  "SpearMaster:MultiSpear": {
+    "NAME": "Recursive Spear",
+    "DESCRIPTION": " rainworld:Spear . NL Deal !D! damage, apply !M! rainworld:Trauma . NL rainworld:Combo : For each other Recursive Spear in hand, damage doubled."
+  },
+  "SpearMaster:FightForFight": {
+    "NAME": "Fight Feeds Fight",
+    "DESCRIPTION": "At start of turn, lose 1 rainworld:Fullness to gain [E] . If you have no rainworld:Fullness , lose [E] instead."
+  },
+  "SpearMaster:Twist": {
+    "NAME": "Reversal",
+    "DESCRIPTION": "Gain !B! Block . NL rainworld:Combo : If you currently have no rainworld:Combo_Chain count, gain +!M! Block ."
+  },
+  "SpearMaster:BottomCard": {
+    "NAME": "Trump Card",
+    "DESCRIPTION": "Deal !D! damage X times to ALL enemies. rainworld:Combo : If this is your last card in hand, X +!M!."
+  },
+  "SpearMaster:Throw": {
+    "NAME": "Throw",
+    "DESCRIPTION": "If a rainworld:Spear is discarded from your hand, play it against a random target. "
+  },
+  "SpearMaster:Skew": {
+    "NAME": "Offset",
+    "DESCRIPTION": "Deal !D! damage. Deal damage equal to target's missing HP to all other enemies."
+  },
+  "SpearMaster:Smart": {
+    "NAME": "Through the Gap",
+    "DESCRIPTION": "Gain !B! Block. This turn, cards without rainworld:Combo don't interrupt rainworld:Combo_Chain ."
+  },
+  "SpearMaster:Model": {
+    "NAME": "Paradigm",
+    "DESCRIPTION": "Copy all cards in your hand. rainworld:Combo : If you have 5 or fewer cards in hand, gain [E] .",
+    "UPGRADE_DESCRIPTION": "Copy all cards in your hand. rainworld:Combo : If you have 5 or fewer cards in hand, gain [E] [E] ."
+  },
+  "SpearMaster:SpearNail": {
+    "NAME": "Nail Down",
+    "DESCRIPTION": " rainworld:Spear . NL Deal !D! damage. Target takes double damage from rainworld:Spear this turn."
+  },
+  "SpearMaster:SpearChaos": {
+    "NAME": "Spear of Chaos",
+    "DESCRIPTION": " rainworld:Spear . NL Deal !D! damage."
+  },
+  "SpearMaster:LeftAndRight": {
+    "NAME": "Both Barrels",
+    "DESCRIPTION": " Deal !D! damage. NL rainworld:Combo : If target differs from last time this was played, damage +!M!."
+  },
+  "SpearMaster:improving": {
+    "NAME": "Strive for Perfection",
+    "DESCRIPTION": " Gain X Strength and Dexterity. NL rainworld:Combo : If your rainworld:Combo_Chain count > X, execute effect 1 additional time."
+  },
+
+
+  "Wcather:Hold": {
+    "NAME": "Hover",
+    "DESCRIPTION": "Play the last card you played."
+  },
+  "Wcather:RippleField": {
+    "NAME": "Ripple Field",
+    "DESCRIPTION": "Cards with rainworld:Ripple cost 0 for you."
+  },
+  "Wcather:LightShadow": {
+    "NAME": "Light and Shadow",
+    "DESCRIPTION": "Deal !D! damage. If you have no rainworld:Karma_Lock , gain 1 rainworld:Karma_Lock ."
+  },
+  "Wcather:GoldDream": {
+    "NAME": "Golden Dream",
+    "DESCRIPTION": "Gain 1 rainworld:Karma_Lock , gain [E] .",
+    "UPGRADE_DESCRIPTION": "Gain 1 rainworld:Karma_Lock , gain [E] [E] ."
+  },
+  "Wcather:Fake": {
+    "NAME": "Forgery",
+    "DESCRIPTION": "Gain !M!X Block . Your next X-cost card's effect value increases by X."
+  },
+  "Wcather:Shadow": {
+    "NAME": "Reflection",
+    "DESCRIPTION": "Gain !B! Block . If in a rainworld:Region with Water, gain +!M! Block ."
+  },
+  "Wcather:ShadowStrike": {
+    "NAME": "Shadow Strike",
+    "DESCRIPTION": "Deal !D! damage. For each rainworld:Ripple level, damage +!M!."
+  },
+  "Wcather:RippleTP": {
+    "NAME": "Ripple Teleport",
+    "DESCRIPTION": "Randomly enter a rainworld:Region . If you have rainworld:Karma_Lock , consume 1 to choose from 3 non-corrupted rainworld:Region s.",
+    "EXTENDED_DESCRIPTION":["Choose a Region."]
+  },
+  "Wcather:Skip": {
+    "NAME": "Jump",
+    "DESCRIPTION": "When you enter a rainworld:Region , draw 2 cards."
+  },
+  "Wcather:Say": {
+    "NAME": "Whisper",
+    "DESCRIPTION": "Deal !D! damage, rainworld:Lost 2."
+  },
+  "Wcather:Run": {
+    "NAME": "Take Ten Thousand Steps Back",
+    "DESCRIPTION": "  Escape a non-boss, non-elite fight. Gain no rewards.",
+    "UPGRADE_DESCRIPTION": " Escape a non-boss fight. Gain no rewards."
+  },
+  "Wcather:Execute": {
+    "NAME": "Execute",
+    "DESCRIPTION": " Deal !D! damage X times. On Fatal, refund X [E] ."
+  },
+  "Wcather:KillWork": {
+    "NAME": "Karma Severance",
+    "DESCRIPTION": " Deal !D! damage. If you have rainworld:Karma_Lock , consume 1 to deal damage 2 additional times."
+  },
+  "Wcather:Walker": {
+    "NAME": "Hike",
+    "DESCRIPTION": " Deal !D! damage. For each rainworld:Region entered this combat, damage +!M!."
+  },
+  "Wcather:Toy": {
+    "NAME": "Toy Top",
+    "DESCRIPTION": " At end of turn, ALL enemies lose !M!X HP. This value halves each turn."
+  },
+  "Wcather:NoLost": {
+    "NAME": "No Longer Lost",
+    "DESCRIPTION": " Clear your rainworld:Lost stacks. Gain equal [E] ."
+  },
+  "Wcather:Soul": {
+    "NAME": "Wandering Soul",
+    "DESCRIPTION": " At start of each turn, gain [E] , rainworld:Lost 2."
+  },
+  "Wcather:Kick": {
+    "NAME": "Dimensional Kick",
+    "DESCRIPTION": " Deal !D! damage. If in a rainworld:Region , deal damage 1 additional time."
+  },
+  "Wcather:SoulBlock": {
+    "NAME": "Soul Cloak",
+    "DESCRIPTION": " Gain !B! Block . If you have no rainworld:Karma_Lock , rainworld:Lost 2 ."
+  },
+  "Wcather:Stella": {
+    "NAME": "Shooting Star",
+    "DESCRIPTION": " Deal !D! damage to ALL enemies. Lose 1 rainworld:Ripple level . On Fatal , gain rainworld:Karma_Lock ."
+  },
+  "Wcather:Pretend": {
+    "NAME": "Camouflage",
+    "DESCRIPTION": " Gain 1 rainworld:Camouflage , rainworld:Lost !M! ."
+  },
+  "Wcather:BigJump": {
+    "NAME": "Big Jump",
+    "DESCRIPTION": "Gain !B! Block . NL Next turn start: put 1 Karma Seed into your hand. ",
+    "UPGRADE_DESCRIPTION": "Gain !B! Block . NL Next turn start: put 1 Karma Seed+ into your hand.  "
+  },
+  "Wcather:SpearPoison": {
+    "NAME": "Poison Spear",
+    "DESCRIPTION": " rainworld:Spear . NL Deal !D! damage, apply rainworld:Neurotoxin to target. "
+  },
+  "Wcather:Cranny": {
+    "NAME": "Ripple Fissure",
+    "DESCRIPTION": "Deal !D! damage to ALL enemies. NL Put 1 Ripple Amoeba into discard pile."
+  },
+  "Wcather:Amiba": {
+    "NAME": "Ripple Amoeba",
+    "DESCRIPTION": "When Retained, rainworld:Lost 2 ."
+  },
+  "Wcather:End": {
+    "NAME": "Cosmic Illusion",
+    "DESCRIPTION": "Gain 1 random X-cost card. Gain [E] .",
+    "UPGRADE_DESCRIPTION": "Choose 1 of 3 X-cost cards to obtain. Gain [E] ."
+  },
+  "Wcather:divine": {
+    "NAME": "Divination",
+    "DESCRIPTION": "Draw !M! cards."
+  },
+  "Wcather:Backsee": {
+    "NAME": "Look Back",
+    "DESCRIPTION": "  Before a card is exhausted due to Ethereal , play it against a random target."
+  },
+  "Wcather:Universal": {
+    "NAME": "Cosmic Indifference",
+    "DESCRIPTION": "  Gain !B! Block . NL Place 1 card from discard pile on top of draw pile."
+  },
+  "Wcather:QianxizhiluPower": {
+    "NAME": "Migration Path",
+    "DESCRIPTION": "Each time you play a card, randomly discard 1 card, then draw 1 card."
+  },
+  "Wcather:XinhaojiantaPower": {
+    "NAME": "Signal Spire",
+    "DESCRIPTION": "The first Power played each turn is executed 1 additional time."
+  },
+  "Wcather:BaoyutieluPower": {
+    "NAME": "Storm Railway",
+    "DESCRIPTION": " rainworld:Water . NL At start of each turn, apply 2 rainworld:Erosion to ALL units. "
+  },
+  "Wcather:BumaozhidiPower": {
+    "NAME": "Barren Land",
+    "DESCRIPTION": "At start of each turn, lose [E] , ALL enemies lose 12 HP."
+  },
+  "Wcather:ShanhudongxuePower": {
+    "NAME": "Coral Cave",
+    "DESCRIPTION": " rainworld:Water . NL At start of each turn, draw 2 cards. "
+  },
+  "Wcather:GongreguandaoPower": {
+    "NAME": "Heating Pipeline",
+    "DESCRIPTION": " When playing a card costing 2 [E] or more, gain [E] . "
+  },
+  "Wcather:LengkuPower": {
+    "NAME": "Cold Storage",
+    "DESCRIPTION": " Retain the cards you drew this turn."
+  },
+  "Wcather:FuchouyouguPower": {
+    "NAME": "Fetid Valley",
+    "DESCRIPTION": " rainworld:Water . NL ALL enemies gain 2 Poison each turn. "
+  },
+  "Wcather:WoliubengPower": {
+    "NAME": "Vortex Pump",
+    "DESCRIPTION": " rainworld:Water . NL Effect value of X-cost cards increased by 2. "
+  },
+  "Wcather:YitaishanjiPower": {
+    "NAME": "Ether Ridge",
+    "DESCRIPTION": " At start of each turn, gain [E] ."
+  },
+  "Wcather:ZhulinPower": {
+    "NAME": "Pillar Forest",
+    "DESCRIPTION": "  When entering or leaving this rainworld:Region , gain 3 rainworld:Fullness . "
+  },
+  "Wcather:YanhuaquPower": {
+    "NAME": "Salt Flats",
+    "DESCRIPTION": " rainworld:Water . NL At end of turn, Block doesn't naturally fade. "
+  },
+  "Wcather:XiushicanhaiPower": {
+    "NAME": "Rusty Wreckage",
+    "DESCRIPTION": " When entering this rainworld:Region or at start of each turn, apply 2 Vulnerable to ALL enemies."
+  },
+  "Wcather:YinbiduicengPower": {
+    "NAME": "Hidden Layers",
+    "DESCRIPTION": " At end of each turn, gain 8 Block . "
+  },
+  "Wcather:QiliangdidaiPower": {
+    "NAME": "Desolate Zone",
+    "DESCRIPTION": " When entering this rainworld:Region or at start of each turn, apply 2 Weak to ALL enemies. "
+  },
+  "Wcather:FengbaohaianPower": {
+    "NAME": "Storm Coast",
+    "DESCRIPTION": " rainworld:Water . NL When entering this rainworld:Region , gain 3 Strength . Lose 1 Strength when leaving. "
+  },
+  "Wcather:CuilvshuidaoPower": {
+    "NAME": "Emerald Waterway",
+    "DESCRIPTION": "  rainworld:Water . NL When entering this rainworld:Region , gain 3 Dexterity . Lose 1 Dexterity when leaving."
+  },
+  "Wcather:LierixiangPower": {
+    "NAME": "Sunset Lane",
+    "DESCRIPTION": "  At start of each turn, you may choose 1 card to Exhaust ."
+  },
+  "Wcather:Transfer": {
+    "NAME": "Inheritance",
+    "DESCRIPTION": " Choose 1 card in hand. Its cost -1 for this combat. NL This card's cost +1."
+  },
+  "Wcather:Subside": {
+    "NAME": "Sedimentation",
+    "DESCRIPTION": " Gain !B! Block. For each unplayable card in hand, gain +!M! Block."
+  },
+  "Wcather:Schrodinger": {
+    "NAME": "Schrodinger's Slugcat",
+    "DESCRIPTION": " Put a random rare card into your hand.",
+    "UPGRADE_DESCRIPTION": " Put a random upgraded rare card into your hand."
+  },
+  "Wcather:Event": {
+    "NAME": "Event Horizon",
+    "DESCRIPTION": " Scry your draw pile."
+  },
+
+
+  "Lalacha:VoidHand": {
+    "NAME": "Void Hand",
+    "DESCRIPTION": "Draw cards equal to your exhausted cards count. Those cards cost 0 on next play this turn. NL Exhaust"
+  },
+  "Lalacha:TubeBug": {
+    "NAME": "Tube Worm",
+    "DESCRIPTION": " Retain . NL When Retained, ALL enemies lose 1 temporary Strength . NL When played, gain 1 rainworld:Fullness . NL Exhaust .",
+    "UPGRADE_DESCRIPTION": " Innate . Retain . NL When Retained, ALL enemies lose 2 temporary Strength . NL When played, gain 1 rainworld:Fullness . NL Exhaust ."
+  },
+  "Rainworld:Inkfish": {
+    "NAME": "Cicada Squid",
+    "DESCRIPTION": " Retain . NL When Retained, gain !B! Block . NL When played, gain 1 rainworld:Fullness . NL Exhaust .",
+    "UPGRADE_DESCRIPTION": " Innate . Retain . NL When Retained, gain !B! Block . NL When played, gain 1 rainworld:Fullness . NL Exhaust ."
+  },
+  "Rainworld:WaterFruit":{
+    "NAME": "Water Fruit",
+    "DESCRIPTION": " Unplayable . Retain . NL When Retained, upgrade. NL Can upgrade up to 3 times.",
+    "UPGRADE_DESCRIPTION": " Retain NL Gain !M! Fullness, gain !M! [E] . NL When Retained, upgrade. NL Can upgrade up to 3 times. NL Exhaust ."
+  },
+  "Rainworld:Turtle":{
+    "NAME": "Wave Turtle",
+    "DESCRIPTION": "Auto-play when drawn. Randomly discard 1 card."
+  },
+  "Rainworld:SmallWorkFlower": {
+    "NAME": "Karma Seed",
+    "DESCRIPTION": " Retain . Unplayable. NL After !M! turns, transforms into Karma Flower."
+  },
+  "Rainworld:WorkFlower": {
+    "NAME": "Karma Flower",
+    "DESCRIPTION": " Ethereal . NL If you have no rainworld:Karma_Lock , gain 1 rainworld:Karma_Lock . NL Exhaust .",
+    "UPGRADE_DESCRIPTION": " Ethereal . NL Gain 1 rainworld:Karma_Lock . NL Exhaust ."
+  },
+  "Rainworld:Mushroom": {
+    "NAME": "Hallucinogenic Mushroom",
+    "DESCRIPTION": " Retain . NL Randomize the cost of cards in your hand. Gain [E] [E] . NL Exhaust .",
+    "UPGRADE_DESCRIPTION": " Retain . NL Randomize the cost of cards in your hand. Gain [E] [E] [E] . NL Exhaust ."
+  }
+}

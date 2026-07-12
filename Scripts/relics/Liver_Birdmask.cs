@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using BaseLib.Abstracts;
-using BaseLib.Utils;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -23,18 +21,20 @@ using MegaCrit.Sts2.Core.ValueProps;
 using Rainworld.Scripts;
 using Rainworld.Scripts.Card.Liver.Attack;
 using Rainworld.Scripts.Powers;
+using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Scaffolding.Content;
 
 namespace Rainworld.relics;
-[Pool(typeof(Rainworld_Liver_RelicPool))]
-public sealed class Liver_Birdmask : CustomRelicModel
+[RegisterRelic(typeof(Rainworld_Liver_RelicPool))]
+public sealed class Liver_Birdmask : ModRelicTemplate
 {
-	public override RelicRarity Rarity => RelicRarity.Uncommon;
-	// 小图标
-	public override string PackedIconPath =>  $"res://Resource/Relics/birdmask.png";
-	// 轮廓图标
-	protected override string PackedIconOutlinePath =>  $"res://Resource/Relics/outline/birdmask.png";
-	// 大图标
-	protected override string BigIconPath => $"res://Resource/Relics/birdmask.png";
+	public override RelicRarity Rarity => RelicRarity.Shop;
+	public override RelicAssetProfile AssetProfile => new(
+		IconPath: "res://Resource/Relics/birdmask.png",
+		IconOutlinePath: "res://Resource/Relics/outline/birdmask.png",
+		BigIconPath: "res://Resource/Relics/birdmask.png"
+	);
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] {  HoverTipFactory.FromPower<NimblePower>()};
 
 	public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult result, ValueProp props, Creature? dealer, CardModel? cardSource)
 	{

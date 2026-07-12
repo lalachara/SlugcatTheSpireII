@@ -1,12 +1,12 @@
-﻿using System.Diagnostics.Metrics;
-using BaseLib.Abstracts;
-using MegaCrit.Sts2.Core.Entities.Cards;
+﻿﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using Rainworld.Scripts;
 using Rainworld.Scripts.Card.Liver.Attack;
 using Rainworld.Scripts.Powers;
+using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Scaffolding.Content;
 
 namespace Rainworld.Scripts.Powers;
 
@@ -24,10 +24,13 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 #nullable enable
-public sealed class WorklockPower : CustomPowerModel
+[RegisterPower]
+public sealed class WorklockPower : ModPowerTemplate
 {
-  public override string? CustomPackedIconPath => "res://Resource/Powers/WorkLock48.png";
-  public override string? CustomBigIconPath => "res://Resource/Powers/WorkLock128.png";
+  public override PowerAssetProfile AssetProfile => new(
+    IconPath: "res://Resource/Powers/WorkLock128.png",
+    BigIconPath: "res://Resource/Powers/WorkLock128.png"
+  );
   
   public override PowerType Type => PowerType.Buff;
 

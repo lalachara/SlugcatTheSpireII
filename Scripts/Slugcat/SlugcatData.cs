@@ -1,272 +1,364 @@
-﻿using BaseLib;
-using Godot;
+﻿﻿﻿﻿using Godot;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.GameActions;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Models.Relics;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Nodes.Rooms;
 using MegaCrit.Sts2.Core.Rooms;
+using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Saves.Runs;
+using MegaCrit.Sts2.Core.ValueProps;
+using Rainworld.Patches;
 using Rainworld.Scripts.Powers;
 using Rainworld;
 using Rainworld.Patches;
 using Rainworld.relics;
 using Rainworld.Scripts.patches;
+using SlugcatTheSpireII.Scripts;
 using SlugcatTheSpireII.Scripts.patches;
+using STS2RitsuLib.Combat.SecondaryResources;
 
 namespace Rainworld.Scripts
 {
-    /// <summary>
-    /// Slugcat 专属数据类（纯数据 + 逻辑）
-    /// </summary>
     public class SlugcatData
     {
-        // 你的状态变量
-        public int workLevel = 0;
-        public int maxWorkLevel = 0;
-        public int food = 0;
-        public int maxFood = 0;
-        public int sleepFood = 99;
-        public int sleepCD = 0;
-        public NAutoButton Nbutton;
-
-        // 你的逻辑方法
-        public Player Player;
-        public WorkLevelIndicator workLevelIndicator;
-
-        public SlugcatData(Player player)
+        public static int GetWorkLevel(Player player)
         {
-            this.Player = player;
-            Initialize();
-
+            return SlugcatResources.Data.Get(player).WorkLevel;
+        }
+        public static bool GetChaosheng(Player player)
+        {
+            return SlugcatResources.Data.Get(player).HaveChaoshengt;
         }
 
-       
-        public void Initialize()
+        public static void setchaosheng(Player player,bool  chaosheng)
         {
-           
+            SlugcatResources.Data.Modify(player, d => d.HaveChaoshengt = chaosheng);
+        }
 
+        public static int GetFood(Player player)
+        {
+            return SlugcatResources.Data.Get(player).Food;
+        }
+        public static int GetMaxFood(Player player)
+        {
+            return SlugcatResources.Data.Get(player).MaxFood;
+        }
+
+        public static int GetSleepFood(Player player)
+        {
+            return SlugcatResources.Data.Get(player).SleepFood;
+        }
+
+        public static int GetMaxWorkLevel(Player player)
+        {
+            return SlugcatResources.Data.Get(player).MaxWorkLevel;
+        }
+
+        public SlugcatData(Creature creature)
+        {
+            if (creature.Player == null)
+                return;
+        }
+
+        public static void Initialize(Player player)
+        {
             try
             {
-                if (Player.Character is Slugcat slugcat)
+                if (player?.Creature == null || player.Character is not Slugcat slugcat)
                 {
-                    //
-                    // workLevel = slugcat.workLevel;
-                    // maxWorkLevel = slugcat.maxWorkLevel;
-                    // food = slugcat.food;
-                    // maxFood = slugcat.maxFood;
-                    // sleepFood = slugcat.sleepfood;
-                    if (!RainworldData.Current.isinit)
-                    {
-                        workLevel = slugcat.workLevel;
-                        maxWorkLevel = slugcat.maxWorkLevel;
-                        food = slugcat.food;
-                        maxFood = slugcat.maxFood;
-                        sleepFood = slugcat.sleepfood;
-                        SaveDataToCharacter();
-                    }
-                    else
-                    {
-                        workLevel = RainworldData.Current.WorkLevel;
-                        maxWorkLevel = RainworldData.Current.MaxWorkLevel;
-                        food = RainworldData.Current.Food;
-                        maxFood = RainworldData.Current.MaxFood;
-                        sleepFood = RainworldData.Current.SleepFood;
-                    }
-
-                
-
+                    GD.Print("Player或Creature不是Slugcat");
+                    return;
                 }
+
+                var data = SlugcatResources.Data.Get(player);
+
+                if (!data.IsInitialized)
+                {
+                    GD.Print($"首次初始化 {player}，hash={player.GetHashCode()}，从角色类读取初始值");
+                    SlugcatResources.Data.Modify(player, d =>
+                    {
+                        d.WorkLevel = slugcat.workLevel;
+                        d.MaxWorkLevel = slugcat.maxWorkLevel;
+                        d.Food = slugcat.food;
+                        d.MaxFood = slugcat.maxFood;
+                        d.SleepFood = slugcat.sleepfood;
+                        d.IsInitialized = true;
+                    });
+                }
+
+                var finalData = SlugcatResources.Data.Get(player);
+                GD.Print($"初始化完成{player}，hash={player.GetHashCode()}，" +
+                    $"workLevel={finalData.WorkLevel}，food={finalData.Food}，" +
+                    $"maxWorkLevel={finalData.MaxWorkLevel}，maxFood={finalData.MaxFood}，" +
+                    $"sleepFood={finalData.SleepFood}");
             }
             catch (Exception e)
             {
-                GD.PrintErr("SlugCatDataInitialize报错"+e);
-                throw;
+                GD.PrintErr("SlugCatDataInitialize报错" + e);
             }
-           
         }
 
-        public void SaveDataToCharacter()
+        public static bool canbekill(Player player)
         {
-        
-            if (Player.Character is Slugcat)
-            {
-                RainworldData.Current.WorkLevel =  workLevel;
-                RainworldData.Current.MaxWorkLevel = maxWorkLevel;
-                RainworldData.Current.Food = food;
-                RainworldData.Current.MaxFood = maxFood;
-                RainworldData.Current.SleepFood = sleepFood;
-                RainworldData.Current.isinit = true;
-            }
-        }
-        
-        public bool canbekill()
-        {
-            if (Player.Creature.HasPower<WorklockPower>())
+            if (player.Creature.HasPower<WorklockPower>())
                 return false;
-            return workLevel <= 0;
+            if(player.Creature.HasPower<RedmushroomPower>()&&!player.Creature.HasPower<RefusePower>())
+                return true;
+            return SlugcatResources.Data.Get(player).WorkLevel <= 0;
         }
 
-        public async void addfood(int amount)
+        public static async Task addfood(Player player, int amount)
         {
-            int tempfood = food;
-            //音效
-            //bool full = food==maxFood;
-            food+=amount;
+            GD.Print($"添加食物{amount}，hash={player.GetHashCode()}");
+            var data = SlugcatResources.Data.Get(player);
+            int currentFood = data.Food;
+            int newFood = currentFood + amount;
+            if(player.Creature == CombatUiPatch.creature)
+                SfxCmd.Play("event:/Rainworld/sfx/foodup");
             int exfood = 0;
-            // if(!full)  饱食度增加的特效文本，之后补上
-            // 	AbstractDungeon.effectsQueue.add(new TextAboveCreatureEffect(this.hb.cX - this.animX, this.hb.cY, characterStrings.TEXT[2] + Integer.toString(amount), Settings.GREEN_TEXT_COLOR));
-            if(food>maxFood)
+            if (newFood > data.MaxFood)
             {
-                exfood = food-maxFood;
-                
-                if(Player.Creature.HasPower<FatworldPower>())
-                    await PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(),Player.Creature, exfood, Player.Creature, null);
+                exfood = newFood - data.MaxFood;
+                if (player.Creature.HasPower<FatworldPower>())
+                    await PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), player.Creature, exfood, player.Creature, null);
             }
-            if(food<0)
-                food=0;
-            food = Math.Min(food,maxFood);
-            if (food != tempfood)
+            if (newFood < 0)
+                newFood = 0;
+            newFood = Math.Min(newFood, data.MaxFood);
+            if (newFood != currentFood)
             {
-                if(sleepCD==0)
-                    CombatUiPatch.SetSleepButton(cansleep());
-                CombatUiPatch.Setfood(food);
+                SlugcatResources.Data.Modify(player, d => d.Food = newFood);
+                GD.Print($"存储food{newFood}");
+                CombatUiPatch.Setfood(newFood,player);
             }
         }
 
-        public void addMaxWorkLevel(int amount)
+        public static void addMaxWorkLevel(Player player, int amount)
         {
-            int temp =  maxWorkLevel+amount;
+            var data = SlugcatResources.Data.Get(player);
+            int temp = data.MaxWorkLevel + amount;
             if (temp > 9)
                 temp = 9;
-            maxWorkLevel = Math.Max(temp,0);
-            if(workLevel>maxWorkLevel)
-                setworklevel(maxWorkLevel);
+            temp = Math.Max(temp, 0);
+            SlugcatResources.Data.Modify(player, d => d.MaxWorkLevel = temp);
+            if (data.WorkLevel > temp)
+                setworklevel(player, temp);
         }
 
-        public async void reLive()
+        public async static Task reLive(Player player)
         {
-            if(Player.Creature.HasPower<WorklockPower>())
-                await PowerCmd.Decrement(Player.Creature.GetPower<WorklockPower>());
-            else
-                this.addworklevel(-1);
-        }
-        public void addworklevel(int level)
-        {
-            if(level>0&&Player.Creature.HasPower<WorkerrorPower>())
+            if(player.GetRelic<Redmushroom>()!=null)
                 return;
-            int result = workLevel+level;
-            setworklevel(result);
-        }
-        public void setworklevel(int level,Boolean show = true)
-        {
-            if(level>maxWorkLevel)
-                level=maxWorkLevel;
-            if(level<0)
-                level=0;
-            workLevel=level;
-            if (workLevelIndicator != null&&show&&Player.RunState.CurrentRoom is CombatRoom)
+            if(player.Creature.HasPower<RefusePower>())
+                await setCorruptValue(player, 0);
+
+            if (player.Creature.HasPower<WorklockPower>())
             {
-                
-                workLevelIndicator.UpdateWorkLevel(workLevel);
-                Player.Creature.SetCurrentHpInternal(Player.Creature.MaxHp);
+                await CreatureCmd.Heal(player.Creature,player.Creature.MaxHp,false);
+                await PowerCmd.Decrement(player.Creature.GetPower<WorklockPower>());
+
             }
 
-        }
-        
-
-        public bool cansleep()
-        {
-            
-            return sleepCD==0&&food >= sleepFood;
-        }
-
-        public  void trysleep()
-        {
-            if ( cansleep())
-            {
-                sleepCD = 3;
-                addfood(-sleepFood);
-                sleep();
-                
-            }
-        }
-
-        public async void sleep()
-        {
-            await PowerCmd.Apply<SleepPower>(new ThrowingPlayerChoiceContext(),Player.Creature,1, Player.Creature, null);
-            
-
-            NCreature creatureNode = NCombatRoom.Instance?.GetCreatureNode(Player.Creature);
-            if (creatureNode != null)
-            {
-                creatureNode.SetAnimationTrigger("sleep");
-            }
-
-            PlayerCmd.EndTurn(Player, canBackOut: false);
-
-        }
-
-        public void callTurnStart()
-        {
-            if (Player.Creature.CombatState == null)
-            {
-                Player = CombatUiPatch.creature.Player;
-            }
-
-            if (Player.Creature.CombatState?.CurrentSide == CombatSide.Player)
-            {
-                
-                if (sleepCD > 0)
-                            {
-                                sleepCD--;
-                                if (Player.Creature.CombatState.RoundNumber == 1)
-                                    sleepCD = 0;
-                                if(sleepCD == 0)
-                                    CombatUiPatch.SetSleepButton(cansleep());
-                                if (sleepCD == 1)
-                                    CombatUiPatch.SetSleepButtonDown1();
-                            }
-                            else
-                            {
-                                CombatUiPatch.SetSleepButton(cansleep());
-                            }
-            }
             else
+                addworklevel(player, -1);
+            Tools.WorkReport(player);
+            //
+        }
+
+        public async static Task addworklevel(Player player, int level)
+        {
+            if(player.GetRelic<Redmushroom>()!=null)
+                return;
+            if(player.Creature == CombatUiPatch.creature&&level>0)
+                SfxCmd.Play("event:/Rainworld/sfx/worklevelup");
+            if (player.Creature == CombatUiPatch.creature&&level<0)
+                SfxCmd.Play("event:/Rainworld/sfx/workleveldown");
+            await CreatureCmd.Heal(player.Creature,player.Creature.MaxHp-player.Creature.CurrentHp,false);
+            if (level > 0 && player.Creature.HasPower<WorkerrorPower>())
+                return;
+            int result = SlugcatResources.Data.Get(player).WorkLevel + level;
+            await setworklevel(player, result);
+        }
+
+        public async static Task setworklevel(Player player, int level, Boolean show = true)
+        {
+            if(player.GetRelic<Redmushroom>()!=null)
+                return;
+            var data = SlugcatResources.Data.Get(player);
+            if (level > data.MaxWorkLevel)
             {
-                GD.PrintErr("非玩家回合");
+                level = data.MaxWorkLevel;
+               
+
             }
 
-            
+            if (level < 0)
+            {
+                level = 0;
+                await CreatureCmd.Damage(new ThrowingPlayerChoiceContext(), player.Creature, 9999,ValueProp.Move, player.Creature);
+            }
+            SlugcatResources.Data.Modify(player, d => d.WorkLevel = level);
+            CombatUiPatch.SetWorklevel(level, player);
 
         }
 
-        public void getRewordFood(RoomType roomType)
+        public static bool cansleep(Player player)
         {
-            
-            if(roomType == RoomType.Monster)
-                addfood(3);
-            if(roomType == RoomType.Elite)
-                addfood(5);
-            if (roomType == RoomType.Boss)
+            if(player.GetRelic<Redmushroom>()!=null)
+                return false;
+            var data = SlugcatResources.Data.Get(player);
+            return data.Food >= data.SleepFood&&player.Creature.IsAlive&&!player.Creature.HasPower<FakedeathPower>() ;
+        }
+
+        public static void trysleep(Player player)
+        {
+            if (cansleep(player))
             {
-                addfood(7); ;
-                addworklevel(1);
-                addMaxWorkLevel(1);
+                
+                sleep(player);
+            }
+        }
+        public static int getCorruptValue(Player player)
+        {
+            return SecondaryResourceCmd.Get(player, SlugcatResources.CorruptValueID);
+        }
+        public async static Task setCorruptValue(Player player, int value)
+        {
+            int old = getCorruptValue(player);
+            if (value < 0)
+                value = 0;
+            if (value > 5)
+            {   //畸变形态加力量
+                if(player.Creature.HasPower<TwistformPower>())
+                {
+                    await PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), player.Creature, (value-5)*player.Creature.GetPowerAmount<TwistformPower>(), player.Creature, null);
+                }
+                value = 5;
+            }
+            
+            
+            
+            //融合逻辑
+            if (old != value && player.Creature.HasPower<MixPower>())
+            {
+                if (old - value > 0)
+                {
+                    await PowerCmd.Apply<VigorPower>(new ThrowingPlayerChoiceContext(), player.Creature, (old-value)*player.Creature.GetPowerAmount<MixPower>(), player.Creature, null);
+                }
+                else
+                {
+                    await PowerCmd.Apply<MushblockPower>(new ThrowingPlayerChoiceContext(), player.Creature, (value-old)*player.Creature.GetPowerAmount<MixPower>(), player.Creature, null);
+                }
             }
 
+            //如果增加腐化，创造者之歌扣血
+            if (value > old && player.Creature.HasPower<CreatesongPower>())
+            {
+                IEnumerable<DamageResult> damageResults = await CreatureCmd.Damage(new ThrowingPlayerChoiceContext(), player.Creature, player.Creature.GetPowerAmount<CreatesongPower>(),ValueProp.Unpowered, player.Creature);
+
+            }
+
+            if (value == 5 )
+            {
+                if (!player.Creature.HasPower<RedmushroomPower>())
+                {
+                     await PowerCmd.Apply<RedmushroomPower>(new ThrowingPlayerChoiceContext(), player.Creature, 1, player.Creature, null);
+                     
+                     GD.Print($"执行菌化{value}");
+                }
+                else
+                {
+                    GD.Print($"执行菌化失败，已有菌化{value}");
+                }
+
+               
+                GD.Print($"GD增加腐化值{value}");
+            }
+
+            Log.Debug($"腐化值set{value}");
+
+            //退出菌化
+            if (value == 0)
+            {
+                if (player.Creature.HasPower<RedmushroomPower>())
+                {
+                    await PowerCmd.Remove<RedmushroomPower>(player.Creature);
+                    // if (!player.Creature.HasPower<InveteracyPower>())
+                    // {
+                    //     await PowerCmd.Remove<CorruptStrengthPower>(player.Creature);
+                    //     if(player.Creature.HasPower<MushblockPower>())
+                    //         await CreatureCmd.GainBlock(player.Creature,player.Creature.GetPowerAmount<MushblockPower>(),ValueProp.Unpowered, null);
+                    //     await PowerCmd.Remove<MushblockPower>(player.Creature);
+                    // }
+                }
+            }
+
+
+
+            await SecondaryResourceCmd.Set(player, SlugcatResources.CorruptValueID, value);
+            CombatUiPatch.SetCorruptValue(value, player);
+        }
+        public async static Task addCorruptValue(Player player, int amount)
+        {
+            if(player.Creature.HasPower<RestrainPower>())
+                amount=0;
+            if(player.Creature.HasPower<TwistformPower>()&&amount>0)
+            {
+                amount*=2;
+            }
+            Log.Debug($"增加腐化值{amount}");
+
+            await setCorruptValue(player, getCorruptValue(player) + amount);
         }
         
-
-        public void callVictory()
+        public static async void sleep(Player player)
         {
-            sleepCD = 0;
-            getRewordFood(Player.RunState.CurrentRoom.RoomType);
+            
+            RunManager.Instance.ActionQueueSynchronizer.RequestEnqueue(
+                new SleepAction(player));
+            
+        }
+        
+        public static void callTurnStart(Player player)
+        {
+        }
+
+        public static async Task getRewordFood(Player player, RoomType roomType)
+        {
+            if (player.Character is Slugcat slugcat)
+            {
+                
+                if (roomType == RoomType.Monster)
+                  await  addfood(player, slugcat.enemyfood);
+                if (roomType == RoomType.Elite)
+                {
+                  await  addfood(player, slugcat.jyFood);
+                }
+                if (roomType == RoomType.Boss)
+                {
+                   await addfood(player, slugcat.bossfood);
+                  await  addworklevel(player, 1);
+                    if(player.Character is Rainworld_Liver)
+                        addMaxWorkLevel(player, 1);
+                }
+            }
+
+            
+        }
+
+        public static async Task callVictory(Player player)
+        {
+           await getRewordFood(player, player.RunState.CurrentRoom.RoomType);
         }
     }
 }

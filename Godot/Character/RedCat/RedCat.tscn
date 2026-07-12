@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=3 uid="uid://ci8tck2gc64iv"]
+
+[ext_resource type="SpineSkeletonDataResource" path="res://Godot/Character/RedCat/spine/SlugCat_RedCat.tres" id="1_djnac"]
+[ext_resource type="Script" uid="uid://cw87x2u1n2b14" path="res://Godot/Character/RedCat/NRedCat.cs" id="1_t1gue"]
+
+[node name="Redcat" type="Node2D"]
+light_mask = 0
+position = Vector2(4, -16)
+script = ExtResource("1_t1gue")
+
+[node name="Visuals" type="SpineSprite" parent="."]
+skeleton_data_res = ExtResource("1_djnac")
+preview_skin = "default"
+preview_animation = "idle_loop"
+preview_frame = false
+preview_time = 0.0
+unique_name_in_owner = true
+position = Vector2(0, 5)
+scale = Vector2(0.6388805, 0.6350405)
+
+[node name="Bounds" type="Control" parent="."]
+unique_name_in_owner = true
+modulate = Color(0, 1, 1, 1)
+layout_mode = 3
+anchors_preset = 0
+offset_left = -100.0
+offset_top = -277.0
+offset_right = 100.0
+offset_bottom = 23.0
+scale = Vector2(1.2514195, 0.9238234)
+metadata/_edit_use_anchors_ = true
+
+[node name="IntentPos" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(5, -127)
+
+[node name="CenterPos" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(5, -124)
+
+[node name="TalkPos" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(35, -172)
