@@ -2,11 +2,14 @@
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using Rainworld.Scripts;
+using STS2RitsuLib.Interop.AutoRegistration;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
+[RegisterCard(typeof(ColorlessCardPool), Inherit = true)]
 
 public class Rainworld_Redcat_Smallcent : RedCatCardModel
 
@@ -43,7 +46,7 @@ public class Rainworld_Redcat_Smallcent : RedCatCardModel
     {
         await PowerCmd.Apply<StrengthPower>(choiceContext, Owner.Creature, DynamicVars.Strength.BaseValue,
             Owner.Creature, this);
-        SlugcatData.addfood(Owner, 1);
+        await SlugcatData.addfood(Owner, 1);
     }
 
     // 升级后的效果逻辑
