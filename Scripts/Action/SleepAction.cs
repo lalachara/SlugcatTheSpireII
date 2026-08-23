@@ -34,13 +34,10 @@ public class SleepAction : GameAction
         
         //await SecondaryResourceCmd.Set(player, SlugcatResources.SleepFlagID, 1);
         await SlugcatData.addfood(player, -SlugcatData.GetSleepFood(player));
-        GD.Print($"{player}执行sleep，减少{SlugcatData.GetSleepFood(player)}个食物");
         NCreature creatureNode = NCombatRoom.Instance?.GetCreatureNode(player.Creature);
         creatureNode?.SetAnimationTrigger("sleep");
         await PowerCmd.Apply<SleepPower>(new ThrowingPlayerChoiceContext(), player.Creature,1,player.Creature,null);
         PlayerCmd.EndTurn(this._player, false);
-
-        Log.Info($"{nameof(SleepAction)} executed,尝试休眠");
     }
 
     public override INetAction ToNetAction()

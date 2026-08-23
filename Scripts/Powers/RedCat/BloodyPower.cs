@@ -45,7 +45,7 @@ public sealed class BloodyPower : ModPowerTemplate
      if (target == base.Owner && amount > 0&&props!=ValueProp.Unpowered)
      {
          _triggered = true;
-         return Math.Max(0, amount - 6);
+         return Math.Max(0, amount - 8);
      }
      return amount;
  }

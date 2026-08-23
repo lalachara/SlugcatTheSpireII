@@ -20,7 +20,7 @@ public class Rainworld_River_Kick : RiverCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(7m, ValueProp.Move)
+        new DamageVar(8m, ValueProp.Move)
     ];
     
     public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { RainworldKeywords.AdroitNotUsed };
@@ -38,7 +38,7 @@ public class Rainworld_River_Kick : RiverCardModel
         await DamageCmd
             .Attack(dmg)
             .FromCard(this,cardPlay)
-            .WithHitCount((Owner.Creature.HasPower<AdroitPower>() && Owner.Creature.GetPower<AdroitPower>()!.retainAmount > 0)? 2 : 1)
+            .WithHitCount(Owner.Creature.HasPower<AdroitPower>() ? 2 : 1)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);

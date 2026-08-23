@@ -17,8 +17,8 @@ using STS2RitsuLib.Scaffolding.Content;
 
 
 // 注册药水。如果要写自定义池看添加人物的开头
-[RegisterPotion(typeof(Rainworld_Liver_PotionPool))]
-public class Fireblood : ModPotionTemplate
+[RegisterPotion(typeof(Rainworld_River_PotionPool))]
+public class Water : ModPotionTemplate
 {
     // 稀有度
     public override PotionRarity Rarity => PotionRarity.Uncommon;
@@ -29,21 +29,25 @@ public class Fireblood : ModPotionTemplate
     
 
     // 目标类型
-    public override TargetType TargetType => TargetType.AnyEnemy;
+    public override TargetType TargetType => TargetType.AllAllies;
 
     // 定义动态变量
     // 这里显示预览卡牌灵魂。或者你也可以添加提示关键词
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromPower<ChuangPower>()];
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromPower<CorrodePower>(),HoverTipFactory.FromPower<AdroitPower>(),HoverTipFactory.FromPower<AdroitcapPower>()];
 
     // 药水图片。不一定非得是png，只要最终能被Godot当成Texture读取即可。
     public override PotionAssetProfile AssetProfile => new(
-        ImagePath: "res://Resource/other/potions/chuang.png",
-        OutlinePath: "res://Resource/other/potions/chuang.png"
+        ImagePath: "res://Resource/other/potions/waterpotions.png",
+        OutlinePath: "res://Resource/other/potions/waterpotions.png"
     );
 
     
     protected override async Task OnUse(PlayerChoiceContext choiceContext, Creature? target)
     {
-        await PowerCmd.Apply<ChuangPower>(choiceContext,target!,5,Owner.Creature,null);
+        await PowerCmd.Apply<CorrodePower>(choiceContext,target!,10,Owner.Creature,null);
+        if (target!.IsPlayer)
+        {
+            await PowerCmd.Apply<AdroitPower>(choiceContext,target!,3,Owner.Creature,null);
+        }
     }
 }

@@ -60,6 +60,6 @@ public class Rainworld_Liver_Prepare : LiverCardModel
     // 升级后的效果逻辑
     protected override void OnUpgrade()
     {
-        RemoveKeyword(CardKeyword.Exhaust);
+        EnergyCost.UpgradeBy(-1);
     }
 }

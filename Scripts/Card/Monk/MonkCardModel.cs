@@ -10,12 +10,12 @@ using STS2RitsuLib.Scaffolding.Content;
 
 namespace Rainworld.Scripts.Card;
 
-[RegisterCard(typeof(Rainworld_Redcat_CardPool), Inherit = true)]
+//[RegisterCard(typeof(Rainworld_Monk_CardPool), Inherit = true)]
 
-public abstract class RedCatCardModel : ModCardTemplate
+public abstract class MonkCardModel : ModCardTemplate
 {
     public override CardAssetProfile AssetProfile => new(
-        $"res://Resource/Card/RedCat/{GetType().Name.ToLowerInvariant().Replace("slugcat_the_spire_ii_card_", "")}.png",
+        $"res://Resource/Card/Monk/{GetType().Name.ToLowerInvariant().Replace("slugcat_the_spire_ii_card_", "")}.png",
         
         FramePath: Type switch
         {
@@ -32,7 +32,7 @@ public abstract class RedCatCardModel : ModCardTemplate
         // BannerTexturePath: "" // 横幅（不同类型）
     );
 
-    public RedCatCardModel(int energyCost, CardType type, CardRarity rarity, TargetType targetType,
+    public MonkCardModel(int energyCost, CardType type, CardRarity rarity, TargetType targetType,
         bool shouldShowInCardLibrary) : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
     }

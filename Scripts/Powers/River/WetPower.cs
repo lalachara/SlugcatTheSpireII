@@ -37,13 +37,13 @@ public sealed class WetPower : ModPowerTemplate
     {
         if (reduceAmount > 20)
         {
-            await CardPileCmd.Draw(choiceContext, 10, Owner.Player);
+            await CardPileCmd.Draw(choiceContext, 10, Owner.Player!);
             return;
         }
 
         if (reduceAmount > 2)
         {
-            await CardPileCmd.Draw(choiceContext, reduceAmount / 2, Owner.Player);
+            await CardPileCmd.Draw(choiceContext, reduceAmount / 2, Owner.Player!);
             reduceAmount %= 2;
         }
 
@@ -52,7 +52,7 @@ public sealed class WetPower : ModPowerTemplate
             if (drawToggle)
             {
                 drawToggle = false;
-                await CardPileCmd.Draw(choiceContext, 1, Owner.Player);
+                await CardPileCmd.Draw(choiceContext, 1, Owner.Player!);
             }
             else
             {

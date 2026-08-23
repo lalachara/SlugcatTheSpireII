@@ -53,11 +53,11 @@ public class Rainworld_Liver_Goldcat : LiverCardModel
     // 打出时的效果逻辑
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (Owner.Character is Slugcat && SlugcatData.GetFood(Owner) >= 1) SlugcatData.addfood(Owner, -1);
+        if (Owner.Character is Slugcat && SlugcatData.GetFood(Owner) >= 1) await SlugcatData.addfood(Owner, -1);
 
         var debuffs = new List<PowerModel>();
         foreach (var power in Owner.Creature.Powers)
-            if (power.Type == PowerType.Debuff)
+            if (power.Type == PowerType.Debuff&&power.StackType == PowerStackType.Counter)
                 debuffs.Add(power);
 
         if (debuffs.Count > 0)

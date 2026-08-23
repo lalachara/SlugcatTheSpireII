@@ -32,16 +32,18 @@ public sealed class TwistPower : ModPowerTemplate
     IconPath: "res://Resource/Powers/RedCat/DiePower128.png",
     BigIconPath: "res://Resource/Powers/RedCat/DiePower128.png"
   );
-  
+  protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
+      new[] { HoverTipFactory.FromKeyword(RainworldKeywords.Workreport),HoverTipFactory.FromKeyword(RainworldKeywords.Worklevel),HoverTipFactory.FromPower<RedmushroomPower>()};
+
   public override PowerType Type => PowerType.Buff;
 
   public override PowerStackType StackType => PowerStackType.Counter;
 
   public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
   {
-    if (player == Owner.Player && player.Character is Slugcat slugcat && SlugcatData.GetWorkLevel(player) == 0)
+    if (player == Owner.Player && player.Character is Slugcat && (SlugcatData.GetWorkLevel(player) == 0||Owner.HasPower<RedmushroomPower>()))
     {
-      Tools.WorkReport(player);
+     await Tools.WorkReport(player);
     }
 
     await base.AfterPlayerTurnStart(choiceContext, player);

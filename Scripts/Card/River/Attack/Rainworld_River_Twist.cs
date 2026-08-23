@@ -37,8 +37,8 @@ public class Rainworld_River_Twist : RiverCardModel
 
 
         var highestCostCard = PileType.Hand.GetPile(Owner).Cards
-            .Where(c => c != this && !c.EnergyCost.CostsX && c.EnergyCost.Canonical > 0)
-            .MaxBy(c => c.EnergyCost.Canonical);
+            .Where(c => c != this && !c.EnergyCost.CostsX && c.EnergyCost.GetResolved() > 0)
+            .MaxBy(c => c.EnergyCost.GetResolved());
         if (highestCostCard != null)
         {
             highestCostCard.SetToFreeThisTurn();

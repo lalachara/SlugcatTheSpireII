@@ -30,14 +30,16 @@ public class Rainworld_Redcat_Silent : RedCatCardModel
     // 是否在卡牌图鉴中显示
     private const bool shouldShowInCardLibrary = true;
 
-    public override bool GainsBlock => true;
     protected override HashSet<CardTag> CanonicalTags => new() { };
-    //protected override IEnumerable<IHoverTip> ExtraHoverTips => new []{HoverTipFactory.FromCard<Rainworld_Redcat_Smallcent>()};
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new []{HoverTipFactory.FromPower<SilentPower>()};
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Exhaust ,CardKeyword.Ethereal};
 
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
+        new("Special", 2m)
     ];
+
 
     public Rainworld_Redcat_Silent() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
@@ -46,19 +48,22 @@ public class Rainworld_Redcat_Silent : RedCatCardModel
     // 打出时的效果逻辑
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        var list = cardPlay.Target.Powers.ToList();
-        foreach (var power in list)
-            if (power.Type == PowerType.Buff && power is not SandpitPower)
-            {
-                await PowerCmd.Remove(power);
-                
-            }
+        // var list = cardPlay.Target.Powers.ToList();
+        // foreach (var power in list)
+        //     if (power.Type == PowerType.Buff && power is not SandpitPower&&power is not AdaptablePower && power is not ReattachPower)
+        //     {
+        //         await PowerCmd.Remove(power);
+        //         
+        //     }
+        
+        await PowerCmd.Apply<SilentPower>(choiceContext, cardPlay.Target!,DynamicVars["Special"].BaseValue, Owner.Creature,this);
+        
 
     }
 
     // 升级后的效果逻辑
     protected override void OnUpgrade()
     {
-        EnergyCost.UpgradeBy(-1);
+        DynamicVars["Special"].UpgradeValueBy(1m);
     }
 }

@@ -1,4 +1,5 @@
-﻿using MegaCrit.Sts2.Core.Commands;
+﻿using Godot;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -8,6 +9,7 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
 using Rainworld.Scripts.Card.Liver.Attack;
 using Rainworld.Scripts.Card.River.Attack;
+using STS2RitsuLib.Scaffolding.Content;
 
 namespace Rainworld.Scripts.Card.RedCat;
 
@@ -29,9 +31,34 @@ public class Rainworld_River_Spearboom : RiverCardModel
     // 是否在卡牌图鉴中显示
     private const bool shouldShowInCardLibrary = true;
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromCard<Rainworld_River_Spear>(IsUpgraded) };
+    public override CardAssetProfile AssetProfile => new(
+        GetLocalizedCardImage(),
+        FramePath: Type switch
+        {
+            CardType.Attack => "res://Resource/Card/River/CardAtk1024.png",
+            CardType.Skill => "res://Resource/Card/River/CardSkill1024.png",
+            CardType.Power => "res://Resource/Card/River/CardPower1024.png",
+            _ => ""
+        }
+    );
 
+    private string GetLocalizedCardImage()
+    {
+        var cardName = GetType().Name.ToLowerInvariant()
+            .Replace("slugcat_the_spire_ii_card_", "");
+        var locale = TranslationServer.GetLocale(); // 如 "zh", "en"
+        string localizedPath = $"res://Resource/Card/River/{cardName}.png";
+        if (locale == "ko")
+        {
+            localizedPath = $"res://Resource/Card/diff/KR/rainworld_liver_spearboom.png";
+        }
+
+        return ResourceLoader.Exists(localizedPath) 
+            ? localizedPath 
+            : $"res://Resource/Card/River/{cardName}.png"; // 回退到默认
+    }
     public override IEnumerable<CardKeyword> CanonicalKeywords => new[]
-        { CardKeyword.Exhaust, RainworldKeywords.Spear};
+        { RainworldKeywords.Spear};
 
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -54,20 +81,34 @@ public class Rainworld_River_Spearboom : RiverCardModel
             .WithHitFx(sfx:"event:/Rainworld/sfx/bombspear")
             .Execute(choiceContext);
         await Cmd.Wait(0.5f);
-        foreach (var m in CombatState.HittableEnemies) 
             await DamageCmd
                 .Attack(DynamicVars.Damage.BaseValue)
                 .FromCard(this,cardPlay)
-                .Targeting(m)
+                .TargetingAllOpponents(CombatState)
                 .WithHitFx("vfx/vfx_attack_slash")
                 .Execute(choiceContext);
 
+            await CardCmd.Discard(choiceContext, this);
 
-        CardModel card = CombatState.CreateCard<Rainworld_River_Spear>(Owner);
-        if(IsUpgraded)
-            CardCmd.Upgrade(card);
-        CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Discard, Owner));
+
+
     }
+    
+
+    public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
+        if (cardPlay.Card == this)
+        {
+            CardModel card = CombatState!.CreateCard<Rainworld_River_Spear>(Owner);
+            if(IsUpgraded) 
+                CardCmd.Upgrade(card);
+            await CardCmd.Transform(this, card);
+
+        }
+
+        await base.AfterCardPlayed(choiceContext, cardPlay);
+    }
+
 
     // 升级后的效果逻辑
     protected override void OnUpgrade()

@@ -4,6 +4,8 @@ using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Encounters;
+using MegaCrit.Sts2.Core.Models.Monsters;
 using MegaCrit.Sts2.Core.Models.Powers;
 using Rainworld.Scripts;
 using Rainworld.Scripts.Card.RedCat;
@@ -25,16 +27,15 @@ public sealed class GrowPower : ModPowerTemplate
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override async Task AfterCardGeneratedForCombat(CardModel card, Player creator)
+    public override async Task AfterCardGeneratedForCombat(CardModel card, Player? creator)
     {
         if (creator == null || creator.Creature != Owner)
             return;
         if (card.Type != CardType.Status || card is Rainworld_Redcat_Corrupt)
             return;
-
         Flash();
-        await Tools.CorruptCard(creator, card);
-        await PowerCmd.Apply<GrowPower>(new BlockingPlayerChoiceContext(), Owner, -1, Owner, null);
+        CardModel cardModel = card.CombatState!.CreateCard<Rainworld_Redcat_Corrupt>(creator);
+        await CardCmd.Transform(card, cardModel);
         await PowerCmd.Decrement(this);
     }
 }

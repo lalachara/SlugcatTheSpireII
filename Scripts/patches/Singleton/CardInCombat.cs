@@ -11,6 +11,7 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.ValueProps;
 using System.Linq;
 using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Factories;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Relics;
 using Rainworld.Scripts.Powers;
@@ -42,12 +43,12 @@ public class CardInCombat: HookedSingletonModel
     {
         if (cardPlay.Card.Keywords.Contains(RainworldKeywords.Treasurespear))
         {
-            Tools.getrandomSpear(cardPlay.Card.IsUpgraded, cardPlay.Card.Owner);
+            await Tools.getrandomSpear(cardPlay.Card.IsUpgraded, cardPlay.Card.Owner);
         }
 
         if (cardPlay.Card.Keywords.Contains(RainworldKeywords.Lightning))
         {
-            Tools.Yinlei( cardPlay,choiceContext);
+            await Tools.Yinlei( cardPlay,choiceContext);
         }
         if (cardPlay.Card.Owner.Character is Rainworld_Redcat)
         {
@@ -69,6 +70,22 @@ public class CardInCombat: HookedSingletonModel
                     copy.RemoveKeyword(CardKeyword.Exhaust);
                 }
                 await CardCmd.Transform(card, copy);
+            }
+
+            // === 新增：奇异物质逻辑 ===
+            if (card.Keywords.Contains(RainworldKeywords.Strange) && card != cardPlay.Card)
+            {
+                var allCards = ModelDb.AllCardPools
+                    .SelectMany(pool => pool.GetUnlockedCards(card.Owner.UnlockState, card.Owner.RunState.CardMultiplayerConstraint))
+                    .Where(c => c.Rarity != CardRarity.Token && c.Type != CardType.Power);
+                var distinctForCombat = CardFactory.GetDistinctForCombat(card.Owner, allCards, 1, card.Owner.RunState.Rng.CombatCardGeneration);
+                var randomCard = distinctForCombat.First();
+                randomCard.AddKeyword(RainworldKeywords.Strange);
+                if(card.Keywords.Contains(CardKeyword.Exhaust))
+                    randomCard.AddKeyword(CardKeyword.Exhaust);
+                else
+                    randomCard.RemoveKeyword(CardKeyword.Exhaust);
+                await CardCmd.Transform(card, randomCard);
             }
         }
     }

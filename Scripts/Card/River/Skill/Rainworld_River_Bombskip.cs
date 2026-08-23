@@ -16,7 +16,7 @@ public class Rainworld_River_Bombskip : RiverCardModel
     private const CardRarity rarity = CardRarity.Uncommon;
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<AdroitPower>() };
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<AdroitPower>() ,HoverTipFactory.FromPower<AdroitcapPower>() };
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new("Special", 2m),
@@ -33,10 +33,10 @@ public class Rainworld_River_Bombskip : RiverCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (Owner.Creature.HasPower<AdroitPower>() && Owner.Creature.GetPower<AdroitPower>()!.Amount > 0)
+        if (Owner.Creature.HasPower<AdroitcapPower>())
         {
-            await PowerCmd.ModifyAmount(choiceContext, Owner.Creature.GetPower<AdroitPower>()!, -1, Owner.Creature,
-                this);
+
+            await PowerCmd.Decrement(Owner.Creature.GetPower<AdroitcapPower>()!);
             await CardPileCmd.Draw(choiceContext, 2, Owner);
             await PlayerCmd.GainEnergy(DynamicVars.Energy.BaseValue, Owner);
         }

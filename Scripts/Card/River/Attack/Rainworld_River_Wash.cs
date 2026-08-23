@@ -31,11 +31,10 @@ public class Rainworld_River_Wash : RiverCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        foreach (var enemy in CombatState.HittableEnemies)
             await DamageCmd
                 .Attack(DynamicVars.Damage.BaseValue)
                 .FromCard(this, cardPlay)
-                .Targeting(enemy)
+                .TargetingAllOpponents(CombatState!)
                 .WithHitFx("vfx/vfx_attack_slash")
                 .Execute(choiceContext);
 
@@ -44,24 +43,21 @@ public class Rainworld_River_Wash : RiverCardModel
         {
             var amt = owner.GetPower<WeakPower>()!.Amount;
             await PowerCmd.Remove(owner.GetPower<WeakPower>()!);
-            foreach (var enemy in CombatState.HittableEnemies)
-                await PowerCmd.Apply<WeakPower>(choiceContext, enemy, amt, owner, this);
+            await PowerCmd.Apply<WeakPower>(choiceContext, CombatState!.HittableEnemies, amt, owner, this);
         }
 
         if (owner.HasPower<CorrodePower>())
         {
             var amt = owner.GetPower<CorrodePower>()!.Amount;
             await PowerCmd.Remove(owner.GetPower<CorrodePower>()!);
-            foreach (var enemy in CombatState.HittableEnemies)
-                await PowerCmd.Apply<CorrodePower>(choiceContext, enemy, amt, owner, this);
+            await PowerCmd.Apply<CorrodePower>(choiceContext, CombatState!.HittableEnemies, amt, owner, this);
         }
 
         if (owner.HasPower<VulnerablePower>())
         {
             var amt = owner.GetPower<VulnerablePower>()!.Amount;
             await PowerCmd.Remove(owner.GetPower<VulnerablePower>()!);
-            foreach (var enemy in CombatState.HittableEnemies)
-                await PowerCmd.Apply<VulnerablePower>(choiceContext, enemy, amt, owner, this);
+            await PowerCmd.Apply<VulnerablePower>(choiceContext, CombatState!.HittableEnemies, amt, owner, this);
         }
     }
 

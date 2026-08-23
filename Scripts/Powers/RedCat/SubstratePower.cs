@@ -41,21 +41,31 @@ public sealed class SubstratePower : ModPowerTemplate
   {
     if (player == base.Owner.Player)
     {
-      await CardPileCmd.AddGeneratedCardToCombat(
-        base.CombatState.CreateCard<Rainworld_Redcat_Corrupt>(base.Owner.Player),
-        PileType.Hand, base.Owner.Player);
+      for (int i = 0; i < Amount; i++)
+      {
+        await CardPileCmd.AddGeneratedCardToCombat(
+                base.CombatState.CreateCard<Rainworld_Redcat_Corrupt>(base.Owner.Player),
+                PileType.Hand, base.Owner.Player);
+      }
+      var corruptExhausted = Owner.Player.PlayerCombatState?.ExhaustPile.Cards
+        .Count(c => c is Rainworld_Redcat_Corrupt);
+      if (corruptExhausted != 0)
+      {
+        await PowerCmd.Apply<MushblockPower>(choiceContext,Owner,(int)corruptExhausted!,Owner,null);
+      }
+      
     }
     await base.AfterPlayerTurnStart(choiceContext, player);
   }
 
-  public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
-  {
-    if (cardPlay.Card is Rainworld_Redcat_Corrupt && cardPlay.Card.Owner == base.Owner.Player)
-    {
-      // Flash();
-      // await CreatureCmd.GainBlock(base.Owner, base.Amount, ValueProp.Unpowered, cardPlay);
-      await PowerCmd.ModifyAmount(choiceContext, this, 1, base.Owner, null);
-    }
-    await base.AfterCardPlayed(choiceContext, cardPlay);
-  }
+  // public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+  // {
+  //   if (cardPlay.Card is Rainworld_Redcat_Corrupt && cardPlay.Card.Owner == base.Owner.Player)
+  //   {
+  //     // Flash();
+  //     // await CreatureCmd.GainBlock(base.Owner, base.Amount, ValueProp.Unpowered, cardPlay);
+  //     await PowerCmd.ModifyAmount(choiceContext, this, 1, base.Owner, null);
+  //   }
+  //   await base.AfterCardPlayed(choiceContext, cardPlay);
+  // }
 }

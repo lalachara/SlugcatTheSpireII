@@ -13,12 +13,12 @@ public class Rainworld_River_Prank : RiverCardModel
 {
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
 
-    private const int energyCost = 1;
+    private const int energyCost = 0;
     private const CardType type = CardType.Skill;
     private const CardRarity rarity = CardRarity.Uncommon;
     private const TargetType targetType = TargetType.AnyAlly;
     private const bool shouldShowInCardLibrary = true;
-
+    private Dictionary<CardModel, Player> borrowedCards = new();
     public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Exhaust };
 
     public Rainworld_River_Prank() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -44,12 +44,30 @@ public class Rainworld_River_Prank : RiverCardModel
         if (selected == null)
             return;
 
-        await CardPileCmd.Add(selected, PileType.Hand);
-        
+        var clone = selected.CreateCloneForPlayer(Owner);
+        borrowedCards[clone] = ally;
+
+        await CardPileCmd.AddGeneratedCardToCombat(clone, PileType.Hand, Owner);
+        await CardPileCmd.RemoveFromCombat(selected);
+
+    }
+    
+    public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
+        if (borrowedCards.TryGetValue(cardPlay.Card, out var ally))
+        {
+            var clone = cardPlay.Card.CreateCloneForPlayer(ally);
+            await CardPileCmd.AddGeneratedCardToCombat(clone, PileType.Discard, ally);
+            await CardPileCmd.RemoveFromCombat(cardPlay.Card);
+            borrowedCards.Remove(cardPlay.Card);
+        }
+
+        await base.AfterCardPlayed(choiceContext, cardPlay);
     }
 
     protected override void OnUpgrade()
     {
-        EnergyCost.UpgradeBy(-1);
+        RemoveKeyword(CardKeyword.Exhaust);
+
     }
 }

@@ -14,10 +14,11 @@ namespace Rainworld.Scripts.Card.RedCat;
 public class Rainworld_Redcat_Parasitism : RedCatCardModel
 {
     private const int energyCost = 1;
-    private const CardType type = CardType.Power;
+    private const CardType type = CardType.Skill;
     private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
+    public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
 
     protected override HashSet<CardTag> CanonicalTags => new() { };
 

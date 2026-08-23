@@ -12,7 +12,7 @@ namespace Rainworld.Scripts.Card.River.Attack;
 
 public class Rainworld_River_Backtosea : RiverCardModel
 {
-    private const int energyCost = 3;
+    private const int energyCost = 2;
     private const CardType type = CardType.Attack;
     private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.AnyEnemy;
@@ -32,16 +32,9 @@ public class Rainworld_River_Backtosea : RiverCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
-        var baseDmg = IsUpgraded ? 17m : 14m;
-        var extra = 0m;
-        if (Owner.Creature.HasPower<AdroitPower>())
-        {
-            var inh = (AdroitPower)Owner.Creature.GetPower<AdroitPower>()!;
-            extra = inh.used * DynamicVars["Special"].BaseValue;
-        }
 
         await DamageCmd
-            .Attack(baseDmg + extra)
+            .Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")

@@ -8,13 +8,14 @@ using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
 using Rainworld.Resource.Card;
 using Rainworld.Scripts;
+using Rainworld.Scripts.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
 [RegisterCard(typeof(Rainworld_Future_CardPool), Inherit = true)]
 
-public class Rainworld_Liver_Fruit : ModCardTemplate
+public class Rainworld_Liver_Fruit2 : ModCardTemplate
 
 {
     public override CardAssetProfile AssetProfile => new(
@@ -49,10 +50,10 @@ public class Rainworld_Liver_Fruit : ModCardTemplate
     private const bool shouldShowInCardLibrary = true;
 
     protected override HashSet<CardTag> CanonicalTags => new() { };
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromKeyword(RainworldKeywords.Food) };
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromKeyword(RainworldKeywords.Food)  };
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        new[] { CardKeyword.Retain, CardKeyword.Exhaust };
+        new[] { CardKeyword.Retain, CardKeyword.Exhaust, RainworldKeywords.Foodcard };
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
@@ -60,27 +61,50 @@ public class Rainworld_Liver_Fruit : ModCardTemplate
         new EnergyVar(1)
     ];
 
-    public Rainworld_Liver_Fruit() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
+    public Rainworld_Liver_Fruit2() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
+    }
+    public override TargetType TargetType
+    {
+        get => !this.HasSharedFood ? TargetType.Self : TargetType.AllAllies;
+    }
+    private bool HasSharedFood
+    {
+        get => this.IsMutable&& this.Owner!=null  && this.Owner.Creature.HasPower<SharefoodPower>();
     }
 
     // 打出时的效果逻辑
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PlayerCmd.GainEnergy(DynamicVars.Energy.IntValue, Owner);
-        if (IsUpgraded)
+
+        if (HasSharedFood)
         {
-            CardCmd.PreviewCardPileAdd(
-                await CardPileCmd.AddGeneratedCardToCombat(CombatState.CreateCard<Rainworld_Liver_Fruit>(Owner),
-                    PileType.Hand, Owner));
-            CardCmd.PreviewCardPileAdd(
-                await CardPileCmd.AddGeneratedCardToCombat(CombatState.CreateCard<Rainworld_Liver_Fruit>(Owner),
-                    PileType.Hand, Owner));
+            foreach (var player in CombatState!.Players)
+            {
+                await PlayerCmd.GainEnergy(DynamicVars.Energy.IntValue, player);
+                if (player.Character is Slugcat) await SlugcatData.addfood(player, (int)DynamicVars["Food"].BaseValue);
+            }
+        }
+        else
+        {
+            await PlayerCmd.GainEnergy(DynamicVars.Energy.IntValue, Owner);
+            if (Owner.Character is Slugcat) await SlugcatData.addfood(Owner, (int)DynamicVars["Food"].BaseValue);
+
         }
 
-        if (Owner.Character is Slugcat) await SlugcatData.addfood(Owner, (int)DynamicVars["Food"].BaseValue);
-    }
+        if (IsUpgraded)
+        {
 
+            CardCmd.PreviewCardPileAdd(
+                await CardPileCmd.AddGeneratedCardToCombat(CombatState!.CreateCard<Rainworld_Liver_Fruit2>(Owner),
+                    PileType.Hand, Owner));
+            CardCmd.PreviewCardPileAdd(
+                await CardPileCmd.AddGeneratedCardToCombat(CombatState!.CreateCard<Rainworld_Liver_Fruit2>(Owner),
+                    PileType.Hand, Owner));
+            
+        }
+
+    }
     // 升级后的效果逻辑
     protected override void OnUpgrade()
     {

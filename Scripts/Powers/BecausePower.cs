@@ -46,7 +46,7 @@ public sealed class BecausePower : ModPowerTemplate
       if (Owner.Player.Character is Slugcat)
       {
         Flash();
-        SlugcatData.addworklevel(Owner.Player, -1);
+        await SlugcatData.addworklevel(Owner.Player, -1);
       }
       else
       {

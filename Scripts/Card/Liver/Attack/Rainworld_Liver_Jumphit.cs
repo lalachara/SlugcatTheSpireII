@@ -51,16 +51,11 @@ public class Rainworld_Liver_Jumphit : LiverCardModel
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitCount(cardPlay.Target.Monster!.IntendsToAttack?2:1)
             .Execute(choiceContext);
 
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
-        if (cardPlay.Target.Monster.IntendsToAttack)
-            await DamageCmd
-                .Attack(DynamicVars.Damage.BaseValue)
-                .FromCard(this, cardPlay)
-                .Targeting(cardPlay.Target)
-                .WithHitFx("vfx/vfx_attack_slash")
-                .Execute(choiceContext);
+      
     }
 
     // 升级后的效果逻辑

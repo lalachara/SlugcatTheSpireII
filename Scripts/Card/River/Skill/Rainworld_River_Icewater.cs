@@ -38,7 +38,7 @@ public class Rainworld_River_Icewater : RiverCardModel
         if (owner.Block > 0)
         {
             var total = owner.Block + blockAmt;
-            await CreatureCmd.LoseBlock(owner, owner.Block);
+            await CreatureCmd.LoseBlock(choiceContext,owner, owner.Block,owner);
             await PowerCmd.Apply<IcewaterPower>(choiceContext, owner, total, owner, this);
         }
         else

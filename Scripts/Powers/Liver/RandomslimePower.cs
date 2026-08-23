@@ -22,29 +22,35 @@ using System.Threading.Tasks;
 
 #nullable enable
 [RegisterPower]
-public sealed class RandomSlimePower : ModPowerTemplate
+public sealed class RandomslimePower : ModPowerTemplate
 {
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: "res://Resource/Powers/SlimeBlock128.png",
-        BigIconPath: "res://Resource/Powers/SlimeBlock128.png"
+        IconPath: "res://Resource/Powers/Randomslime128.png",
+        BigIconPath: "res://Resource/Powers/Randomslime128.png"
     );
 
     public override PowerType Type => PowerType.Buff;
-    public override PowerStackType StackType => PowerStackType.Counter;
+    public override PowerStackType StackType => PowerStackType.Single;
+    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[]
+        { HoverTipFactory.FromCard<Slimed>() };
 
+    public bool IsUpgraded = false;
     public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         if (cardPlay.Card.Owner == base.Owner.Player && cardPlay.Card is Slimed)
         {
             Flash();
-            var distinctForCombat = CardFactory.GetDistinctForCombat(base.Owner.Player,
+            var card = CardFactory.GetDistinctForCombat(base.Owner.Player,
                 from c in base.Owner.Player.Character.CardPool.GetUnlockedCards(
                     base.Owner.Player.UnlockState,
                     base.Owner.Player.RunState.CardMultiplayerConstraint)
-                where (c.Type == CardType.Attack || c.Type == CardType.Skill)
-                    && (c.Rarity == CardRarity.Common || c.Rarity == CardRarity.Uncommon || c.Rarity == CardRarity.Rare)
-                select c, base.Amount, base.Owner.Player.RunState.Rng.CombatCardGeneration);
-            await CardPileCmd.AddGeneratedCardsToCombat(distinctForCombat, PileType.Hand, base.Owner.Player);
+                where (c.Type == CardType.Attack || c.Type == CardType.Skill || c.Type == CardType.Status || c.Type == CardType.Power)
+                      && (c.Rarity == CardRarity.Common || c.Rarity == CardRarity.Uncommon || c.Rarity == CardRarity.Rare || c.Rarity == CardRarity.Status || c.Rarity == CardRarity.Ancient)
+                select c, 1, base.Owner.Player.RunState.Rng.CombatCardGeneration).First();
+            if (IsUpgraded&&card.IsUpgradable)
+                CardCmd.Upgrade(card);
+            await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, base.Owner.Player);
         }
     }
 }

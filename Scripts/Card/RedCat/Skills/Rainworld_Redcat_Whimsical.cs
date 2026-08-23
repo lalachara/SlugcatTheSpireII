@@ -36,7 +36,7 @@ public class Rainworld_Redcat_Whimsical : RedCatCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        PlayerCmd.GainEnergy(1, Owner);
+         await PlayerCmd.GainEnergy(1, Owner);
         await PowerCmd.Apply<BackToHandPower>(choiceContext, Owner.Creature, (int)DynamicVars["Summon"].BaseValue, Owner.Creature, this);
     }
 

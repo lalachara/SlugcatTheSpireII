@@ -50,7 +50,7 @@ public class Rainworld_Liver_Workdefend : LiverCardModel
         if (Owner.Character is Slugcat)
         {
             var temp = (SlugcatData.GetWorkLevel(Owner) + 1) * (IsUpgraded ? 3 : 2);
-            await PowerCmd.Apply<WorkdefendPower>(choiceContext, Owner.Creature, 2, Owner.Creature, this);
+            await PowerCmd.Apply<WorkdefendPower>(choiceContext, Owner.Creature, temp, Owner.Creature, this);
             await CreatureCmd.GainBlock(Owner.Creature, new BlockVar(temp, ValueProp.Unpowered), cardPlay);
         }
     }

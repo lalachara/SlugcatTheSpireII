@@ -16,7 +16,7 @@ public class Rainworld_River_Dream : RiverCardModel
     private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<AdroitPower>() };
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<AdroitPower>() ,HoverTipFactory.FromPower<AdroitcapPower>() };
     public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Ethereal };
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -30,7 +30,7 @@ public class Rainworld_River_Dream : RiverCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<AdroitPower>(choiceContext, Owner.Creature, DynamicVars["Special"].BaseValue,
+        await PowerCmd.Apply<AdroitcapPower>(choiceContext, Owner.Creature, DynamicVars["Special"].BaseValue,
             Owner.Creature, this);
         EnergyCost.UpgradeBy(1);
         DynamicVars["Special"].UpgradeValueBy(1);

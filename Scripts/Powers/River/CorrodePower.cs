@@ -118,6 +118,13 @@ public sealed class CorrodePower : ModPowerTemplate,IHealthBarForecastSource
         );
     }
 
+    public override async Task AfterRemoved(Creature oldOwner)
+    {
+        if(Owner.HasPower<SeasoundPower>())
+            await PowerCmd.Apply<CorrodePower>(new ThrowingPlayerChoiceContext(), Owner, 1, Owner, null);
+        await base.AfterRemoved(oldOwner);
+    }
+
     public int getCorrodeAmount()
     {
         if(Owner.HasPower<WaterworldPower>())

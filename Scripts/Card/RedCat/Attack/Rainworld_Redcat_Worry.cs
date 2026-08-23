@@ -37,7 +37,7 @@ public class Rainworld_Redcat_Worry : RedCatCardModel
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
         if (Owner.Character is Slugcat)
-            SlugcatData.addfood(Owner, (int)DynamicVars["Food"].BaseValue);
+            await SlugcatData.addfood(Owner, (int)DynamicVars["Food"].BaseValue);
     }
 
     protected override void OnUpgrade()

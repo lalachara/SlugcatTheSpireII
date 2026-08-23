@@ -45,7 +45,7 @@ public class Rainworld_Redcat_Ruminate : RedCatCardModel
     // 打出时的效果逻辑
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (Owner.Character is Slugcat && SlugcatData.GetFood(Owner) >= 1) SlugcatData.addfood(Owner, -1);
+        if (Owner.Character is Slugcat && SlugcatData.GetFood(Owner) >= 1) await SlugcatData.addfood(Owner, -1);
         if(PileType.Discard.GetPile(Owner).IsEmpty)
             return;
         var prefs = new CardSelectorPrefs(SelectionScreenPrompt, 1);

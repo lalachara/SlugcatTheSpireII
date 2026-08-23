@@ -49,7 +49,7 @@ public static class CombatUiPatch
 	public static void UpdateCorruption(int value,Player player)
 	{
 		if (IsInstanceValid(_corruptionIndicator)&&player==creature.Player)
-			_corruptionIndicator.UpdateCorruption(value);
+			_corruptionIndicator!.UpdateCorruption(value);
 	}
 	
 	public static async Task callVictory(Player player)
@@ -90,7 +90,6 @@ public static class CombatUiPatch
 	{
 		if (IsInstanceValid(_SleepButton))
 			_SleepButton.SetState(enabled ? NAutoButton.ButtonState.Active : NAutoButton.ButtonState.Down);
-		GD.Print("设置休眠按钮状态：" + enabled);
 	}
 
 	public static void Setfood(int food,Player player)
@@ -233,12 +232,10 @@ public sealed class CombatUiActivatePatch : IPatchMethod
 				int maxFood = data.MaxFood;
 				int sleepFood = data.SleepFood;
 				int food = data.Food;
-				GD.Print($"业力：{workLevel},食物：{food},最大食物：{maxFood},休眠食物：{sleepFood}");
 
 				CombatUiPatch._workLevelIndicator.UpdateWorkLevel(workLevel);
 				CombatUiPatch._workLevelIndicator.SetFoodData(maxFood, sleepFood, food);
-			} else
-				GD.Print($"未激活");
+			} 
 			if (CombatUiPatch.creature.Player.Character is Rainworld_Redcat)
 			{
 				if (CombatUiPatch.IsInstanceValid(CombatUiPatch._corruptionIndicator))

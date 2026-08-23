@@ -18,34 +18,34 @@ public class Rainworld_Redcat_Catlost : RedCatCardModel
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [
-        CardKeyword.Retain
+        CardKeyword.Retain,RainworldKeywords.Backtohand
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(10m, ValueProp.Move),
-        new("Summon", 3m)
+        new DamageVar(4, ValueProp.Move),
+        new("Special", 1m)
     ];
 
     public Rainworld_Redcat_Catlost() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
     }
 
-    public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
-    {
-        if (player == Owner)
-        {
-            var rng = player.RunState.Rng.CombatTargets;
-            DynamicVars.Damage.BaseValue = rng.NextInt(2, IsUpgraded ? 11 : 10);
-            DynamicVars["Summon"].BaseValue = rng.NextInt(1, IsUpgraded ? 4 : 3);
-        }
-        await base.AfterPlayerTurnStart(choiceContext, player);
-    }
+    // public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
+    // {
+    //     if (player == Owner)
+    //     {
+    //         var rng = player.RunState.Rng.CombatTargets;
+    //         DynamicVars.Damage.BaseValue = rng.NextInt(2, IsUpgraded ? 11 : 10);
+    //         DynamicVars["Summon"].BaseValue = rng.NextInt(1, IsUpgraded ? 4 : 3);
+    //     }
+    //     await base.AfterPlayerTurnStart(choiceContext, player);
+    // }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
-        var hitCount = (int)DynamicVars["Summon"].BaseValue;
+        var hitCount = (int)DynamicVars["Special"].BaseValue;
         await DamageCmd
             .Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this,cardPlay)
@@ -57,7 +57,6 @@ public class Rainworld_Redcat_Catlost : RedCatCardModel
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(1m);
-        DynamicVars["Summon"].UpgradeValueBy(1m);
+        DynamicVars.Damage.UpgradeValueBy(2m);
     }
 }

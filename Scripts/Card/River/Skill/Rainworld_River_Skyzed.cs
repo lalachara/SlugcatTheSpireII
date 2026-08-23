@@ -25,10 +25,13 @@ public class Rainworld_River_Skyzed : RiverCardModel
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
         while (cardPlay.Target.HasPower<CorrodePower>() && !cardPlay.Target.IsDead)
         {
-            Tools.Yinlei(cardPlay,choiceContext);
-            PowerCmd.Decrement(cardPlay.Target.GetPower<CorrodePower>());
-            PowerCmd.Decrement(cardPlay.Target.GetPower<CorrodePower>());
-            
+            await Tools.Yinlei(cardPlay,choiceContext);
+            for (int i = 0; i < 4; i++)
+            {
+                if(cardPlay.Target.HasPower<CorrodePower>())
+                    await PowerCmd.Decrement(cardPlay.Target.GetPower<CorrodePower>());  // 第二次 Decrement ← 这里崩了！
+            }
+           
         }
     }
 

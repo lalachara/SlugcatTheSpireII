@@ -33,11 +33,16 @@ public sealed class AngryPower : ModPowerTemplate
   );
   
   public override PowerType Type => PowerType.Buff;
+  protected override IEnumerable<DynamicVar> CanonicalVars =>
+  [
+      new EnergyVar(1)
+  ];
 
   public override PowerStackType StackType => PowerStackType.Counter;
 
     public override async Task AfterEnergySpent(CardModel card, int amount)
     {
-        await PowerCmd.Apply<VigorPower>(new ThrowingPlayerChoiceContext(),Owner,Amount, base.Owner, null);
+        if(amount >0&&card.Owner.Creature==Owner)
+            await PowerCmd.Apply<VigorPower>(new ThrowingPlayerChoiceContext(),Owner,Amount*amount, base.Owner, null);
     }
 }

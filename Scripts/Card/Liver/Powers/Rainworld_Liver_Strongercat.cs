@@ -16,7 +16,7 @@ public class Rainworld_Liver_Strongercat : LiverCardModel
 
 {
     // 基础耗能
-    private const int energyCost = 1;
+    private const int energyCost = 2;
 
     // 卡牌类型
     private const CardType type = CardType.Power;

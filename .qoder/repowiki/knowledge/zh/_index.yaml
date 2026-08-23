@@ -1,0 +1,52 @@
+# 知识卡导出索引文件
+schema_version: 1
+locale: zh-CN
+branch: master
+nodes_managed: true
+exported_at: "2026-08-22T07:56:40Z"
+modules:
+    "":
+        dir_name: SlugcatTheSpireII 模组工程根
+        title: SlugcatTheSpireII 模组工程根
+        scope:
+            - SlugcatTheSpireII.csproj
+            - SlugcatTheSpireII.sln
+            - export_presets.cfg
+            - mod_manifest.json
+            - .trae/
+            - .editorconfig
+            - .gitattributes
+            - .gitignore
+            - SlugcatTheSpireII.sln.DotSettings.user
+            - demo.sln.DotSettings.user
+            - log.txt
+            - project.godot
+        source_files: []
+        children:
+            - godot_assets
+            - scripts_core
+        depends_on: []
+        related_to: []
+    godot_assets:
+        dir_name: Godot 角色与战斗 UI 资源（Spine 动画、怪物、能量条、腐化指示器）
+        title: Godot 角色与战斗 UI 资源（Spine 动画、怪物、能量条、腐化指示器）
+        scope:
+            - Godot/
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: scripts_core
+    scripts_core:
+        dir_name: 模组入口与核心工具集
+        title: 模组入口与核心工具集
+        scope:
+            - Scripts/Entry.cs
+            - Scripts/RainworldModConfig.cs
+            - Scripts/Tools.cs
+            - Scripts/Keywords.cs
+        source_files: []
+        children: []
+        depends_on: []
+        related_to:
+            - path: godot_assets

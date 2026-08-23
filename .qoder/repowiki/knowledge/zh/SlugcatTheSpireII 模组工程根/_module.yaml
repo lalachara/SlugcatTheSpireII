@@ -1,0 +1,19 @@
+schema_version: 1
+module_path: ""
+title: SlugcatTheSpireII 模组工程根
+scope:
+    - SlugcatTheSpireII.csproj
+    - SlugcatTheSpireII.sln
+    - export_presets.cfg
+    - mod_manifest.json
+    - .trae/
+    - .editorconfig
+    - .gitattributes
+    - .gitignore
+    - SlugcatTheSpireII.sln.DotSettings.user
+    - demo.sln.DotSettings.user
+    - log.txt
+    - project.godot
+source_files: []
+depends_on: []
+related_to: []

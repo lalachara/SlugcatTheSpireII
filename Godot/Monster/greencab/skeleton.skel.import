@@ -1,0 +1,14 @@
+[remap]
+
+importer="spine.skel"
+type="SpineSkeletonFileResource"
+uid="uid://1eqf684yswdv"
+path="res://.godot/imported/skeleton.skel-8d3f9c6db1d2581ef4b8ac363178d370.spskel"
+
+[deps]
+
+source_file="res://Godot/Monster/greencab/skeleton.skel"
+dest_files=["res://.godot/imported/skeleton.skel-8d3f9c6db1d2581ef4b8ac363178d370.spskel"]
+
+[params]
+

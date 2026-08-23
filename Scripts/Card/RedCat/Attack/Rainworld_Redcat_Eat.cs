@@ -1,10 +1,12 @@
 ﻿using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Commands.Builders;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
+using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.ValueProps;
 using Rainworld.Scripts.Powers;
 
@@ -35,25 +37,42 @@ public class Rainworld_Redcat_Eat : RedCatCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await DamageCmd
-            .Attack(DynamicVars.Damage.BaseValue)
-            .FromCard(this,cardPlay)
-            .WithHitFx(sfx:"event:/Rainworld/sfx/eat")
-            .TargetingAllOpponents(CombatState)
-            .Execute(choiceContext);
-        
-
-        var playerEffectiveHp = Owner.Creature.CurrentHp;
-        if (Owner.Creature.HasPower<MushblockPower>())
-            playerEffectiveHp += Owner.Creature.GetPowerAmount<MushblockPower>();
-
-        foreach (var enemy in CombatState.HittableEnemies)
+        AttackContext attackContext = await AttackCommand.CreateContextAsync(CombatState!, choiceContext, cardPlay);
+        try
         {
-            if (!enemy.IsDead && enemy.CurrentHp < playerEffectiveHp)
+            var damageResults = await CreatureCmd.Damage(
+                choiceContext,
+                CombatState!.HittableEnemies,
+                DynamicVars.Damage,
+                Owner.Creature,
+                this,
+                cardPlay);
+            attackContext.AddHit(damageResults);
+
+            var playerEffectiveHp = Owner.Creature.CurrentHp;
+            if (Owner.Creature.HasPower<MushblockPower>())
+                playerEffectiveHp += Owner.Creature.GetPowerAmount<MushblockPower>();
+
+            foreach (var result in damageResults)
             {
-                await CreatureCmd.Kill(enemy);
-                await CreatureCmd.GainMaxHp(Owner.Creature, 5m);
+                if (result.WasTargetKilled)
+                {
+                    await CreatureCmd.GainMaxHp(Owner.Creature, 5m);
+                }
+
+                if (result.Receiver.CurrentHp < playerEffectiveHp)
+                {
+                    await CreatureCmd.Kill(result.Receiver);
+                    await CreatureCmd.GainMaxHp(Owner.Creature, 5m); 
+                }
             }
+            
+            
+        }
+        finally
+        {
+            if (attackContext != null)
+                await attackContext.DisposeAsync();
         }
     }
 

@@ -28,17 +28,13 @@ public partial class Ncorrupt : Sprite2D
 		{
 			// 加载纹理，如果路径错误会返回 null
 			_textures[i] = GD.Load<Texture2D>(_imagePaths[i]);
-			if (_textures[i] == null)
-			{
-				GD.PrintErr($"无法加载图片：{_imagePaths[i]}，请检查路径是否正确。");
-			}
+
 		}
 
 		// 默认显示第一张（如果有）
 		if (count > 0 && _textures[0] != null)
 		{
 			Texture = _textures[0];
-			GD.Print("初始化显示第一张图片");
 		}
 	}
 
@@ -48,21 +44,9 @@ public partial class Ncorrupt : Sprite2D
 	/// <param name="index">从 0 开始</param>
 	public void ShowImage(int index)
 	{
-		if (index < 0 || index >= _textures.Length)
-		{
-			GD.PrintErr($"索引 {index} 超出范围 (0 ~ {_textures.Length - 1})");
-			return;
-		}
-
-		if (_textures[index] == null)
-		{
-			GD.PrintErr($"第 {index} 张图片未成功加载，无法显示");
-			return;
-		}
-
+		
 		Texture = _textures[index];
 		_currentIndex = index;
-		GD.Print($"切换到第 {index} 张图片");
 	}
 
 	/// <summary>
@@ -76,7 +60,6 @@ public partial class Ncorrupt : Sprite2D
 	public void MakeTransparent()
 	{
 		Modulate = Colors.Transparent;
-		GD.Print("已设置为透明");
 	}
 	public int GetImageCount() => _textures.Length;
 		public void RestoreDisplay()
@@ -90,6 +73,5 @@ public partial class Ncorrupt : Sprite2D
 		{
 			Texture = _textures[_currentIndex];
 		}
-		GD.Print("已恢复显示");
 	}
 }

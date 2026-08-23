@@ -51,6 +51,7 @@ public class Rainworld_Redcat_Spear : RedCatCardModel
         await DamageCmd
             .Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this,cardPlay)
+            .WithHitCount(Keywords.Contains(RainworldKeywords.Corrupt)?2:1)
             .Targeting(cardPlay.Target)
             .WithHitFx(sfx:"event:/Rainworld/sfx/spear")
             .Execute(choiceContext);
@@ -58,12 +59,6 @@ public class Rainworld_Redcat_Spear : RedCatCardModel
             Owner.Creature, this);
         if (Keywords.Contains(RainworldKeywords.Corrupt))
         {
-            await DamageCmd
-                .Attack(DynamicVars.Damage.BaseValue)
-                .FromCard(this,cardPlay)
-                .Targeting(cardPlay.Target)
-                .WithHitFx(sfx:"event:/Rainworld/sfx/spear")
-                .Execute(choiceContext);
             await PowerCmd.Apply<ChuangPower>(choiceContext, cardPlay.Target, DynamicVars["Chuang"].BaseValue,
                 Owner.Creature, this);
             await CardCmd.Exhaust(choiceContext,this);

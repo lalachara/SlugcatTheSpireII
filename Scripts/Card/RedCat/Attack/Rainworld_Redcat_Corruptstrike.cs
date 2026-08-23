@@ -28,10 +28,9 @@ public class Rainworld_Redcat_Corruptstrike : RedCatCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(9m, ValueProp.Move),
         new CalculationBaseVar(9m),
-        new CalculationExtraVar(1m),
-        new CalculatedVar("CalculatedDamage").WithMultiplier((CardModel card, Creature? _) =>
+        new ExtraDamageVar(1m),
+        new CalculatedDamageVar(ValueProp.Move).WithMultiplier((CardModel card, Creature? _) =>
             card.Owner.Creature?.GetPower<MushblockPower>()?.Amount ?? 0)
     ];
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<RedmushroomPower>(), HoverTipFactory.FromPower<MushblockPower>()};
@@ -43,21 +42,17 @@ public class Rainworld_Redcat_Corruptstrike : RedCatCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
-        var damage = (int)((CalculatedVar)DynamicVars["CalculatedDamage"]).Calculate(null);
+        var damage = (int)(DynamicVars.CalculatedDamage).Calculate(null);
         await DamageCmd
             .Attack(damage)
             .FromCard(this,cardPlay)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-        if (Owner.Creature.HasPower<RedmushroomPower>())
-        {
-           await Tools.BackToHand(Owner, this);
-        }
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(4m);
+        DynamicVars.CalculationBase.UpgradeValueBy(3m);
     }
 }

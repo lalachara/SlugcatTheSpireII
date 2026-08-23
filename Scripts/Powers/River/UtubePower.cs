@@ -22,24 +22,27 @@ using System.Threading.Tasks;
 
 #nullable enable
 [RegisterPower]
-public sealed class FairyformPower : ModPowerTemplate
+public sealed class UtubePower : ModPowerTemplate
 {
     public override PowerAssetProfile AssetProfile => new(
         IconPath: $"res://Resource/Powers/River/{GetType().Name}128.png",
         BigIconPath: $"res://Resource/Powers/River/{GetType().Name}128.png"
     );
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<BufferPower>()  };
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<AdroitPower>()  };
 
     public override PowerType Type => PowerType.Buff;
 
-    public override PowerStackType StackType => PowerStackType.Counter;
+    public override PowerStackType StackType => PowerStackType.Single;
+    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
+    public Creature target;
 
-    public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target,
-        DamageResult _, ValueProp props, Creature? dealer, CardModel? __)
+
+    public async Task UsedAdroit(int amount)
     {
-        if (target == Owner && _.UnblockedDamage > 0)
+        if (target.IsAlive && amount > 0)
         {
-            await PowerCmd.Apply<BufferPower>(choiceContext, Owner, (int)Amount, Owner, null);
+            await PowerCmd.Apply<AdroitPower>(new ThrowingPlayerChoiceContext(), target, amount, target, null);
         }
     }
+    
 }

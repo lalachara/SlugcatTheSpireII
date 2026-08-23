@@ -38,7 +38,7 @@ public sealed class ExtendPower : ModPowerTemplate
 
     public override async Task AfterCardExhausted(PlayerChoiceContext choiceContext, CardModel card, bool causedByEthereal)
     {
-        if (card.Owner.Creature != Owner && card.Owner.Creature.IsPlayer&&Owner.Player!=null && hasTriggeredThisTurn < Amount)
+        if (card.Owner.Creature != Owner && card.Owner.Creature.IsPlayer&&Owner.Player!=null && hasTriggeredThisTurn < Amount&&!causedByEthereal)
         {
             hasTriggeredThisTurn++;
             var copy = card.CreateCloneForPlayer(Owner.Player);

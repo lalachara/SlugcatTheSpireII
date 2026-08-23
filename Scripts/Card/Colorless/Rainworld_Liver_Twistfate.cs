@@ -7,13 +7,14 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
+using Rainworld.Resource.Card;
 using Rainworld.Scripts;
 using Rainworld.Scripts.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
-[RegisterCard(typeof(ColorlessCardPool))]
+[RegisterCard(typeof(Rainworld_Future_CardPool))]
 
 public class Rainworld_Liver_Twistfate : ModCardTemplate
 
@@ -74,7 +75,7 @@ public class Rainworld_Liver_Twistfate : ModCardTemplate
 
         if (Owner.Character is Slugcat)
         {
-            SlugcatData.setworklevel(Owner, 9);
+           await SlugcatData.setworklevel(Owner, 9);
             ;
         }
 

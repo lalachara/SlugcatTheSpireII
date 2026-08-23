@@ -40,28 +40,29 @@ public sealed class River_Waterball2 : ModRelicTemplate
 		IconOutlinePath: "res://Resource/Relics/outline/waterball2.png",
 		BigIconPath: "res://Resource/Relics/waterball2.png"
 	);
-	protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<AdroitPower>() };
+	protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<AdroitPower>(), HoverTipFactory.FromPower<AdroitcapPower>() };
 
 	public override bool ShowCounter => true;
 	public override int DisplayAmount => _consumeCounter % 10;
 
 	private int _consumeCounter;
-
-	public override async Task AfterObtained()
-	{
-		if(Owner.Character is not Slugcat)
-			return;
-		SlugcatData.Initialize(Owner);
-		Log.Info($"{Owner.Creature.Name} 初始化业力，{SlugcatData.GetWorkLevel(Owner)}");
-	}
+	
 	
 	public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, ICombatState combatState)
 	{
 		if (player == base.Owner && combatState.RoundNumber == 1)
 		{
-			PowerCmd.Apply<AdroitPower>(choiceContext, Owner.Creature, 3, Owner.Creature, null);
+			 await PowerCmd.Apply<AdroitcapPower>(choiceContext, Owner.Creature, 3, Owner.Creature, null);
 		}
 		
+	}
+	
+	public override async Task AfterCombatVictory(CombatRoom room)
+	{
+		_consumeCounter = 0;
+		InvokeDisplayAmountChanged();
+
+		await base.AfterCombatVictory(room);
 	}
 
 	public void OnAdroitConsumed(int amount)
@@ -78,7 +79,7 @@ public sealed class River_Waterball2 : ModRelicTemplate
 
 	private async Task ApplyAdroitCap()
 	{
-		await PowerCmd.Apply<AdroitPower>(new ThrowingPlayerChoiceContext(), Owner.Creature, 1, Owner.Creature, null);
+		await PowerCmd.Apply<AdroitcapPower>(new ThrowingPlayerChoiceContext(), Owner.Creature, 1, Owner.Creature, null);
 	}
 	
 }

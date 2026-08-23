@@ -43,7 +43,7 @@ public sealed class River_Cream : ModRelicTemplate
             return;
 
         var debuffs = Owner.Creature.Powers
-            .Where(p => p.Type == PowerType.Debuff && p != power)
+            .Where(p => p.Type == PowerType.Debuff && p != power && p.StackType == PowerStackType.Counter)
             .ToList();
 
         if (debuffs.Count == 0)

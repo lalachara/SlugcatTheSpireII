@@ -1,0 +1,16 @@
+[remap]
+
+importer="spine.atlas"
+type="SpineAtlasResource"
+uid="uid://bixp4ha4twow2"
+path="res://.godot/imported/lieyanwugong-SP.atlas-d2e7f8f2cfd7239abe1e22a4875e63c2.spatlas"
+
+[deps]
+
+source_file="res://Godot/Monster/Firecent/lieyanwugong-SP.atlas"
+dest_files=["res://.godot/imported/lieyanwugong-SP.atlas-d2e7f8f2cfd7239abe1e22a4875e63c2.spatlas"]
+
+[params]
+
+normal_map_prefix="n"
+specular_map_prefix="s"

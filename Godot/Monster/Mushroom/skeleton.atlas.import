@@ -1,0 +1,16 @@
+[remap]
+
+importer="spine.atlas"
+type="SpineAtlasResource"
+uid="uid://bjd5p24aw5l0w"
+path="res://.godot/imported/skeleton.atlas-77f1c98f995550c1eb8f4888d3899e24.spatlas"
+
+[deps]
+
+source_file="res://Godot/Monster/Mushroom/skeleton.atlas"
+dest_files=["res://.godot/imported/skeleton.atlas-77f1c98f995550c1eb8f4888d3899e24.spatlas"]
+
+[params]
+
+normal_map_prefix="n"
+specular_map_prefix="s"

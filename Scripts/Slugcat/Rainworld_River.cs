@@ -35,7 +35,7 @@ public sealed class Rainworld_River : Slugcat<Rainworld_River_CardPool, Rainworl
 	public int maxWorkLevel { get; set; } = 4;
 	public int food { get; set; } = 0;
 	public int maxFood { get; set; } = 6;
-	public int sleepfood { get; set; } = 4;
+	public int sleepfood { get; set; } = 5;
 	
 	public int enemyfood { get; set; } = 3;
 	public int jyFood { get; set; } = 5;
@@ -77,7 +77,10 @@ public sealed class Rainworld_River : Slugcat<Rainworld_River_CardPool, Rainworl
 				ArmPaperTexturePath:"res://Godot/Character/River/mult_hand_3.png",
 				// 多人模式剪刀石头布-剪刀。
 				ArmScissorsTexturePath:"res://Godot/Character/River/mult_hand_2.png"
-			)
+			),
+			VanillaRelicVisualOverrides: [
+				new (CharacterOwnedVanillaRelicModelId.YummyCookie, new("res://Resource/Relics/rivercookie.png")) // 美味饼干覆盖
+			]
 
 		));
 	
@@ -94,7 +97,7 @@ public sealed class Rainworld_River : Slugcat<Rainworld_River_CardPool, Rainworl
 
 	public override float AttackAnimDelay => 0.15f;
 	public override float CastAnimDelay => 0.25f;
-	public override Color EnergyLabelOutlineColor => new(0.1f, 0.1f, 1f);
+	public override Color EnergyLabelOutlineColor => new("1a4750");
 	public override Color DialogueColor => new Color("3f8999");
 	public override Color MapDrawingColor => new Color(145f/255f, 204f/255f, 240f/255f, 1f);
 	public override Color RemoteTargetingLineColor => new Color(145f/255f, 204f/255f, 240f/255f, 1f);

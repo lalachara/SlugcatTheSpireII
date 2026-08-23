@@ -12,11 +12,11 @@ using Rainworld.Scripts.Powers;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
 
-public class Rainworld_Liver_RandomSlime : LiverCardModel
+public class Rainworld_Liver_Randomslime : LiverCardModel
 {
     private const int energyCost = 1;
     private const CardType type = CardType.Power;
-    private const CardRarity rarity = CardRarity.Uncommon;
+    private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
@@ -29,17 +29,20 @@ public class Rainworld_Liver_RandomSlime : LiverCardModel
     [
     ];
 
-    public Rainworld_Liver_RandomSlime() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
+    public Rainworld_Liver_Randomslime() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<RandomSlimePower>(choiceContext, Owner.Creature, 1, Owner.Creature, this);
+        var power = await PowerCmd.Apply<RandomslimePower>(choiceContext, Owner.Creature, 1, Owner.Creature, this);
+        if (IsUpgraded)
+        {
+            power!.IsUpgraded = true;
+        }
     }
 
     protected override void OnUpgrade()
     {
-        EnergyCost.UpgradeBy(-1);
     }
 }

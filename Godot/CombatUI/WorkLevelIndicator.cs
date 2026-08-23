@@ -99,7 +99,7 @@ public partial class WorkLevelIndicator : NButton
 		IEnumerable<IHoverTip> hoverTips = new []{_hoverTip,FoodHoverTip};
 		
 		NHoverTipSet nHoverTipSet = NHoverTipSet.CreateAndShow(this, hoverTips);
-		nHoverTipSet.GlobalPosition = base.GlobalPosition + new Vector2(base.Size.X+60f, base.Size.Y -100f);
+		nHoverTipSet.GlobalPosition = base.GlobalPosition + new Vector2(base.Size.X+60f, base.Size.Y -160f);
 	}
 	private void UpdateButtonEnabledState()
 	{

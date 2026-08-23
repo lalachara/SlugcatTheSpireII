@@ -17,7 +17,7 @@ public class SlugCatCardTargets
             Entry.ModId,
             "NEVER_HIT_ME_ENEMY",
             (creature, player) =>
-                !WorkLevelSingleton.DamagingPairs.Contains((creature, player)));
+                !WorkLevelSingleton.DamagingPairs.Contains((creature, player))&&!creature.IsPlayer);
 
         CorrodeEnemy = CustomTargetType.RegisterSingleTargetType(
             Entry.ModId,

@@ -43,7 +43,7 @@ public class Rainworld_Liver_Wawawa : LiverCardModel
     // 打出时的效果逻辑
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        SfxCmd.Play("event:/Rainworld/sfx/wawawa");
+        SfxCmd.Play("event:/Rainworld/sfx/wawawa",0.7f);
         if(Owner.Character is Slugcat slugcat)
             slugcat.wawawa = true;
         foreach (var hittableEnemy in CombatState.HittableEnemies)

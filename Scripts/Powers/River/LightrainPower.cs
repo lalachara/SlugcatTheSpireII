@@ -46,7 +46,7 @@ public sealed class LightrainPower : ModPowerTemplate
 
         usetimes ++;
         
-        Tools.Yinlei(cardPlay,choiceContext);
+        await Tools.Yinlei(cardPlay,choiceContext);
         
     }
 }

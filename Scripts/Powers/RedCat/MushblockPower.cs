@@ -32,11 +32,12 @@ public sealed class MushblockPower : ModPowerTemplate
     BigIconPath: "res://Resource/Powers/RedCat/MushBlockPower128.png"
   );
   
+  
   public override PowerType Type => PowerType.Buff;
 
   public override PowerStackType StackType => PowerStackType.Counter;
 
-
+  private decimal needremove = 0;
   public override decimal ModifyHpLostAfterOsty(
     Creature target,
     decimal amount,
@@ -50,11 +51,27 @@ public sealed class MushblockPower : ModPowerTemplate
     if (amount >= Amount)
     {
       var remaining = amount - Amount;
-      PowerCmd.Remove(this);
+      needremove = Amount;
       return remaining;
     }
-
-    PowerCmd.ModifyAmount(new BlockingPlayerChoiceContext(), this, -amount, Owner, null);
+    needremove = amount;
     return 0;
+  }
+
+  public override async Task AfterModifyingHpLostAfterOsty()
+  {
+    if(needremove==0)
+      return;
+    if (Amount == needremove)
+    {
+      await PowerCmd.Remove(this);
+      return;
+    }
+    if (needremove > 0)
+    {
+      await PowerCmd.ModifyAmount(new BlockingPlayerChoiceContext(), this, -needremove, Owner, null);
+      needremove = 0;
+    }
+    await base.AfterModifyingHpLostAfterOsty();
   }
 }

@@ -3,6 +3,7 @@
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using Rainworld.Scripts.Powers;
 
@@ -16,6 +17,7 @@ public class Rainworld_River_Sky : RiverCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
     public override IEnumerable<CardKeyword> CanonicalKeywords => new []{CardKeyword.Innate};
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<AdroitcapPower>() ,HoverTipFactory.FromPower<AdroitPower>() };
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

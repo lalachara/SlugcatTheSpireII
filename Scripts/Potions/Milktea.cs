@@ -17,16 +17,15 @@ using STS2RitsuLib.Scaffolding.Content;
 
 
 // 注册药水。如果要写自定义池看添加人物的开头
-[RegisterPotion(typeof(Rainworld_Liver_PotionPool))]
-[RegisterPotion(typeof(Rainworld_Redcat_PotionPool))]
-[RegisterPotion(typeof(Rainworld_River_PotionPool))]
-public class Workflower : ModPotionTemplate
+[RegisterPotion(typeof(SharedPotionPool))]
+
+public class Milktea : ModPotionTemplate
 {
     // 稀有度
-    public override PotionRarity Rarity => PotionRarity.Rare;
+    public override PotionRarity Rarity => PotionRarity.Uncommon;
 
     // 使用方式，CombatOnly表示只能在战斗中使用。
-    public override PotionUsage Usage => PotionUsage.CombatOnly;
+    public override PotionUsage Usage => PotionUsage.AnyTime;
     
     
 
@@ -35,17 +34,17 @@ public class Workflower : ModPotionTemplate
 
     // 定义动态变量
     // 这里显示预览卡牌灵魂。或者你也可以添加提示关键词
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromPower<WorklockPower>()];
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => [HoverTipFactory.FromKeyword(RainworldKeywords.Food)];
 
     // 药水图片。不一定非得是png，只要最终能被Godot当成Texture读取即可。
     public override PotionAssetProfile AssetProfile => new(
-        ImagePath: "res://Resource/other/potions/workflower.png",
-        OutlinePath: "res://Resource/other/potions/workflower.png"
+        ImagePath: "res://Resource/other/potions/milktea.png",
+        OutlinePath: "res://Resource/other/potions/milktea.png"
     );
 
     
     protected override async Task OnUse(PlayerChoiceContext choiceContext, Creature? target)
     {
-        await PowerCmd.Apply<WorklockPower>(choiceContext,target!,1,target,null);
+        await SlugcatData.addfood(target!.Player!,4);
     }
 }

@@ -4,16 +4,22 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
+using Rainworld.Resource.Card;
 using Rainworld.Scripts;
+using Rainworld.Scripts.Powers;
+using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
 namespace Rainworld.Scripts.Card.River.Skills;
-
-public class Rainworld_River_Waterfruit : RiverCardModel
+[RegisterCard(typeof(Rainworld_Future_CardPool), Inherit = true)]
+public class Rainworld_River_Waterfruit : ModCardTemplate
 {
+    
     private const int energyCost = 0;
     private const CardType type = CardType.Skill;
     private const CardRarity rarity = CardRarity.Token;
@@ -22,9 +28,10 @@ public class Rainworld_River_Waterfruit : RiverCardModel
 
     private int _strengthenCount = 0;
     public override int MaxUpgradeLevel { get; } = 3;
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromKeyword(RainworldKeywords.Food)  };
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
-        new[] { CardKeyword.Retain, RainworldKeywords.Food, CardKeyword.Exhaust };
+        new[] { CardKeyword.Retain, RainworldKeywords.Foodcard, CardKeyword.Exhaust };
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
@@ -44,6 +51,14 @@ public class Rainworld_River_Waterfruit : RiverCardModel
             _ => ""
         }
     );
+    public override TargetType TargetType
+    {
+        get => !this.HasSharedFood ? TargetType.Self : TargetType.AllAllies;
+    }
+    private bool HasSharedFood
+    {
+        get => this.IsMutable&& this.Owner!=null  && this.Owner.Creature.HasPower<SharefoodPower>();
+    }
 
     public Rainworld_River_Waterfruit() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
@@ -72,9 +87,22 @@ public class Rainworld_River_Waterfruit : RiverCardModel
     {
         if (IsUpgraded)
         {
-            await PlayerCmd.GainEnergy(DynamicVars.Energy.IntValue, Owner);
-            if (Owner.Character is Slugcat)
-                SlugcatData.addfood(Owner, (int)DynamicVars["Food"].BaseValue);
+            if (HasSharedFood)
+            {
+                foreach (var player in CombatState!.Players)
+                {
+                    await PlayerCmd.GainEnergy(DynamicVars.Energy.IntValue, player);
+                    if (player.Character is Slugcat)
+                        await SlugcatData.addfood(player, (int)DynamicVars["Food"].BaseValue);
+                }
+            }
+            else
+            {
+                await PlayerCmd.GainEnergy(DynamicVars.Energy.IntValue, Owner);
+                            if (Owner.Character is Slugcat)
+                                await SlugcatData.addfood(Owner, (int)DynamicVars["Food"].BaseValue);
+            }
+            
         }
     }
 

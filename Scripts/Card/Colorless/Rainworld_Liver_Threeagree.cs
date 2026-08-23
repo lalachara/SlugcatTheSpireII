@@ -9,13 +9,14 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
+using Rainworld.Resource.Card;
 using Rainworld.Scripts;
 using Rainworld.Scripts.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
-[RegisterCard(typeof(ColorlessCardPool))]
+[RegisterCard(typeof(Rainworld_Future_CardPool))]
 public class Rainworld_Liver_Threeagree : ModCardTemplate
 
 {
@@ -81,7 +82,7 @@ public class Rainworld_Liver_Threeagree : ModCardTemplate
             await CreatureCmd.Kill(creature);
         }
 
-        SlugcatData.setworklevel(Owner, 4);
+       await SlugcatData.setworklevel(Owner, 4);
     }
 
     // 升级后的效果逻辑

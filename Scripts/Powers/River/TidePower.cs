@@ -32,11 +32,16 @@ public sealed class TidePower : ModPowerTemplate
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public async Task OnShuffleTrigger(PlayerChoiceContext choiceContext)
-    {
+    public override async Task AfterShuffle(PlayerChoiceContext choiceContext, Player shuffler)
+    {  
+        if(shuffler.Creature!=Owner)
+            return;
         Flash();
-        await PowerCmd.Apply<AdroitPower>(choiceContext, Owner, 1, Owner, null);
+        await PowerCmd.Apply<AdroitcapPower>(choiceContext, Owner, 1, Owner, null);
         await CreatureCmd.Damage(new BlockingPlayerChoiceContext(), CombatState.HittableEnemies,
             Amount, ValueProp.Unpowered, Owner);
+        
+        await base.AfterShuffle(choiceContext, shuffler);
     }
+    
 }

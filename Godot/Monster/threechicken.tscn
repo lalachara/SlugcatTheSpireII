@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3 uid="uid://b35o1srv7oqrl"]
+
+[ext_resource type="SpineSkeletonDataResource" uid="uid://dwegmk3ruyesg" path="res://Godot/Monster/threechicken/threechicken.tres" id="1_yyklm"]
+
+[node name="model" type="Node2D"]
+
+[node name="Visuals" type="SpineSprite" parent="."]
+skeleton_data_res = ExtResource("1_yyklm")
+preview_skin = "Default"
+preview_animation = "attack"
+preview_frame = false
+preview_time = 0.0
+unique_name_in_owner = true
+position = Vector2(6, 87)
+
+[node name="Bounds" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_left = -460.0
+offset_top = -623.0
+offset_right = 442.0
+offset_bottom = 72.0
+
+[node name="IntentPos" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(9, -441)
+
+[node name="CenterPos" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(6, -276)
+
+[node name="TalkPos" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(-301, -336)

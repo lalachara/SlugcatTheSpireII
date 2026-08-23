@@ -1,5 +1,6 @@
 ﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Powers;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -23,6 +24,7 @@ public sealed class RustspearPower : ModPowerTemplate
     );
 
     public override PowerType Type => PowerType.Debuff;
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<CorrodePower>() };
 
     public override PowerStackType StackType => PowerStackType.Counter;
 }

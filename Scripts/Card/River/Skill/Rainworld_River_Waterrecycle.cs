@@ -38,6 +38,6 @@ public class Rainworld_River_Waterrecycle : RiverCardModel
 
     protected override void OnUpgrade()
     {
-        EnergyCost.UpgradeBy(-1);
+        EnergyCost.UpgradeBy(-2);
     }
 }

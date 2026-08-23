@@ -25,7 +25,7 @@ public class Rainworld_Redcat_Puritystrike : RedCatCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(22m, ValueProp.Move)
+        new DamageVar(18m, ValueProp.Move)
     ];
 
     public Rainworld_Redcat_Puritystrike() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -34,6 +34,8 @@ public class Rainworld_Redcat_Puritystrike : RedCatCardModel
 
     public override bool ShouldPlay(CardModel card, AutoPlayType autoPlayType)
     {
+        if(card != this)
+            return true;
         if (SlugcatData.getCorruptValue(Owner) != 0||Owner.Character is not Rainworld_Redcat)
             return false;
         return true;
@@ -52,6 +54,6 @@ public class Rainworld_Redcat_Puritystrike : RedCatCardModel
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(6m);
+        DynamicVars.Damage.UpgradeValueBy(5m);
     }
 }

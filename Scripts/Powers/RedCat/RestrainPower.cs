@@ -1,5 +1,6 @@
 ﻿﻿using MegaCrit.Sts2.Core.Entities.Cards;
-using MegaCrit.Sts2.Core.HoverTips;
+ using MegaCrit.Sts2.Core.Entities.Players;
+ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -36,4 +37,9 @@ public sealed class RestrainPower : ModPowerTemplate
 
   public override PowerStackType StackType => PowerStackType.Counter;
 
+  public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
+  {
+    await PowerCmd.Decrement(this);
+    await base.AfterPlayerTurnStart(choiceContext, player);
+  }
 }

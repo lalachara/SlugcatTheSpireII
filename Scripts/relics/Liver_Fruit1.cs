@@ -38,15 +38,6 @@ public sealed class Liver_Fruit1 : ModRelicTemplate
 	);
 	protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromCard<Rainworld_Liver_Fruit>() };
 
-
-	public override async Task AfterObtained()
-	{
-		if(Owner.Character is not Slugcat)
-			return;
-		SlugcatData.Initialize(Owner);
-		Log.Info($"{Owner.Creature.Name} 初始化业力，{SlugcatData.GetWorkLevel(Owner)}");
-	}
-	
 	public override async Task BeforeHandDraw(Player player, PlayerChoiceContext choiceContext, ICombatState combatState)
 	{
 		if (player == base.Owner && combatState.RoundNumber == 1)

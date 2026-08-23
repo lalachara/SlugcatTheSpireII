@@ -7,7 +7,12 @@ namespace Rainworld.Scripts;
 public static class SlugcatResources
 {
     public static PlayerRunSavedData<SlugcatRunData> Data { get; private set; } = null!;
+    public static RunSavedData<RelicFilterRunData> RelicFilterData { get; private set; } = null!;
+    public static RunSavedData<SpawnConfigRunData> SpawnConfigData { get; private set; } = null!;
+    public static RunSavedData<OtherCharPoolFilterRunData> OtherCharPoolFilterData { get; private set; } = null!;
     public static SecondaryResourceDefinition CorruptValue { get; private set; } = null!;
+    
+    
     public static string CorruptValueID { get; private set; } = string.Empty;
     public static void Register()
     {
@@ -17,6 +22,33 @@ public static class SlugcatResources
             Data = store.RegisterPerPlayer(
                 key: "slugcat_data",
                 defaultFactory: () => new SlugcatRunData(),
+                options: new RunSavedDataOptions
+                {
+                    WritePolicy = RunSavedDataWritePolicy.WhenSet,
+                    SyncLobbyOnChange = true,
+                });
+
+            RelicFilterData = store.Register(
+                key: "relic_filter",
+                defaultFactory: () => new RelicFilterRunData(),
+                options: new RunSavedDataOptions
+                {
+                    WritePolicy = RunSavedDataWritePolicy.WhenSet,
+                    SyncLobbyOnChange = true,
+                });
+
+            SpawnConfigData = store.Register(
+                key: "spawn_config",
+                defaultFactory: () => new SpawnConfigRunData(),
+                options: new RunSavedDataOptions
+                {
+                    WritePolicy = RunSavedDataWritePolicy.WhenSet,
+                    SyncLobbyOnChange = true,
+                });
+
+            OtherCharPoolFilterData = store.Register(
+                key: "other_char_pool_filter",
+                defaultFactory: () => new OtherCharPoolFilterRunData(),
                 options: new RunSavedDataOptions
                 {
                     WritePolicy = RunSavedDataWritePolicy.WhenSet,

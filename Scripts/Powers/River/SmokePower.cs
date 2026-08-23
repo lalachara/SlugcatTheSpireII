@@ -43,10 +43,12 @@ public sealed class SmokePower : ModPowerTemplate
     {
         if (cardPlay.Card.Owner == Owner.Player
             && cardPlay.Card.Type == CardType.Power
-            && freeTimes < (int)Amount)
+            && freeTimes < (int)Amount
+            && cardPlay.Card.EnergyCost.GetResolved()>0
+            )
         {
             freeTimes++;
-            await PlayerCmd.GainEnergy(cardPlay.Card.EnergyCost.Canonical, Owner.Player);
+            await PlayerCmd.GainEnergy(cardPlay.Card.EnergyCost.GetResolved(), Owner.Player);
         }
     }
 }

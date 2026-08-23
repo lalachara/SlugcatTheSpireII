@@ -35,11 +35,7 @@ public class Rainworld_River_Hidecat : RiverCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
-        if (Owner.Creature.HasPower<AdroitPower>())
-        {
-            await PowerCmd.ModifyAmount(choiceContext, Owner.Creature.GetPower<AdroitPower>()!,
-                DynamicVars["Special"].BaseValue, Owner.Creature, this);
-        }
+        await PowerCmd.Apply<AdroitPower>(choiceContext, Owner.Creature, DynamicVars["Special"].BaseValue, Owner.Creature, this);
 
     }
 

@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.Models.Relics;
+using MegaCrit.Sts2.Core.Rooms;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -22,6 +23,14 @@ public sealed class Redcat_Paintboard : ModRelicTemplate
 
     public override RelicRarity Rarity => RelicRarity.Uncommon;
     public override bool ShowCounter => true;
+    public override async Task AfterCombatVictory(CombatRoom room)
+    {
+        _vigorAccumulated = 0;
+        InvokeDisplayAmountChanged();
+
+        await base.AfterCombatVictory(room);
+    }
+
     public override int DisplayAmount => _vigorAccumulated;
 
     public override RelicAssetProfile AssetProfile => new(
@@ -31,6 +40,7 @@ public sealed class Redcat_Paintboard : ModRelicTemplate
     );
 
     private int _vigorAccumulated;
+    
 
     public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier,
         CardModel? cardSource)

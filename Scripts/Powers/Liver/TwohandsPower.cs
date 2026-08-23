@@ -43,6 +43,7 @@ public sealed class TwohandsPower : ModPowerTemplate
       {
          Flash();
          await PowerCmd.Apply<NimblePower>(choiceContext, Owner, Amount, null,null);
+         
       }
 
       if (power is ChuangPower)

@@ -37,4 +37,6 @@ public sealed class Liver_Sleeppotion : ModRelicTemplate
 	{
 		HoverTipFactory.ForEnergy(this),
 	};
+
+
 }

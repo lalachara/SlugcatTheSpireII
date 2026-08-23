@@ -14,7 +14,7 @@ public class Rainworld_River_Wetwet : RiverCardModel
 {
     private const int energyCost = 1;
     private const CardType type = CardType.Skill;
-    private const CardRarity rarity = CardRarity.Common;
+    private const CardRarity rarity = CardRarity.Uncommon;
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
@@ -25,7 +25,7 @@ public class Rainworld_River_Wetwet : RiverCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(10m, ValueProp.Move)
+        new BlockVar(12m, ValueProp.Move)
     ];
 
     public Rainworld_River_Wetwet() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -35,7 +35,7 @@ public class Rainworld_River_Wetwet : RiverCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
-        await PowerCmd.Apply<CorrodePower>(choiceContext, Owner.Creature, 2, Owner.Creature, this);
+        await PowerCmd.Apply<CorrodePower>(choiceContext, Owner.Creature, 3, Owner.Creature, this);
     }
 
     protected override void OnUpgrade()

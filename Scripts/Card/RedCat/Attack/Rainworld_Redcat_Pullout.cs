@@ -17,7 +17,7 @@ public class Rainworld_Redcat_Pullout : RedCatCardModel
     private const CardRarity rarity = CardRarity.Uncommon;
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
-
+    private int storeVigor = 0;
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(6m, ValueProp.Move)
@@ -37,11 +37,20 @@ public class Rainworld_Redcat_Pullout : RedCatCardModel
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-        if (Owner.Creature.HasPower<VigorPower>())
-            await PowerCmd.Apply<VigorPower>(choiceContext, Owner.Creature, Owner.Creature.GetPowerAmount<VigorPower>(),
-                Owner.Creature, this);
-        await PowerCmd.Apply<BackToHandPower>(choiceContext, Owner.Creature,1,
+        await PowerCmd.Apply<VigorPower>(choiceContext, Owner.Creature, storeVigor,
             Owner.Creature, this);
+        await PowerCmd.Apply<BackToHandPower>(choiceContext, Owner.Creature, 1, Owner.Creature, this);
+
+        storeVigor = 0;
+
+    }
+
+    public override async Task BeforeCardPlayed(CardPlay cardPlay)
+    {
+        if(cardPlay.Card!=this)
+            return;
+        if(Owner.Creature.HasPower<VigorPower>())
+            storeVigor = Owner.Creature.GetPowerAmount<VigorPower>();
     }
 
     protected override void OnUpgrade()

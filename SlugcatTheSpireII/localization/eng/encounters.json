@@ -1,0 +1,17 @@
+﻿{
+
+  "SLUGCAT_THE_SPIRE_II_ENCOUNTER_MUSHROOM_BOSS.title": "Mother Long Legs",
+  "SLUGCAT_THE_SPIRE_II_ENCOUNTER_MUSHROOM_BOSS.loss": "{character} became part of [gold]{encounter}[/gold].",
+  "SLUGCAT_THE_SPIRE_II_ENCOUNTER_IRONBIRD_ELITE.title": "Miros Vultures",
+  "SLUGCAT_THE_SPIRE_II_ENCOUNTER_IRONBIRD_ELITE.loss": "[gold]{encounter}[/gold] helped {character} reach the sky.",
+  "SLUGCAT_THE_SPIRE_II_ENCOUNTER_FIRECAB_ELITE.title": "Red Lizard",
+  "SLUGCAT_THE_SPIRE_II_ENCOUNTER_FIRECAB_ELITE.loss": "{character} was torn to pieces by [gold]{encounter}[/gold].",
+  "SLUGCAT_THE_SPIRE_II_ENCOUNTER_GREENCAB_MONSTER.title": "Green Lizard",
+  "SLUGCAT_THE_SPIRE_II_ENCOUNTER_GREENCAB_MONSTER.loss": "{character} became a meal for [gold]{encounter}[/gold].",
+  "SLUGCAT_THE_SPIRE_II_ENCOUNTER_FIRECENT_ELITE.title": "Red Centipede",
+  "SLUGCAT_THE_SPIRE_II_ENCOUNTER_FIRECENT_ELITE.loss": "{character} felt the electric shock of [gold]{encounter}[/gold].",
+  "SLUGCAT_THE_SPIRE_II_ENCOUNTER_THREECHICKEN_EVENT.title": "Inspector",
+  "SLUGCAT_THE_SPIRE_II_ENCOUNTER_THREECHICKEN_EVENT.loss": "{character} was executed by [gold]{encounter}[/gold].",
+  "SLUGCAT_THE_SPIRE_II_ENCOUNTER_WATERCENT_MONSTER.title": "Aqua Centipede",
+  "SLUGCAT_THE_SPIRE_II_ENCOUNTER_WATERCENT_MONSTER.loss": "{character} won an underwater breath-holding contest against [gold]{encounter}[/gold]."
+}

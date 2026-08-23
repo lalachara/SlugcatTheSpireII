@@ -36,7 +36,8 @@ public sealed class LotusPower : ModPowerTemplate
 
     public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
     {
-        inTurn = true;
+        if(player == Owner.Player)
+            inTurn = true;
     }
 
     public override async Task BeforeSideTurnEnd(

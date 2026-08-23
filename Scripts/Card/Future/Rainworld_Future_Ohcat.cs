@@ -43,16 +43,12 @@ public class Rainworld_Future_Ohcat : FutureCardModel
         await PlayerCmd.GainEnergy(DynamicVars.Energy.BaseValue, Owner);
         var targetPlayer = CombatState.Players.First(p => p.Creature == cardPlay.Target);
         await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, targetPlayer);
-        if (targetPlayer.Character is Rainworld_River)
-             SfxCmd.Play("event:/Rainworld/sfx/MeowRiver");
-        else
-        {
-            SfxCmd.Play("event:/Rainworld/sfx/Meow");
-        }
+
         var text = new LocString("cards", "SLUGCAT_THE_SPIRE_II_CARD_RAINWORLD_FUTURE_OHCAT.speech").GetRawText();
         var vfx = NThoughtBubbleVfx.Create(text, Owner.Creature, 2);
         NCombatRoom.Instance?.CombatVfxContainer.AddChildSafely(vfx);
-
+        var vfx2 = NThoughtBubbleVfx.Create("Meow~",cardPlay.Target, 2);
+        NCombatRoom.Instance?.CombatVfxContainer.AddChildSafely(vfx2);
         if (targetPlayer.Creature.HasPower<RedmushroomPower>() && targetPlayer.Creature.HasPower<DonttouchPower>())
         {
             await PowerCmd.Apply<CatConstrictPower>(choiceContext,Owner.Creature,2,targetPlayer.Creature,null);

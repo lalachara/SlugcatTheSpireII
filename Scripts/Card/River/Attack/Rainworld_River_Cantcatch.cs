@@ -40,10 +40,10 @@ public class Rainworld_River_Cantcatch : RiverCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
-        for (var i = 0; i < 3; i++)
             await DamageCmd
                 .Attack(DynamicVars.Damage.BaseValue)
                 .FromCard(this,cardPlay)
+                .WithHitCount(3)
                 .Targeting(cardPlay.Target)
                 .WithHitFx("vfx/vfx_attack_slash")
                 .Execute(choiceContext);

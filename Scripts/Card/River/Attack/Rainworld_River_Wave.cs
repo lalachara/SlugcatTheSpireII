@@ -16,13 +16,13 @@ public class Rainworld_River_Wave : RiverCardModel
 {
     private const int energyCost = 2;
     private const CardType type = CardType.Attack;
-    private const CardRarity rarity = CardRarity.Common;
+    private const CardRarity rarity = CardRarity.Uncommon;
     private const TargetType targetType = TargetType.AllEnemies;
     private const bool shouldShowInCardLibrary = true;
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<CorrodePower>() };
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(8m, ValueProp.Move),
+        new DamageVar(9m, ValueProp.Move),
         new CalculationBaseVar(1m),
         new CalculationExtraVar(1m),
         new  CalculatedVar("CalculatedEnergy").WithMultiplier((CardModel card, Creature? _) =>
@@ -35,16 +35,14 @@ public class Rainworld_River_Wave : RiverCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        foreach (var enemy in CombatState.HittableEnemies)
             await DamageCmd
                 .Attack(DynamicVars.Damage.BaseValue)
                 .FromCard(this,cardPlay)
-                .Targeting(enemy)
+                .TargetingAllOpponents(CombatState!)
                 .WithHitFx("vfx/vfx_attack_slash")
                 .Execute(choiceContext);
         
-        foreach (var enemy in CombatState.HittableEnemies)
-            await PowerCmd.Apply<CorrodePower>(choiceContext, enemy, ((CalculatedVar)DynamicVars["CalculatedEnergy"]).Calculate(Owner.Creature)+EnergyCost.Canonical, Owner.Creature, this);
+            await PowerCmd.Apply<CorrodePower>(choiceContext, CombatState!.HittableEnemies, ((CalculatedVar)DynamicVars["CalculatedEnergy"]).Calculate(Owner.Creature)+EnergyCost.Canonical, Owner.Creature, this);
     }
 
     protected override void OnUpgrade()

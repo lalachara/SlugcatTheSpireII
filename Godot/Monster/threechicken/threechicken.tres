@@ -1,0 +1,8 @@
+[gd_resource type="SpineSkeletonDataResource" load_steps=3 format=3 uid="uid://dwegmk3ruyesg"]
+
+[ext_resource type="SpineAtlasResource" uid="uid://tb18gway5yrv" path="res://Godot/Monster/threechicken/jianchazhe.atlas" id="1_6bfr0"]
+[ext_resource type="SpineSkeletonFileResource" uid="uid://bl3jvqtx38i4l" path="res://Godot/Monster/threechicken/skeleton.skel" id="2_wvxr2"]
+
+[resource]
+atlas_res = ExtResource("1_6bfr0")
+skeleton_file_res = ExtResource("2_wvxr2")

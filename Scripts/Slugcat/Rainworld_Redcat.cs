@@ -75,7 +75,10 @@ public sealed class Rainworld_Redcat : Slugcat<Rainworld_Redcat_CardPool, Rainwo
 				ArmPaperTexturePath:"res://Godot/Character/RedCat/mult_hand_3.png",
 				// 多人模式剪刀石头布-剪刀。
 				ArmScissorsTexturePath:"res://Godot/Character/RedCat/mult_hand_2.png"
-			)
+			),
+			VanillaRelicVisualOverrides: [
+				new (CharacterOwnedVanillaRelicModelId.YummyCookie, new("res://Resource/Relics/redcatcookie.png")) // 美味饼干覆盖
+			]
 			
 
 		));
@@ -103,7 +106,7 @@ public sealed class Rainworld_Redcat : Slugcat<Rainworld_Redcat_CardPool, Rainwo
 
 	public override float AttackAnimDelay => 0.15f;
 	public override float CastAnimDelay => 0.25f;
-	public override Color EnergyLabelOutlineColor => new(0.1f, 0.1f, 1f);
+	public override Color EnergyLabelOutlineColor => new("09212b");
 
 	public override Color DialogueColor => new Color("a7293b");
 	//地图绘制颜色

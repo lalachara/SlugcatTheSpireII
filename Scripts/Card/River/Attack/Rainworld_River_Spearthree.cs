@@ -7,23 +7,21 @@ using MegaCrit.Sts2.Core.ValueProps;
 
 namespace Rainworld.Scripts.Card.River.Attack;
 
-public class Rainworld_River_Spearsight : RiverCardModel
+public class Rainworld_River_Spearthree : RiverCardModel
 {
-    private const int energyCost = 2;
+    private const int energyCost = 1;
     private const CardType type = CardType.Attack;
-    private const CardRarity rarity = CardRarity.Uncommon;
+    private const CardRarity rarity = CardRarity.Common;
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
-
+    private int usedtimes = 0;
     public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { RainworldKeywords.Spear };
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(8m, ValueProp.Move),
-        new("Special", 2m)
-    ];
+        new DamageVar(8m, ValueProp.Move)];
 
-    public Rainworld_River_Spearsight() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
+    public Rainworld_River_Spearthree() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
     }
 
@@ -36,25 +34,15 @@ public class Rainworld_River_Spearsight : RiverCardModel
             .Targeting(cardPlay.Target)
             .WithHitFx(sfx:"event:/Rainworld/sfx/spear")
             .Execute(choiceContext);
-    }
-
-    // protected override void OnTurnEnd()
-    // {
-    //     DynamicVars.Damage.UpgradeValueBy(DynamicVars["Special"].BaseValue);
-    // }
-    public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
-    {
-        if (Owner == player)
-        {        DynamicVars.Damage.UpgradeValueBy(DynamicVars["Special"].BaseValue);
-
+        usedtimes++;
+        if (usedtimes == 2)
+        {
+            DynamicVars.Damage.UpgradeValueBy(DynamicVars.Damage.BaseValue*2);
         }
-
-        await base.AfterPlayerTurnStart(choiceContext, player);
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(2m);
-        DynamicVars["Special"].UpgradeValueBy(1m);
+        DynamicVars.Damage.UpgradeValueBy(3m);
     }
 }

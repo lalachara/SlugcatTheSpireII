@@ -35,7 +35,7 @@ public class WorkLevelSingleton: HookedSingletonModel
         Creature? dealer, CardModel? cardSource)
     {
         if (result.UnblockedDamage > 0 && target.IsPlayer && dealer != null)
-            DamagingPairs.Add((dealer, target.Player));
+            DamagingPairs.Add((dealer, target.Player!));
         await base.AfterDamageReceived(choiceContext, target, result, props, dealer, cardSource);
     }
 
@@ -46,8 +46,18 @@ public class WorkLevelSingleton: HookedSingletonModel
     {
         if (combatState.RoundNumber == 1)
         {
+            
             DamagingPairs.Clear();
+            foreach (var creature in participants)
+            {
+                if (creature.Player?.Character is Slugcat slugcat)
+                {
+                    slugcat.SuppressHurtAnim = false;
+                    slugcat.wawawa = false;
+                }
+            }
 
+      
         }
 
         if (side == CombatSide.Player)
@@ -62,8 +72,11 @@ public class WorkLevelSingleton: HookedSingletonModel
     {
         foreach (Creature creature in room.Allies)
         {
-            if(creature.IsPlayer&&creature.Player.Character is Slugcat)
+            if (creature.IsPlayer && creature.Player!.Character is Slugcat slugcat)
+            {
                 await CombatUiPatch.callVictory(creature.Player);
+                RunSingleton.needmeow = false;
+            }
         }
 
         await base.AfterCombatVictory(room);

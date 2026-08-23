@@ -49,7 +49,7 @@ public class Rainworld_River_Ruminate : RiverCardModel
     {
         
         
-        if (Owner.Character is Slugcat && SlugcatData.GetFood(Owner) >= 1) SlugcatData.addfood(Owner, -1);
+        if (Owner.Character is Slugcat && SlugcatData.GetFood(Owner) >= 1) await SlugcatData.addfood(Owner, -1);
         if(PileType.Discard.GetPile(Owner).IsEmpty)
             return;
         var prefs = new CardSelectorPrefs(SelectionScreenPrompt, 1);

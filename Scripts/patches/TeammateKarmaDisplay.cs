@@ -1,18 +1,17 @@
 ﻿using System.Collections.Generic;
 using Godot;
-using MegaCrit.Sts2.Core.Combat;
-using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Nodes;
-using MegaCrit.Sts2.Core.Nodes.Combat;
+using MegaCrit.Sts2.Core.Nodes.CommonUi;
+using MegaCrit.Sts2.Core.Nodes.Multiplayer;
 using Rainworld.Scripts;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Godot.NodeAttachments;
 
 namespace Rainworld.Scripts.patches;
-
+//用于在顶部玩家血条横幅旁显示当前蛞蝓猫玩家（含自己与队友）的业力（WorkLevel）
 [RegisterNodeAttachment(
-    typeof(NCombatUi),
+    typeof(NGlobalUi),
     "teammate_karma",
     NodeName = "TeammateKarmaDisplay",
     DuplicatePolicy = NodeAttachmentDuplicatePolicy.ReuseExistingByName)]
@@ -74,24 +73,11 @@ public partial class TeammateKarmaDisplay : Control, INodeAttachmentSetup
 
     private bool TryInit()
     {
-        var state = CombatManager.Instance.DebugOnlyGetState();
-        if (state == null) return false;
-
-        var me = LocalContext.GetMe(state);
-        if (me == null) return false;
-
-        _baseTexture = GD.Load<Texture2D>(BaseTexturePath);
-        _maxLevel = (int)(_baseTexture.GetHeight() / SOURCE_ICON_SIZE) - 1;
-
         var container = NRun.Instance?.GlobalUi?.MultiplayerPlayerContainer;
         if (container == null || container.GetChildCount() == 0) return false;
 
-        GD.Print($"[TeammateKarma] === TryInit ===");
-        GD.Print($"[TeammateKarma] 我是: {me.Character?.GetType().Name}");
-        for (int pi = 0; pi < state.Players.Count; pi++)
-            GD.Print($"[TeammateKarma]   state.Players[{pi}]: {state.Players[pi].Character?.GetType().Name}");
-        for (int ci = 0; ci < container.GetChildCount(); ci++)
-            GD.Print($"[TeammateKarma]   容器[{ci}]: Name={container.GetChild(ci).Name}");
+        _baseTexture = GD.Load<Texture2D>(BaseTexturePath);
+        _maxLevel = (int)(_baseTexture.GetHeight() / SOURCE_ICON_SIZE) - 1;
 
         // 计算基准Y和间距——用容器子节点里最小的Y作为基准
         float minY = float.MaxValue;
@@ -113,27 +99,13 @@ public partial class TeammateKarmaDisplay : Control, INodeAttachmentSetup
             ? (maxY - minY) / (container.GetChildCount() - 1)
             : 0f;
 
-        GD.Print($"[TeammateKarma] baseY={_baseY}, baseX={_baseX}, spacing={_spacing}");
-
         float scale = (float)ICON_SIZE / SOURCE_ICON_SIZE;
 
-        // 显示顺序: [自己, state.Players排除自己按顺序]
-        // displayIndex 0=自己, 1=state.Players[0](如果非自己), 2=state.Players[1](如果非自己)...
-        var displayList = new List<Player>();
-        displayList.Add(me);
-        foreach (var p in state.Players)
+        // displayIndex 按容器子节点顺序：0=自己（容器先加自己），1=队友...，刚好对应血条横幅排列
+        for (int di = 0; di < container.GetChildCount(); di++)
         {
-            if (p != me)
-                displayList.Add(p);
-        }
-
-        GD.Print($"[TeammateKarma] 显示顺序:");
-        for (int di = 0; di < displayList.Count; di++)
-            GD.Print($"[TeammateKarma]   [{di}] {displayList[di].Character?.GetType().Name}");
-
-        for (int di = 0; di < displayList.Count; di++)
-        {
-            var player = displayList[di];
+            if (container.GetChild(di) is not NMultiplayerPlayerState state) continue;
+            var player = state.Player;
             if (player.Character is not Slugcat) continue;
 
             var sprite = new Sprite2D
@@ -145,11 +117,10 @@ public partial class TeammateKarmaDisplay : Control, INodeAttachmentSetup
             };
 
             AddChild(sprite);
-            GD.Print($"[TeammateKarma] 创建图标: displayIndex={di}, {player.Character.GetType().Name}");
             _karmaIcons.Add((player, sprite, di));
         }
 
-        return true;
+        return _karmaIcons.Count > 0;
     }
 
     private float CalculateIconY(int level)

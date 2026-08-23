@@ -41,8 +41,13 @@ public sealed class CantcontrolPower : ModPowerTemplate
   {
     if (cardPlay.Card.Owner == base.Owner.Player)
     {
-      await CardPileCmd.Draw(choiceContext, base.Amount, Owner.Player);
-      IEnumerable<DamageResult> damageResults = await CreatureCmd.Damage(choiceContext, Owner, 2,ValueProp.Move, Owner);
+      if (Owner.HasPower<RedmushroomPower>()&&(cardPlay.Card.Type==CardType.Attack||cardPlay.Card.Type==CardType.Skill))
+      {
+        await CardPileCmd.Draw(choiceContext, base.Amount, Owner.Player);
+        IEnumerable<DamageResult> damageResults = await CreatureCmd.Damage(choiceContext, Owner, 2,ValueProp.Unpowered, Owner);
+      }
+
+    
       
     }
 

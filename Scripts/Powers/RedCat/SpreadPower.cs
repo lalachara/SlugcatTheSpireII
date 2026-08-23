@@ -47,7 +47,7 @@ public sealed class SpreadPower : ModPowerTemplate
       {
         if (!card.Keywords.Contains(RainworldKeywords.Corrupt))
         {
-          Tools.CorruptCard(Owner.Player, card);
+          await Tools.CorruptCard(Owner.Player, card);
           break;
         }
       }

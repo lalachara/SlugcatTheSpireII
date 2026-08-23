@@ -37,7 +37,7 @@ public class Rainworld_Redcat_Originalcorrupt : RedCatCardModel
             var prefs = new CardSelectorPrefs(SelectionScreenPrompt, 1);
             var selected = (await CardSelectCmd.FromSimpleGrid(choiceContext, handCards, Owner, prefs)).FirstOrDefault();
             if (selected != null)
-                Tools.CorruptCard(Owner, selected);
+               await Tools.CorruptCard(Owner, selected);
         }
 
         foreach (var card in PileType.Hand.GetPile(Owner).Cards.Where(c => c.Keywords.Contains(RainworldKeywords.Corrupt)))

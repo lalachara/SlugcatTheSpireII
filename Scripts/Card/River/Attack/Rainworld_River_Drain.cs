@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using Rainworld.Scripts.Powers;
+using STS2RitsuLib.Scaffolding.Characters;
 
 namespace Rainworld.Scripts.Card.River.Attack;
 
@@ -35,8 +36,11 @@ public class Rainworld_River_Drain : RiverCardModel
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-        if (Owner.Creature.HasPower<AdroitPower>() && Owner.Creature.GetPower<AdroitPower>()!.Amount > 0)
-            await Owner.Creature.GetPower<AdroitPower>()!.ChangeRetainAmount(-Owner.Creature.GetPower<AdroitPower>()!.retainAmount);
+        if (Owner.Creature.HasPower<AdroitPower>())
+        {
+            await Owner.Creature.GetPower<AdroitPower>()!.ChangeRetainAmount(Owner.Creature.GetPowerAmount<AdroitPower>());
+            await PowerCmd.Remove<AdroitPower>(Owner.Creature);
+        }
     }
 
     protected override void OnUpgrade()

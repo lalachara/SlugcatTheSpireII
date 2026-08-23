@@ -11,7 +11,7 @@ public class Rainworld_River_Confused : RiverCardModel
 {
     private const int energyCost = -1;
     private const CardType type = CardType.Skill;
-    private const CardRarity rarity = CardRarity.Uncommon;
+    private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
     protected override bool HasEnergyCostX => true;  // 加这行
@@ -21,7 +21,7 @@ public class Rainworld_River_Confused : RiverCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(4m, ValueProp.Move)
+        new BlockVar(6m, ValueProp.Move)
     ];
 
     public Rainworld_River_Confused() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

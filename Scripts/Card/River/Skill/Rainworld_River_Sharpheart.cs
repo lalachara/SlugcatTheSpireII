@@ -14,7 +14,7 @@ public class Rainworld_River_Sharpheart : RiverCardModel
 {
     private const int energyCost = 0;
     private const CardType type = CardType.Skill;
-    private const CardRarity rarity = CardRarity.Uncommon;
+    private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
@@ -45,11 +45,11 @@ public class Rainworld_River_Sharpheart : RiverCardModel
                 await CardPileCmd.Add(selected, PileType.Draw, CardPilePosition.Top);
             
         }
+        
 
-        if (Owner.Creature.HasPower<AdroitPower>() && IsUpgraded)
-            if (Owner.Creature.GetPower<AdroitPower>()!.Amount > 0)
+        if (Owner.Creature.HasPower<AdroitPower>() || !IsUpgraded)
                 return;
-        AddKeyword(CardKeyword.Exhaust);
+        await CardCmd.Exhaust(choiceContext, this);
     }
 
     protected override void OnUpgrade()

@@ -1,5 +1,6 @@
 ﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -20,30 +21,24 @@ using System.Threading.Tasks;
 public sealed class GetsafePower : ModPowerTemplate
 {
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: "res://Resource/Powers/Liver/GetsafePower128.png",
-        BigIconPath: "res://Resource/Powers/Liver/GetsafePower128.png"
+        IconPath: "res://Resource/Powers/GetsafePower128.png",
+        BigIconPath: "res://Resource/Powers/GetsafePower128.png"
     );
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[]
+        { HoverTipFactory.FromPower<NimblePower>() };
 
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Single;
 
-    private decimal _pendingAdroit;
 
-    public override decimal ModifyBlockAdditive(Creature target, decimal block, ValueProp props, CardModel? cardSource, CardPlay? cardPlay)
-    {
-        if (target != Owner)
-            return 0M;
-        _pendingAdroit += block;
-        return -block;
-    }
 
     public override async Task AfterBlockGained(Creature creature, decimal amount, ValueProp props, CardModel? cardSource)
     {
-        if (creature != Owner || _pendingAdroit <= 0)
+        if (creature != Owner || amount <= 0)
             return;
-        var adroit = (int)_pendingAdroit;
-        _pendingAdroit = 0M;
+        var nimble = Owner.Block;
+        await CreatureCmd.LoseBlock(new ThrowingPlayerChoiceContext(), Owner,nimble,Owner);
         Flash();
-        await PowerCmd.Apply<NimblePower>(new ThrowingPlayerChoiceContext(), Owner, adroit, Owner, null);
+        await PowerCmd.Apply<NimblePower>(new ThrowingPlayerChoiceContext(), Owner, nimble, Owner, null);
     }
 }

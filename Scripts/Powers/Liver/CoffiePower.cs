@@ -25,34 +25,35 @@ using Rainworld.Scripts.Card.Liver.Attack;
 public sealed class CoffiePower : ModPowerTemplate
 {
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: "res://Resource/Powers/Liver/CoffiePower128.png",
-        BigIconPath: "res://Resource/Powers/Liver/CoffiePower128.png"
+        IconPath: "res://Resource/Powers/CoffiePower128.png",
+        BigIconPath: "res://Resource/Powers/CoffiePower128.png"
     );
 
     public override PowerType Type => PowerType.Buff;
 
-    public override PowerStackType StackType => PowerStackType.Single;
+    public override PowerStackType StackType => PowerStackType.Counter;
 
-    private int consumedCount;
+    public override PowerInstanceType InstanceType => PowerInstanceType.Instanced;
+
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
-        new[] { HoverTipFactory.FromCard<Rainworld_Liver_Fruit>() };
+        new[] { HoverTipFactory.FromCard<Rainworld_Liver_Fruit2>() };
 
     public override async Task AfterCardExhausted(PlayerChoiceContext choiceContext, CardModel card, bool _)
     {
         if (card.Owner.Creature == Owner)
         {
-            consumedCount++;
-            if (consumedCount >= Amount)
+            await PowerCmd.ModifyAmount(choiceContext,this,1,Owner,null);
+            if (4 < Amount)
             {
-                consumedCount = 0;
+                await PowerCmd.ModifyAmount(choiceContext,this,-4,Owner,null);
                 var aliveAllies = CombatState.Players
                     .Where(p => p.Creature.IsAlive && p != Owner.Player)
                     .ToList();
                 if (aliveAllies.Count > 0)
                 {
-                    var randomAlly = Owner.RunState.Rng.Shuffle.NextItem(aliveAllies);
-                    var fruit = CombatState.CreateCard<Rainworld_Liver_Fruit>(randomAlly);
+                    var randomAlly = Owner.Player!.RunState.Rng.Shuffle.NextItem(aliveAllies);
+                    var fruit = CombatState.CreateCard<Rainworld_Liver_Fruit2>(randomAlly!);
                     CardCmd.PreviewCardPileAdd(
                         await CardPileCmd.AddGeneratedCardToCombat(fruit, PileType.Hand, randomAlly));
                 }

@@ -13,7 +13,9 @@ namespace Rainworld.Scripts;
 [RegisterOwnedCardKeyword(nameof(AdroitNotUsed), CardDescriptionPlacement = ModKeywordCardDescriptionPlacement.BeforeCardDescription)]
 [RegisterOwnedCardKeyword(nameof(Immunity), CardDescriptionPlacement = ModKeywordCardDescriptionPlacement.BeforeCardDescription)]
 [RegisterOwnedCardKeyword(nameof(Simulated), CardDescriptionPlacement = ModKeywordCardDescriptionPlacement.BeforeCardDescription)]
-
+[RegisterOwnedCardKeyword(nameof(Foodcard), CardDescriptionPlacement = ModKeywordCardDescriptionPlacement.BeforeCardDescription)]
+[RegisterOwnedCardKeyword(nameof(Colorful), CardDescriptionPlacement = ModKeywordCardDescriptionPlacement.BeforeCardDescription)]
+[RegisterOwnedCardKeyword(nameof(Strange), CardDescriptionPlacement = ModKeywordCardDescriptionPlacement.BeforeCardDescription)]
 [RegisterOwnedCardKeyword(nameof(Lightning))]
 [RegisterOwnedCardKeyword(nameof(Food))]
 [RegisterOwnedCardKeyword(nameof(Worklevel))]
@@ -42,4 +44,7 @@ public class RainworldKeywords
 	public static readonly CardKeyword Simulated = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Simulated)).GetModCardKeyword();
 	public static readonly CardKeyword Last = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Last)).GetModCardKeyword();
 	public static readonly CardKeyword Cantcorrupt = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Cantcorrupt)).GetModCardKeyword();
+	public static readonly CardKeyword Foodcard = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Foodcard)).GetModCardKeyword();
+	public static readonly CardKeyword Colorful = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Colorful)).GetModCardKeyword();
+	public static readonly CardKeyword Strange = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Strange)).GetModCardKeyword();
 }

@@ -43,15 +43,15 @@ public class Rainworld_River_Skipstone : RiverCardModel
 
         if(cost<=0)
             return;
-        for (int i = 0; i < cost; i++)
-        {
-            await DamageCmd
+
+        await DamageCmd
                 .Attack(DynamicVars.Damage.BaseValue)
                 .FromCard(this,cardPlay)
                 .Targeting(cardPlay.Target)
+                .WithHitCount(cost)
                 .WithHitFx("vfx/vfx_attack_slash")
                 .Execute(choiceContext);
-        }
+        
     }
 
     protected override void OnUpgrade()

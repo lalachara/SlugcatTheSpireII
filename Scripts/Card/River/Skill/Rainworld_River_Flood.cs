@@ -10,8 +10,8 @@ public class Rainworld_River_Flood : RiverCardModel
 {
     private const int energyCost = 1;
     private const CardType type = CardType.Skill;
-    private const CardRarity rarity = CardRarity.Uncommon;
-    private const TargetType targetType = TargetType.AllAllies;
+    private const CardRarity rarity = CardRarity.Rare;
+    private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Exhaust };
@@ -26,7 +26,7 @@ public class Rainworld_River_Flood : RiverCardModel
         if (cardPlay.Target.HasPower<CorrodePower>())
         {
             var cp = cardPlay.Target.GetPower<CorrodePower>()!;
-            var amt = cp.Amount;
+            int amt = cp.Amount;
             await PowerCmd.Apply<CorrodePower>(choiceContext, cardPlay.Target, amt, Owner.Creature, this);
 
             if (cardPlay.Target.HasPower<CorrodePower>() &&
@@ -38,6 +38,6 @@ public class Rainworld_River_Flood : RiverCardModel
 
     protected override void OnUpgrade()
     {
-        EnergyCost.UpgradeBy(-1);
+        RemoveKeyword(CardKeyword.Exhaust);
     }
 }

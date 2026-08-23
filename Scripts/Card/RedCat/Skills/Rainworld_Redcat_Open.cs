@@ -11,19 +11,22 @@ namespace Rainworld.Scripts.Card.RedCat;
 
 public class Rainworld_Redcat_Open : RedCatCardModel
 {
-    private const int energyCost = 1;
+    private const int energyCost = 3;
     private const CardType type = CardType.Skill;
-    private const CardRarity rarity = CardRarity.Uncommon;
+    private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new("Special", 5m)
+        new("Special", 30m)
     ];
-
+    public override IEnumerable<CardKeyword> CanonicalKeywords =>
+    [
+        RainworldKeywords.Corrupt,CardKeyword.Exhaust
+    ];
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[]
-        { HoverTipFactory.FromPower<MushblockPower>() };
+        { HoverTipFactory.FromPower<MushblockPower>(),HoverTipFactory.FromPower<RedmushroomPower>() };
 
     public Rainworld_Redcat_Open() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
@@ -36,6 +39,6 @@ public class Rainworld_Redcat_Open : RedCatCardModel
 
     protected override void OnUpgrade()
     {
-        DynamicVars["Special"].UpgradeValueBy(3m);
+        DynamicVars["Special"].UpgradeValueBy(10m);
     }
 }

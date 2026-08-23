@@ -21,7 +21,7 @@ public class Rainworld_Liver_Chase : LiverCardModel
     private const CardType type = CardType.Attack;
 
     // 卡牌稀有度
-    private const CardRarity rarity = CardRarity.Common;
+    private const CardRarity rarity = CardRarity.Uncommon;
 
     // 目标类型（AnyEnemy表示任意敌人）
     private const TargetType targetType = TargetType.AnyEnemy;
@@ -35,7 +35,7 @@ public class Rainworld_Liver_Chase : LiverCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(5m, ValueProp.Move),
+        new DamageVar(6m, ValueProp.Move),
         new RepeatVar(3)
     ];
 
@@ -83,7 +83,6 @@ public class Rainworld_Liver_Chase : LiverCardModel
     // 升级后的效果逻辑
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(1m); // 升级后增加4点伤害
         DynamicVars.Repeat.UpgradeValueBy(1m);
     }
 }

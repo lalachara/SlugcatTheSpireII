@@ -38,11 +38,8 @@ public class Rainworld_River_Adroitstrike : RiverCardModel
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-        if (Owner.Creature.HasPower<AdroitPower>())
-        {
-           await  Owner.Creature.GetPower<AdroitPower>()!.ChangeRetainAmount((int)DynamicVars["Special"].BaseValue);
 
-        }
+        await PowerCmd.Apply<AdroitPower>(choiceContext, Owner.Creature, DynamicVars["Special"].BaseValue, Owner.Creature, null);
        
     }
 

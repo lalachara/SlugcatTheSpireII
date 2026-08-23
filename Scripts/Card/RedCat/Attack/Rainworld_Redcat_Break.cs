@@ -35,17 +35,17 @@ public class Rainworld_Redcat_Break : RedCatCardModel
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
         var enemyCount = CombatState.HittableEnemies.Count();
-        for (int i = 0; i < enemyCount; i++)
-        {
-            await DamageCmd
+     
+        await DamageCmd
                 .Attack(DynamicVars.Damage.BaseValue)
                 .FromCard(this,cardPlay)
                 .Targeting(cardPlay.Target)
+                .WithHitCount(enemyCount)
                 .WithHitFx("vfx/vfx_attack_slash")
                 .Execute(choiceContext);
-        }
+        
         if (cardPlay.Target.IsDead&&Owner.Character is Slugcat)
-            SlugcatData.addworklevel(Owner, 1);
+            await SlugcatData.addworklevel(Owner, 1);
     }
 
     protected override void OnUpgrade()

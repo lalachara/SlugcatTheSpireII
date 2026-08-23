@@ -23,7 +23,7 @@ public class Rainworld_Liver_Dissolve : LiverCardModel
     private const CardType type = CardType.Skill;
 
     // 卡牌稀有度
-    private const CardRarity rarity = CardRarity.Common;
+    private const CardRarity rarity = CardRarity.Uncommon;
 
     // 目标类型（AnyEnemy表示任意敌人）
     private const TargetType targetType = TargetType.Self;

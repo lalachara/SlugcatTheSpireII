@@ -9,7 +9,7 @@ namespace Rainworld.Scripts.Card.River.Powers;
 
 public class Rainworld_River_Driftingbottle : RiverCardModel
 {
-    private const int energyCost = 2;
+    private const int energyCost = 3;
     private const CardType type = CardType.Power;
     private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.Self;
@@ -25,19 +25,16 @@ public class Rainworld_River_Driftingbottle : RiverCardModel
             prefs: new CardSelectorPrefs(SelectionScreenPrompt, 1),
             context: choiceContext,
             player: Owner,
+            //filter: c => !c.Keywords.Contains(CardKeyword.Eternal),
             filter: null,
             source: this)).FirstOrDefault();
 
         if (selected != null)
         {
-            if (selected.DeckVersion!= null && Owner.Deck.Cards.Contains(selected.DeckVersion))
+            if (selected.DeckVersion != null && Owner.Deck.Cards.Contains(selected.DeckVersion))
                 await CardPileCmd.RemoveFromDeck(selected.DeckVersion);
-            else
-            {
-                GD.Print("Card not found移除失败");
-            }
-            await CardCmd.Exhaust(choiceContext, selected);
 
+            await CardCmd.Exhaust(choiceContext, selected);
         }
     }
 

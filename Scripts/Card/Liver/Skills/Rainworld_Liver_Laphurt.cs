@@ -47,7 +47,7 @@ public class Rainworld_Liver_Laphurt : LiverCardModel
     {
         if (Owner.Character is Slugcat && SlugcatData.GetFood(Owner) >= 1)
         {
-            SlugcatData.addfood(Owner, -1);
+            await SlugcatData.addfood(Owner, -1);
             var temphp = Owner.Creature.MaxHp - Owner.Creature.CurrentHp;
             await PowerCmd.Apply<PlatingPower>(choiceContext, Owner.Creature, temphp, Owner.Creature, this);
             await CreatureCmd.Heal(Owner.Creature, temphp);

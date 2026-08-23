@@ -23,9 +23,20 @@ public class Rainworld_River_Moisturizer : RiverCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (Owner.Creature.HasPower<AdroitPower>()&&Owner.Creature.GetPower<AdroitPower>()!.Amount>Owner.Creature.GetPower<AdroitPower>()!.retainAmount)
+        if (Owner.Creature.HasPower<AdroitcapPower>())
         {
-            await Owner.Creature.GetPower<AdroitPower>()?.ChangeRetainAmount(Owner.Creature.GetPower<AdroitPower>()!.Amount-Owner.Creature.GetPower<AdroitPower>()!.retainAmount);
+            if (Owner.Creature.GetPower<AdroitPower>() == null)
+            {
+                await PowerCmd.Apply<AdroitPower>(choiceContext,Owner.Creature,Owner.Creature.GetPower<AdroitcapPower>()!.Amount,Owner.Creature,this);
+
+            }
+            else if(Owner.Creature.GetPower<AdroitcapPower>()!.Amount>Owner.Creature.GetPower<AdroitPower>()!.Amount)
+            {
+                await PowerCmd.Apply<AdroitPower>(choiceContext,Owner.Creature,Owner.Creature.GetPower<AdroitcapPower>()!.Amount-Owner.Creature.GetPower<AdroitPower>()!.Amount,Owner.Creature,this);
+
+            }
+
+            await PowerCmd.Apply<AdroitPower>(choiceContext,Owner.Creature,Owner.Creature.GetPower<AdroitcapPower>()!.Amount-Owner.Creature.GetPower<AdroitPower>()!.Amount,Owner.Creature,this);
         }
 
         await PowerCmd.Apply<MoisturizerPower>(choiceContext, Owner.Creature, 1, Owner.Creature, this);

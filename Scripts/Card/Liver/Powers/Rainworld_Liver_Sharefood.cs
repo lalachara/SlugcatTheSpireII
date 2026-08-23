@@ -9,34 +9,34 @@ using Rainworld.Scripts.Powers;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
 
-public class Rainworld_Liver_Coffie : LiverCardModel
+public class Rainworld_Liver_Sharefood : LiverCardModel
 {
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
 
-    private const int energyCost = 0;
+    private const int energyCost = 1;
     private const CardType type = CardType.Power;
-    private const CardRarity rarity = CardRarity.Uncommon;
-    private const TargetType targetType = TargetType.Self;
+    private const CardRarity rarity = CardRarity.Rare;
+    private const TargetType targetType = TargetType.AllAllies;
     private const bool shouldShowInCardLibrary = true;
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromCard<Rainworld_Liver_Fruit2>() };
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new("Special", 4m),
     ];
 
-    public Rainworld_Liver_Coffie() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
+    public Rainworld_Liver_Sharefood() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<CoffiePower>(choiceContext, Owner.Creature, 1, Owner.Creature, this);
-        
+        foreach (var player in CombatState!.Players)
+        {
+                await PowerCmd.Apply<SharefoodPower>(choiceContext, player.Creature, 1, Owner.Creature, this);
+        }
     }
 
     protected override void OnUpgrade()
     {
-        AddKeyword(CardKeyword.Innate);
+        EnergyCost.UpgradeBy(-1);
     }
 }

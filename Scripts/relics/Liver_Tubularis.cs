@@ -62,7 +62,7 @@ public sealed class Liver_Tubularis : ModRelicTemplate
 			await PlayerCmd.GainEnergy(1, Owner);
 			if (Owner.Character is Slugcat)
 			{
-				SlugcatData.addfood(Owner, 1);
+				await SlugcatData.addfood(Owner, 1);
 			}
 		}
 	}

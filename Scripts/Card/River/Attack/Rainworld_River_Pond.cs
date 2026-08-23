@@ -31,19 +31,18 @@ public class Rainworld_River_Pond : RiverCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
-        if (Owner.Creature.HasPower<AdroitPower>() && Owner.Creature.GetPower<AdroitPower>()!.retainAmount > 0)
+        if (Owner.Creature.HasPower<AdroitPower>() )
         {
-            foreach (var enemy in CombatState.HittableEnemies)
-            {
+
                 await DamageCmd
                     .Attack(DynamicVars.Damage.BaseValue)
                     .FromCard(this, cardPlay)
-                    .Targeting(enemy)
+                    .TargetingAllOpponents(CombatState!)
                     .WithHitFx("vfx/vfx_attack_slash")
                     .Execute(choiceContext);
-                await PowerCmd.Apply<CorrodePower>(choiceContext, enemy, DynamicVars["Special"].BaseValue,
+                await PowerCmd.Apply<CorrodePower>(choiceContext, CombatState!.HittableEnemies, DynamicVars["Special"].BaseValue,
                     Owner.Creature, this);
-            }
+            
         }
         else
         {

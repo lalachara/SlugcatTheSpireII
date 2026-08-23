@@ -18,6 +18,7 @@ public class Rainworld_Liver_KEEP : LiverCardModel
 
     protected override HashSet<CardTag> CanonicalTags => new() { };
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<NimblePower>() };
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Exhaust };
 
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>

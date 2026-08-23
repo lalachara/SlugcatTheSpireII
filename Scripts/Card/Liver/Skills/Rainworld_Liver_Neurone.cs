@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
 using Rainworld.Scripts;
+using Rainworld.Scripts.Powers;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
 
@@ -28,9 +29,17 @@ public class Rainworld_Liver_Neurone : LiverCardModel
 
     protected override HashSet<CardTag> CanonicalTags => new() { };
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromKeyword(RainworldKeywords.Worklevel),HoverTipFactory.FromKeyword(RainworldKeywords.Food) };
-
+    
+    public override TargetType TargetType
+    {
+        get => !this.HasSharedFood ? TargetType.Self : TargetType.AllAllies;
+    }
+    private bool HasSharedFood
+    {
+        get => this.IsMutable&& this.Owner!=null  && this.Owner.Creature.HasPower<SharefoodPower>();
+    }
     public override IEnumerable<CardKeyword> CanonicalKeywords => new[]
-        { CardKeyword.Ethereal, CardKeyword.Exhaust };
+        { CardKeyword.Ethereal, CardKeyword.Exhaust ,RainworldKeywords.Foodcard};
 
 
     // 卡牌的基础属性（例如这里是12点伤害）
@@ -46,11 +55,32 @@ public class Rainworld_Liver_Neurone : LiverCardModel
     // 打出时的效果逻辑
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await CreatureCmd.GainMaxHp(Owner.Creature, DynamicVars.Cards.BaseValue*5);
-        if (Owner.Character is Slugcat)
-            SlugcatData.addfood(Owner, 1);
+        
+        if (HasSharedFood)
+        {
+            foreach (var player in CombatState!.Players)
+            {
+                if (player.Character is Slugcat)
+                {
+                     await CreatureCmd.GainMaxHp(player.Creature, DynamicVars.Cards.BaseValue*5);
+                     if (player.Character is Slugcat)
+                        await SlugcatData.addfood(player, 1);
+
+                }
+
+               
+            }
+        }
+        else
+        {
+            await CreatureCmd.GainMaxHp(Owner.Creature, DynamicVars.Cards.BaseValue*5);
+            if (Owner.Character is Slugcat)
+                await SlugcatData.addfood(Owner, 1);
+        }
         if (Owner.Deck.Cards.Contains(DeckVersion))
-            await CardPileCmd.RemoveFromDeck(DeckVersion);
+            await CardPileCmd.RemoveFromDeck(DeckVersion!);
+
+
     }
 
     // 升级后的效果逻辑

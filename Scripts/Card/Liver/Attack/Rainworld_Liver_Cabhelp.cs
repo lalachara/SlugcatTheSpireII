@@ -4,17 +4,32 @@ using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
 using MegaCrit.Sts2.Core.ValueProps;
+using Rainworld.Resource.Card;
 using Rainworld.Scripts;
 using Rainworld.Scripts.Powers;
+using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Scaffolding.Content;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
-
-public class Rainworld_Liver_Cabhelp : LiverCardModel
+[RegisterCard(typeof(Rainworld_Future_CardPool), Inherit = true)]
+public class Rainworld_Liver_Cabhelp : ModCardTemplate
 
 {
+    public override CardAssetProfile AssetProfile => new(
+        $"res://Resource/Card/Liver/{GetType().Name.ToLowerInvariant().Replace("slugcat_the_spire_ii_card_", "")}.png",
+        FramePath: Type switch
+        {
+            CardType.Attack => "res://Resource/Card/Liver/CardAtk1024.png",
+            CardType.Skill => "res://Resource/Card/Liver/CardSkill1024.png",
+            CardType.Power => "res://Resource/Card/Liver/CardPower1024.png",
+            _ => ""
+        }
+        
+    );
     // 基础耗能
     private const int energyCost = 2;
 
@@ -46,10 +61,13 @@ public class Rainworld_Liver_Cabhelp : LiverCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         //ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
-        await CreatureCmd.LoseBlock(cardPlay.Target, cardPlay.Target.Block);
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).TargetingAllOpponents(CombatState)
-            .Execute(choiceContext);
-        await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this, cardPlay).TargetingAllOpponents(CombatState)
+        await CreatureCmd.LoseBlock(choiceContext,cardPlay.Target!, cardPlay.Target!.Block,Owner.Creature);
+        await DamageCmd
+            .Attack(DynamicVars.Damage.BaseValue)
+            .FromCard(this,cardPlay)
+            .Targeting(cardPlay.Target)
+            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitCount(2)
             .Execute(choiceContext);
     }
 

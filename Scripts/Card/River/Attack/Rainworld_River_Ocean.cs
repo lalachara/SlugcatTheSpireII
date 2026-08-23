@@ -43,7 +43,7 @@ public class Rainworld_River_Ocean : RiverCardModel
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(2m);
+        DynamicVars.Damage.UpgradeValueBy(3m);
         AddKeyword(CardKeyword.Innate);
     }
 }

@@ -17,7 +17,7 @@ public class Rainworld_Redcat_Bigclean : RedCatCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(5m, ValueProp.Move)
+        new DamageVar(3m, ValueProp.Move)
     ];
     public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Exhaust };
 
@@ -44,17 +44,15 @@ public class Rainworld_Redcat_Bigclean : RedCatCardModel
 
         var enemies = CombatState.HittableEnemies.ToList();
         if (enemies.Count == 0) return;
-
-        for (int i = 0; i < exhaustCount; i++)
-        {
-            var target = enemies[Owner.RunState.Rng.CombatTargets.NextInt(enemies.Count)];
-            await DamageCmd
+        
+        await DamageCmd
                 .Attack(DynamicVars.Damage.BaseValue)
                 .FromCard(this,cardPlay)
+                .WithHitCount(exhaustCount)
                 .TargetingRandomOpponents(CombatState)
                 .WithHitFx("vfx/vfx_attack_slash")
                 .Execute(choiceContext);
-        }
+        
     }
 
     protected override void OnUpgrade()

@@ -35,12 +35,7 @@ public class Rainworld_Redcat_Killall : RedCatCardModel
             .FromCard(this,cardPlay)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
-            .Execute(choiceContext);
-        await DamageCmd
-            .Attack(DynamicVars.Damage.BaseValue)
-            .FromCard(this,cardPlay)
-            .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitCount(2)
             .Execute(choiceContext);
         if (cardPlay.Target.IsDead)
         {

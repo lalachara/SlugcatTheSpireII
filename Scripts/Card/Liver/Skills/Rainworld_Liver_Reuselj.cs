@@ -25,7 +25,7 @@ public class Rainworld_Liver_Reuselj : LiverCardModel
     private const CardType type = CardType.Skill;
 
     // 卡牌稀有度
-    private const CardRarity rarity = CardRarity.Uncommon;
+    private const CardRarity rarity = CardRarity.Rare;
 
     // 目标类型（AnyEnemy表示任意敌人）
     private const TargetType targetType = TargetType.Self;
@@ -52,7 +52,7 @@ public class Rainworld_Liver_Reuselj : LiverCardModel
     {
         //await CreatureCmd.TriggerAnim(base.Owner.Creature, "Cast", base.Owner.Character.CastAnimDelay);
 
-        foreach (var item in await CardSelectCmd.FromHand(prefs: new CardSelectorPrefs(SelectionScreenPrompt, 0, 2),
+        foreach (var item in await CardSelectCmd.FromHand(prefs: new CardSelectorPrefs(SelectionScreenPrompt, 0, IsUpgraded?3:2),
                      context: choiceContext, player: Owner, filter: null, source: this))
         {
             await CardCmd.Exhaust(choiceContext, item);
@@ -63,6 +63,5 @@ public class Rainworld_Liver_Reuselj : LiverCardModel
     // 升级后的效果逻辑
     protected override void OnUpgrade()
     {
-        RemoveKeyword(CardKeyword.Exhaust);
     }
 }

@@ -27,6 +27,6 @@ public class Rainworld_River_Savewater : RiverCardModel
 
     protected override void OnUpgrade()
     {
-        EnergyCost.UpgradeBy(-1);
+        AddKeyword(CardKeyword.Retain);
     }
 }

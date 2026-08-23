@@ -29,18 +29,28 @@ public sealed class TemptPower : ModPowerTemplate
     );
 
     public override PowerType Type => PowerType.Buff;
-
+    private bool hasUsed = false;
     public override PowerStackType StackType => PowerStackType.Counter;
 
     public override async Task AfterBlockGained(Creature creature, decimal amount, ValueProp props, CardModel? cardSource)
     {
         if(creature!=Owner||cardSource==null)
             return;
-       
+        hasUsed = true;
         await CreatureCmd.Damage(new BlockingPlayerChoiceContext(), base.CombatState.HittableEnemies, amount, ValueProp.Unpowered, base.Owner);
-        await PowerCmd.Decrement(this);
-        
+                
     }
+
+    public override async Task AfterCardPlayedLate(PlayerChoiceContext choiceContext, CardPlay cardPlay)
+    {
+        if (hasUsed&&cardPlay.Card.Owner.Creature==Owner)
+        {
+            await PowerCmd.Decrement(this);
+            hasUsed = false;
+        }
+
+    }
+
 
     public override async Task BeforeSideTurnEnd(
         PlayerChoiceContext choiceContext,

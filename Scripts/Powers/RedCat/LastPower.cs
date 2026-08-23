@@ -38,35 +38,19 @@ public sealed class LastPower : ModPowerTemplate
   public override PowerType Type => PowerType.Buff;
 
   public override PowerStackType StackType => PowerStackType.Single;
-
-  public override decimal ModifyHpLostAfterOsty(
-    Creature target,
-    decimal amount,
-    ValueProp props,
-    Creature? dealer,
-    CardModel? cardSource)
+  
+  public override bool ShouldDie(Creature creature) =>creature!=Owner || !CombatState.Players.Any(p => p != Owner.Player && p.Creature.IsAlive && (!p.Creature.HasPower<FakedeathPower>()));
+  public override async Task AfterPreventingDeath(Creature creature)
   {
-    if (target != Owner)
-      return amount;
-    
-    if(Owner.Player.Creature.HasPower<WorklockPower>()
-       ||Owner.Player.Relics.OfType<LizardTail>().Any(r => !r.WasUsed)
-       ||Owner.Player.Potions.OfType<FairyInABottle>().Any())
-      return amount;
-    if(SlugcatData.GetWorkLevel(Owner.Player)>0&&(!Owner.HasPower<RedmushroomPower>()||Owner.HasPower<RefusePower>()))
-      return amount;
-    var otherPlayersAlive = CombatState.Players.Any(p => p != Owner.Player && p.Creature.IsAlive && (!p.Creature.HasPower<FakedeathPower>()));
-
-    if (amount >= target.CurrentHp&&otherPlayersAlive)
-    {
-      SlugcatData.setworklevel(Owner.Player,0);
-      PowerCmd.Apply<FakedeathPower>(new BlockingPlayerChoiceContext(),Owner,1,Owner,null);
-      Flash();
-      if(CombatState.CurrentSide == CombatSide.Player)
-        PlayerCmd.EndTurn(Owner.Player,true);
-      return target.CurrentHp - 1;
-    }
-    return amount;
+    await SlugcatData.setworklevel(Owner.Player!,0);
+    await CreatureCmd.Heal(Owner, 1);
+    await PowerCmd.Apply<FakedeathPower>(new BlockingPlayerChoiceContext(),Owner,1,Owner,null);
+    Flash();
+    if(CombatState.CurrentSide == CombatSide.Player)
+      PlayerCmd.EndTurn(Owner.Player!,true);
+    await PowerCmd.Remove(this);
   }
 
+  
+  
 }

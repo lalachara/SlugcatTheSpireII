@@ -19,7 +19,7 @@ public class Rainworld_Redcat_Balance : RedCatCardModel
     
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(22m, ValueProp.Move)
+        new DamageVar(24m, ValueProp.Move)
     ];
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<WeakPower>()};
 
@@ -38,11 +38,11 @@ public class Rainworld_Redcat_Balance : RedCatCardModel
                 .WithHitFx("vfx/vfx_attack_slash")
                 .Execute(choiceContext);
         
-        await PowerCmd.Apply<WeakPower>(choiceContext, Owner.Creature,1,Owner.Creature,this);
+        await PowerCmd.Apply<WeakPower>(choiceContext, Owner.Creature,IsUpgraded?1:2,Owner.Creature,this);
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(6m);
+        DynamicVars.Damage.UpgradeValueBy(4m);
     }
 }

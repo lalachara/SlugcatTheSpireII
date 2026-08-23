@@ -63,8 +63,6 @@ public class Rainworld_Liver_Mdbaole : LiverCardModel
     // 升级后的效果逻辑
     protected override void OnUpgrade()
     {
-        DynamicVars.Strength.UpgradeValueBy(2);
-        DynamicVars.Dexterity.UpgradeValueBy(2);
         AddKeyword(CardKeyword.Retain);
     }
 }

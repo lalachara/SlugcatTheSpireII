@@ -19,9 +19,10 @@ public class Rainworld_River_Playwater : RiverCardModel
     private const bool shouldShowInCardLibrary = true;
 
     public override bool GainsBlock => true;
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<AdroitPower>() };    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<AdroitcapPower>(), HoverTipFactory.FromPower<AdroitPower>() };
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(12m, ValueProp.Move)
+        new BlockVar(11m, ValueProp.Move)
     ];
 
     public Rainworld_River_Playwater() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -31,12 +32,12 @@ public class Rainworld_River_Playwater : RiverCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
-        await PowerCmd.Apply<AdroitPower>(choiceContext, Owner.Creature, 2, Owner.Creature, this);
+        await PowerCmd.Apply<AdroitcapPower>(choiceContext, Owner.Creature, 2, Owner.Creature, this);
     }
 
     protected override void OnUpgrade()
     {
 
-        DynamicVars.Block.UpgradeValueBy(4m);
+        DynamicVars.Block.UpgradeValueBy(3m);
     }
 }

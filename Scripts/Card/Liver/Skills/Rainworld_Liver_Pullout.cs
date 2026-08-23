@@ -15,15 +15,13 @@ public class Rainworld_Liver_Pullout : LiverCardModel
 {
     private const int energyCost = 1;
     private const CardType type = CardType.Skill;
-    private const CardRarity rarity = CardRarity.Uncommon;
+    private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[]
     {
-        HoverTipFactory.FromPower<ChuangPower>(),
-        HoverTipFactory.FromKeyword(RainworldKeywords.Spear)
-    };
+        HoverTipFactory.FromPower<ChuangPower>(),};
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

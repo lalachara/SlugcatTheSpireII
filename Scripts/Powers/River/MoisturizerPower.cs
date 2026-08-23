@@ -1,5 +1,6 @@
 ﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -28,6 +29,7 @@ public sealed class MoisturizerPower : ModPowerTemplate
     );
 
     public override PowerType Type => PowerType.Buff;
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<AdroitPower>() };
 
     public override PowerStackType StackType => PowerStackType.Counter;
 

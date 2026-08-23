@@ -33,7 +33,7 @@ public class Rainworld_Redcat_Corruptblock : RedCatCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         
-            await PowerCmd.Apply<MushblockPower>(choiceContext, Owner.Creature, DynamicVars.Block.IntValue, Owner.Creature, this);
+            await PowerCmd.Apply<MushblockPower>(choiceContext, Owner.Creature, DynamicVars.Block.PreviewValue, Owner.Creature, this);
             if (Owner.Creature.HasPower<RedmushroomPower>())
             {
                 await Tools.BackToHand(Owner,this);

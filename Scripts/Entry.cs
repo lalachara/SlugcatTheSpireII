@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿using System.Reflection;
+﻿﻿using System.Reflection;
     using Godot;
     using MegaCrit.Sts2.Core.Modding;
     using MegaCrit.Sts2.Core.Models;
@@ -8,6 +8,7 @@ using Rainworld.Scripts.Card.Liver.Attack;
 using Rainworld.Scripts.Card.RedCat;
 using Rainworld.Scripts.Card.River.Skills;
 using Rainworld.Scripts.patches;
+using Rainworld.Scripts.Telemetry;
 using STS2RitsuLib;
 using STS2RitsuLib.Audio;
 using STS2RitsuLib.Interop;
@@ -32,6 +33,15 @@ public class Entry
         patcher.RegisterPatches<RainworldPatches>();
         if (!patcher.PatchAll())
             throw new InvalidOperationException("Critical patches failed.");
+
+        // 注册模组配置
+        RainworldModConfig.Register();
+
+        // 注册遥测（直连 PostHog）
+        TelemetrySetup.Register();
+
+        // 挂接全局未捕获异常钩子，把玩家运行时异常上报到 PostHog（需授权 diagnostics）
+        TelemetrySetup.AttachGlobalExceptionHooks();
 
         // 注册次级资源（食物、业力等级）
         SlugcatResources.Register();
@@ -66,6 +76,13 @@ public class Entry
         ));
         FmodStudioDeferredBankRegistration.RegisterBank("res://Resource/Sound/SlugcatTheSpireII.bank");
         FmodStudioDeferredBankRegistration.RegisterStudioGuidMappings("res://Resource/Sound/GUIDs.txt");
+        
+        RitsuLibFramework.SubscribeLifecycle(new CreatureDeathObserver());
+        RitsuLibFramework.SubscribeLifecycle(new SpawnConfigSyncObserver());
+        RitsuLibFramework.SubscribeLifecycle(new OtherCharPoolFilterConfigSyncObserver());
+        RitsuLibFramework.SubscribeLifecycle(new RelicFilterConfigSyncObserver());
+        RitsuLibFramework.SubscribeLifecycle(new TelemetryObserver());
+        Entry.Logger.Info("[遥测] TelemetryObserver 已订阅生命周期事件");
 
     }
 }

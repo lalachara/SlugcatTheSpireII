@@ -24,9 +24,12 @@ using System.Threading.Tasks;
 public sealed class MushspreadPower : ModPowerTemplate
 {
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: "res://Resource/Powers/SlimeBlock128.png",
-        BigIconPath: "res://Resource/Powers/SlimeBlock128.png"
+        IconPath: "res://Resource/Powers/RedCat/MushspreadPower128.png",
+        BigIconPath: "res://Resource/Powers/RedCat/MushspreadPower128.png"
     );
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[]
+        { HoverTipFactory.FromPower<MushblockPower>() };
+
 
     public override PowerType Type => PowerType.Buff;
     public override PowerStackType StackType => PowerStackType.Single;
@@ -36,9 +39,9 @@ public sealed class MushspreadPower : ModPowerTemplate
         if (player != base.Owner.Player)
             return;
         var mushblock = base.Owner.GetPower<MushblockPower>();
-        if (mushblock == null || mushblock.Amount < 2)
+        if (mushblock == null )
             return;
         Flash();
-        await PowerCmd.Apply<MushblockPower>(choiceContext, base.Owner, mushblock.Amount / 2, base.Owner, this);
+        await PowerCmd.Apply<MushblockPower>(choiceContext, base.Owner, (mushblock.Amount / 2) +1, base.Owner, null);
     }
 }

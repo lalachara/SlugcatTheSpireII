@@ -45,7 +45,8 @@ public sealed class SleepPower : ModPowerTemplate
   public override async Task AfterApplied(Creature? applier, CardModel? cardSource)
   {
       NCreature? creatureNode = NCombatRoom.Instance?.GetCreatureNode(Owner.Player?.Creature!);
-      
+      if(Owner.Player?.Character is Slugcat slugcat)
+          slugcat.SuppressHurtAnim = true;
       creatureNode?.SetAnimationTrigger("Sleep");
   }
   
@@ -65,24 +66,42 @@ public sealed class SleepPower : ModPowerTemplate
          }
          else
              await  SlugcatData.addworklevel(Owner.Player, 1);
-         
+
+         if (SlugcatData.getCorruptValue(Owner.Player) == 5)
+             await SlugcatData.setCorruptValue(Owner.Player, -5);
          await PowerCmd.Remove<RedmushroomPower>(Owner);
-         
-         
      }
  }
 
  public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
  {
+     if(player!=Owner.Player)
+         return;
+     
      if (Owner.Player?.GetRelic<Liver_Sleeppotion>() != null)
      {
-         await PlayerCmd.GainEnergy(2, Owner.Player);
          await CardPileCmd.Draw(choiceContext, 2, Owner.Player);
+         await PlayerCmd.GainEnergy((int)2, Owner.Player);
+         //Owner.Player.GetRelic<Liver_Sleeppotion>().sleepthisturn = true;
      }
      await PowerCmd.Remove(this);
-     NCreature? creatureNode = NCombatRoom.Instance?.GetCreatureNode(Owner.Player?.Creature!);
-     creatureNode?.SetAnimationTrigger("Idle");
+
  }
+ 
+
+ public override async Task AfterRemoved(Creature oldOwner)
+ {
+     if (Owner.Player?.Character is Slugcat slugcat)
+     {
+         slugcat.SuppressHurtAnim = false;
+         NCreature? creatureNode = NCombatRoom.Instance?.GetCreatureNode(Owner.Player?.Creature!);
+         if(!Owner.IsDead)
+            creatureNode?.SetAnimationTrigger("Idle");
+     }
+     
+     await base.AfterRemoved(oldOwner);
+ }
+
  public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult _, ValueProp props, Creature? dealer, CardModel? __)
  {
      if (target == base.Owner && dealer != null && _.UnblockedDamage>0&&Owner.Player?.GetRelic<Liver_Sleeppotion>()==null)

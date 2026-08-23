@@ -1,0 +1,14 @@
+[remap]
+
+importer="spine.skel"
+type="SpineSkeletonFileResource"
+uid="uid://cho5n3ger5xrh"
+path="res://.godot/imported/skeleton.skel-a800dd06cca37d6e978264e94fe2c904.spskel"
+
+[deps]
+
+source_file="res://Godot/Monster/Firecent/skeleton.skel"
+dest_files=["res://.godot/imported/skeleton.skel-a800dd06cca37d6e978264e94fe2c904.spskel"]
+
+[params]
+

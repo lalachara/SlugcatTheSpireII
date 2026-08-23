@@ -47,7 +47,7 @@ public sealed class FatworldPower : ModPowerTemplate
          if (CombatManager.Instance.History.CardPlaysFinished.Count((CardPlayFinishedEntry e) =>
                  e.CardPlay.Card.Id == cardPlay.Card.Id&&e.CardPlay.Card.Owner == Owner.Player)==1)
          {
-             SlugcatData.addfood(Owner.Player, Amount);
+             await SlugcatData.addfood(Owner.Player, Amount);
          }
          
      }

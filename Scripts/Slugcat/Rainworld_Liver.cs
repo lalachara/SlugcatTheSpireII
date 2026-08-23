@@ -70,7 +70,10 @@ public sealed class Rainworld_Liver : Slugcat<Rainworld_Liver_CardPool, Rainworl
 				 ArmPaperTexturePath:"res://Godot/Character/Liver/mult_hand_3.png",
 				// 多人模式剪刀石头布-剪刀。
 				 ArmScissorsTexturePath:"res://Godot/Character/Liver/mult_hand_2.png"
-			)
+			),
+			VanillaRelicVisualOverrides: [
+				     new (CharacterOwnedVanillaRelicModelId.YummyCookie, new("res://Resource/Relics/livercookie.png")) // 美味饼干覆盖
+				 ]
 			
 			
 		));
@@ -86,9 +89,9 @@ public sealed class Rainworld_Liver : Slugcat<Rainworld_Liver_CardPool, Rainworl
 	public override int StartingGold => 99;
 
 	protected override IEnumerable<StartingDeckEntry> StartingDeckEntries => [
-		new(typeof(Rainworld_Liver_Strike), 4),
+		new(typeof(Rainworld_Liver_Strike), 5),
 		new(typeof(Rainworld_Liver_Spear), 1),
-		new(typeof(Rainworld_Liver_Defend), 4),
+		new(typeof(Rainworld_Liver_Defend), 5),
 		new(typeof(Rainworld_Liver_Rock), 1)
 	];
 
@@ -96,7 +99,7 @@ public sealed class Rainworld_Liver : Slugcat<Rainworld_Liver_CardPool, Rainworl
 
 	public override float AttackAnimDelay => 0.15f;
 	public override float CastAnimDelay => 0.25f;
-	public override Color EnergyLabelOutlineColor => new(0.1f, 0.1f, 1f);
+	public override Color EnergyLabelOutlineColor => new("1a4750");
 	public override Color DialogueColor => new Color("2a2a2a");
 	public override Color MapDrawingColor => new Color("FFFFFF");
 	public override Color RemoteTargetingLineColor => new Color("FFFFFF");

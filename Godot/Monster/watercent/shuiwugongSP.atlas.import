@@ -1,0 +1,16 @@
+[remap]
+
+importer="spine.atlas"
+type="SpineAtlasResource"
+uid="uid://gmpchimlsryh"
+path="res://.godot/imported/shuiwugongSP.atlas-d541b0c239ac34175c68c00ea24535a9.spatlas"
+
+[deps]
+
+source_file="res://Godot/Monster/watercent/shuiwugongSP.atlas"
+dest_files=["res://.godot/imported/shuiwugongSP.atlas-d541b0c239ac34175c68c00ea24535a9.spatlas"]
+
+[params]
+
+normal_map_prefix="n"
+specular_map_prefix="s"

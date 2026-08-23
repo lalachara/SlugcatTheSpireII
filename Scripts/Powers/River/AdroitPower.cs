@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using Rainworld.relics;
+using Rainworld.Scripts.Card.River.Attack;
 using STS2RitsuLib.Combat.Ui.ExtraCornerAmountLabels;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
@@ -25,7 +26,7 @@ using System.Threading.Tasks;
 
 #nullable enable
 [RegisterPower]
-public sealed class AdroitPower : ModPowerTemplate, IPowerExtraIconAmountLabelSpecsProvider
+public sealed class AdroitPower : ModPowerTemplate
 {
     public override PowerAssetProfile AssetProfile => new(
         IconPath: $"res://Resource/Powers/River/{GetType().Name}128.png",
@@ -33,82 +34,22 @@ public sealed class AdroitPower : ModPowerTemplate, IPowerExtraIconAmountLabelSp
     );
 
     public override PowerType Type => PowerType.Buff;
-    protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DynamicVar("retainAmount", 0)
-    ];
+
     public override PowerStackType StackType => PowerStackType.Counter;
-
-    public int retainAmount = 0;
-    public int used = 0;
     
-    
-    public IReadOnlyList<ExtraIconAmountLabelSpec> GetPowerExtraIconAmountLabelSpecs()
-    {
-        return
-        [
-            ExtraIconAmountLabelSpec.Plain(
-                ExtraIconAmountLabelCorner.BottomRight,
-                $"{retainAmount}/{Amount}")
-        ];
-        
-    }
-    
-
-    public override async Task AfterApplied(Creature? applier, CardModel? cardSource)
-    {
-        retainAmount =0;
-        DynamicVars["retainAmount"].BaseValue = retainAmount;
-        GD.Print($"初始化获得{retainAmount}");
-        await base.AfterApplied(applier, cardSource);
-        InvokeDisplayAmountChanged();
-    }
-
-    public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount, Creature? applier,
-        CardModel? cardSource)
-    {
-        if (power == this && amount > 0)
-        {
-            retainAmount += (int)amount;
-            DynamicVars["retainAmount"].BaseValue = retainAmount;
-
-            InvokeDisplayAmountChanged();
-
-        }
-            //
-
-        await base.AfterPowerAmountChanged(choiceContext, power, amount, applier, cardSource);
-    }
-
-    public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
-    {
-
-        if (Owner == player.Creature)
-        {
-            if (Owner.HasPower<SavewaterPower>())
-                        retainAmount += Amount; 
-            else
-                        retainAmount = Amount;
-                DynamicVars["retainAmount"].BaseValue = retainAmount;
-                InvokeDisplayAmountChanged();
-            
-        }
-
-        
-
-    }
-
     public override decimal ModifyDamageAdditive(Creature? target, decimal amount, ValueProp props, Creature? dealer,
         CardModel? cardSource,CardPlay? cardPlay)
     {
         if(cardSource!=null&&cardSource.Type==CardType.Status)
             return 0M;
-        if (props == ValueProp.Unpowered || dealer != Owner ||target == Owner)
+        if (props != ValueProp.Move || dealer != Owner ||target == Owner)
             return 0;
+        
 
         if (Owner.HasPower<AdventurePower>())
-            return retainAmount * (Owner.GetPower<AdventurePower>()!.Amount + 1);
+            return Amount * (Owner.GetPower<AdventurePower>()!.Amount + 1);
 
-        return retainAmount;
+        return Amount;
     }
     
 
@@ -123,43 +64,53 @@ public sealed class AdroitPower : ModPowerTemplate, IPowerExtraIconAmountLabelSp
         else if (this.Owner != target)
             return 0M;
         if (Owner.HasPower<AdventurePower>())
-            return !props.IsPoweredCardOrMonsterMoveBlock() ? 0M :(retainAmount * (Owner.GetPower<AdventurePower>()!.Amount + 1));
-        return !props.IsPoweredCardOrMonsterMoveBlock() ? 0M : ((Decimal) this.retainAmount);
+            return !props.IsPoweredCardOrMonsterMoveBlock() ? 0M :(Amount * (Owner.GetPower<AdventurePower>()!.Amount + 1));
+        return !props.IsPoweredCardOrMonsterMoveBlock() ? 0M : ((Decimal) this.Amount);
     }
 
     public async Task ChangeRetainAmount(int amount)
     {
-        int old = retainAmount;
-        retainAmount += amount;
-        if(retainAmount < 0)
-            retainAmount = 0;
-        if (amount < 0)
-        {
-            int consumed = old - retainAmount;
-            used += consumed;
+        
             if (Owner.Player?.GetRelic<River_Waterball2>() != null)
             {
-                Owner.Player.GetRelic<River_Waterball2>()!.OnAdroitConsumed(consumed);
+                Owner.Player.GetRelic<River_Waterball2>()!.OnAdroitConsumed(amount);
             }
 
             if (Owner.HasPower<WetPower>())
             {
-              await  Owner.GetPower<WetPower>()!.ReduceAdroit(new BlockingPlayerChoiceContext(),consumed);
+              await  Owner.GetPower<WetPower>()!.ReduceAdroit(new BlockingPlayerChoiceContext(),amount);
             }
-        }
-        DynamicVars["retainAmount"].BaseValue = retainAmount;
-        InvokeDisplayAmountChanged();
+            foreach (CardModel card in Owner.Player!.PlayerCombatState!.AllCards)
+            {
+                if (card is Rainworld_River_Backtosea backtosea)
+                    backtosea.DynamicVars.Damage.UpgradeValueBy(backtosea.DynamicVars["Special"].BaseValue);
+                
+            }
 
+            if (Owner.HasPower<UtubePower>())
+            {
+                await Owner.GetPower<UtubePower>()!.UsedAdroit(amount);
+            }
     }
-    
+
+    public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
+    {
+        if (side == CombatSide.Player)
+        {
+            if(!Owner.HasPower<SavewaterPower>())
+                await PowerCmd.Remove(this);
+        }
+    }
+
 
     public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         if (cardPlay.Card.Owner == Owner.Player
             && !Owner.HasPower<MoisturizerPower>()
-            && retainAmount > 0&&!cardPlay.Card.Keywords.Contains(RainworldKeywords.AdroitNotUsed))
+            && Amount > 0&&!cardPlay.Card.Keywords.Contains(RainworldKeywords.AdroitNotUsed))
         {
-           await ChangeRetainAmount(-1);
+           await PowerCmd.Decrement(this);
+           await ChangeRetainAmount(1);
         }
         InvokeDisplayAmountChanged();
 

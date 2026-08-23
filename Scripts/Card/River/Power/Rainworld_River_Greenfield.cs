@@ -16,7 +16,7 @@ public class Rainworld_River_Greenfield : RiverCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<AdroitPower>() };
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<AdroitPower>() ,HoverTipFactory.FromPower<AdroitcapPower>()  };
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new("Special", 2m)
@@ -33,7 +33,7 @@ public class Rainworld_River_Greenfield : RiverCardModel
         {
             if (player == Owner || !player.Creature.IsAlive)
                 continue;
-            await PowerCmd.Apply<AdroitPower>(choiceContext, player.Creature, DynamicVars["Special"].BaseValue, Owner.Creature, this);
+            await PowerCmd.Apply<AdroitcapPower>(choiceContext, player.Creature, DynamicVars["Special"].BaseValue, Owner.Creature, this);
         }
     }
 

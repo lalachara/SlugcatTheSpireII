@@ -1,0 +1,14 @@
+[remap]
+
+importer="spine.skel"
+type="SpineSkeletonFileResource"
+uid="uid://b0qni0rlor7y6"
+path="res://.godot/imported/skeleton.skel-d1fd56a1beede5f63a58c567e7a5a88f.spskel"
+
+[deps]
+
+source_file="res://Godot/Monster/Mushroom/skeleton.skel"
+dest_files=["res://.godot/imported/skeleton.skel-d1fd56a1beede5f63a58c567e7a5a88f.spskel"]
+
+[params]
+

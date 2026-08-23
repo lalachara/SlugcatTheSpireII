@@ -46,7 +46,8 @@ public class Rainworld_Liver_Roadlight : LiverCardModel
     {
         await PlayerCmd.GainEnergy(DynamicVars.Energy.IntValue, Owner);
         await CardPileCmd.Draw(choiceContext, 1, Owner);
-        if (Owner.Character is Slugcat) SlugcatData.addfood(Owner, 1);
+        if (Owner.Character is Slugcat) 
+           await SlugcatData.addfood(Owner, 1);
     }
 
     // 升级后的效果逻辑

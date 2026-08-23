@@ -37,7 +37,7 @@ public class Rainworld_Future_Austerity : FutureCardModel
     {
         if(this.Pile?.Type==PileType.Exhaust||Owner.Character is not Slugcat)
             return;
-        SlugcatData.addMaxWorkLevel(Owner,1);
+        await SlugcatData.addMaxWorkLevel(Owner,1);
         await base.AfterCombatVictoryEarly(room);
     }
 

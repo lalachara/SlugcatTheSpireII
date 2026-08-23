@@ -3,6 +3,7 @@ using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
+using Rainworld.Scripts.Powers;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
 
@@ -42,10 +43,20 @@ public class Rainworld_Liver_Fishing : LiverCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
-        await CreatureCmd.Damage(choiceContext, Owner.Creature, new DamageVar(2m, ValueProp.Move),
-            cardPlay.Target);
-        await CreatureCmd.Damage(choiceContext, Owner.Creature, new DamageVar(2m, ValueProp.Move),
-            cardPlay.Target);
+        if (cardPlay.Target != null)
+        {
+            await CreatureCmd.Damage(choiceContext, Owner.Creature, new DamageVar(2m, ValueProp.Move), cardPlay.Target);
+            await CreatureCmd.Damage(choiceContext, Owner.Creature, new DamageVar(2m, ValueProp.Move), cardPlay.Target);
+
+            if (cardPlay.Target.HasPower<ChuangPower>())
+            {
+                await CreatureCmd.Damage(choiceContext, cardPlay.Target, new DamageVar(cardPlay.Target.GetPowerAmount<ChuangPower>(), ValueProp.Unpowered), cardPlay.Target);
+                await CreatureCmd.Damage(choiceContext, cardPlay.Target, new DamageVar(cardPlay.Target.GetPowerAmount<ChuangPower>(), ValueProp.Unpowered), cardPlay.Target);
+
+            }
+           
+        }
+        
     }
 
     // 升级后的效果逻辑

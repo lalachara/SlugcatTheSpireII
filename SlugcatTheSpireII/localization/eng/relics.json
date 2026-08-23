@@ -22,10 +22,10 @@
 
   "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_WATERBALL1.flavor": "\"Let's have a water fight!\"",
   "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_WATERBALL1.title": "Small Water Ball",
-  "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_WATERBALL1.description": "At the start of combat, gain [blue]2[/blue] [blue]Adroit[/blue] cap.",
+  "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_WATERBALL1.description": "At the start of combat, gain [blue]2[/blue] [blue]Adroit Cap[/blue] .",
   "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_WATERBALL2.flavor": "\"Who put a stone in the water ball?!\"",
   "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_WATERBALL2.title": "Big Water Ball",
-  "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_WATERBALL2.description": "Replace [green]Small Water Ball[/green]. At the start of combat, gain [blue]3[/blue] [blue]Adroit[/blue] cap. Every [blue]10 Adroit[/blue] stacks consumed, gain [blue]1[/blue] [blue]Adroit[/blue] cap.",
+  "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_WATERBALL2.description": "Replace [green]Small Water Ball[/green]. At the start of combat, gain [blue]3[/blue] [blue]Adroit Cap[/blue]. Every [blue]10 Adroit[/blue] consumed, gain [blue]1[/blue] [blue]Adroit Cap[/blue].",
 
   "SLUGCAT_THE_SPIRE_II_RELIC_REDCAT_BOOK1.flavor": "All the names in the notes have been crossed out.",
   "SLUGCAT_THE_SPIRE_II_RELIC_REDCAT_BOOK1.title": "Hunter's Notes",
@@ -43,11 +43,11 @@
 
   "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_CREAM.flavor": "\"I bathed the red cat and it scratched me, but the blue one was so well-behaved!\"",
   "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_CREAM.title": "Body Wash",
-  "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_CREAM.description": "When you gain [gold]Water Erosion[/gold], randomly remove one of your other debuffs.",
+  "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_CREAM.description": "When you gain [gold]Water Erosion[/gold], randomly remove one of your other stackable debuff.",
 
   "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_LIGHTROW.flavor": "You ask why you won't get struck by lightning holding this rod? Hmm...",
   "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_LIGHTROW.title": "Lightning Rod",
-  "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_LIGHTROW.description": "You no longer take damage from [gold]Lightning Strike[/gold]. Each time [gold]Lightning Strike[/gold] triggers, gain [blue]8[/blue] Vitality.",
+  "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_LIGHTROW.description": "You no longer take damage from [gold]Lightning Strike[/gold]. Each time [gold]Lightning Strike[/gold] triggers, gain [blue]8[/blue] Vigor.",
 
 
 
@@ -84,7 +84,10 @@
   "SLUGCAT_THE_SPIRE_II_RELIC_MOONROCK.description": "On pickup, lose 30% Max HP. At the start of each turn, gain {Energy:energyIcons(1)}.",
   "SLUGCAT_THE_SPIRE_II_RELIC_MOONROCK.flavor": "You brought peace to two divine entities you didn't understand.",
   "SLUGCAT_THE_SPIRE_II_RELIC_MOONROCK.title": "Moon Stone",
-  "SLUGCAT_THE_SPIRE_II_RELIC_ANTHEM.description": "On pickup, gain 150 [gold]Gold[/gold], then double your [gold]Gold[/gold].",
+  "SLUGCAT_THE_SPIRE_II_RELIC_ANTHEM.description": "On pickup, gain {Gold:diff()} [gold]Gold[/gold], then double your [gold]Gold[/gold].",
   "SLUGCAT_THE_SPIRE_II_RELIC_ANTHEM.flavor": "The fallen doll finds comfort in the melody of history.",
-  "SLUGCAT_THE_SPIRE_II_RELIC_ANTHEM.title": "Hymn"
+  "SLUGCAT_THE_SPIRE_II_RELIC_ANTHEM.title": "Hymn",
+  "SLUGCAT_THE_SPIRE_II_RELIC_WORKLEVELREPAIR.description": "For worklevel BUG FIX. wait, why can you see it?",
+  "SLUGCAT_THE_SPIRE_II_RELIC_WORKLEVELREPAIR.flavor": "For worklevel BUG FIX. wait, why can you see it?",
+  "SLUGCAT_THE_SPIRE_II_RELIC_WORKLEVELREPAIR.title": "WORKLEVELREPAIR"
 }

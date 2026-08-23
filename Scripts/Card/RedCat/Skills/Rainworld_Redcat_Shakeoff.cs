@@ -38,7 +38,7 @@ public class Rainworld_Redcat_Shakeoff : RedCatCardModel
     // 卡牌的基础属性（例如这里是12点伤害）
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new CalculationBaseVar(5m),
+        new CalculationBaseVar(4m),
         new CalculationExtraVar(1m),
         new CalculatedBlockVar(ValueProp.Move).WithMultiplier((CardModel card, Creature? _) =>
             card.Owner.Creature.HasPower<VigorPower>() ? card.Owner.Creature.GetPowerAmount<VigorPower>() : 0)
@@ -58,6 +58,6 @@ public class Rainworld_Redcat_Shakeoff : RedCatCardModel
     // 升级后的效果逻辑
     protected override void OnUpgrade()
     {
-        DynamicVars.CalculatedBlock.UpgradeValueBy(3m);
+        DynamicVars.CalculationBase.UpgradeValueBy(3m);
     }
 }

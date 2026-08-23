@@ -36,7 +36,9 @@ public class Rainworld_Redcat_Angry : RedCatCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
+        new EnergyVar(1)
     ];
+
 
     public Rainworld_Redcat_Angry() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
@@ -45,7 +47,7 @@ public class Rainworld_Redcat_Angry : RedCatCardModel
     // 打出时的效果逻辑
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<MisfortunePower>(choiceContext, Owner.Creature, IsUpgraded ? 3 : 2, Owner.Creature, this);
+        await PowerCmd.Apply<AngryPower>(choiceContext, Owner.Creature, IsUpgraded ? 3 : 2, Owner.Creature, this);
     }
 
     // 升级后的效果逻辑

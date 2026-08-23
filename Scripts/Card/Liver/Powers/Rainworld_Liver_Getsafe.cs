@@ -40,6 +40,6 @@ public class Rainworld_Liver_Getsafe : LiverCardModel
 
     protected override void OnUpgrade()
     {
-        EnergyCost.UpgradeBy(-1);
+        AddKeyword(CardKeyword.Innate);
     }
 }

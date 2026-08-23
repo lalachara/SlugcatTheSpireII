@@ -39,10 +39,10 @@ public sealed class NimblePower : ModPowerTemplate
 
   public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext,PowerModel power, decimal amount, Creature? applier, CardModel? cardSource)
   {
-    if (!(amount <= 0m) && applier == base.Owner && power is NimblePower)
+    if (!(amount <= 0m) && power.Owner == base.Owner && power is NimblePower)
     {
       Flash();
-      if (Amount >= 10m||(Amount >=8m&&Owner.HasPower<SlugfeelPower>()))
+      while (Amount >= 10m||(Amount >=8m&&Owner.HasPower<SlugfeelPower>()))
       {
         await PowerCmd.ModifyAmount(choiceContext,power,Owner.HasPower<SlugfeelPower>()?-8m:-10m , applier, cardSource);
         await PowerCmd.Apply<BufferPower>(choiceContext,Owner, 1, base.Owner, null);

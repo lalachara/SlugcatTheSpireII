@@ -32,6 +32,9 @@ public sealed class IcewaterPower : ModPowerTemplate
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
+    // 只在真正结算伤害时扣减层数（after hook），避免其它 mod 调用 ModifyHpLostAfterOsty 做预测时误扣。
+    private decimal _pendingRemove = 0;
+
     public override decimal ModifyHpLostAfterOsty(
         Creature target,
         decimal amount,
@@ -44,12 +47,33 @@ public sealed class IcewaterPower : ModPowerTemplate
 
         if (amount >= Amount)
         {
-            var remaining = amount - Amount;
-            PowerCmd.Remove(this);
-            return remaining;
+            _pendingRemove = Amount;
+            return amount - Amount;
         }
 
-        PowerCmd.ModifyAmount(new BlockingPlayerChoiceContext(), this, -amount, Owner, null);
+        _pendingRemove = amount;
         return 0;
+    }
+
+    public override async Task AfterModifyingHpLostAfterOsty()
+    {
+        // 伤害真正结算后才会走到这里；若在 Modify 阶段被跳过（例如预测），_pendingRemove 不消费。
+        if (_pendingRemove <= 0)
+        {
+            await base.AfterModifyingHpLostAfterOsty();
+            return;
+        }
+
+        if (_pendingRemove >= Amount)
+        {
+            await PowerCmd.Remove(this);
+        }
+        else
+        {
+            await PowerCmd.ModifyAmount(new BlockingPlayerChoiceContext(), this, -_pendingRemove, Owner, null);
+        }
+        _pendingRemove = 0;
+
+        await base.AfterModifyingHpLostAfterOsty();
     }
 }

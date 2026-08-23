@@ -52,7 +52,7 @@ public class Rainworld_Liver_Avenger : LiverCardModel
         {
             var workLevel = SlugcatResources.Data.Get(Owner).WorkLevel;
 
-            if (workLevel <= 4)
+            if (workLevel < 4)
                 times++;
             if (workLevel == 0)
                 times++;

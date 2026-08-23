@@ -13,7 +13,7 @@ namespace Rainworld.Scripts.Card.Liver.Attack;
 
 public class Rainworld_Liver_Commonroad : LiverCardModel
 {
-    private const int energyCost = 1;
+    private const int energyCost = 0;
     private const CardType type = CardType.Power;
     private const CardRarity rarity = CardRarity.Uncommon;
     private const TargetType targetType = TargetType.Self;

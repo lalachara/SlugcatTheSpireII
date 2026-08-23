@@ -51,7 +51,8 @@ public class Rainworld_Liver_Eatwhat : LiverCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
-        if (Owner.Character is Slugcat) SlugcatData.addfood(Owner, (int)DynamicVars["Food"].BaseValue);
+        if (Owner.Character is Slugcat) 
+            await SlugcatData.addfood(Owner, (int)DynamicVars["Food"].BaseValue);
 
         await CardPileCmd.ShuffleIfNecessary(choiceContext, Owner);
         var cardModel = PileType.Draw.GetPile(Owner).Cards.FirstOrDefault();

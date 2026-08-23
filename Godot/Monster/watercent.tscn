@@ -1,0 +1,37 @@
+[gd_scene load_steps=2 format=3 uid="uid://cciwgkxlhruqx"]
+
+[ext_resource type="SpineSkeletonDataResource" uid="uid://bh5f6la4w7dpq" path="res://Godot/Monster/watercent/watercent.tres" id="1_qpnih"]
+
+[node name="watercent" type="Node2D"]
+position = Vector2(5, 16)
+scale = Vector2(0.9, 0.9)
+
+[node name="Visuals" type="SpineSprite" parent="."]
+skeleton_data_res = ExtResource("1_qpnih")
+preview_skin = "Default"
+preview_animation = "attack"
+preview_frame = false
+preview_time = 0.0
+unique_name_in_owner = true
+position = Vector2(21.11111, -185.55557)
+
+[node name="Bounds" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 0
+offset_left = -397.7778
+offset_top = -467.77777
+offset_right = 368.2222
+offset_bottom = -2.777771
+
+[node name="IntentPos" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(-5.5555553, -520)
+
+[node name="CenterPos" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, -90)
+
+[node name="TalkPos" type="Marker2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(-286, -152)

@@ -41,6 +41,6 @@ public class Rainworld_Future_Blood : FutureCardModel
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Energy.UpgradeValueBy(1m);
+       EnergyCost.UpgradeBy(-1);
     }
 }

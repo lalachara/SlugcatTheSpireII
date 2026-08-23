@@ -1,5 +1,6 @@
 ﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -32,6 +33,8 @@ public sealed class LimboPower : ModPowerTemplate
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<AdroitcapPower>() ,HoverTipFactory.FromPower<AdroitPower>() };
+
     public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target,
         DamageResult _, ValueProp props, Creature? dealer, CardModel? __)
     {
@@ -40,13 +43,13 @@ public sealed class LimboPower : ModPowerTemplate
 
         if (_.UnblockedDamage == 0)
         {
-            await PowerCmd.Apply<AdroitPower>(choiceContext, Owner, (int)Amount, Owner, null);
+            await PowerCmd.Apply<AdroitcapPower>(choiceContext, Owner, (int)Amount, Owner, null);
         }
         else
         {
             if (Owner.HasPower<AdroitPower>())
             {
-                var adroit = (AdroitPower)Owner.GetPower<AdroitPower>()!;
+                var adroit = (AdroitcapPower)Owner.GetPower<AdroitcapPower>()!;
                 if (adroit.Amount > 0)
                 {
                     await PowerCmd.Decrement(adroit);

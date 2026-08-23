@@ -22,7 +22,7 @@ public class Rainworld_Liver_Fatworld : LiverCardModel
     private const CardType type = CardType.Power;
 
     // 卡牌稀有度
-    private const CardRarity rarity = CardRarity.Uncommon;
+    private const CardRarity rarity = CardRarity.Rare;
 
     // 目标类型（AnyEnemy表示任意敌人）
     private const TargetType targetType = TargetType.Self;
@@ -33,7 +33,6 @@ public class Rainworld_Liver_Fatworld : LiverCardModel
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[]
         {  HoverTipFactory.FromKeyword(RainworldKeywords.Food),HoverTipFactory.FromPower<StrengthPower>()};
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Innate };
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

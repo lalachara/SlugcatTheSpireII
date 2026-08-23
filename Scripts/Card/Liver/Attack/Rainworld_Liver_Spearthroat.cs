@@ -53,12 +53,8 @@ public class Rainworld_Liver_Spearthroat : LiverCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
-        await DamageCmd
-            .Attack(DynamicVars.Damage.BaseValue)
-            .FromCard(this,cardPlay)
-            .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
-            .Execute(choiceContext);
+        await CreatureCmd.Damage(choiceContext, cardPlay.Target, DynamicVars.Damage.BaseValue,
+            ValueProp.Unblockable | ValueProp.Move, this, cardPlay);
         await PowerCmd.Apply<ChuangPower>(choiceContext, cardPlay.Target, DynamicVars["Chuang"].BaseValue,
             Owner.Creature, this);
         await PowerCmd.Apply<NimblePower>(choiceContext, Owner.Creature, DynamicVars["Nimble"].BaseValue,

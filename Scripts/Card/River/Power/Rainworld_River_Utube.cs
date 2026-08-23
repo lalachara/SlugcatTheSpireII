@@ -12,12 +12,11 @@ public class Rainworld_River_Utube : RiverCardModel
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
 
     private const int energyCost = 1;
-    private const CardType type = CardType.Skill;
+    private const CardType type = CardType.Power;
     private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.AnyAlly;
     private const bool shouldShowInCardLibrary = true;
 
-    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Exhaust };
 
     public Rainworld_River_Utube() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {

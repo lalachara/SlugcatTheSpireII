@@ -25,16 +25,8 @@ public class LogSingleton: HookedSingletonModel
 {
     public LogSingleton() : base(HookType.Run)
     {
-        GD.Print("[LogSingleton] 构造函数被调用");
     }
-
-    public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
-    {
-        var data = SlugcatResources.Data.Get(cardPlay.Card.Owner);
-        GD.Print($"日志钩子：{cardPlay.Card.Owner}，hash={cardPlay.Card.Owner.GetHashCode()}，{data.WorkLevel},食物：{data.Food},最大业力：{data.MaxWorkLevel},最大食物：{data.MaxFood},休眠食物：{data.SleepFood}");
-
-        await base.AfterCardPlayed(choiceContext, cardPlay);
-    }
+    
 
 
   

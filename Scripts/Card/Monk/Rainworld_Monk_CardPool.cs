@@ -6,7 +6,7 @@ using STS2RitsuLib.Utils;
 #nullable enable
 namespace Rainworld.Resource.Card;
 
-public class Rainworld_Redcat_CardPool : TypeListCardPoolModel
+public class Rainworld_Monk_CardPool : TypeListCardPoolModel
 {
     private static readonly Material? _poolFrameMaterial = MaterialUtils.CreateUnmodulatedHsvShaderMaterial(); // 如果你是自定义卡框，使用这个
     public override Material? PoolFrameMaterial => _poolFrameMaterial;

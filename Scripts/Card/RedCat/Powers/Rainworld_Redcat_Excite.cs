@@ -16,7 +16,7 @@ public class Rainworld_Redcat_Excite : RedCatCardModel
 {
     private const int energyCost = 1;
     private const CardType type = CardType.Power;
-    private const CardRarity rarity = CardRarity.Uncommon;
+    private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
@@ -35,6 +35,7 @@ public class Rainworld_Redcat_Excite : RedCatCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await PowerCmd.Apply<ExcitePower>(choiceContext, Owner.Creature, DynamicVars["Summon"].BaseValue, Owner.Creature, this);
+        await Tools.WorkReport(Owner);
     }
 
     protected override void OnUpgrade()

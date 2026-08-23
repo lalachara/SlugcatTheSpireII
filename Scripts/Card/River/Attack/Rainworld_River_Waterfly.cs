@@ -29,10 +29,10 @@ public class Rainworld_River_Waterfly : RiverCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (Owner.Creature.HasPower<AdroitPower>()&&Owner.Creature.GetPower<AdroitPower>()!.retainAmount>0)
+        if (Owner.Creature.HasPower<AdroitPower>())
         {
             var adroit = Owner.Creature.GetPower<AdroitPower>()!;
-            var times = (int)adroit.retainAmount;
+            var times = (int)adroit.Amount;
             await DamageCmd
                     .Attack(DynamicVars.Damage.BaseValue)
                     .FromCard(this, cardPlay)
@@ -42,7 +42,7 @@ public class Rainworld_River_Waterfly : RiverCardModel
                     .Execute(choiceContext);
 
             if (!Owner.Creature.HasPower<MoisturizerPower>())
-                await adroit.ChangeRetainAmount(-times);
+                await adroit.ChangeRetainAmount(times);
         }
     }
 

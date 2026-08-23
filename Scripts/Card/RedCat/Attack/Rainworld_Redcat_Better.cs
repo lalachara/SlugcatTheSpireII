@@ -53,7 +53,7 @@ public class Rainworld_Redcat_Better : RedCatCardModel
                 .Targeting(cardPlay.Target).WithHitFx("vfx/vfx_attack_slash").Execute(choiceContext)).Results
             .SelectMany<List<DamageResult>, DamageResult>(
                 (Func<List<DamageResult>, IEnumerable<DamageResult>>)(r => (IEnumerable<DamageResult>)r))
-            .Sum<DamageResult>((Func<DamageResult, int>)(r => r.TotalDamage)), Owner.Creature, (CardModel)this);
+            .Sum<DamageResult>((Func<DamageResult, int>)(r => r.UnblockedDamage)), Owner.Creature, (CardModel)this);
     }
 
     // 升级后的效果逻辑

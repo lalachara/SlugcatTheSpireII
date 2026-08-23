@@ -14,7 +14,7 @@ namespace Rainworld.Scripts.Card.RedCat;
 
 public class Rainworld_Redcat_Substrate : RedCatCardModel
 {
-    private const int energyCost = 1;
+    private const int energyCost = 2;
     private const CardType type = CardType.Power;
     private const CardRarity rarity = CardRarity.Uncommon;
     private const TargetType targetType = TargetType.Self;
@@ -40,6 +40,6 @@ public class Rainworld_Redcat_Substrate : RedCatCardModel
 
     protected override void OnUpgrade()
     {
-        AddKeyword(CardKeyword.Innate);
+        EnergyCost.UpgradeBy(-1);
     }
 }

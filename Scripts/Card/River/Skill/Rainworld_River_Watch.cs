@@ -42,7 +42,7 @@ public class Rainworld_River_Watch : RiverCardModel
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Block.UpgradeValueBy(6m);
+        DynamicVars.Block.UpgradeValueBy(4m);
         DynamicVars["Special"].UpgradeValueBy(2m);
     }
 }

@@ -13,7 +13,7 @@
   "SLUGCAT_THE_SPIRE_II_KEYWORD_HUNTSIGN.title": "Prey Mark",
   "SLUGCAT_THE_SPIRE_II_KEYWORD_FOOD.description": "In combat, you can use [gold]Fullness[/gold] to [gold]Hibernate[/gold] and increase your [gold]Karma[/gold].",
   "SLUGCAT_THE_SPIRE_II_KEYWORD_FOOD.title": "Fullness",
-  "SLUGCAT_THE_SPIRE_II_KEYWORD_WORKLEVEL.description": "When you take [red]fatal damage[/red], if your [gold]Karma[/gold] is not [blue]1[/blue], lose [blue]1[/blue] [gold]Karma[/gold], [gold]Rebirth[/gold] and restore all HP.\nYou cannot increase your Max HP through normal means.",
+  "SLUGCAT_THE_SPIRE_II_KEYWORD_WORKLEVEL.description": "When you would take [red]fatal damage[/red], if your [gold]Karma[/gold] is not [blue]1[/blue], lose [blue]1[/blue] [gold]Karma[/gold], [gold]Rebirth[/gold] and restore all HP.\nYour Max HP gain is reduced to 1/5, and you can lose at most 1 Max HP at a time.",
   "SLUGCAT_THE_SPIRE_II_KEYWORD_WORKLEVEL.title": "Karma",
   "SLUGCAT_THE_SPIRE_II_KEYWORD_ADROIT_NOT_USED.description": "This card does not consume [gold]Adroit[/gold].",
   "SLUGCAT_THE_SPIRE_II_KEYWORD_ADROIT_NOT_USED.title": "Footwork",
@@ -30,5 +30,7 @@
   "SLUGCAT_THE_SPIRE_II_KEYWORD_LAST.description": "Multiplayer only.\n[gold]Hunter Long Legs[/gold] plays cards as follows: from left to right, but only Attack cards, and at most 5 cards per turn.\n[gold]Hunter Long Legs[/gold] is immune to all damage and dies after all other players have died.",
   "SLUGCAT_THE_SPIRE_II_KEYWORD_LAST.title": "Hunter Long Legs",
   "SLUGCAT_THE_SPIRE_II_KEYWORD_CANTCORRUPT.description": "This card cannot be [gold]Corrupted[/gold].",
-  "SLUGCAT_THE_SPIRE_II_KEYWORD_CANTCORRUPT.title": "Cannot be Corrupted"
+  "SLUGCAT_THE_SPIRE_II_KEYWORD_CANTCORRUPT.title": "Cannot be Corrupted",
+  "SLUGCAT_THE_SPIRE_II_KEYWORD_FOODCARD.description": "This card is on the slugcat's menu.",
+  "SLUGCAT_THE_SPIRE_II_KEYWORD_FOODCARD.title": "Cat Food"
 }

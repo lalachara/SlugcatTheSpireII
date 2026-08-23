@@ -17,8 +17,8 @@ namespace Rainworld.Scripts.Powers;
 public sealed class ParasitismPower : ModPowerTemplate
 {
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: "res://Resource/Powers/RedCat/brave.png",
-        BigIconPath: "res://Resource/Powers/RedCat/brave.png"
+        IconPath: "res://Resource/Powers/RedCat/parasitism128.png",
+        BigIconPath: "res://Resource/Powers/RedCat/parasitism128.png"
     );
 
     public override PowerType Type => PowerType.Buff;
@@ -32,5 +32,12 @@ public sealed class ParasitismPower : ModPowerTemplate
             await PowerCmd.Apply<MushblockPower>(choiceContext, card.Owner.Creature, 1, card.Owner.Creature, null);
             await PowerCmd.Apply<MushblockPower>(choiceContext, Owner, 1, Owner, null);
         }
+    }
+
+    public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
+    {
+        if (side == CombatSide.Player)
+            await PowerCmd.Decrement(this);
+        await base.AfterSideTurnEnd(choiceContext, side, participants);
     }
 }

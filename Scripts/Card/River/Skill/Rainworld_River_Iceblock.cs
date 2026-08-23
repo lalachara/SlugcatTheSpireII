@@ -14,7 +14,7 @@ public class Rainworld_River_Iceblock : RiverCardModel
 {
     private const int energyCost = 1;
     private const CardType type = CardType.Skill;
-    private const CardRarity rarity = CardRarity.Uncommon;
+    private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
@@ -25,7 +25,7 @@ public class Rainworld_River_Iceblock : RiverCardModel
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<IcewaterPower>() };
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(8m, ValueProp.Move),
+        new BlockVar(12m, ValueProp.Move),
     ];
 
     public Rainworld_River_Iceblock() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

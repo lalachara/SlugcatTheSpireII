@@ -1,5 +1,6 @@
 ﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -31,6 +32,7 @@ public sealed class SkyPower : ModPowerTemplate
     public override PowerType Type => PowerType.Buff;
 
     public override PowerStackType StackType => PowerStackType.Counter;
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<AdroitcapPower>() ,HoverTipFactory.FromPower<AdroitPower>() };
 
     public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
@@ -38,6 +40,7 @@ public sealed class SkyPower : ModPowerTemplate
             && cardPlay.Card.Type == CardType.Power)
         {
             await PlayerCmd.GainEnergy((int)Amount, Owner.Player);
+            await PowerCmd.Apply<AdroitcapPower>(choiceContext, Owner, Amount, Owner, null);
             await PowerCmd.ModifyAmount(choiceContext, this, 1, Owner, null);
         }
     }

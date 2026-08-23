@@ -23,7 +23,7 @@ public class Rainworld_Liver_Pull : LiverCardModel
     private const CardType type = CardType.Attack;
 
     // 卡牌稀有度
-    private const CardRarity rarity = CardRarity.Uncommon;
+    private const CardRarity rarity = CardRarity.Rare;
 
     // 目标类型（AnyEnemy表示任意敌人）
     private const TargetType targetType = TargetType.AnyEnemy;
@@ -36,7 +36,7 @@ public class Rainworld_Liver_Pull : LiverCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(4m, ValueProp.Move)
+        new DamageVar(6m, ValueProp.Move)
     ];
 
     public Rainworld_Liver_Pull() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -59,5 +59,6 @@ public class Rainworld_Liver_Pull : LiverCardModel
     // 升级后的效果逻辑
     protected override void OnUpgrade()
     {
+        DynamicVars.Damage.UpgradeValueBy(3m);
     }
 }

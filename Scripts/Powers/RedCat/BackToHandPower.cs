@@ -21,26 +21,30 @@ public class BackToHandPower : ModPowerTemplate
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override (PileType, CardPilePosition) ModifyCardPlayResultPileTypeAndPosition(
+    public override CardLocation ModifyCardPlayResultLocation(
         CardModel card,
         bool isAutoPlay,
         ResourceInfo resources,
-        PileType pileType,
-        CardPilePosition position)
+        CardLocation location)
     {
         if (card.Owner.Creature != Owner)
-            return (pileType, position);
-        Tools.BackToHandAciton(Owner.Player,card);
-        return pileType != PileType.Discard ? (pileType, position) : (PileType.Hand, CardPilePosition.Top);
+            return location;
+        if (location.pileType == PileType.Discard)
+        {
+            location.pileType = PileType.Hand;
+            location.position = CardPilePosition.Top;
+        }
+        return location;
     }
 
-    public override async Task AfterModifyingCardPlayResultPileOrPosition(
+    public override async Task AfterModifyingCardPlayResultLocation(
         CardModel card,
-        PileType pileType,
-        CardPilePosition position)
+        CardLocation location)
     {
         if (card.Owner.Creature != Owner)
             return;
+        await Tools.BackToHandAciton(Owner.Player, card);
+
         Flash();
         await PowerCmd.Decrement(this);
     }

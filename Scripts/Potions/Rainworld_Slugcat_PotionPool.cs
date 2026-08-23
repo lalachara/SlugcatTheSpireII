@@ -2,7 +2,7 @@
 
 namespace Rainworld.Scripts.Potions;
 
-public class Rainworld_Liver_PotionPool: TypeListPotionPoolModel
+public class Rainworld_Slugcat_PotionPool: TypeListPotionPoolModel
 {
     public override string EnergyColorName => "ironclad";
 }

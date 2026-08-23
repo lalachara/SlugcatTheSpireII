@@ -1,7 +1,6 @@
-﻿using MegaCrit.Sts2.Core.Runs;
+﻿﻿using MegaCrit.Sts2.Core.Runs;
 using STS2RitsuLib;
 using STS2RitsuLib.RunData;
-using Test.Scripts;
 
 namespace Rainworld.Scripts;
 
@@ -15,17 +14,15 @@ public sealed class RelicFilterConfigSyncObserver : ILifecycleObserver
         if (staging.Reason != RunSavedDataLobbyStagingReason.Committing)
             return;
 
-        if (!staging.IsMultiplayer)
-            return;
-
-        bool isHost = RunManager.Instance?.NetService?.NetId == 1;
-        if (!isHost)
+        if (!staging.IsMultiplayer || !staging.IsHost)
             return;
 
         SlugcatResources.RelicFilterData.Lobby.Modify(staging.Lobby, d =>
         {
-            d.EnableMaxHpCantUsedRelicFix = RainworldModConfig.EnableMaxHpCantUsedRelicFix;
+            //d.EnableMaxHpCantUsedRelicFix = RainworldModConfig.EnableMaxHpCantUsedRelicFix;
             d.EnableHpRelicFix = RainworldModConfig.EnableHpRelicFix;
+            d.EnableMaxHpRelicFix = RainworldModConfig.EnableMaxHpRelicFix;
+            d.EnableCombatCantLossMaxHp = RainworldModConfig.EnableCombatCantLossMaxHp;
         });
     }
 }

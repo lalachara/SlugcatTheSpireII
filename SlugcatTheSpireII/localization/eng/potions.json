@@ -1,3 +1,16 @@
 ﻿{
-
+  "SLUGCAT_THE_SPIRE_II_POTION_WORKFLOWER.title": "Bottled Karma Flower",
+  "SLUGCAT_THE_SPIRE_II_POTION_WORKFLOWER.description": "Apply [blue]1[/blue] [gold]Karma Lock[/gold].",
+  "SLUGCAT_THE_SPIRE_II_POTION_MILKTEA.title": "Milk Tea",
+  "SLUGCAT_THE_SPIRE_II_POTION_MILKTEA.description": "Gain [blue]4[/blue] [gold]Fullness[/gold].",
+  "SLUGCAT_THE_SPIRE_II_POTION_FIREBLOOD.title": "Trauma Potion",
+  "SLUGCAT_THE_SPIRE_II_POTION_FIREBLOOD.description": "Apply [blue]7[/blue] [gold]Trauma[/gold].",
+  "SLUGCAT_THE_SPIRE_II_POTION_MUSHROOMPOTION.title": "Unknown Substance",
+  "SLUGCAT_THE_SPIRE_II_POTION_MUSHROOMPOTION.description": "Gain [blue]5[/blue] [gold]Corruption value[/gold] and [blue]10[/blue] [gold]Fungal Plating[/gold].",
+  "SLUGCAT_THE_SPIRE_II_POTION_EXCITEPOTION.title": "Stimulant",
+  "SLUGCAT_THE_SPIRE_II_POTION_EXCITEPOTION.description": "Apply [blue]12[/blue] [gold]Vigor[/gold].",
+  "SLUGCAT_THE_SPIRE_II_POTION_WATER.title": "Water",
+  "SLUGCAT_THE_SPIRE_II_POTION_WATER.description": "Apply [blue]10[/blue] [gold]Water Erosion[/gold]. If used on a player, also gain [blue]3[/blue] [gold]Adroit cap[/gold].",
+  "SLUGCAT_THE_SPIRE_II_POTION_GLUE.title": "Super Glue",
+  "SLUGCAT_THE_SPIRE_II_POTION_GLUE.description": "The next [blue]2[/blue] cards you play [gold]Return to Hand[/gold]."
 }

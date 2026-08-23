@@ -1,5 +1,6 @@
 ﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -26,6 +27,7 @@ public sealed class FlowerPower : ModPowerTemplate
         IconPath: $"res://Resource/Powers/River/{GetType().Name}128.png",
         BigIconPath: $"res://Resource/Powers/River/{GetType().Name}128.png"
     );
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<AdroitPower>() };
 
     public override PowerType Type => PowerType.Buff;
 
@@ -35,10 +37,7 @@ public sealed class FlowerPower : ModPowerTemplate
     {
         if (card.Owner.Creature == Owner)
         {
-            if (Owner.HasPower<AdroitPower>())
-            {
-                Owner.GetPower<AdroitPower>().retainAmount+=Amount;
-            }
+              await PowerCmd.Apply<AdroitPower>(choiceContext, Owner,Amount,Owner,null);
         }
     }
 }

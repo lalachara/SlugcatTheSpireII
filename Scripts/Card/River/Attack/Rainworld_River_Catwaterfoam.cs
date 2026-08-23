@@ -18,7 +18,6 @@ public class Rainworld_River_Catwaterfoam : RiverCardModel
     private const CardRarity rarity = CardRarity.Uncommon;
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
-    public HashSet<Creature> DamagingEnemies { get; } = new();
     public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Exhaust };
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromCard<Rainworld_River_Catfoam>(IsUpgraded) };
 
@@ -47,17 +46,11 @@ public class Rainworld_River_Catwaterfoam : RiverCardModel
         {
             var foamCard = CombatState.CreateCard<Rainworld_River_Catfoam>(Owner);
             if (IsUpgraded) CardCmd.Upgrade(foamCard);
-            CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(foamCard, PileType.Hand, Owner));
+                CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(foamCard, PileType.Hand, Owner));
         }
     }
 
-    public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult result, ValueProp props,
-        Creature? dealer, CardModel? cardSource)
-    {
-        if(result.UnblockedDamage > 0)
-            DamagingEnemies.Add(target);
-        await base.AfterDamageReceived(choiceContext, target, result, props, dealer, cardSource);
-    }
+
     
 
 

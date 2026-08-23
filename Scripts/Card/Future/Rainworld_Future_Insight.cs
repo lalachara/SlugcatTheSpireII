@@ -7,13 +7,14 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
+using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.ValueProps;
 
 namespace Rainworld.Scripts.Card.Future;
 
-public class Rainworld_Future_Backup : FutureCardModel
+public class Rainworld_Future_Insight : FutureCardModel
 {
-    private const int energyCost = 1;
+    private const int energyCost = 3;
     private const CardType type = CardType.Skill;
     private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.Self;
@@ -23,32 +24,19 @@ public class Rainworld_Future_Backup : FutureCardModel
     protected override IEnumerable<DynamicVar> CanonicalVars => [
         new EnergyVar(1)
     ];
-    public override bool GainsBlock => true;
-    private bool played = false;
-    public Rainworld_Future_Backup() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
+
+    public Rainworld_Future_Insight() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {
     }
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (Owner.Character is Slugcat)
+        foreach (CardModel card in Owner.PlayerCombatState!.AllCards)
         {
-            var amount = SlugcatData.GetFood(Owner);
-            if (amount > 0)
-            {
-              await PlayerCmd.GainEnergy(amount, Owner);
-              await CreatureCmd.GainBlock(Owner.Creature, amount,ValueProp.Unpowered,cardPlay);
-            }
-            played = true;
-
+            card.EnergyCost.UpgradeBy(-1);
+            if(card.EnergyCost.Canonical==0&&card.Type!=CardType.Power)
+                card.AddKeyword(CardKeyword.Exhaust);
         }
-    }
-
-    public override async Task AfterSideTurnEnd(PlayerChoiceContext choiceContext, CombatSide side, IEnumerable<Creature> participants)
-    {
-        if (played&&Owner.PlayerCombatState?.Energy != 0)
-           await SlugcatData.addfood(Owner,Owner.PlayerCombatState.Energy);
-        await base.AfterSideTurnEnd(choiceContext, side, participants);
     }
 
     protected override void OnUpgrade()

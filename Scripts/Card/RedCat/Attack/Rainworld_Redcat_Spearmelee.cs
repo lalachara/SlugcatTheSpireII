@@ -39,7 +39,7 @@ public class Rainworld_Redcat_Spearmelee : RedCatCardModel
         if (player == Owner && _shouldReturnToHand)
         {
             _shouldReturnToHand = false;
-            await CardPileCmd.Add(this, PileType.Hand);
+            await Tools.BackToHand(Owner, this);
         }
         await base.AfterPlayerTurnStart(choiceContext, player);
     }
@@ -47,11 +47,11 @@ public class Rainworld_Redcat_Spearmelee : RedCatCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         var hitCount = (int)DynamicVars["Summon"].BaseValue;
-        for (int i = 0; i < hitCount; i++)
         {
             await DamageCmd
                 .Attack(DynamicVars.Damage.BaseValue)
                 .FromCard(this,cardPlay)
+                .WithHitCount(hitCount)
                 .TargetingRandomOpponents(CombatState)
                 .WithHitFx(sfx:"event:/Rainworld/sfx/spear")
                 .Execute(choiceContext);

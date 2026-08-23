@@ -22,10 +22,10 @@
 
   "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_WATERBALL1.flavor": "“来打水仗吧！”",
   "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_WATERBALL1.title": "小水球",
-  "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_WATERBALL1.description": "战斗开始时，获得[blue]2[/blue]层[blue]伶俐[/blue]上限。",
+  "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_WATERBALL1.description": "战斗开始时，获得[blue]2[/blue]层[blue]伶俐上限[/blue]。",
   "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_WATERBALL2.flavor": "“是谁在水球里面塞了石头？！”",
   "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_WATERBALL2.title": "大水球",
-  "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_WATERBALL2.description": "替换[green]小水球[/green]。战斗开始时，获得[blue]3[/blue]层[blue]伶俐[/blue]上限。每消耗[blue]10伶俐[/blue]层数，获得[blue]1[/blue]层[blue]伶俐[/blue]上限。",
+  "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_WATERBALL2.description": "替换[green]小水球[/green]。战斗开始时，获得[blue]3[/blue]层[blue]伶俐上限[/blue]。每消耗[blue]10伶俐[/blue]，获得[blue]1[/blue]层[blue]伶俐上限[/blue]。",
   
   "SLUGCAT_THE_SPIRE_II_RELIC_REDCAT_BOOK1.flavor": "笔记里的名字都被划掉了。",
   "SLUGCAT_THE_SPIRE_II_RELIC_REDCAT_BOOK1.title": "猎手笔记",
@@ -43,7 +43,7 @@
 
   "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_CREAM.flavor": "“我给红色的猫洗澡时被它抓了，但蓝色的就很听话！”",
   "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_CREAM.title": "沐浴露",
-  "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_CREAM.description": "当你获得[gold]水蚀[/gold]时，随机消除一个你的其它负面效果。",
+  "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_CREAM.description": "当你获得[gold]水蚀[/gold]时，随机消除一个你的其它可计数的[gold]负面效果[/gold]。",
 
   "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_LIGHTROW.flavor": "你问为什么拿了避雷针反而不会被雷劈？嗯……",
   "SLUGCAT_THE_SPIRE_II_RELIC_RIVER_LIGHTROW.title": "避雷针",
@@ -84,7 +84,10 @@
   "SLUGCAT_THE_SPIRE_II_RELIC_MOONROCK.description": "拾起时，失去30%最大生命值。在每回合开始时，获得{Energy:energyIcons(1)}。",
   "SLUGCAT_THE_SPIRE_II_RELIC_MOONROCK.flavor": "你为两个你不了解的神一样的实体带来了和平。",
   "SLUGCAT_THE_SPIRE_II_RELIC_MOONROCK.title": "月亮石",
-  "SLUGCAT_THE_SPIRE_II_RELIC_ANTHEM.description": "拾起时，获得150[gold]金币[/gold]，然后翻倍你的[gold]金币[/gold]。",
+  "SLUGCAT_THE_SPIRE_II_RELIC_ANTHEM.description": "拾起时，获得{Gold:diff()}[gold]金币[/gold]，然后翻倍你的[gold]金币[/gold]。",
   "SLUGCAT_THE_SPIRE_II_RELIC_ANTHEM.flavor": "坠落的人偶在历史的旋律中寻求慰藉。",
-  "SLUGCAT_THE_SPIRE_II_RELIC_ANTHEM.title": "赞美诗"
+  "SLUGCAT_THE_SPIRE_II_RELIC_ANTHEM.title": "赞美诗",
+  "SLUGCAT_THE_SPIRE_II_RELIC_WORKLEVELREPAIR.description": "用于处理业力系统和一些功能性模组兼容性问题的遗物，如果失去此遗物可能导致兼容性问题，等等，你从哪看到的这个？",
+  "SLUGCAT_THE_SPIRE_II_RELIC_WORKLEVELREPAIR.flavor": "用于处理业力系统和一些功能性模组兼容性问题的遗物，如果失去此遗物可能导致兼容性问题，等等，你从哪看到的这个？",
+  "SLUGCAT_THE_SPIRE_II_RELIC_WORKLEVELREPAIR.title": "业力修复"
 }

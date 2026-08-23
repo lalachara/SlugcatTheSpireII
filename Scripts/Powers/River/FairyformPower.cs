@@ -1,5 +1,6 @@
 ﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -27,6 +28,7 @@ public sealed class FairyformPower : ModPowerTemplate
         IconPath: $"res://Resource/Powers/River/{GetType().Name}128.png",
         BigIconPath: $"res://Resource/Powers/River/{GetType().Name}128.png"
     );
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<BufferPower>()  };
 
     public override PowerType Type => PowerType.Buff;
 

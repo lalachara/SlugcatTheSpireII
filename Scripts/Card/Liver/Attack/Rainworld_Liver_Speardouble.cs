@@ -33,6 +33,8 @@ public class Rainworld_Liver_Speardouble : LiverCardModel
 
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<ChuangPower>() };
 
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[]
+        { RainworldKeywords.Spear};
 
     //public override IEnumerable<CardKeyword> CanonicalKeywords => new []{CardKeyword.Exhaust};
 
@@ -55,16 +57,11 @@ public class Rainworld_Liver_Speardouble : LiverCardModel
             .Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this,cardPlay)
             .Targeting(cardPlay.Target)
+            .WithHitCount(2)
             .WithHitFx(sfx:"event:/Rainworld/sfx/spear")
             .Execute(choiceContext);
         await PowerCmd.Apply<ChuangPower>(choiceContext, cardPlay.Target, DynamicVars["Chuang"].BaseValue,
             Owner.Creature, this);
-        await DamageCmd
-            .Attack(DynamicVars.Damage.BaseValue)
-            .FromCard(this,cardPlay)
-            .Targeting(cardPlay.Target)
-            .WithHitFx(sfx:"event:/Rainworld/sfx/spear")
-            .Execute(choiceContext);
         await PowerCmd.Apply<ChuangPower>(choiceContext, cardPlay.Target, DynamicVars["Chuang"].BaseValue,
             Owner.Creature, this);
 

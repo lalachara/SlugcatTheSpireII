@@ -46,7 +46,13 @@ public sealed class TiredPower : ModPowerTemplate
          Flash();
          if (Owner.Player?.Character is Slugcat)
          {
-             SlugcatData.addworklevel(Owner.Player, -Amount);
+             await SlugcatData.addworklevel(Owner.Player, -Amount);
+         }
+         else
+         {
+             await DamageCmd.Attack(9999)
+                 .Targeting(Owner)
+                 .Execute(choiceContext);
          }
      }
      await PowerCmd.Remove(this);

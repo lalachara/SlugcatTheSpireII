@@ -12,6 +12,7 @@ using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Logging;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.RelicPools;
 using MegaCrit.Sts2.Core.Models.Relics;
 using Rainworld.Scripts;
@@ -42,27 +43,30 @@ public sealed class Redcat_Yoyo : ModRelicTemplate
 	}
 
 	
-
-	public override (PileType, CardPilePosition) ModifyCardPlayResultPileTypeAndPosition(
+	public override CardLocation ModifyCardPlayResultLocation(
 		CardModel card,
 		bool isAutoPlay,
 		ResourceInfo resources,
-		PileType pileType,
-		CardPilePosition position)
+		CardLocation location)
 	{
-		if (card.Owner.Creature != Owner.Creature || _hasPlayedFirstCardThisTurn||card.Type==CardType.Status||card.Type==CardType.Curse)
-			return (pileType, position);
+		if (card.Owner.Creature != Owner.Creature || _hasPlayedFirstCardThisTurn || !(card.Type == CardType.Skill || card.Type == CardType.Attack) || card.Keywords.Contains(CardKeyword.Exhaust))
+			return location;
 
-		_hasPlayedFirstCardThisTurn = true;
-		Tools.BackToHandAciton(Owner,card);
-		return pileType != PileType.Discard ? (pileType, position) : (PileType.Hand, CardPilePosition.Top);
+
+		if (location.pileType == PileType.Discard)
+		{
+			location.pileType = PileType.Hand;
+			location.position = CardPilePosition.Top;
+		}
+		return location;
 	}
 
-	public override async Task AfterModifyingCardPlayResultPileOrPosition(
+	public override async Task AfterModifyingCardPlayResultLocation(
 		CardModel card,
-		PileType pileType,
-		CardPilePosition position)
+		CardLocation location)
 	{
+		_hasPlayedFirstCardThisTurn = true;
+		await Tools.BackToHandAciton(Owner, card);
 		if (card.Owner.Creature != Owner.Creature)
 			return;
 		Flash();

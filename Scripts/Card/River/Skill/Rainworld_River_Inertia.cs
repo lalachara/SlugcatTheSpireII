@@ -19,10 +19,10 @@ public class Rainworld_River_Inertia : RiverCardModel
     private const bool shouldShowInCardLibrary = true;
 
     public override bool GainsBlock => true;
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<AdroitPower>() };
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<AdroitPower>() ,HoverTipFactory.FromPower<AdroitcapPower>() };
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(12m, ValueProp.Move)
+        new BlockVar(11m, ValueProp.Move)
     ];
 
     public Rainworld_River_Inertia() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -32,14 +32,14 @@ public class Rainworld_River_Inertia : RiverCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
-        if (Owner.Creature.HasPower<AdroitPower>() && Owner.Creature.GetPower<AdroitPower>()!.retainAmount > 0)
-            await PowerCmd.Apply<AdroitPower>(choiceContext, Owner.Creature, 1, Owner.Creature, this);
+        if (Owner.Creature.HasPower<AdroitPower>())
+            await PowerCmd.Apply<AdroitcapPower>(choiceContext, Owner.Creature, 1, Owner.Creature, this);
     }
 
     protected override void OnUpgrade()
     {
         EnergyCost.UpgradeBy(-1);
 
-        DynamicVars.Block.UpgradeValueBy(-2m);
+        DynamicVars.Block.UpgradeValueBy(-3m);
     }
 }

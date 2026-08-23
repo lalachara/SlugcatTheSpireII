@@ -34,7 +34,7 @@ public class Rainworld_Liver_Tread : LiverCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(16m, ValueProp.Move),
+        new DamageVar(13m, ValueProp.Move),
         new EnergyVar(1)
     ];
 

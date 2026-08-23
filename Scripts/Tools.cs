@@ -1,5 +1,7 @@
 ﻿﻿﻿﻿using System.Collections;
-using MegaCrit.Sts2.Core.Combat;
+   using Godot;
+   using MegaCrit.Sts2.Core.Assets;
+   using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -10,6 +12,8 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Nodes.Rooms;
+using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.ValueProps;
 using Rainworld.Resource.Card;
 using Rainworld.Scripts;
@@ -22,7 +26,32 @@ namespace Rainworld.Scripts;
 
 public static class Tools
 {
-    public static async void  getrandomSpear(Boolean upgraded,Player player)
+    public static void ChangeEventImg(string img)
+    {
+        var eventRoom = NEventRoom.Instance;
+        if (eventRoom?.Layout == null)
+        {
+            return;
+        }
+
+        eventRoom.SetPortrait(PreloadManager.Cache.GetTexture2D(img));
+    }
+
+    internal static readonly HashSet<System.Type> HpRelics = new()
+    {
+        typeof(CorrodePower),
+        typeof(PoisonPower),
+        typeof(DoomPower),
+        typeof(ChuangPower),
+        typeof(WeakPower),
+        typeof(FrailPower),
+        typeof(VulnerablePower),
+        typeof(ShacklingPotionPower),
+        
+
+
+    };
+    public static async Task  getrandomSpear(Boolean upgraded,Player player)
     {
         
         
@@ -60,6 +89,9 @@ public static class Tools
 
     public static async Task WorkReport(Player player)
     {
+        var roomType = player.RunState.CurrentRoom!.RoomType;
+        if (roomType != RoomType.Boss && roomType != RoomType.Monster && roomType != RoomType.Elite)
+            return;
         if (player.Creature.HasPower<ExcitePower>())
         {
             await CreatureCmd.Damage( new ThrowingPlayerChoiceContext(),  ((IEnumerable<Creature>) player.Creature.GetPower<ExcitePower>().CombatState.HittableEnemies), player.Creature.GetPower<ExcitePower>().Amount, ValueProp.Unpowered, player.Creature);
@@ -67,7 +99,7 @@ public static class Tools
 
         if (player.Creature.HasPower<TwistPower>())
         {
-            await CardPileCmd.Draw(new BlockingPlayerChoiceContext(), player.Creature.GetPowerAmount<TwistPower>(),player);
+            await CardPileCmd.Draw(new ThrowingPlayerChoiceContext(), player.Creature.GetPowerAmount<TwistPower>(),player);
         }
         // 在 WorkReport 方法中，Eatblood 那行后面加上：
         foreach (var card in player.Deck.Cards)
@@ -76,7 +108,7 @@ public static class Tools
                 eatblood.AddMisc(eatblood.IsUpgraded ? 3 : 2);
 
         }
-        foreach (CardModel card in player.PlayerCombatState.AllCards)
+        foreach (CardModel card in player.PlayerCombatState!.AllCards)
         {
             if (card is Rainworld_Redcat_Eatblood eatblood)
                 eatblood.AddMisc(eatblood.IsUpgraded ? 3 : 2);
@@ -102,11 +134,29 @@ public static class Tools
             card.DynamicVars.Damage.UpgradeValueBy(player.Creature.GetPowerAmount<StudyPower>());
             card.GiveSingleTurnRetain();
         }
+        
+        var catlostCards = player.PlayerCombatState!.DrawPile.Cards
+            .Concat(player.PlayerCombatState.DiscardPile.Cards)
+            .OfType<Rainworld_Redcat_Catlost>().ToList();
+        if (card is not Rainworld_Redcat_Catlost)
+        {
+            foreach (var catlost in catlostCards)
+            {
+                if (!player.PlayerCombatState.Hand.Cards.Contains(catlost))
+                {
+                    await BackToHand(player, catlost);
+                }
+            }
+        }
+        else
+        {
+            card.DynamicVars["Special"].UpgradeValueBy(1m);
+        }
     }
 
-    public static async void Yinlei(CardPlay cardPlay,PlayerChoiceContext choiceContext)
+    public static async Task Yinlei(CardPlay cardPlay,PlayerChoiceContext choiceContext)
     {
-       
+            choiceContext = new ThrowingPlayerChoiceContext();
             var card = cardPlay.Card;
             var cardTargetType = card.TargetType;
 
@@ -118,14 +168,16 @@ public static class Tools
                     targets = new[] { card.Owner.Creature };
                     break;
                 case TargetType.AllEnemies:
-                    targets = card.CombatState.GetOpponentsOf(card.Owner.Creature).Where(e => e.IsHittable);
+                    targets = card.CombatState?.GetOpponentsOf(card.Owner.Creature).Where(e => e.IsHittable);
                     break;
                 default:
                     targets = cardPlay.Target != null ? new[] { cardPlay.Target } : Array.Empty<Creature>();
                     break;
             }
+            if(targets.Count()==0)
+                return;
 
-            var lightRowPlayers = card.CombatState.Players
+            var lightRowPlayers = card.CombatState?.Players
                 .Where(p => p.GetRelic<River_Lightrow>() != null)
                 .ToList();
 
@@ -163,7 +215,6 @@ public static class Tools
                         await CreatureCmd.Damage(choiceContext, lightRowCorrodeTargets, 0m, ValueProp.Unpowered, card.Owner.Creature);
                 }
             }
-
             foreach (var player in lightRowPlayers)
                 await PowerCmd.Apply<VigorPower>(choiceContext, player.Creature, 8, player.Creature, null);
     }

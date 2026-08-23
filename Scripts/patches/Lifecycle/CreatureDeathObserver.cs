@@ -1,4 +1,10 @@
-﻿using STS2RitsuLib;
+﻿using Godot;
+using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Creatures;
+using Rainworld.relics;
+using Rainworld.Scripts.Powers;
+using STS2RitsuLib;
+using STS2RitsuLib.RunData;
 
 namespace Rainworld.Scripts;
 
@@ -8,16 +14,14 @@ public sealed class CreatureDeathObserver : ILifecycleObserver
     {
         if (evt is CreatureDyingEvent dying)
         {
-            Entry.Logger.Info($"生物即将死亡：{dying.Creature.Name}");
-            // 濒死逻辑
-        }
-        else if (evt is CreatureDiedEvent died)
-        {
-            if (!died.WasRemovalPrevented)
+            if (dying.Creature.IsPlayer && dying.Creature.Player!.Character is Slugcat && dying.Creature.HasPower<RedmushroomPower>() &&SlugcatData.canbekill(dying.Creature.Player))
             {
-                Entry.Logger.Info($"生物已死亡：{died.Creature.Name}");
-                // 死亡逻辑
+                SlugcatData.setworklevel(dying.Creature.Player,0);
             }
+            
         }
+
     }
+    
+    
 }

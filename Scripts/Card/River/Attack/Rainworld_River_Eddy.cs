@@ -34,18 +34,19 @@ public class Rainworld_River_Eddy : RiverCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         var times = ResolveEnergyXValue();
+
         for (var i = 0; i < times; i++)
-            foreach (var enemy in CombatState.HittableEnemies)
-            {
-                await DamageCmd
-                    .Attack(DynamicVars.Damage.BaseValue)
-                    .FromCard(this,cardPlay)
-                    .Targeting(enemy)
-                    .WithHitFx("vfx/vfx_attack_slash")
-                    .Execute(choiceContext);
-                await PowerCmd.Apply<CorrodePower>(choiceContext, enemy, DynamicVars["Special"].BaseValue,
-                    Owner.Creature, this);
-            }
+        {
+            await DamageCmd
+                .Attack(DynamicVars.Damage.BaseValue + i)
+                .FromCard(this, cardPlay)
+                .TargetingAllOpponents(CombatState)
+                .WithHitFx("vfx/vfx_attack_slash")
+                .Execute(choiceContext);
+            await PowerCmd.Apply<CorrodePower>(choiceContext, CombatState.HittableEnemies,
+                DynamicVars["Special"].BaseValue + i,
+                Owner.Creature, this);
+        }
     }
 
     protected override void OnUpgrade()

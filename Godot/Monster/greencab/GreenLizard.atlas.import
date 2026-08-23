@@ -1,0 +1,16 @@
+[remap]
+
+importer="spine.atlas"
+type="SpineAtlasResource"
+uid="uid://bexp10qr4pjrv"
+path="res://.godot/imported/GreenLizard.atlas-b7c110279178074a07bdb60b39dd2d2f.spatlas"
+
+[deps]
+
+source_file="res://Godot/Monster/greencab/GreenLizard.atlas"
+dest_files=["res://.godot/imported/GreenLizard.atlas-b7c110279178074a07bdb60b39dd2d2f.spatlas"]
+
+[params]
+
+normal_map_prefix="n"
+specular_map_prefix="s"

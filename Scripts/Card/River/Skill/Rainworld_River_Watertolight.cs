@@ -44,7 +44,7 @@ public class Rainworld_River_Watertolight : RiverCardModel
         var lightningCount = corrodeAmount / threshold;
         for (int i = 0; i < lightningCount; i++)
         {
-            Tools.Yinlei(cardPlay, choiceContext);
+            await Tools.Yinlei(cardPlay, choiceContext);
         }
     }
 

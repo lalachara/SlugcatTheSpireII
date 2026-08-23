@@ -32,7 +32,11 @@ public sealed class CreatesongPower : ModPowerTemplate
     IconPath: "res://Resource/Powers/RedCat/CreateSong128.png",
     BigIconPath: "res://Resource/Powers/RedCat/CreateSong128.png"
   );
-  
+  protected override IEnumerable<DynamicVar> CanonicalVars =>
+  [
+      new EnergyVar(1)
+  ];
+
   public override PowerType Type => PowerType.Buff;
 
   public override PowerStackType StackType => PowerStackType.Counter;

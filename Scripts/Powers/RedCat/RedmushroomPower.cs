@@ -59,7 +59,7 @@ public sealed class RedmushroomPower : ModPowerTemplate
     {
       creatureNode?.SetAnimationTrigger("Corrupt");
       // 进入假死/睡眠时
-      if(Owner.Player.Character is Slugcat slugcat)
+      if(Owner.Player?.Character is Slugcat slugcat)
           slugcat.SuppressHurtAnim = true;
       await PowerCmd.Apply<MushblockPower>(new BlockingPlayerChoiceContext(),Owner,10,Owner,null);
       if (LocalContext.IsMe(Owner))
@@ -68,20 +68,15 @@ public sealed class RedmushroomPower : ModPowerTemplate
 
     }
   }
-
-  public override async Task AfterCardExhausted(PlayerChoiceContext choiceContext, CardModel card, bool causedByEthereal)
-  {
-    if(Owner==card.Owner.Creature)
-      await PowerCmd.Apply<MushblockPower>(choiceContext,Owner,2,Owner,null);
-    await base.AfterCardExhausted(choiceContext, card, causedByEthereal);
-  }
+  
 
   public override async Task AfterRemoved(Creature oldOwner)
   {
     NCreature? creatureNode = NCombatRoom.Instance?.GetCreatureNode(Owner.Player?.Creature!);
     if(!Owner.HasPower<FakedeathPower>())
     {
-      creatureNode?.SetAnimationTrigger("Idle");
+      if(!Owner.IsDead)
+        creatureNode?.SetAnimationTrigger("Idle");
       if (!Owner.HasPower<InveteracyPower>())
       {
         if(Owner.HasPower<MushblockPower>())
@@ -90,8 +85,10 @@ public sealed class RedmushroomPower : ModPowerTemplate
         await PowerCmd.Remove<CorruptStrengthPower>(Owner);
       }
 
-      if(Owner.Player.Character is Slugcat slugcat)
+      if(Owner.Player?.Character is Slugcat slugcat)
           slugcat.SuppressHurtAnim = false;
+      
+
     }
   }
 }

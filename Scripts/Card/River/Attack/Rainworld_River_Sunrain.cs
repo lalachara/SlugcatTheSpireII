@@ -19,7 +19,7 @@ public class Rainworld_River_Sunrain : RiverCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(3m, ValueProp.Move),
+        new DamageVar(2m, ValueProp.Move),
         new CardsVar(2),
         new EnergyVar(1)
     ];
@@ -30,12 +30,12 @@ public class Rainworld_River_Sunrain : RiverCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        for (var t = 0; t < 2; t++)
-            foreach (var enemy in CombatState.HittableEnemies)
+
                 await DamageCmd
                     .Attack(DynamicVars.Damage.BaseValue)
                     .FromCard(this, cardPlay)
-                    .Targeting(enemy)
+                    .TargetingAllOpponents(CombatState!)
+                    .WithHitCount(2)
                     .WithHitFx("vfx/vfx_attack_slash")
                     .Execute(choiceContext);
 

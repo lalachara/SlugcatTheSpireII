@@ -43,11 +43,11 @@ public class Rainworld_Liver_Quickjump : LiverCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);
-
+        
         var hand = PileType.Hand.GetPile(Owner);
 
         var items = hand.Cards
-            .Where((CardModel c) => c.Type == CardType.Attack && !c.Keywords.Contains(CardKeyword.Unplayable)).ToList();
+            .Where((CardModel c) =>!c.Keywords.Contains(CardKeyword.Unplayable)).ToList();
         var cardModel = Owner.RunState.Rng.Shuffle.NextItem(items);
         if (cardModel != null) await CardCmd.AutoPlay(choiceContext, cardModel, null);
     }

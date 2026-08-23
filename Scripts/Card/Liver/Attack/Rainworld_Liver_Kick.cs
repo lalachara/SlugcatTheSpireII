@@ -54,7 +54,7 @@ public class Rainworld_Liver_Kick : LiverCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new CalculationBaseVar(6m),
+        new CalculationBaseVar(8m),
         new ExtraDamageVar(1m),
         new CalculatedDamageVar(ValueProp.Move).WithMultiplier(CalculateDamageMultiplier)
     ];

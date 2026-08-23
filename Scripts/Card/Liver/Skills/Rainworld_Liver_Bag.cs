@@ -1,18 +1,51 @@
-﻿﻿﻿using MegaCrit.Sts2.Core.Commands;
+﻿﻿﻿using Godot;
+  using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.CardPools;
 using MegaCrit.Sts2.Core.ValueProps;
+using Rainworld.Resource.Card;
 using Rainworld.Scripts;
+using STS2RitsuLib.Interop.AutoRegistration;
+using STS2RitsuLib.Scaffolding.Content;
 using Void = MegaCrit.Sts2.Core.Models.Cards.Void;
 
 namespace Rainworld.Scripts.Card.Liver.Attack;
-
-public class Rainworld_Liver_Bag : LiverCardModel
+[RegisterCard(typeof(Rainworld_Future_CardPool), Inherit = true)]
+public class Rainworld_Liver_Bag : ModCardTemplate
 
 {
+
+
+        public override CardAssetProfile AssetProfile => new(
+            GetLocalizedCardImage(),
+            FramePath: Type switch
+            {
+                CardType.Attack => "res://Resource/Card/Liver/CardAtk1024.png",
+                CardType.Skill => "res://Resource/Card/Liver/CardSkill1024.png",
+                CardType.Power => "res://Resource/Card/Liver/CardPower1024.png",
+                _ => ""
+            }
+        );
+
+        private string GetLocalizedCardImage()
+        {
+            var cardName = GetType().Name.ToLowerInvariant()
+                .Replace("slugcat_the_spire_ii_card_", "");
+            var locale = TranslationServer.GetLocale(); // 如 "zh", "en"
+            string localizedPath = $"res://Resource/Card/Liver/{cardName}.png";
+            if (locale == "ko")
+            {
+                localizedPath = $"res://Resource/Card/diff/KR/{cardName}.png";
+            }
+    
+            return ResourceLoader.Exists(localizedPath) 
+                ? localizedPath 
+                : $"res://Resource/Card/Liver/{cardName}.png"; // 回退到默认
+        }
     // 基础耗能
     private const int energyCost = 0;
 

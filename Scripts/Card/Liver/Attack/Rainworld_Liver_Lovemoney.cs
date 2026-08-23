@@ -25,7 +25,7 @@ public class Rainworld_Liver_Lovemoney : LiverCardModel
     private const CardType type = CardType.Attack;
 
     // 卡牌稀有度
-    private const CardRarity rarity = CardRarity.Uncommon;
+    private const CardRarity rarity = CardRarity.Rare;
 
     // 目标类型（AnyEnemy表示任意敌人）
     private const TargetType targetType = TargetType.AnyEnemy;
@@ -52,7 +52,7 @@ public class Rainworld_Liver_Lovemoney : LiverCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new CalculationBaseVar(0m),
+        new CalculationBaseVar(6m),
         new ExtraDamageVar(2m),
         new GoldVar(10),
         new CalculatedDamageVar(ValueProp.Move).WithMultiplier(CalculateDamageMultiplier)

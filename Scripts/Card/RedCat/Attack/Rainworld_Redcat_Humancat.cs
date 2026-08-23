@@ -18,7 +18,7 @@ public class Rainworld_Redcat_Humancat : RedCatCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(5m, ValueProp.Move)
+        new DamageVar(11m, ValueProp.Move)
     ];
 
     public Rainworld_Redcat_Humancat() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -35,7 +35,7 @@ public class Rainworld_Redcat_Humancat : RedCatCardModel
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
         var debuffs = Owner.Creature.Powers
-            .Where(p => p.Type == PowerType.Debuff)
+            .Where(p => p.Type == PowerType.Debuff&&p.StackType==PowerStackType.Counter)
             .ToList();
         if (debuffs.Count > 0)
         {
@@ -54,6 +54,6 @@ public class Rainworld_Redcat_Humancat : RedCatCardModel
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(2m);
+        DynamicVars.Damage.UpgradeValueBy(3m);
     }
 }

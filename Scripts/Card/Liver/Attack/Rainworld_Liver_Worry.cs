@@ -52,7 +52,8 @@ public class Rainworld_Liver_Worry : LiverCardModel
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
-        if (Owner.Character is Slugcat) SlugcatData.addfood(Owner, (int)DynamicVars["Food"].BaseValue);
+        if (Owner.Character is Slugcat) 
+            await SlugcatData.addfood(Owner, (int)DynamicVars["Food"].BaseValue);
     }
 
     // 升级后的效果逻辑

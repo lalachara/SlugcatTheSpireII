@@ -103,9 +103,13 @@ public class Slugcatancient: ModAncientEventTemplate
         ];
     }
 
+    public override bool IsValidForAct(ActModel act)
+    {
+        return RunManager.Instance?.DebugOnlyGetState()?.Players?.Any(p => p.Character is Slugcat) ?? false;
+    }
+
     public override bool IsAllowed(IRunState runState)
     {
         return runState.Players.Any(p => p.Character is Slugcat);
     }
-
 }

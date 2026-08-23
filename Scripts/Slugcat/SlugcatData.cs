@@ -43,6 +43,7 @@ namespace Rainworld.Scripts
         public static void setchaosheng(Player player,bool  chaosheng)
         {
             SlugcatResources.Data.Modify(player, d => d.HaveChaoshengt = chaosheng);
+            SavetoRelic(player);
         }
 
         public static int GetFood(Player player)
@@ -70,13 +71,14 @@ namespace Rainworld.Scripts
                 return;
         }
 
+      
+
         public static void Initialize(Player player)
         {
             try
             {
                 if (player?.Creature == null || player.Character is not Slugcat slugcat)
                 {
-                    GD.Print("Player或Creature不是Slugcat");
                     return;
                 }
 
@@ -84,7 +86,6 @@ namespace Rainworld.Scripts
 
                 if (!data.IsInitialized)
                 {
-                    GD.Print($"首次初始化 {player}，hash={player.GetHashCode()}，从角色类读取初始值");
                     SlugcatResources.Data.Modify(player, d =>
                     {
                         d.WorkLevel = slugcat.workLevel;
@@ -95,21 +96,17 @@ namespace Rainworld.Scripts
                         d.IsInitialized = true;
                     });
                 }
-
-                var finalData = SlugcatResources.Data.Get(player);
-                GD.Print($"初始化完成{player}，hash={player.GetHashCode()}，" +
-                    $"workLevel={finalData.WorkLevel}，food={finalData.Food}，" +
-                    $"maxWorkLevel={finalData.MaxWorkLevel}，maxFood={finalData.MaxFood}，" +
-                    $"sleepFood={finalData.SleepFood}");
+                
             }
             catch (Exception e)
             {
-                GD.PrintErr("SlugCatDataInitialize报错" + e);
             }
         }
 
         public static bool canbekill(Player player)
         {
+            if(player.GetRelic<Redmushroom>()!=null)
+                return true;
             if (player.Creature.HasPower<WorklockPower>())
                 return false;
             if(player.Creature.HasPower<RedmushroomPower>()&&!player.Creature.HasPower<RefusePower>())
@@ -119,7 +116,6 @@ namespace Rainworld.Scripts
 
         public static async Task addfood(Player player, int amount)
         {
-            GD.Print($"添加食物{amount}，hash={player.GetHashCode()}");
             var data = SlugcatResources.Data.Get(player);
             int currentFood = data.Food;
             int newFood = currentFood + amount;
@@ -138,12 +134,14 @@ namespace Rainworld.Scripts
             if (newFood != currentFood)
             {
                 SlugcatResources.Data.Modify(player, d => d.Food = newFood);
-                GD.Print($"存储food{newFood}");
                 CombatUiPatch.Setfood(newFood,player);
             }
+            
+            SavetoRelic(player);
+
         }
 
-        public static void addMaxWorkLevel(Player player, int amount)
+        public static async Task addMaxWorkLevel(Player player, int amount)
         {
             var data = SlugcatResources.Data.Get(player);
             int temp = data.MaxWorkLevel + amount;
@@ -152,7 +150,16 @@ namespace Rainworld.Scripts
             temp = Math.Max(temp, 0);
             SlugcatResources.Data.Modify(player, d => d.MaxWorkLevel = temp);
             if (data.WorkLevel > temp)
-                setworklevel(player, temp);
+              await  setworklevel(player, temp);
+            SavetoRelic(player);
+        }
+
+        public static void SavetoRelic(Player player)
+        {
+            if (player.GetRelic<Worklevelrepair>() != null)
+            {
+                player.GetRelic<Worklevelrepair>()!.LoadData();
+            }
         }
 
         public async static Task reLive(Player player)
@@ -170,8 +177,8 @@ namespace Rainworld.Scripts
             }
 
             else
-                addworklevel(player, -1);
-            Tools.WorkReport(player);
+                await addworklevel(player, -1);
+            await Tools.WorkReport(player);
             //
         }
 
@@ -190,7 +197,7 @@ namespace Rainworld.Scripts
             await setworklevel(player, result);
         }
 
-        public async static Task setworklevel(Player player, int level, Boolean show = true)
+        public static async Task setworklevel(Player player, int level, Boolean show = true)
         {
             if(player.GetRelic<Redmushroom>()!=null)
                 return;
@@ -209,6 +216,7 @@ namespace Rainworld.Scripts
             }
             SlugcatResources.Data.Modify(player, d => d.WorkLevel = level);
             CombatUiPatch.SetWorklevel(level, player);
+            SavetoRelic(player);
 
         }
 
@@ -274,18 +282,13 @@ namespace Rainworld.Scripts
                 {
                      await PowerCmd.Apply<RedmushroomPower>(new ThrowingPlayerChoiceContext(), player.Creature, 1, player.Creature, null);
                      
-                     GD.Print($"执行菌化{value}");
                 }
-                else
-                {
-                    GD.Print($"执行菌化失败，已有菌化{value}");
-                }
+               
+                
 
                
-                GD.Print($"GD增加腐化值{value}");
             }
 
-            Log.Debug($"腐化值set{value}");
 
             //退出菌化
             if (value == 0)
@@ -310,7 +313,7 @@ namespace Rainworld.Scripts
         }
         public async static Task addCorruptValue(Player player, int amount)
         {
-            if(player.Creature.HasPower<RestrainPower>())
+            if(player.Creature.HasPower<RestrainPower>()&&amount>0)
                 amount=0;
             if(player.Creature.HasPower<TwistformPower>()&&amount>0)
             {
@@ -321,7 +324,7 @@ namespace Rainworld.Scripts
             await setCorruptValue(player, getCorruptValue(player) + amount);
         }
         
-        public static async void sleep(Player player)
+        public static void sleep(Player player)
         {
             
             RunManager.Instance.ActionQueueSynchronizer.RequestEnqueue(

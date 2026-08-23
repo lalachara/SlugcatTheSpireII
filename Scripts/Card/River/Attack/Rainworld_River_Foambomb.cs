@@ -31,17 +31,15 @@ public class Rainworld_River_Foambomb : RiverCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         var times = (int)DynamicVars["Special"].BaseValue;
-        var enemies = CombatState.HittableEnemies;
-        for (var i = 0; i < times; i++)
-        {
-            var target = enemies[Owner.RunState.Rng.CombatCardGeneration.NextInt(0, enemies.Count)];
+
             await DamageCmd
                 .Attack(DynamicVars.Damage.BaseValue)
                 .FromCard(this,cardPlay)
                 .TargetingRandomOpponents(CombatState)
+                .WithHitCount(times)
                 .WithHitFx("vfx/vfx_attack_slash")
                 .Execute(choiceContext);
-        }
+        
     }
 
     protected override void OnUpgrade()

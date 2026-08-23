@@ -50,9 +50,20 @@ public class Rainworld_Liver_Fullback : LiverCardModel
         {
             if (!player.Creature.IsAlive)
                 continue;
-            await CardPileCmd.AddGeneratedCardToCombat(
-                CombatState.CreateCard<Rainworld_Liver_Fruit>(player),
-                PileType.Hand, player);
+            var random = Owner.RunState.Rng.CombatCardGeneration.NextInt(0, 9);
+            if (random == 0)
+            {
+                await CardPileCmd.AddGeneratedCardToCombat(
+                    CombatState.CreateCard<Rainworld_Liver_Fruit2>(player),
+                    PileType.Hand, player);
+            }
+            else
+            {
+                await CardPileCmd.AddGeneratedCardToCombat(
+                    CombatState.CreateCard<Rainworld_Liver_Fruit>(player),
+                    PileType.Hand, player);
+            }
+            
         }
     }
 

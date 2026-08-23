@@ -29,13 +29,26 @@ public sealed class KeepPower : ModPowerTemplate
     );
 
     public override PowerType Type => PowerType.Buff;
+    public bool first = true;
+    protected override IEnumerable<DynamicVar> CanonicalVars =>
+    [
+        new EnergyVar(1)
+    ];
+
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
     public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        if (cardPlay.Card.Owner == base.Owner.Player && Amount > 0)
+        
+        if (cardPlay.Card.Owner == base.Owner.Player && Amount > 0 )
         {
+            if (first)
+            {
+                first = false;
+                return;
+            }
+            
             Flash();
             await PlayerCmd.GainEnergy(1, base.Owner.Player);
             await PowerCmd.Apply<NimblePower>(choiceContext, base.Owner, 2, base.Owner, null);

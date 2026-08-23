@@ -10,7 +10,7 @@ namespace Rainworld.Scripts.Card.River.Powers;
 
 public class Rainworld_River_Donttry : RiverCardModel
 {
-    private const int energyCost = 1;
+    private const int energyCost = 2;
     private const CardType type = CardType.Power;
     private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.Self;

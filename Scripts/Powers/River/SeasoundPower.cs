@@ -1,5 +1,6 @@
 ﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
+using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -33,6 +34,9 @@ public sealed class SeasoundPower : ModPowerTemplate
 
     private int storedAmount = 0;
 
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<AdroitPower>() ,HoverTipFactory.FromPower<AdroitcapPower>() };
+
+
     public override async Task AfterApplied(Creature? applier, CardModel? cardSource)
     {
         if (Owner.HasPower<CorrodePower>())
@@ -51,7 +55,7 @@ public sealed class SeasoundPower : ModPowerTemplate
             if (storedAmount >= 10)
             {
                 storedAmount = 0;
-                await PowerCmd.Apply<AdroitPower>(choiceContext, Owner, 1, Owner, null);
+                await PowerCmd.Apply<AdroitcapPower>(choiceContext, Owner, 1, Owner, null);
             }
         }
     }

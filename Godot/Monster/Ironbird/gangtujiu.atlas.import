@@ -1,0 +1,16 @@
+[remap]
+
+importer="spine.atlas"
+type="SpineAtlasResource"
+uid="uid://dt1dx1frs11uc"
+path="res://.godot/imported/gangtujiu.atlas-34183ee481d44b45fe5a7043bda56e96.spatlas"
+
+[deps]
+
+source_file="res://Godot/Monster/Ironbird/gangtujiu.atlas"
+dest_files=["res://.godot/imported/gangtujiu.atlas-34183ee481d44b45fe5a7043bda56e96.spatlas"]
+
+[params]
+
+normal_map_prefix="n"
+specular_map_prefix="s"

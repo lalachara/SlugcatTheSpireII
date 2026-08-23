@@ -1,6 +1,9 @@
 ﻿﻿﻿using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
+using MegaCrit.Sts2.Core.Multiplayer.Game;
+using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.Runs.History;
 using Rainworld.relics;
 using Rainworld.Scripts;
@@ -49,7 +52,7 @@ public sealed class MaxhpFixPatch : IPatchMethod
         }
         else
         {
-            SlugcatData.addfood(creature.Player, (int)amount);
+            await SlugcatData.addfood(creature.Player, (int)amount);
             
         }
 
@@ -78,9 +81,31 @@ public sealed class LoseMaxHpPatch : IPatchMethod
     {
         if (creature.Player?.Character is Slugcat)
         {
-            amount = 1;
+            if (IsCombatCantLossMaxHp(creature.Player) && creature.CombatState != null)
+                amount = 0;
+            else
+            {
+                amount = 1;
+            }
         }
 
         return true;
+    }
+
+    private static bool IsCombatCantLossMaxHp(Player player)
+    {
+        bool isMultiplayer = RunManager.Instance?.NetService?.Type.IsMultiplayer() ?? false;
+        if (isMultiplayer && player.RunState is RunState rs)
+        {
+            try
+            {
+                return SlugcatResources.RelicFilterData.Get(rs).EnableCombatCantLossMaxHp;
+            }
+            catch (System.Exception ex)
+            {
+                Entry.Logger.Warn($"[生命值修复] 读取局内保存数据失败: {ex.Message}");
+            }
+        }
+        return RainworldModConfig.EnableCombatCantLossMaxHp;
     }
 }

@@ -26,8 +26,8 @@ using System.Threading.Tasks;
 public sealed class QuickercatPower : ModPowerTemplate
 {
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: "res://Resource/Powers/Quicker128.png",
-        BigIconPath: "res://Resource/Powers/Quicker128.png"
+        IconPath: "res://Resource/Powers/Quick128.png",
+        BigIconPath: "res://Resource/Powers/Quick128.png"
     );
 
     public override PowerType Type => PowerType.Buff;
