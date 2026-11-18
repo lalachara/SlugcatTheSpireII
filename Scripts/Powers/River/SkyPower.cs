@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Powers;
+using Rainworld.Scripts.Card.River.Powers;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -37,7 +38,7 @@ public sealed class SkyPower : ModPowerTemplate
     public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         if (cardPlay.Card.Owner == Owner.Player
-            && cardPlay.Card.Type == CardType.Power)
+            && cardPlay.Card.Type == CardType.Power &&cardPlay.Card is not Rainworld_River_Sky)
         {
             await PlayerCmd.GainEnergy((int)Amount, Owner.Player);
             await PowerCmd.Apply<AdroitcapPower>(choiceContext, Owner, Amount, Owner, null);

@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.ValueProps;
+using Rainworld.Scripts;
 using Rainworld.Scripts.Powers;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -29,7 +30,8 @@ public class Rainworld_Liver_Pearl : LiverCardModel
     // 是否在卡牌图鉴中显示
     private const bool shouldShowInCardLibrary = true;
 
-    protected override HashSet<CardTag> CanonicalTags => new() { };
+    // 不可被生成类效果抽到：这张牌不能打出，只有从卡组移除时才换金币。
+    protected override HashSet<CardTag> CanonicalTags => new() { RainworldCardTags.CantGenerate };
     public override CardAssetProfile AssetProfile => new(
         GetLocalizedCardImage(),
         FramePath: Type switch

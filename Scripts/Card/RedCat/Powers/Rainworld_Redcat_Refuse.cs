@@ -48,7 +48,7 @@ public class Rainworld_Redcat_Refuse : RedCatCardModel
             ? localizedPath 
             : $"res://Resource/Card/RedCat/{cardName}.png"; // 回退到默认
     }
-    protected override HashSet<CardTag> CanonicalTags => new() { };
+    protected override HashSet<CardTag> CanonicalTags => new() { RainworldCardTags.CantGenerate };
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] {HoverTipFactory.FromPower<RedmushroomPower>(), HoverTipFactory.FromPower<MushblockPower>(),
         HoverTipFactory.FromKeyword(RainworldKeywords.Worklevel) };
 

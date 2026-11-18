@@ -102,7 +102,7 @@ public class Firecent : ModMonsterTemplate
                     .FromMonster(this)
                     .WithAttackerAnim("Attack2", 0.2f) // 如果有攻击动画，可以取消注释并替换成实际动画名称和延迟
                     .WithAttackerFx(null, AttackSfx)
-                    .WithHitFx("vfx/vfx_attack_blunt")
+                    .WithHitFx("vfx/vfx_bite")
                     .WithHitCount(2)
                     .Execute(null);
             },

@@ -44,8 +44,9 @@ public class Rainworld_Liver_Strangebomb : LiverCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         foreach (var hittableEnemy in CombatState.HittableEnemies)
+            // 生命流失要记来源（玩家），否则「当你造成生命流失」类能力（思考、识破、自然能量、幻象计数）都不会响应
             await CreatureCmd.Damage(choiceContext, hittableEnemy, DynamicVars.HpLoss.BaseValue,
-                ValueProp.Unblockable | ValueProp.Unpowered , this,cardPlay);
+                ValueProp.Unblockable | ValueProp.Unpowered, Owner.Creature, this, cardPlay);
         SfxCmd.Play("event:/Rainworld/sfx/pointbomb");
 
         PlayerCmd.EndTurn(Owner, false);

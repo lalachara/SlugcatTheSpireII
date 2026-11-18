@@ -76,6 +76,10 @@ public partial class WorkLevelIndicator : NButton
 
 	protected override void OnFocus()
 	{
+		// 先给默认值：HoverTip(title, description) 会直接读 description.LocTable，
+		// 传 null 会抛 NullReferenceException 并中断整个 OnFocus（连业力提示都不会显示）。
+		// 未单独列出的蛞蝓猫统一用通用食物说明兜底。
+		fooddes = new LocString("settings_ui", "RAINWORLD-Food_description");
 		if (CombatUiPatch.creature != null && CombatUiPatch.creature.Player?.Character is Slugcat slugcat)
 		{
 			if(slugcat is Rainworld_Liver)
@@ -87,6 +91,10 @@ public partial class WorkLevelIndicator : NButton
 			else if(slugcat is Rainworld_River)
 			{
 				fooddes = new LocString("settings_ui", "RAINWORLD-Food_River_description");
+			}
+			else if(slugcat is Rainworld_Monk)
+			{
+				fooddes = new LocString("settings_ui", "RAINWORLD-Food_Monk_description");
 			}
 		}
 		FoodHoverTip =  new HoverTip(foodtitle,fooddes);

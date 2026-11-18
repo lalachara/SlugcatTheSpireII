@@ -1,4 +1,4 @@
-﻿﻿using Godot;
+using Godot;
  using HarmonyLib;
  using MegaCrit.Sts2.Core.Commands.Builders;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -48,6 +48,7 @@ public sealed class ChuangPower : ModPowerTemplate
       for(int i=0;i<hitCount;i++)
       {
         await CreatureCmd.Damage(new ThrowingPlayerChoiceContext(), base.Owner, base.Amount,  ValueProp.Unpowered, null, null);
+        VfxCmd.PlayOnCreature(base.Owner, "vfx/vfx_bite");
       }
       active = true;
       if (getfireblood() && Owner.Side!=CombatSide.Player)
@@ -65,6 +66,7 @@ public sealed class ChuangPower : ModPowerTemplate
   //   if (dealer != null && (dealer == base.Owner || dealer.PetOwner?.Creature == base.Owner) )
   //   {
   //     await CreatureCmd.Damage(new ThrowingPlayerChoiceContext(), base.Owner, base.Amount,  ValueProp.Unpowered, null, null);
+          //VfxCmd.PlayOnCreature(base.Owner, "vfx/vfx_bite");
   //     active = true;
   //     if (getfireblood() && Owner.Side!=CombatSide.Player)
   //     {

@@ -1,4 +1,4 @@
-﻿using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
@@ -19,7 +19,9 @@ public class Rainworld_Monk_Strike : MonkCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(6m, ValueProp.Move)
+        new DamageVar(5m, ValueProp.Move),
+        new("Special", 1m)
+
     ];
 
     public Rainworld_Monk_Strike() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -33,12 +35,15 @@ public class Rainworld_Monk_Strike : MonkCardModel
             .Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx("vfx/vfx_attack_blunt", null, "blunt_attack.mp3")
             .Execute(choiceContext);
+        await CreatureCmd.Damage(choiceContext, cardPlay.Target,
+            new DamageVar(DynamicVars["Special"].BaseValue, ValueProp.Unpowered | ValueProp.Unblockable), Owner.Creature);
     }
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(3m);
+        DynamicVars.Damage.UpgradeValueBy(2m);
+        DynamicVars["Special"].UpgradeValueBy(1m);
     }
 }

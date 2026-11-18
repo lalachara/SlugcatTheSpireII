@@ -27,15 +27,22 @@ public sealed class GrowPower : ModPowerTemplate
 
     public override PowerStackType StackType => PowerStackType.Counter;
 
-    public override async Task AfterCardGeneratedForCombat(CardModel card, Player? creator)
+    public override async Task AfterCardDrawn(PlayerChoiceContext choiceContext, CardModel card, bool fromHandDraw)
     {
-        if (creator == null || creator.Creature != Owner)
+        if (card.Owner != Owner.Player)
             return;
         if (card.Type != CardType.Status || card is Rainworld_Redcat_Corrupt)
             return;
         Flash();
-        CardModel cardModel = card.CombatState!.CreateCard<Rainworld_Redcat_Corrupt>(creator);
+        CardModel cardModel = card.CombatState!.CreateCard<Rainworld_Redcat_Corrupt>(Owner.Player);
         await CardCmd.Transform(card, cardModel);
         await PowerCmd.Decrement(this);
+        
+        await base.AfterCardDrawn(choiceContext, card, fromHandDraw);
+    }
+
+    public override async Task AfterCardGeneratedForCombat(CardModel card, Player? creator)
+    {
+        
     }
 }

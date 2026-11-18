@@ -35,7 +35,19 @@ public class Rainworld_Monk_Bigjump : MonkCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
-        await PowerCmd.Apply<BigjumpMonkPower>(choiceContext, Owner.Creature, 1, Owner.Creature, this);
+        var random = base.Owner.RunState.Rng.CombatCardGeneration.NextInt(0, 3);
+        switch (random)
+        {
+            case 0:
+                await PowerCmd.Apply<BigjumpliverPower>(choiceContext, Owner.Creature, 1, Owner.Creature, this);
+                break;
+            case 1:
+                await PowerCmd.Apply<BigjumpredcatPower>(choiceContext, Owner.Creature, 1, Owner.Creature, this);
+                break;
+            case 2:
+                await PowerCmd.Apply<BigjumpriverPower>(choiceContext, Owner.Creature, 1, Owner.Creature, this);
+                break;
+        }
     }
 
     protected override void OnUpgrade()

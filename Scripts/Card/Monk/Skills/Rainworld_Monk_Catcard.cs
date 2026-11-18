@@ -19,7 +19,7 @@ public class Rainworld_Monk_Catcard : MonkCardModel
 {
     private const int energyCost = 0;
     private const CardType type = CardType.Skill;
-    private const CardRarity rarity = CardRarity.Rare;
+    private const CardRarity rarity = CardRarity.Uncommon;
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
@@ -38,7 +38,7 @@ public class Rainworld_Monk_Catcard : MonkCardModel
                 .GetUnlockedCards(Owner.UnlockState, Owner.RunState.CardMultiplayerConstraint))
             .Concat(ModelDb.CardPool<Rainworld_River_CardPool>()
                 .GetUnlockedCards(Owner.UnlockState, Owner.RunState.CardMultiplayerConstraint))
-            .Where(c =>( c.Type == CardType.Attack || c.Type == CardType.Skill || c.Type == CardType.Power) && (c.Rarity==CardRarity.Common || c.Rarity==CardRarity.Uncommon || c.Rarity==CardRarity.Rare))
+            .Where(c =>( c.Type == CardType.Attack || c.Type == CardType.Skill || c.Type == CardType.Power) && (c.Rarity==CardRarity.Common || c.Rarity==CardRarity.Uncommon || c.Rarity==CardRarity.Rare) && !RainworldCardTags.IsGenerateBlocked(c))
             .ToList();
 
         if (poolCards.Count == 0)

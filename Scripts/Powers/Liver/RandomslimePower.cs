@@ -1,4 +1,4 @@
-﻿using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Factories;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
@@ -47,7 +47,9 @@ public sealed class RandomslimePower : ModPowerTemplate
                     base.Owner.Player.RunState.CardMultiplayerConstraint)
                 where (c.Type == CardType.Attack || c.Type == CardType.Skill || c.Type == CardType.Status || c.Type == CardType.Power)
                       && (c.Rarity == CardRarity.Common || c.Rarity == CardRarity.Uncommon || c.Rarity == CardRarity.Rare || c.Rarity == CardRarity.Status || c.Rarity == CardRarity.Ancient)
-                select c, 1, base.Owner.Player.RunState.Rng.CombatCardGeneration).First();
+                select c, 1, base.Owner.Player.RunState.Rng.CombatCardGeneration).FirstOrDefault();
+            if (card == null)
+                return;
             if (IsUpgraded&&card.IsUpgradable)
                 CardCmd.Upgrade(card);
             await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Hand, base.Owner.Player);

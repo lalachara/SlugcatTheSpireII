@@ -1,4 +1,4 @@
-﻿﻿using MegaCrit.Sts2.Core.Entities.Cards;
+﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.HoverTips;
 using STS2RitsuLib.Content;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -24,6 +24,17 @@ namespace Rainworld.Scripts;
 [RegisterOwnedCardKeyword(nameof(Backtohand))]
 [RegisterOwnedCardKeyword(nameof(Last))]
 [RegisterOwnedCardKeyword(nameof(Cantcorrupt))]
+[RegisterOwnedCardKeyword(nameof(Companion))]
+[RegisterOwnedCardKeyword(nameof(Companioncab))]
+[RegisterOwnedCardKeyword(nameof(Greencab))]
+[RegisterOwnedCardKeyword(nameof(Bluecab))]
+[RegisterOwnedCardKeyword(nameof(Goldcab))]
+[RegisterOwnedCardKeyword(nameof(Firecab))]
+[RegisterOwnedCardKeyword(nameof(Sugarcab))]
+[RegisterOwnedCardKeyword(nameof(Kitty))]
+[RegisterOwnedCardKeyword(nameof(Monkey))]
+[RegisterOwnedCardKeyword(nameof(Rotcab))]
+[RegisterOwnedCardKeyword(nameof(First))]
 
 
 
@@ -47,4 +58,15 @@ public class RainworldKeywords
 	public static readonly CardKeyword Foodcard = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Foodcard)).GetModCardKeyword();
 	public static readonly CardKeyword Colorful = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Colorful)).GetModCardKeyword();
 	public static readonly CardKeyword Strange = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Strange)).GetModCardKeyword();
+	public static readonly CardKeyword Companion = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Companion)).GetModCardKeyword();
+	public static readonly CardKeyword Companioncab = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Companioncab)).GetModCardKeyword();
+	public static readonly CardKeyword Greencab = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Greencab)).GetModCardKeyword();
+	public static readonly CardKeyword Bluecab = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Bluecab)).GetModCardKeyword();
+	public static readonly CardKeyword Goldcab = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Goldcab)).GetModCardKeyword();
+	public static readonly CardKeyword Firecab = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Firecab)).GetModCardKeyword();
+	public static readonly CardKeyword Sugarcab = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Sugarcab)).GetModCardKeyword();
+	public static readonly CardKeyword Kitty = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Kitty)).GetModCardKeyword();
+	public static readonly CardKeyword Monkey = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Monkey)).GetModCardKeyword();
+	public static readonly CardKeyword Rotcab = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(Rotcab)).GetModCardKeyword();
+	public static readonly CardKeyword First = ModContentRegistry.GetQualifiedKeywordId(Entry.ModId, nameof(First)).GetModCardKeyword();
 }

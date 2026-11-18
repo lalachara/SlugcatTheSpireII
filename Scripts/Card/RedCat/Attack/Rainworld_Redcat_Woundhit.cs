@@ -1,4 +1,4 @@
-﻿using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -34,7 +34,7 @@ public class Rainworld_Redcat_Woundhit : RedCatCardModel
             .Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this,cardPlay)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx("vfx/vfx_scratch")
             .Execute(choiceContext);
         await CardPileCmd.AddGeneratedCardToCombat(
             CombatState.CreateCard<Slimed>(Owner), PileType.Hand, Owner);

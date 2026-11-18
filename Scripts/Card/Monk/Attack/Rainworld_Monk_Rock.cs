@@ -13,11 +13,11 @@ public class Rainworld_Monk_Rock : MonkCardModel
 {
     private const int energyCost = 0;
     private const CardType type = CardType.Attack;
-    private const CardRarity rarity = CardRarity.Uncommon;
+    private const CardRarity rarity = CardRarity.Basic;
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
 
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<FreespearPower>() };
+    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<FreespearPower>(),HoverTipFactory.FromPower<WeakPower>()  };
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
@@ -37,7 +37,7 @@ public class Rainworld_Monk_Rock : MonkCardModel
             .Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx("vfx/vfx_attack_blunt", null, "blunt_attack.mp3")
             .Execute(choiceContext);
         await PowerCmd.Apply<WeakPower>(choiceContext, cardPlay.Target, DynamicVars.Weak.BaseValue, Owner.Creature, this);
         await PowerCmd.Apply<FreespearPower>(choiceContext, Owner.Creature, DynamicVars["Rock"].BaseValue, Owner.Creature, this);

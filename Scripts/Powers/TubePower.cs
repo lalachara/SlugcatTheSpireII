@@ -1,4 +1,4 @@
-﻿﻿using MegaCrit.Sts2.Core.Entities.Cards;
+﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -56,7 +56,7 @@ public sealed class TubePower : ModPowerTemplate
 
   public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult result, ValueProp props, Creature? _, CardModel? __)
   {
-    if (target == base.Owner && props!=ValueProp.Unpowered && result.UnblockedDamage > 0)
+    if (target == base.Owner && (props & ValueProp.Unpowered) == 0 && result.UnblockedDamage > 0)
     {
       await PowerCmd.Remove(this);
       Flash();

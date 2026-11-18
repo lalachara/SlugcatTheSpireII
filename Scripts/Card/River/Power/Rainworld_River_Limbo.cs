@@ -27,6 +27,7 @@ public class Rainworld_River_Limbo : RiverCardModel
             _ => ""
         }
     );
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Ethereal };
 
     private string GetLocalizedCardImage()
     {
@@ -60,6 +61,6 @@ public class Rainworld_River_Limbo : RiverCardModel
 
     protected override void OnUpgrade()
     {
-        EnergyCost.UpgradeBy(-1);
+        RemoveKeyword(CardKeyword.Ethereal);
     }
 }

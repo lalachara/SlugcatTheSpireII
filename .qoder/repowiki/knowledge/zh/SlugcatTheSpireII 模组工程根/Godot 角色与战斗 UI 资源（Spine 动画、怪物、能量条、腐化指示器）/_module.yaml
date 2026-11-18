@@ -1,9 +1,0 @@
-schema_version: 1
-module_path: godot_assets
-title: Godot 角色与战斗 UI 资源（Spine 动画、怪物、能量条、腐化指示器）
-scope:
-    - Godot/
-source_files: []
-depends_on: []
-related_to:
-    - path: scripts_core

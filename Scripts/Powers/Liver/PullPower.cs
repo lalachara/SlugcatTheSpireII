@@ -1,4 +1,4 @@
-﻿﻿using MegaCrit.Sts2.Core.Entities.Cards;
+﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
@@ -53,7 +53,7 @@ public sealed class PullPower : ModPowerTemplate
      Creature? dealer,
      CardModel? cardSource)
  {
-     if(target == this.Owner &&props!=ValueProp.Unpowered&&amount>=25)
+     if(target == this.Owner &&(props & ValueProp.Unpowered) == 0&&amount>=25)
          return amount*2; 
      return amount;
  }
@@ -61,7 +61,7 @@ public sealed class PullPower : ModPowerTemplate
 
  public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult _, ValueProp props, Creature? dealer, CardModel? __)
  {
-     if (target == base.Owner && dealer != null && props!=ValueProp.Unpowered&&_.TotalDamage>=25)
+     if (target == base.Owner && dealer != null && (props & ValueProp.Unpowered) == 0&&_.TotalDamage>=25)
      {
          
          await PowerCmd.Decrement(this);

@@ -12,6 +12,7 @@ namespace Rainworld.Scripts.Powers;
 
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Powers;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -27,14 +28,11 @@ using System.Threading.Tasks;
 public sealed class TunePower : ModPowerTemplate
 {
   public override PowerAssetProfile AssetProfile => new(
-    IconPath: "res://Resource/Powers/NimbleBuff128.png",
-    BigIconPath: "res://Resource/Powers/NimbleBuff128.png"
+    IconPath: "res://Resource/Powers/Monk/Tune128.png",
+    BigIconPath: "res://Resource/Powers/Monk/Tune128.png"
   );
   
   public override PowerType Type => PowerType.Buff;
 
   public override PowerStackType StackType => PowerStackType.Counter;
-  
-
-
 }

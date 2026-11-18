@@ -1,4 +1,4 @@
-﻿using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
@@ -45,7 +45,7 @@ public class Rainworld_River_Strike : RiverCardModel
             .Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this,cardPlay)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx("vfx/vfx_attack_blunt", null, "blunt_attack.mp3")
             .Execute(choiceContext);
     }
 

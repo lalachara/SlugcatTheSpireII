@@ -21,7 +21,7 @@ public class Rainworld_Monk_Refusefight : MonkCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(10m, ValueProp.Move)
+        new BlockVar(12m, ValueProp.Move)
     ];
 
     public Rainworld_Monk_Refusefight() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

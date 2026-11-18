@@ -21,6 +21,8 @@ using MegaCrit.Sts2.Core.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
+using Rainworld.Scripts.Telemetry;
+using System.Collections.Generic;
 
 namespace Rainworld.Scripts.Event;
 
@@ -28,6 +30,22 @@ namespace Rainworld.Scripts.Event;
 // [RegisterSharedEvent] // 如果需要自定义生成条件，可以注册成通用再重载isAllowed
 public sealed class RaindeerEvent : ModEventTemplate
 {
+    // —— 雨鹿事件遥测用（实例字段，随事件实例生命周期；AfterEventStarted 时清零）——
+    /// <summary>是否喂食雨鹿（删牌）。</summary>
+    private bool _fed;
+    /// <summary>选择去商店(merchant)还是篝火(rest)；未喂食离开则为 null。</summary>
+    private string? _branch;
+    /// <summary>是否触发失败扣血。</summary>
+    private bool _failedTookDamage;
+
+    public override Task AfterEventStarted()
+    {
+        _fed = false;
+        _branch = null;
+        _failedTookDamage = false;
+        return Task.CompletedTask;
+    }
+
     // 背景图位置
     public override EventAssetProfile AssetProfile => new(
         InitialPortraitPath: "res://Resource/Event/Raindeer1.png"
@@ -59,6 +77,7 @@ public sealed class RaindeerEvent : ModEventTemplate
         var prefs = new CardSelectorPrefs(CardSelectorPrefs.RemoveSelectionPrompt, 1);
         var selected = await CardSelectCmd.FromDeckForRemoval(Owner, prefs);
         await CardPileCmd.RemoveFromDeck(selected.ToList<CardModel>());
+        _fed = true;
         ChoosePage();
     }
 
@@ -71,12 +90,12 @@ public sealed class RaindeerEvent : ModEventTemplate
 
     private void RunPage()
     {
-        SetEventFinished(L10NLookup($"{Id.Entry}_EVENT_RAINDEER_EVENT.pages.RUN.description"));
+        SetEventFinished(L10NLookup($"{Id.Entry}.pages.INITIAL.options.RUN.description"));
 
     }
     private async Task Finish()
     {
-        SetEventFinished(L10NLookup($"{Id.Entry}_EVENT_RAINDEER_EVENT.pages.RUN.description"));
+        SetEventFinished(L10NLookup($"{Id.Entry}.pages.RUN.options.RUN.description"));
     }
 
 
@@ -99,6 +118,7 @@ public sealed class RaindeerEvent : ModEventTemplate
 // GoShop
     private async Task GoShop()
     {
+        _branch = "merchant";
         var random = Rng.NextBool();
         if (random)
         {
@@ -109,6 +129,7 @@ public sealed class RaindeerEvent : ModEventTemplate
         else
         {
 
+            _failedTookDamage = true;
             await CreatureCmd.Damage(new ThrowingPlayerChoiceContext(), Owner!.Creature, DynamicVars.Damage, null, null);
             DiePage();
         }
@@ -117,6 +138,7 @@ public sealed class RaindeerEvent : ModEventTemplate
 // GoRest
     private async Task GoRest()
     {
+        _branch = "rest";
         var random = Rng.NextBool();
         if (random)
         {
@@ -126,9 +148,31 @@ public sealed class RaindeerEvent : ModEventTemplate
         }
         else
         {
+            _failedTookDamage = true;
             await CreatureCmd.Damage(new ThrowingPlayerChoiceContext(), Owner!.Creature, DynamicVars.Damage, null, null);
             DiePage();
         }
     }
 
+    protected override void OnEventFinished()
+    {
+        base.OnEventFinished();
+        try
+        {
+            Entry.Logger.Info($"[遥测] 雨鹿事件结束: fed={_fed}，branch={_branch}，failedTookDamage={_failedTookDamage}");
+            TelemetrySetup.CaptureGameplay(
+                "event_raindeer",
+                new Dictionary<string, object?>
+                {
+                    ["character"] = Owner?.Character?.Id?.Entry?.ToString() ?? "unknown",
+                    ["fed"] = _fed,
+                    ["branch"] = _branch,
+                    ["failed_took_damage"] = _failedTookDamage,
+                });
+        }
+        catch (Exception ex)
+        {
+            Entry.Logger.Warn($"[遥测] 雨鹿事件上报失败: {ex.Message}");
+        }
+    }
 }

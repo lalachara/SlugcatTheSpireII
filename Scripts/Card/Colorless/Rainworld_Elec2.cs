@@ -48,7 +48,7 @@ public class Rainworld_Elec2 : ModCardTemplate
         if (Owner.PlayerCombatState.Hand.Cards.Any(model => model is Rainworld_Elec1) &&
             Owner.PlayerCombatState.Hand.Cards.Any(model => model is Rainworld_Elec2))
         {
-            foreach (var c in Owner.PlayerCombatState.Hand.Cards.Where(model => model is Rainworld_Elec1 || model is Rainworld_Elec2))
+            foreach (var c in Owner.PlayerCombatState.Hand.Cards.ToList().Where(model => model is Rainworld_Elec1 || model is Rainworld_Elec2))
             {
                 await CardCmd.Exhaust(choiceContext, c);
 

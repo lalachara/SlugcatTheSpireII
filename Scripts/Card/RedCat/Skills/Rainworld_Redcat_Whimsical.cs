@@ -42,6 +42,6 @@ public class Rainworld_Redcat_Whimsical : RedCatCardModel
 
     protected override void OnUpgrade()
     {
-        DynamicVars["Summon"].UpgradeValueBy(1m);
+        DynamicVars.Energy.UpgradeValueBy(1m);
     }
 }

@@ -84,11 +84,11 @@ public class Rainworld_Liver_Spearboom : LiverCardModel
             .WithHitFx(sfx:"event:/Rainworld/sfx/bombspear")
             .Execute(choiceContext);
         await Cmd.Wait(0.5f);
+        Vfx.BombBurstVfx.Play(CombatState!.HittableEnemies);
             await DamageCmd
                 .Attack(DynamicVars.Damage.BaseValue)
                 .FromCard(this, cardPlay)
                 .TargetingAllOpponents(CombatState)
-                .WithHitFx("vfx/vfx_attack_slash")
                 .Execute(choiceContext);
             await CardCmd.Discard(choiceContext, this);
 

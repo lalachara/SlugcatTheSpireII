@@ -1,4 +1,4 @@
-﻿﻿using Godot;
+using Godot;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -7,6 +7,8 @@ using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Nodes.GodotExtensions;
 using MegaCrit.Sts2.Core.Rooms;
 using Rainworld.Scripts;
+using Rainworld.Scripts.Skins;
+using Rainworld.Scripts.Monster.Minions;
 using Rainworld.Scripts.Powers;
 using STS2RitsuLib.RunData;
 using STS2RitsuLib.Patching.Models;
@@ -21,8 +23,49 @@ public static class CombatUiPatch
 	internal static NAutoButton? _SleepButton;
 	internal static WorkLevelIndicator? _workLevelIndicator;
 	internal static CorruptionIndicator? _corruptionIndicator;
+	internal static CabBlockIndicator? _cabBlockIndicator;
 	public static bool wawawa = false;
 	internal static bool IsInstanceValid(GodotObject? obj) => obj != null && GodotObject.IsInstanceValid(obj);
+
+	/// <summary>当前是否处于玩家回合。</summary>
+	public static bool IsPlayerTurn()
+	{
+		if (creature == null || creature.CombatState == null)
+			return false;
+		return creature.CombatState.CurrentSide == CombatSide.Player;
+	}
+
+	/// <summary>玩家此刻是否还能行动（按下结束回合后，直到下个玩家回合开始前为 false）。</summary>
+	public static bool CanAct()
+	{
+		CombatManager manager = CombatManager.Instance;
+		return manager == null || !manager.PlayerActionsDisabled;
+	}
+
+	/// <summary>休眠按钮此刻是否允许点击。</summary>
+	public static bool IsSleepAvailable()
+	{
+		return IsInstanceValid(_SleepButton) && IsPlayerTurn() && CanAct();
+	}
+
+	/// <summary>玩家结束回合后把休眠按钮置为不可用（不会覆盖休眠冷却中的贴图）。</summary>
+	public static void SetSleepUnavailable()
+	{
+		if (!IsInstanceValid(_SleepButton))
+			return;
+		if (_SleepButton!.GetState() == NAutoButton.ButtonState.Active)
+			_SleepButton.SetState(NAutoButton.ButtonState.Down);
+	}
+
+	/// <summary>玩家撤销结束回合时恢复休眠按钮。</summary>
+	public static void RestoreSleepButton()
+	{
+		if (creature == null || !IsInstanceValid(_SleepButton))
+			return;
+		if (SleepCD != 0)
+			return;
+		SetSleepButton(SlugcatData.cansleep(creature.Player));
+	}
 
 	public static void UpdateWorkLevel(int newWorkLevel)
 	{
@@ -98,7 +141,8 @@ public static class CombatUiPatch
 			return;
 		if (IsInstanceValid(_workLevelIndicator))
 			_workLevelIndicator.SetCurrentFood(food);
-		if(SleepCD ==0)
+		//只有玩家回合内、且还没结束回合时才刷新按钮，避免敌方回合被重新点亮
+		if(SleepCD ==0 && IsPlayerTurn() && CanAct())
 			SetSleepButton(SlugcatData.cansleep(creature.Player));
 	}
 
@@ -197,6 +241,22 @@ public sealed class CombatUiReadyPatch : IPatchMethod
 				__instance.AddChild(CombatUiPatch._corruptionIndicator);
 				CombatUiPatch._corruptionIndicator.TreeExiting += () => CombatUiPatch._corruptionIndicator = null;
 			}
+
+			if (CombatUiPatch._cabBlockIndicator == null || !CombatUiPatch.IsInstanceValid(CombatUiPatch._cabBlockIndicator))
+			{
+				CombatUiPatch._cabBlockIndicator = new CabBlockIndicator();
+				CombatUiPatch._cabBlockIndicator.Name = "CabBlockIndicator";
+				CombatUiPatch._cabBlockIndicator.LayoutMode = 1;
+				CombatUiPatch._cabBlockIndicator.SetAnchorsPreset(Control.LayoutPreset.BottomLeft);
+				// 贴着业力指示器（40~160）右边缘，垂直方向与它同心（塔1 CabBlockUI 的位置）
+				CombatUiPatch._cabBlockIndicator.OffsetLeft = 140;
+				CombatUiPatch._cabBlockIndicator.OffsetTop = -440;
+				CombatUiPatch._cabBlockIndicator.OffsetRight = 260;
+				CombatUiPatch._cabBlockIndicator.OffsetBottom = -320;
+
+				__instance.AddChild(CombatUiPatch._cabBlockIndicator);
+				CombatUiPatch._cabBlockIndicator.TreeExiting += () => CombatUiPatch._cabBlockIndicator = null;
+			}
 		}
 		catch (System.Exception ex)
 		{
@@ -216,10 +276,15 @@ public sealed class CombatUiActivatePatch : IPatchMethod
 	public static void Postfix(NCombatUi __instance, CombatState state)
 	{
 		CombatUiPatch.creature = LocalContext.GetMe(state).Creature;
+
+		// 新一场战斗从「伙伴可见」开始：上一场如果点了收起，这里恢复显示
+		FriendVisibility.Reset();
+
 		if (CombatUiPatch.creature.Player.Character is Slugcat)
 		{
-			if (CombatUiPatch.IsInstanceValid(CombatUiPatch._SleepButton)) 
-				CombatUiPatch._SleepButton.Enable();
+			// 联机：把本机选的皮肤补写进随局同步数据（大厅暂存丢失时由这里兜底）
+			SlugcatSkins.SyncLocalSkin(CombatUiPatch.creature.Player);
+			//休眠按钮的可点击性完全由 SetState（贴图状态）驱动，不再在这里无条件启用
 			if (CombatUiPatch.IsInstanceValid(CombatUiPatch._workLevelIndicator))
 			{
 				CombatUiPatch._workLevelIndicator.Visible = true;
@@ -250,12 +315,17 @@ public sealed class CombatUiActivatePatch : IPatchMethod
 				if (CombatUiPatch.IsInstanceValid(CombatUiPatch._corruptionIndicator))
 					CombatUiPatch._corruptionIndicator.Visible = false;
 			}
+
+			// 伙伴护甲面板：Monk 专属机制（蜥蜴拿身体替主人挡伤），与场上有没有伙伴无关
+			if (CombatUiPatch.IsInstanceValid(CombatUiPatch._cabBlockIndicator))
+				CombatUiPatch._cabBlockIndicator.Visible = CombatUiPatch.creature.Player.Character is Rainworld_Monk;
 		}
 		else
 		{
 			if (CombatUiPatch.IsInstanceValid(CombatUiPatch._SleepButton)) CombatUiPatch._SleepButton.Visible = false;
 			if (CombatUiPatch.IsInstanceValid(CombatUiPatch._workLevelIndicator)) CombatUiPatch._workLevelIndicator.Visible = false;
 			if (CombatUiPatch.IsInstanceValid(CombatUiPatch._corruptionIndicator)) CombatUiPatch._corruptionIndicator.Visible = false;
+			if (CombatUiPatch.IsInstanceValid(CombatUiPatch._cabBlockIndicator)) CombatUiPatch._cabBlockIndicator.Visible = false;
 		}
 	}
 }
@@ -271,8 +341,12 @@ public sealed class CombatUiDeactivatePatch : IPatchMethod
 
 	public static void Postfix()
 	{
+		// 战斗结束：伙伴显示开关复位，别带到下一场
+		FriendVisibility.Reset();
+
 		if (CombatUiPatch.IsInstanceValid(CombatUiPatch._SleepButton)) CombatUiPatch._SleepButton.Disable();
 		if (CombatUiPatch.IsInstanceValid(CombatUiPatch._workLevelIndicator)) CombatUiPatch._workLevelIndicator.Visible = false;
+		if (CombatUiPatch.IsInstanceValid(CombatUiPatch._cabBlockIndicator)) CombatUiPatch._cabBlockIndicator.Visible = false;
 	}
 }
 

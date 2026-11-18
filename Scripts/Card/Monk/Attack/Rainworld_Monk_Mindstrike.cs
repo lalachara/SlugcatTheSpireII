@@ -17,7 +17,7 @@ public class Rainworld_Monk_Mindstrike : MonkCardModel
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(1m, ValueProp.Move),
-        new("Special", 8m)
+        new("Special", 9m)
     ];
 
     public Rainworld_Monk_Mindstrike() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

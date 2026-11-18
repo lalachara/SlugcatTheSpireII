@@ -36,7 +36,7 @@ public class Rainworld_Redcat_Puritystrike : RedCatCardModel
     {
         if(card != this)
             return true;
-        if (SlugcatData.getCorruptValue(Owner) != 0||Owner.Character is not Rainworld_Redcat)
+        if (SlugcatData.getCorruptValue(Owner) != 0&&Owner.Character is Rainworld_Redcat)
             return false;
         return true;
     }

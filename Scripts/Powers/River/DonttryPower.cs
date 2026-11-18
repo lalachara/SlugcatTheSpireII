@@ -1,4 +1,4 @@
-﻿﻿using MegaCrit.Sts2.Core.Entities.Cards;
+﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
@@ -45,7 +45,7 @@ public sealed class DonttryPower : ModPowerTemplate
         Creature? dealer,
         CardModel? cardSource)
     {
-        if (dealer == Owner || props == ValueProp.Unpowered||target!=Owner)
+        if (dealer == Owner || (props & ValueProp.Unpowered) != 0||target!=Owner)
             return;
 
         var icewaterAmt = Owner.GetPowerAmount<IcewaterPower>();

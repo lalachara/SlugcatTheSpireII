@@ -1,18 +1,17 @@
 using Godot;
-using MegaCrit.Sts2.Core.Bindings.MegaSpine;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using Rainworld.relics;
 using System.Linq;
 using MegaCrit.Sts2.Core.Commands;
 using Rainworld.Scripts;
+using Rainworld.Scripts.Skins;
 using SlugcatTheSpireII.Scripts.patches.Singleton;
 
 public partial class NRiver : NCreatureVisuals
 {
-	private MegaSkeleton _megaSkeleton;
-	private string _pendingSkin;
-	private int _retryCount;
+	private string _hatSkin = string.Empty;
+	private string _itemSkin = SlugcatSkins.RiverDefaultItemSkin;
 
 	public override void _Ready()
 	{
@@ -20,67 +19,43 @@ public partial class NRiver : NCreatureVisuals
 
 		SetProcessInput(true);
 
-		string skinName = "shuiguo";
 		var nc = GetParent() as NCreature;
-		if (nc?.Entity?.IsPlayer == true)
-		{
-			var battery = nc.Entity.Player.Relics.OfType<Battery>().FirstOrDefault();
-			if (battery != null)
-			{
-				skinName = battery.WasUsed ? "dianchi2" : "dianchi";
-			}
-		}
+		var player = nc?.Entity?.IsPlayer == true ? nc.Entity.Player : null;
 
-		SetSkin(skinName);
+		// 角色选择界面选的只是帽子那套（normal/0、normal/1），联机时读该玩家同步过来的选择。
+		_hatSkin = SlugcatSkins.GetSelectedSkin(player);
+		if (string.IsNullOrEmpty(_hatSkin))
+			_hatSkin = SlugcatSkins.GetDefaultSkin(typeof(Rainworld_River));
+
+		// 手中道具单独一套：电池遗物优先，否则默认拿水球。
+		var battery = player?.Relics.OfType<Battery>().FirstOrDefault();
+		_itemSkin = battery == null
+			? SlugcatSkins.RiverDefaultItemSkin
+			: battery.WasUsed ? SlugcatSkins.RiverBatteryEmptyItemSkin : SlugcatSkins.RiverBatteryItemSkin;
+
+		ApplyCurrentSkin();
 	}
 
-	public void SetSkin(string skinName)
+	/// <summary>只切换手中道具皮肤（电池用尽时调用），帽子、身体等其它部件保持不变。</summary>
+	public void SetItemSkin(string itemSkin)
 	{
-		if (_megaSkeleton != null)
-		{
-			ApplySkin(skinName);
-			return;
-		}
-		_pendingSkin = skinName;
-		_retryCount = 0;
-		CallDeferred("TryApplySkin");
+		_itemSkin = itemSkin;
+		ApplyCurrentSkin();
 	}
 
-	private void TryApplySkin()
+	private void ApplyCurrentSkin()
 	{
-		if (_pendingSkin == null)
-			return;
-
-		_retryCount++;
-		if (_retryCount > 60)
+		// 帽子与手中道具属于不同槽位，必须合并后一起应用，单套 SetSkin 会把另一套隐藏。
+		// 联机时队友的帽子皮肤要等同步数据到达，交给 ApplyWithRetry 在数据变化后重套。
+		var player = (GetParent() as NCreature)?.Entity?.Player;
+		SlugcatSkins.ApplyWithRetry(this, this, player, () =>
 		{
-			_pendingSkin = null;
-			return;
-		}
-
-		Node visuals = GetNode("Visuals");
-		if (visuals == null)
-		{
-			_pendingSkin = null;
-			return;
-		}
-
-		Variant skeletonVariant = visuals.Call("get_skeleton");
-		if (skeletonVariant.VariantType == Variant.Type.Nil || skeletonVariant.AsGodotObject() == null)
-		{
-			CallDeferred("TryApplySkin");
-			return;
-		}
-
-		_megaSkeleton = new MegaSkeleton(skeletonVariant);
-		ApplySkin(_pendingSkin);
-		_pendingSkin = null;
-	}
-
-	private void ApplySkin(string skinName)
-	{
-		_megaSkeleton.SetSkinByName(skinName);
-		_megaSkeleton.SetSlotsToSetupPose();
+			var hat = SlugcatSkins.GetSelectedSkin(player);
+			if (string.IsNullOrEmpty(hat))
+				hat = SlugcatSkins.GetDefaultSkin(typeof(Rainworld_River));
+			_hatSkin = hat;
+			return new[] { hat, _itemSkin };
+		});
 	}
 
 	public override void _Input(InputEvent @event)

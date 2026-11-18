@@ -1,4 +1,4 @@
-﻿﻿using Godot;
+﻿using Godot;
 using System.Linq;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
@@ -99,8 +99,9 @@ public class RunSingleton: HookedSingletonModel
 
     public override async Task AfterRestSiteHeal(Player player, bool isMimicked)
     {
+        // 回复等级与火堆描述文本共用同一处规则：Monk 2 级，其余蛞蝓猫 1 级。
         if (player.Character is Slugcat)
-            await SlugcatData.addworklevel(player, 1);
+            await SlugcatData.addworklevel(player, SlugcatData.GetRestKarmaLevel(player));
         await base.AfterRestSiteHeal(player, isMimicked);
     }
     
@@ -142,10 +143,16 @@ public class RunSingleton: HookedSingletonModel
         // 先做一次同步快照，避免 await 期间 creature.Powers 集合被增删
         // （power 生效/消耗后自我移除）导致“Collection was modified”枚举异常。
         var targets = creature.Powers
-            .Where(power => power is FairyformPower or FlexibilityPower or TubePower)
+            .Where(power => power is FairyformPower or FlexibilityPower or TubePower or AcidslimePower)
             .ToArray();
         foreach (var power in targets)
             await power.AfterDamageReceived(ctx, creature, result, props, null, null);
+
+        // 遗物同样收不到这次致命伤害的受伤 hook：质量稀释电池（Battery）只判
+        // 「target == 主人 / UnblockedDamage > 0 / props 非 Unpowered」，与上面几个 power 同一口径，
+        // 所以在这里一起补发，致命一击也能照常计数（以后别的遗物也要补，加进这个白名单即可）。
+        foreach (var relic in player.Relics.OfType<Battery>())
+            await relic.AfterDamageReceived(ctx, creature, result, props, null, null);
     }
 
     public override bool TryModifyRewards(Player player, List<Reward> rewards, AbstractRoom? room)

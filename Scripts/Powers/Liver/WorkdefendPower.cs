@@ -1,4 +1,4 @@
-﻿﻿using MegaCrit.Sts2.Core.Entities.Cards;
+﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
@@ -42,7 +42,7 @@ public sealed class WorkdefendPower : ModPowerTemplate
 
  public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult _, ValueProp props, Creature? dealer, CardModel? __)
  {
-     if (target == base.Owner && dealer != null && props!=ValueProp.Unpowered&&_.UnblockedDamage!=0)
+     if (target == base.Owner && dealer != null && (props & ValueProp.Unpowered) == 0&&_.UnblockedDamage!=0)
      {
          await CreatureCmd.Damage(new BlockingPlayerChoiceContext(), base.CombatState.HittableEnemies, base.Amount, ValueProp.Unpowered, base.Owner);
          await PowerCmd.Remove(this);

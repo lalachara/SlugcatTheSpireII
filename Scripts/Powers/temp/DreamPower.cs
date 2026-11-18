@@ -1,4 +1,4 @@
-﻿﻿﻿using MegaCrit.Sts2.Core.CardSelection;
+﻿﻿using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -20,8 +20,8 @@ using System.Threading.Tasks;
 public sealed class DreamPower : ModPowerTemplate
 {
     public override PowerAssetProfile AssetProfile => new(
-        IconPath: "res://Resource/Powers/Dream128.png",
-        BigIconPath: "res://Resource/Powers/Dream128.png"
+        IconPath: "res://Resource/Powers/Monk/Dream128.png",
+        BigIconPath: "res://Resource/Powers/Monk/Dream128.png"
     );
 
     public override PowerType Type => PowerType.Buff;

@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.Nodes.Screens;
 using Rainworld.Scripts;
+using Rainworld.Scripts.Skins;
 using SlugcatTheSpireII.Scripts.patches.Singleton;
 using STS2RitsuLib.Screens;
 
@@ -16,6 +17,11 @@ public partial class NRedCat : NCreatureVisuals
 	{
 		base._Ready();
 		SetProcessInput(true);
+
+		var creature = GetParent() as NCreature;
+		var player = creature?.Entity?.Player;
+		// 联机时队友的皮肤要等同步数据到达，ApplyWithRetry 会在数据变化后重新套用
+		SlugcatSkins.ApplyWithRetry(this, this, player, () => new[] { SlugcatSkins.GetSelectedSkin(player) });
 	}
 
 	public override void _Input(InputEvent @event)

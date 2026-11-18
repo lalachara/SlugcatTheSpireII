@@ -39,10 +39,10 @@ public class Rainworld_Monk_Spearboom : MonkCardModel
             .WithHitFx(sfx: "event:/Rainworld/sfx/bombspear")
             .Execute(choiceContext);
         await Cmd.Wait(0.5f);
+        Vfx.BombBurstVfx.Play(CombatState!.HittableEnemies);
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this, cardPlay)
             .TargetingAllOpponents(CombatState)
-            .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
         await CardCmd.Discard(choiceContext, this);
     }
@@ -51,7 +51,7 @@ public class Rainworld_Monk_Spearboom : MonkCardModel
     {
         if (cardPlay.Card == this)
         {
-            CardModel card = CombatState!.CreateCard<Rainworld_Liver_Spear>(Owner);
+            CardModel card = CombatState!.CreateCard<Rainworld_Monk_Spear>(Owner);
             if (IsUpgraded)
                 CardCmd.Upgrade(card);
             await CardCmd.Transform(this, card);

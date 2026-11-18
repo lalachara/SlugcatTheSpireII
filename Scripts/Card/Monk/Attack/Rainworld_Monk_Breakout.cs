@@ -12,7 +12,7 @@ public class Rainworld_Monk_Breakout : MonkCardModel
 {
     private const int energyCost = 1;
     private const CardType type = CardType.Attack;
-    private const CardRarity rarity = CardRarity.Uncommon;
+    private const CardRarity rarity = CardRarity.Common;
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
 
@@ -42,6 +42,6 @@ public class Rainworld_Monk_Breakout : MonkCardModel
 
     protected override void OnUpgrade()
     {
-        DynamicVars["Special"].UpgradeValueBy(1m);
+        DynamicVars.Damage.UpgradeValueBy(2m);
     }
 }

@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
@@ -33,7 +33,8 @@ public sealed class Moonrock : ModRelicTemplate
     }
     public override async Task AfterObtained()
     {
-        await CreatureCmd.LoseMaxHp(new BlockingPlayerChoiceContext(),Owner.Creature,Owner.Creature.MaxHp * 0.3m,false);
+        // 0.113：LoseMaxHp 的最后一个参数由 bool isFromCard 改成 CardModel? cardSource
+        await CreatureCmd.LoseMaxHp(new BlockingPlayerChoiceContext(),Owner.Creature,Owner.Creature.MaxHp * 0.3m,null);
     }
 
 

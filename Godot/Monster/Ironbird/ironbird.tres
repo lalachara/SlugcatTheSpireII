@@ -1,8 +1,0 @@
-[gd_resource type="SpineSkeletonDataResource" load_steps=3 format=3 uid="uid://bh5qs4cuy3tod"]
-
-[ext_resource type="SpineAtlasResource" uid="uid://dt1dx1frs11uc" path="res://Godot/Monster/Ironbird/gangtujiu.atlas" id="1_n5py7"]
-[ext_resource type="SpineSkeletonFileResource" uid="uid://gvllngneybcf" path="res://Godot/Monster/Ironbird/skeleton.skel" id="2_mybls"]
-
-[resource]
-atlas_res = ExtResource("1_n5py7")
-skeleton_file_res = ExtResource("2_mybls")

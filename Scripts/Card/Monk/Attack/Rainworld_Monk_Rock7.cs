@@ -13,7 +13,7 @@ namespace Rainworld.Scripts.Card.Monk;
 
 public class Rainworld_Monk_Rock7 : MonkCardModel
 {
-    private readonly HashSet<CardPoolModel> _playedColors = new();
+    private HashSet<CardPoolModel> _playedColors = new();
     private int _colorfulCount;
 
     private const int energyCost = 7;
@@ -63,6 +63,17 @@ public class Rainworld_Monk_Rock7 : MonkCardModel
         else
             modifiedCost = originalCost;
         return true;
+    }
+
+    /// <summary>
+    /// 克隆时重建颜色集合：MutableClone 是 MemberwiseClone + DeepCloneFields，
+    /// 引用字段默认被克隆体与卡组原件共享，结果战斗内打出的颜色会写回卡组、跨战斗残留
+    /// （同名牌的多份拷贝也会互相影响）。这里给每个克隆体一份自己的集合。
+    /// </summary>
+    protected override void DeepCloneFields()
+    {
+        base.DeepCloneFields();
+        _playedColors = new HashSet<CardPoolModel>(_playedColors);
     }
 
     protected override void OnUpgrade()

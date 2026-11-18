@@ -1,4 +1,4 @@
-﻿using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Acts;
 using MegaCrit.Sts2.Core.Models.Encounters;
 using MegaCrit.Sts2.Core.Rooms;
@@ -27,6 +27,12 @@ public class MushroomBoss : ModEncounterTemplate
         RunHistoryIconPath: "res://Resource/Monster/mushroomicon.png",
         RunHistoryIconOutlinePath: "res://Resource/Monster/mushroomicon.png"
     );
+
+    /// <summary>恐惧模式的统御：道中普通 / 精英敌人最大生命 +20%（见 MushroomDominion）。</summary>
+#if STS2_0_113_0
+    public override MegaCrit.Sts2.Core.Models.Dread.DominionModel? GetDominion()
+        => new MushroomDominion();
+#endif
 
     protected override IReadOnlyList<(MonsterModel, string?)> GenerateMonsters() => [
         (ModelDb.Monster<Mushroom>().ToMutable(), null)

@@ -1,4 +1,4 @@
-﻿﻿using Godot;
+﻿using Godot;
  using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
@@ -88,7 +88,7 @@ public sealed class CorrodePower : ModPowerTemplate,IHealthBarForecastSource
         DamageResult result, ValueProp props, Creature target, CardModel? cardSource)
     {
         if (dealer == null || dealer != Owner || target == null || target == Owner
-            || props == ValueProp.Unpowered || result.UnblockedDamage <= 0)
+            || (props & ValueProp.Unpowered) != 0 || result.UnblockedDamage <= 0)
             return;
 
         Flash();

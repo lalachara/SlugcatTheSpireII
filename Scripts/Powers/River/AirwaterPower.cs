@@ -56,10 +56,7 @@ public sealed class AirwaterPower : ModPowerTemplate
             return;
         }
 
-        // 若玩家身上存在阻止格挡清除的效果（其 ShouldClearBlock 对持有者自己返回 false），
-        // 则自身格挡在回合开始不会自然消失，此时不触发伤害。这类能力包括：壁垒 Barricade、
-        // 残影 Blur、潜地 Burrowed、夹固 SturdyClamp 等。传入 Owner（玩家自己）以判定。
-        if (Owner.CombatState == null || !Hook.ShouldClearBlock(Owner.CombatState, Owner, out _))
+        if (Owner.CombatState == null)
         {
             lastBlock = 0;
             return;
@@ -68,10 +65,54 @@ public sealed class AirwaterPower : ModPowerTemplate
         // 自然消失的格挡 = 上一回合末记录的格挡量 lastBlock。
         // 不能写成 lastBlock - Owner.Block：格挡在回合开始先被清空，若随后又获得新格挡，
         // Owner.Block 会被抬升，导致差值被低估（伤害减少）。这里直接用消失前的值，与新获格挡无关。
-        var lostBlock = lastBlock;
+        decimal lostBlock;
+
+        // ShouldClearBlock 返回 true：回合开始时格挡会被完整清空，全部自然消失。
+        if (Hook.ShouldClearBlock(Owner.CombatState, Owner, out var preventer))
+        {
+            lostBlock = lastBlock;
+        }
+        else
+        {
+            // 存在"阻止清除"的能力（preventer）。大多数（壁垒 Barricade、残影 Blur、潜地 Burrowed）
+            // 是完全保留格挡，此时格挡不自然消失，不触发伤害。
+            // 但原版外卡钳（坚固钳子 SturdyClamp）是"跨回合保留最多 X 点格挡"，超出部分仍会流失，
+            // 这部分要看作自然消失并转成伤害。
+            var retainCap = GetRetainCap(preventer);
+            if (retainCap <= 0)
+            {
+                lastBlock = 0;
+                return;
+            }
+
+            lostBlock = Math.Max(0, lastBlock - Math.Min(lastBlock, retainCap));
+            if (lostBlock <= 0)
+            {
+                lastBlock = 0;
+                return;
+            }
+        }
+
         Flash();
         await CreatureCmd.Damage(new BlockingPlayerChoiceContext(), CombatState.HittableEnemies,
             lostBlock, ValueProp.Unpowered, Owner);
         lastBlock = 0;
+    }
+
+    /// <summary>
+    /// 取得"阻止清除格挡"的能力留下的保留上限；若无上限（完全保留）返回 0。
+    /// 外卡钳（坚固钳子 SturdyClamp）跨回合保留最多 X 点格挡、超出部分流失，其上限取自私有常量
+    /// <c>_maxRetainedBlock</c>。壁垒/残影/潜地等完全保留格挡的能力没有该字段，返回 0（即不流失、不触发伤害）。
+    /// </summary>
+    private static decimal GetRetainCap(AbstractModel preventer)
+    {
+        var field = preventer.GetType().GetField(
+            "_maxRetainedBlock",
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+        if (field == null || !field.IsLiteral)
+        {
+            return 0;
+        }
+        return Convert.ToDecimal(field.GetRawConstantValue());
     }
 }

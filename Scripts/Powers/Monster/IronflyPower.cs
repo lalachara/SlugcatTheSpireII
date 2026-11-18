@@ -1,4 +1,4 @@
-﻿﻿﻿using MegaCrit.Sts2.Core.Commands.Builders;
+﻿using MegaCrit.Sts2.Core.Commands.Builders;
   using MegaCrit.Sts2.Core.Entities.Cards;
   using MegaCrit.Sts2.Core.Entities.Players;
   using MegaCrit.Sts2.Core.HoverTips;
@@ -56,8 +56,10 @@ public sealed class IronflyPower : ModPowerTemplate
     Creature? dealer,
     CardModel? cardSource)
   {
-    if(target == this.Owner &&props!=ValueProp.Unpowered)
-      return amount/4; 
+    // 生命流失（内伤、中毒等）不吃减伤：塔2 的流失伤害带的是 Unblockable|Unpowered 组合标记，
+    // 用 == / != 与 ValueProp.Unpowered 做相等比较会漏判，必须按位测试。
+    if(target == this.Owner && (props & ValueProp.Unpowered) == 0)
+      return amount/2; 
     return amount;
   }
   
@@ -68,7 +70,7 @@ public sealed class IronflyPower : ModPowerTemplate
   }
   public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult _, ValueProp props, Creature? dealer, CardModel? __)
   {
-    if (target == base.Owner && dealer != null && props!=ValueProp.Unpowered&&_.UnblockedDamage>0)
+    if (target == base.Owner && dealer != null && (props & ValueProp.Unpowered) == 0 && _.UnblockedDamage>0)
     {
       await PowerCmd.Decrement(this);
     }

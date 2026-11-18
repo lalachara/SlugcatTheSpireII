@@ -1,6 +1,4 @@
-﻿using Godot;
-using MegaCrit.Sts2.Core.Models;
-using STS2RitsuLib;
+﻿using STS2RitsuLib;
 using STS2RitsuLib.Data;
 using STS2RitsuLib.Settings;
 using STS2RitsuLib.Utils.Persistence;
@@ -29,6 +27,9 @@ public sealed class RainworldModSettings
 	public bool EnableMaxHpRelicFix { get; set; } = false;
 	public bool EnableHpRelicFix { get; set; } = false;
 
+	/// <summary>游玩蛞蝓猫时禁用原版事件「深渊浴场」（abyssal_baths）。</summary>
+	public bool EnableDisableAbyssalBaths { get; set; } = false;
+
 	public bool EnableModAncientFix { get; set; } = true;
 
 	/// <summary>非蛞蝓猫角色使用原版「检索其它角色卡牌」机制时，排除蛞蝓猫角色的卡。</summary>
@@ -49,6 +50,13 @@ public sealed class RainworldModSettings
 
 	public MonsterSpawnMode RaindeerEventSpawnMode { get; set; } = MonsterSpawnMode.Always;
 	public MonsterSpawnMode WatcherEventSpawnMode { get; set; } = MonsterSpawnMode.Always;
+	public MonsterSpawnMode ScavengerEventSpawnMode { get; set; } = MonsterSpawnMode.Always;
+
+	// 皮肤选择：保存 Spine 骨架内的 skin 名，角色选择界面写入；空字符串由 SlugcatSkins 回退到该角色列表首项。
+	public string RedcatSkin { get; set; } = string.Empty;
+	public string RiverSkin { get; set; } = string.Empty;
+	public string LiverSkin { get; set; } = string.Empty;
+	public string MonkSkin { get; set; } = string.Empty;
 }
 
 public static class RainworldModConfig
@@ -69,6 +77,11 @@ public static class RainworldModConfig
 		Entry.ModId, DataKey, SaveScope.Global,
 		static s => s.EnableHpRelicFix,
 		static (s, v) => s.EnableHpRelicFix = v);
+
+	private static readonly ModSettingsValueBinding<RainworldModSettings, bool> EnableDisableAbyssalBathsBinding = new(
+		Entry.ModId, DataKey, SaveScope.Global,
+		static s => s.EnableDisableAbyssalBaths,
+		static (s, v) => s.EnableDisableAbyssalBaths = v);
 
 	private static readonly ModSettingsValueBinding<RainworldModSettings, bool> EnableModAncientFixBinding = new(
 		Entry.ModId, DataKey, SaveScope.Global,
@@ -139,6 +152,32 @@ public static class RainworldModConfig
 		static s => s.WatcherEventSpawnMode,
 		static (s, v) => s.WatcherEventSpawnMode = v);
 
+	private static readonly ModSettingsValueBinding<RainworldModSettings, MonsterSpawnMode> ScavengerEventSpawnModeBinding = new(
+		Entry.ModId, DataKey, SaveScope.Global,
+		static s => s.ScavengerEventSpawnMode,
+		static (s, v) => s.ScavengerEventSpawnMode = v);
+
+	// 皮肤选择绑定。
+	private static readonly ModSettingsValueBinding<RainworldModSettings, string> RedcatSkinBinding = new(
+		Entry.ModId, DataKey, SaveScope.Global,
+		static s => s.RedcatSkin,
+		static (s, v) => s.RedcatSkin = v);
+
+	private static readonly ModSettingsValueBinding<RainworldModSettings, string> RiverSkinBinding = new(
+		Entry.ModId, DataKey, SaveScope.Global,
+		static s => s.RiverSkin,
+		static (s, v) => s.RiverSkin = v);
+
+	private static readonly ModSettingsValueBinding<RainworldModSettings, string> LiverSkinBinding = new(
+		Entry.ModId, DataKey, SaveScope.Global,
+		static s => s.LiverSkin,
+		static (s, v) => s.LiverSkin = v);
+
+	private static readonly ModSettingsValueBinding<RainworldModSettings, string> MonkSkinBinding = new(
+		Entry.ModId, DataKey, SaveScope.Global,
+		static s => s.MonkSkin,
+		static (s, v) => s.MonkSkin = v);
+
 	/// <summary>
 	/// 事件区总控。写入总控值时把该值一并写入全部事件明细绑定，RitsuLib 会因每个绑定被写入而自动刷新对应的明细行，
 	/// 从而实现「一键覆盖」并同步显示，运行时无需再单独判断总控。
@@ -149,7 +188,7 @@ public static class RainworldModConfig
 				Entry.ModId, DataKey, SaveScope.Global,
 				static s => s.EventMasterSpawnMode,
 				static (s, v) => s.EventMasterSpawnMode = v),
-			new IModSettingsValueBinding<MonsterSpawnMode>[] { RaindeerEventSpawnModeBinding, WatcherEventSpawnModeBinding });
+			new IModSettingsValueBinding<MonsterSpawnMode>[] { RaindeerEventSpawnModeBinding, WatcherEventSpawnModeBinding, ScavengerEventSpawnModeBinding });
 
 	public static bool EnableCombatCantLossMaxHp
 	{
@@ -167,6 +206,12 @@ public static class RainworldModConfig
 	{
 		get => EnableHpRelicFixBinding.Read();
 		set { EnableHpRelicFixBinding.Write(value); EnableHpRelicFixBinding.Save(); }
+	}
+
+	public static bool EnableDisableAbyssalBaths
+	{
+		get => EnableDisableAbyssalBathsBinding.Read();
+		set { EnableDisableAbyssalBathsBinding.Write(value); EnableDisableAbyssalBathsBinding.Save(); }
 	}
 
 	public static bool EnableModAncientFix
@@ -242,6 +287,36 @@ public static class RainworldModConfig
 		set { WatcherEventSpawnModeBinding.Write(value); WatcherEventSpawnModeBinding.Save(); }
 	}
 
+	public static MonsterSpawnMode ScavengerEventSpawnMode
+	{
+		get => ScavengerEventSpawnModeBinding.Read();
+		set { ScavengerEventSpawnModeBinding.Write(value); ScavengerEventSpawnModeBinding.Save(); }
+	}
+
+	public static string RedcatSkin
+	{
+		get => RedcatSkinBinding.Read();
+		set { RedcatSkinBinding.Write(value); RedcatSkinBinding.Save(); }
+	}
+
+	public static string RiverSkin
+	{
+		get => RiverSkinBinding.Read();
+		set { RiverSkinBinding.Write(value); RiverSkinBinding.Save(); }
+	}
+
+	public static string LiverSkin
+	{
+		get => LiverSkinBinding.Read();
+		set { LiverSkinBinding.Write(value); LiverSkinBinding.Save(); }
+	}
+
+	public static string MonkSkin
+	{
+		get => MonkSkinBinding.Read();
+		set { MonkSkinBinding.Write(value); MonkSkinBinding.Save(); }
+	}
+
 	/// <summary>
 	/// 生成一份当前本地配置的 spawn 快照，供宿主机下发给全体客户端（多人以宿主机为准）。
 	/// 离线或单人时则直接使用该快照作为生效配置。
@@ -258,6 +333,7 @@ public static class RainworldModConfig
 		EventMasterSpawnMode = EventMasterSpawnMode,
 		RaindeerEventSpawnMode = RaindeerEventSpawnMode,
 		WatcherEventSpawnMode = WatcherEventSpawnMode,
+		ScavengerEventSpawnMode = ScavengerEventSpawnMode,
 	};
 
 	private static ModSettingsText T(string key) =>
@@ -342,6 +418,10 @@ public static class RainworldModConfig
 					T("RAINWORLD-config.enableHpRelicFix"),
 					EnableHpRelicFixBinding,
 					T("RAINWORLD-config.enableHpRelicFix.desc"))
+				.AddToggle("enableDisableAbyssalBaths",
+					T("RAINWORLD-config.enableDisableAbyssalBaths"),
+					EnableDisableAbyssalBathsBinding,
+					T("RAINWORLD-config.enableDisableAbyssalBaths.desc"))
 
 			)
 			.AddSection("monster", section => section
@@ -398,6 +478,11 @@ public static class RainworldModConfig
 					WatcherEventSpawnModeBinding,
 					SpawnModeLabelText,
 					T("RAINWORLD-config.watcherEventSpawnMode.desc"))
+				.AddEnumChoice<MonsterSpawnMode>("scavengerEventSpawnMode",
+					T("RAINWORLD-config.scavengerEventSpawnMode"),
+					ScavengerEventSpawnModeBinding,
+					SpawnModeLabelText,
+					T("RAINWORLD-config.scavengerEventSpawnMode.desc"))
 
 			)
 

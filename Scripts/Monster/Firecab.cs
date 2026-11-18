@@ -75,7 +75,7 @@ public class Firecab : ModMonsterTemplate
                     .FromMonster(this)
                     .WithAttackerAnim("Attack2", 0.2f) // 如果有攻击动画，可以取消注释并替换成实际动画名称和延迟
                     .WithAttackerFx(null, AttackSfx)
-                    .WithHitFx("vfx/vfx_attack_blunt")
+                    .WithHitFx("vfx/vfx_bite")
                     .WithHitCount(3)
                     .Execute(null);
             },
@@ -161,7 +161,7 @@ public class Firecab : ModMonsterTemplate
             .FromMonster(this)
             .WithAttackerAnim("Attack", 0.5f) // 如果有攻击动画，可以取消注释并替换成实际动画名称和延迟
             .WithAttackerFx(null, AttackSfx) // 攻击音效
-            .WithHitFx("vfx/vfx_attack_blunt") // 攻击特效
+            .WithHitFx("vfx/vfx_bite")
             .Execute(null);
         await PowerCmd.Apply<FrailPower>(new ThrowingPlayerChoiceContext(), targets, 2, Creature, null);
     }

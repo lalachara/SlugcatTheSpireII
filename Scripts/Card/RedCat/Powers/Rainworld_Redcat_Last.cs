@@ -22,7 +22,7 @@ public class Rainworld_Redcat_Last : RedCatCardModel
     public override CardMultiplayerConstraint MultiplayerConstraint => CardMultiplayerConstraint.MultiplayerOnly;
 
 
-    protected override HashSet<CardTag> CanonicalTags => new() { };
+    protected override HashSet<CardTag> CanonicalTags => new() { RainworldCardTags.CantGenerate };
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
     ];

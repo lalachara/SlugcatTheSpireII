@@ -1,4 +1,4 @@
-﻿﻿﻿using MegaCrit.Sts2.Core.Commands.Builders;
+﻿﻿using MegaCrit.Sts2.Core.Commands.Builders;
   using MegaCrit.Sts2.Core.Entities.Cards;
   using MegaCrit.Sts2.Core.Entities.Players;
   using MegaCrit.Sts2.Core.HoverTips;
@@ -54,7 +54,8 @@ public sealed class CatchPower : ModPowerTemplate
     if (dealer != Owner || !target.IsPlayer || !props.IsPoweredAttack() || result.UnblockedDamage <= 0)
       return;
     
-    await CreatureCmd.LoseMaxHp(choiceContext, target, 5, false);
+    // 0.113：LoseMaxHp 的最后一个参数由 bool isFromCard 改成 CardModel? cardSource
+    await CreatureCmd.LoseMaxHp(choiceContext, target, 5, null);
   }
   
   public override async Task AfterSideTurnEnd(

@@ -1,11 +1,10 @@
-﻿﻿﻿using MegaCrit.Sts2.Core.Commands.Builders;
+﻿﻿using MegaCrit.Sts2.Core.Commands.Builders;
   using MegaCrit.Sts2.Core.Entities.Cards;
   using MegaCrit.Sts2.Core.Entities.Players;
   using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Models.Monsters;
-using MegaCrit.Sts2.Core.Models.Powers;
 using Rainworld.Scripts;
 using Rainworld.Scripts.Card.Liver.Attack;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -43,7 +42,6 @@ public sealed class MushroomPower : ModPowerTemplate
   public override async Task AfterCardExhausted(PlayerChoiceContext choiceContext, CardModel card, bool causedByEthereal)
   {
     await CreatureCmd.GainMaxHp(Owner, Amount);
-    await PowerCmd.Apply<StrengthPower>(choiceContext,Owner, 1,Owner,null);
     await base.AfterCardExhausted(choiceContext, card, causedByEthereal);
   }
   

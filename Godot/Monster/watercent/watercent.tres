@@ -1,8 +1,0 @@
-[gd_resource type="SpineSkeletonDataResource" load_steps=3 format=3 uid="uid://bh5f6la4w7dpq"]
-
-[ext_resource type="SpineAtlasResource" uid="uid://gmpchimlsryh" path="res://Godot/Monster/watercent/shuiwugongSP.atlas" id="1_p5hsf"]
-[ext_resource type="SpineSkeletonFileResource" uid="uid://c5w0wskgrw2co" path="res://Godot/Monster/watercent/skeleton.skel" id="2_lubmt"]
-
-[resource]
-atlas_res = ExtResource("1_p5hsf")
-skeleton_file_res = ExtResource("2_lubmt")

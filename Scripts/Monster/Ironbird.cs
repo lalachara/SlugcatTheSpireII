@@ -30,10 +30,10 @@ namespace Rainworld.Scripts.Monster;
 public class Ironbird : ModMonsterTemplate
 {
     // 根据进阶提高最小血量，进阶8及以上为20，否则为15
-    public override int MinInitialHp => AscensionHelper.GetValueIfAscension(AscensionLevel.ToughEnemies, 155, 150);
+    public override int MinInitialHp => AscensionHelper.GetValueIfAscension(AscensionLevel.ToughEnemies, 205, 200);
 
     // 根据进阶提高最大血量，进阶8及以上为30，否则为20
-    public override int MaxInitialHp => AscensionHelper.GetValueIfAscension(AscensionLevel.ToughEnemies, 165, 160);
+    public override int MaxInitialHp => AscensionHelper.GetValueIfAscension(AscensionLevel.ToughEnemies, 215, 210);
 
     // 意图1的数值，伤害和格挡，根据进阶提高伤害
     private int BasicDamage => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 4, 3);
@@ -44,7 +44,7 @@ public class Ironbird : ModMonsterTemplate
         get => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 2+ CombatState.Players.Count*3, 2+ CombatState.Players.Count*4);
     }
     // 意图2的数值，重击伤害，根据进阶提高伤害
-    private int HeavyDamage => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 19, 17);
+    private int HeavyDamage => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 13, 11);
     private int flytimes = 0;
     private bool _isDazed;
     public MoveState sleepmove;

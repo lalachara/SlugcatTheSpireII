@@ -36,7 +36,7 @@ public class Rainworld_Redcat_Parasitism : RedCatCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        await PowerCmd.Apply<ParasitismPower>(choiceContext, Owner.Creature, 1, Owner.Creature, this);
+        await PowerCmd.Apply<ParasitismPower>(choiceContext, Owner.Creature, 2, Owner.Creature, this);
     }
 
     protected override void OnUpgrade()

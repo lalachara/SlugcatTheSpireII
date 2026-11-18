@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.HoverTips;
+using MegaCrit.Sts2.Core.Models.RelicPools;
 using MegaCrit.Sts2.Core.Models.Relics;
 using Rainworld.Scripts.Card.Future;
 using STS2RitsuLib.Interop.AutoRegistration;
@@ -11,7 +12,7 @@ using STS2RitsuLib.Scaffolding.Content;
 
 namespace Rainworld.relics;
 
-[RegisterRelic(typeof(Rainworld_Liver_RelicPool))]
+[RegisterRelic(typeof(SharedRelicPool))]
 public sealed class Touchallow : ModRelicTemplate
 {
     public override RelicRarity Rarity => RelicRarity.Ancient;

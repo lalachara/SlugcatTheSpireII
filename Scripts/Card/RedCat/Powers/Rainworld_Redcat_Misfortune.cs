@@ -30,9 +30,9 @@ public class Rainworld_Redcat_Misfortune : RedCatCardModel
     // 是否在卡牌图鉴中显示
     private const bool shouldShowInCardLibrary = true;
 
-    protected override HashSet<CardTag> CanonicalTags => new() { };
+    protected override HashSet<CardTag> CanonicalTags => new() { RainworldCardTags.CantGenerate };
     
-    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Ethereal,RainworldKeywords.Corrupt };
+    public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { RainworldKeywords.Corrupt };
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
@@ -53,6 +53,6 @@ public class Rainworld_Redcat_Misfortune : RedCatCardModel
     // 升级后的效果逻辑
     protected override void OnUpgrade()
     {
-        RemoveKeyword(CardKeyword.Ethereal);
+        EnergyCost.UpgradeBy(-1);
     }
 }

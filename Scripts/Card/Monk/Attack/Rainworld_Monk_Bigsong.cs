@@ -1,41 +1,38 @@
 ﻿using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
-using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
-using MegaCrit.Sts2.Core.Models.CardPools;
-using MegaCrit.Sts2.Core.ValueProps;
-using System.Collections.Generic;
 using MegaCrit.Sts2.Core.Models;
-using SlugcatTheSpireII.Scripts;
+using MegaCrit.Sts2.Core.ValueProps;
 
 namespace Rainworld.Scripts.Card.Monk;
 
+/// <summary>
+/// 大合唱：造成伤害，你的卡组里每有1张牌，额外造成1点伤害（对应塔1同名卡的重做方向）。
+/// 伤害 = CalculationBase + ExtraDamage × 卡组张数（卡组指玩家整副牌，不是本轮抽到的牌）。
+/// </summary>
 public class Rainworld_Monk_Bigsong : MonkCardModel
 {
-    private readonly HashSet<CardPoolModel> _playedColors = new();
-    private int _colorfulCount;
-
     private const int energyCost = 2;
     private const CardType type = CardType.Attack;
     private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
 
-    private static decimal CalculateDamageMultiplier(CardModel card, Creature? creature)
+    /// <summary>卡组张数乘数：每有1张牌，额外伤害增加一份。</summary>
+    private static decimal CountDeckCards(CardModel card, Creature? creature)
     {
-        if (card is not Rainworld_Monk_Bigsong bigsong)
+        if (card is not Rainworld_Monk_Bigsong)
             return 0m;
-        return bigsong._playedColors.Count + bigsong._colorfulCount;
+        return card.Owner.Deck.Cards.Count;
     }
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new CalculationBaseVar(4m),
-        new ExtraDamageVar(2m),
-        new("Special", 1m),
-        new CalculatedDamageVar(ValueProp.Move).WithMultiplier(CalculateDamageMultiplier)
+        new CalculationBaseVar(0m),
+        new ExtraDamageVar(1m),
+        new CalculatedDamageVar(ValueProp.Move).WithMultiplier(CountDeckCards)
     ];
 
     public Rainworld_Monk_Bigsong() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -44,42 +41,16 @@ public class Rainworld_Monk_Bigsong : MonkCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        var colorCount = _playedColors.Count + _colorfulCount;
-        var hitCount = (int)DynamicVars["Special"].BaseValue + colorCount;
-
+        ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
         await DamageCmd.Attack(DynamicVars.CalculatedDamage)
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
-            .WithHitCount(hitCount)
             .WithHitFx("vfx/vfx_attack_slash")
             .Execute(choiceContext);
     }
 
-    public override async Task AfterCardPlayed(PlayerChoiceContext choiceContext, CardPlay cardPlay)
-    {
-        if (cardPlay.Card.Owner == Owner && cardPlay.Card != this)
-        {
-            if (cardPlay.Card.Keywords.Contains(RainworldKeywords.Colorful))
-                _colorfulCount++;
-            else
-                _playedColors.Add(cardPlay.Card.VisualCardPool);
-        }
-        await base.AfterCardPlayed(choiceContext, cardPlay);
-    }
-
-    public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
-    {
-        if (player == Owner)
-        {
-            _playedColors.Clear();
-            _colorfulCount = 0;
-        }
-        await base.AfterPlayerTurnStart(choiceContext, player);
-    }
-
     protected override void OnUpgrade()
     {
-        DynamicVars.CalculationBase.UpgradeValueBy(2m);
-        DynamicVars["Extra"].UpgradeValueBy(1m);
+        EnergyCost.UpgradeBy(-1);
     }
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Rainworld.Resource.Card;
@@ -77,7 +77,7 @@ public sealed class Rainworld_Redcat : Slugcat<Rainworld_Redcat_CardPool, Rainwo
 				ArmScissorsTexturePath:"res://Godot/Character/RedCat/mult_hand_2.png"
 			),
 			VanillaRelicVisualOverrides: [
-				new (CharacterOwnedVanillaRelicModelId.YummyCookie, new("res://Resource/Relics/redcatcookie.png")) // 美味饼干覆盖
+				new (CharacterOwnedVanillaRelicModelId.YummyCookie, new(IconPath: "res://Resource/Relics/redcatcookie.png", IconOutlinePath: "res://Resource/Relics/redcatcookie.png", BigIconPath: "res://Resource/Relics/redcatcookie.png")) // 美味饼干覆盖
 			]
 			
 
@@ -111,6 +111,12 @@ public sealed class Rainworld_Redcat : Slugcat<Rainworld_Redcat_CardPool, Rainwo
 	public override Color DialogueColor => new Color("a7293b");
 	//地图绘制颜色
 	public override Color MapDrawingColor => new Color(234f/255f, 13F/255f, 5F/255f);
+
+	/// <summary>恐惧模式（Dread）角色选择界面里名字的颜色：与地图画笔颜色同色（原版默认是黄色 ffd500c0）。</summary>
+	public override Color DreadNameColor => new Color("EA0D05C0");
+
+	/// <summary>恐惧模式下名字背景的对比度：浅色（黄/白/浅蓝）调高一点才看得清。</summary>
+	public override float DreadBgContrast => 1.1f;
 	
 	public override Color RemoteTargetingLineColor =>  new Color(234f/255f, 13F/255f, 5F/255f);
 	public override Color RemoteTargetingLineOutline =>  new Color(234f/255f, 13F/255f, 5F/255f);

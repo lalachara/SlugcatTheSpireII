@@ -17,7 +17,6 @@ public class Rainworld_Monk_Walljump : MonkCardModel
     private const bool shouldShowInCardLibrary = true;
 
     public override bool GainsBlock => true;
-    protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<NimblePower>() };
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
@@ -34,7 +33,6 @@ public class Rainworld_Monk_Walljump : MonkCardModel
         var times = (int)DynamicVars["Repeat"].BaseValue;
         for (var i = 0; i < times; i++)
             await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
-        await PowerCmd.Apply<NimblePower>(choiceContext, Owner.Creature, 2, Owner.Creature, this);
     }
 
     protected override void OnUpgrade()

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Rainworld.Resource.Card;
@@ -40,7 +40,7 @@ public sealed class Rainworld_River : Slugcat<Rainworld_River_CardPool, Rainworl
 	public int enemyfood { get; set; } = 3;
 	public int jyFood { get; set; } = 5;
 	public int bossfood { get; set; } = 6;
-	public int roomfood { get; set; } = 2;
+	public int roomfood { get; set; } = 1;
 	
 	public override int StartingHp => 8;
 	public override int StartingGold => 99;
@@ -79,7 +79,7 @@ public sealed class Rainworld_River : Slugcat<Rainworld_River_CardPool, Rainworl
 				ArmScissorsTexturePath:"res://Godot/Character/River/mult_hand_2.png"
 			),
 			VanillaRelicVisualOverrides: [
-				new (CharacterOwnedVanillaRelicModelId.YummyCookie, new("res://Resource/Relics/rivercookie.png")) // 美味饼干覆盖
+				new (CharacterOwnedVanillaRelicModelId.YummyCookie, new(IconPath: "res://Resource/Relics/rivercookie.png", IconOutlinePath: "res://Resource/Relics/rivercookie.png", BigIconPath: "res://Resource/Relics/rivercookie.png")) // 美味饼干覆盖
 			]
 
 		));
@@ -100,6 +100,12 @@ public sealed class Rainworld_River : Slugcat<Rainworld_River_CardPool, Rainworl
 	public override Color EnergyLabelOutlineColor => new("1a4750");
 	public override Color DialogueColor => new Color("3f8999");
 	public override Color MapDrawingColor => new Color(145f/255f, 204f/255f, 240f/255f, 1f);
+
+	/// <summary>恐惧模式（Dread）角色选择界面里名字的颜色：与地图画笔颜色同色（原版默认是黄色 ffd500c0）。</summary>
+	public override Color DreadNameColor => new Color("91CCF0C0");
+
+	/// <summary>恐惧模式下名字背景的对比度：浅色（黄/白/浅蓝）调高一点才看得清。</summary>
+	public override float DreadBgContrast => 1.5f;
 	public override Color RemoteTargetingLineColor => new Color(145f/255f, 204f/255f, 240f/255f, 1f);
 	public override Color RemoteTargetingLineOutline => new Color(145f/255f, 204f/255f, 240f/255f, 1f);
 	protected override NCreatureVisuals? TryCreateCreatureVisuals() => RitsuGodotNodeFactories.CreateFromScenePath<NCreatureVisuals>(AssetProfile.Scenes!.VisualsPath!);

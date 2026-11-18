@@ -1,4 +1,4 @@
-﻿using MegaCrit.Sts2.Core.Animation;
+using MegaCrit.Sts2.Core.Animation;
 using MegaCrit.Sts2.Core.Bindings.MegaSpine;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Ascension;
@@ -127,8 +127,9 @@ public class Threechicken : ModMonsterTemplate
                 {if (!target.IsDead)
                     {
                         
-                    await CreatureCmd.LoseMaxHp(new BlockingPlayerChoiceContext(),target,5,false);
-                    await CreatureCmd.LoseMaxHp(new BlockingPlayerChoiceContext(),target,5,false);
+                    // 0.113：LoseMaxHp 的最后一个参数由 bool isFromCard 改成 CardModel? cardSource
+                    await CreatureCmd.LoseMaxHp(new BlockingPlayerChoiceContext(),target,5,null);
+                    await CreatureCmd.LoseMaxHp(new BlockingPlayerChoiceContext(),target,5,null);
                     
                     List<CardModel> list = CardPile.GetCards(target.Player ?? target.PetOwner, PileType.Draw, PileType.Discard).Where<CardModel>((Func<CardModel, bool>) (c => c.DeckVersion != null)).ToList<CardModel>();
                     IEnumerable<CardModel> cardModels = (IEnumerable<CardModel>) list;

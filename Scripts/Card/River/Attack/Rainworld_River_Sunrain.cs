@@ -20,7 +20,7 @@ public class Rainworld_River_Sunrain : RiverCardModel
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new DamageVar(2m, ValueProp.Move),
-        new CardsVar(2),
+        new CardsVar(6),
         new EnergyVar(1)
     ];
 
@@ -39,7 +39,7 @@ public class Rainworld_River_Sunrain : RiverCardModel
                     .WithHitFx("vfx/vfx_attack_slash")
                     .Execute(choiceContext);
 
-        await CardPileCmd.Draw(choiceContext, (int)DynamicVars.Cards.BaseValue, Owner);
+        await CreatureCmd.Heal(Owner.Creature, 6, true);
         await PlayerCmd.GainEnergy((int)DynamicVars.Energy.BaseValue,Owner);
     }
 

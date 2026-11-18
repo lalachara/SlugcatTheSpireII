@@ -16,7 +16,7 @@ public class Rainworld_River_Skipstone : RiverCardModel
     private const bool shouldShowInCardLibrary = true;
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [
-        new DamageVar(6m, ValueProp.Move)
+        new DamageVar(5m, ValueProp.Move)
     ];
 
     public Rainworld_River_Skipstone() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

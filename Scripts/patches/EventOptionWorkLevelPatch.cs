@@ -64,7 +64,9 @@ public sealed class EventOptionMultiplayerGuardPatch : IPatchMethod
 	public static bool IsCritical => false;
 
 	public static ModPatchTarget[] GetTargets() =>
-		[new(typeof(CreatureCmd), "Damage", new[] { typeof(PlayerChoiceContext), typeof(IEnumerable<Creature>), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel), typeof(CardPlay) })];
+		// 0.113：IEnumerable 目标的 Damage 增加了一个可选参数 ModifyDamageHookType，
+		// Harmony 按精确参数列表匹配，必须把它也列出来
+		[new(typeof(CreatureCmd), "Damage", new[] { typeof(PlayerChoiceContext), typeof(IEnumerable<Creature>), typeof(decimal), typeof(ValueProp), typeof(Creature), typeof(CardModel), typeof(CardPlay), typeof(MegaCrit.Sts2.Core.Hooks.ModifyDamageHookType) })];
 
 	public static bool Prefix(ref IEnumerable<Creature>? targets, decimal amount)
 	{
@@ -153,6 +155,9 @@ public sealed class EventOptionMultiplayerGuardPatch : IPatchMethod
 		}
 
 		// 普通分支：扣 1 点业力（等价 reLive → addworklevel(-1) 的核心，同步处理避免 await）。
+		// 这条同步路径绕过了 addworklevel，音效必须自己补，否则战斗外事件扣业力全程无声。
+		if (LocalContext.IsMe(player))
+			SfxCmd.Play("event:/Rainworld/sfx/workleveldown");
 		var data = SlugcatResources.Data.Get(player);
 		int newLevel = Math.Clamp(data.WorkLevel - 1, 0, data.MaxWorkLevel);
 		SlugcatResources.Data.Modify(player, d => d.WorkLevel = newLevel);

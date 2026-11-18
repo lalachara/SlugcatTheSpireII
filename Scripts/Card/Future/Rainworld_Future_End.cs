@@ -1,4 +1,4 @@
-﻿﻿using System.Linq;
+using System.Linq;
 using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -48,13 +48,20 @@ public class Rainworld_Future_End : FutureCardModel
                 Owner.RunState.Rng.CombatCardGeneration);
             var selected = await CardSelectCmd.FromSimpleGrid(choiceContext, distinctCards.ToList(), Owner,
                 new CardSelectorPrefs(SelectionScreenPrompt, 1, 1));
-            chosenCard = selected.First();
+            var chosenFromGrid = selected.FirstOrDefault();
+            if (chosenFromGrid == null)
+                return;
+            chosenCard = chosenFromGrid;
         }
         else
         {
             var distinctCards = CardFactory.GetDistinctForCombat(Owner, xCostCards, 1,
                 Owner.RunState.Rng.CombatCardGeneration);
-            chosenCard = distinctCards.First();
+            // 去重工厂可能返回空序列：直接 .First() 会抛异常并卡死整局
+            var pickedCard = distinctCards.FirstOrDefault();
+            if (pickedCard == null)
+                return;
+            chosenCard = pickedCard;
         }
 
         await CardPileCmd.AddGeneratedCardToCombat(chosenCard, PileType.Hand, Owner);

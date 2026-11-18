@@ -14,6 +14,7 @@ public class Rainworld_River_Driftingbottle : RiverCardModel
     private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
+    protected override HashSet<CardTag> CanonicalTags => new() { RainworldCardTags.CantGenerate };
 
     public Rainworld_River_Driftingbottle() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {

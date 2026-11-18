@@ -6,6 +6,7 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.ValueProps;
+using Rainworld.Scripts.Monster.Minions;
 using Rainworld.Scripts.Powers;
 
 namespace Rainworld.Scripts.Card.Monk;
@@ -43,8 +44,10 @@ public class Rainworld_Monk_Kick : MonkCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
+        // 有未眩晕的伙伴就多打一次；伤害本身由 CalculatedDamageVar 按「协调」层数加算
+        var hits = FriendPositions.HasAwakeFriend(Owner) ? 2 : 1;
         await DamageCmd.Attack(DynamicVars.CalculatedDamage)
-            .WithHitCount(Owner.Creature.HasPower<TunePower>() ? 2 : 1)
+            .WithHitCount(hits)
             .FromCard(this, cardPlay)
             .Targeting(cardPlay.Target)
             .WithHitFx("vfx/vfx_attack_blunt", null, "blunt_attack.mp3")

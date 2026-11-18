@@ -20,7 +20,7 @@ public class Rainworld_Redcat_Mix : RedCatCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
-    protected override HashSet<CardTag> CanonicalTags => new() { };
+    protected override HashSet<CardTag> CanonicalTags => new() { RainworldCardTags.CantGenerate };
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<RedmushroomPower>(), HoverTipFactory.FromPower<MushblockPower>(),HoverTipFactory.FromPower<VigorPower>(),HoverTipFactory.FromPower<MushblockPower>() };
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
@@ -39,6 +39,7 @@ public class Rainworld_Redcat_Mix : RedCatCardModel
 
     protected override void OnUpgrade()
     {
-        DynamicVars["Summon"].UpgradeValueBy(1m);
+        // DynamicVars["Summon"].UpgradeValueBy(1m);
+        AddKeyword(CardKeyword.Innate);
     }
 }

@@ -1,4 +1,4 @@
-﻿﻿using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Relics;
 using MegaCrit.Sts2.Core.Factories;
@@ -133,7 +133,8 @@ public sealed class RelicPoolFilterPatch : IPatchMethod
                 const int maxRetries = 20;
                 for (int i = 0; i < maxRetries; i++)
                 {
-                    var newRelic = RelicFactory.PullNextRelicFromFront(player);
+                    // 0.113：PullNextRelicFromFront(Player) 重载已移除，奖励用的等价方法是 PullNextRelicForRewardFromFront
+                    var newRelic = RelicFactory.PullNextRelicForRewardFromFront(player);
                     if (!toRemove.Contains(newRelic.GetType()))
                     {
                         __result = newRelic;

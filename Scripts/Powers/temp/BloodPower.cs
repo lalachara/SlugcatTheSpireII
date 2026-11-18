@@ -1,4 +1,4 @@
-﻿﻿using MegaCrit.Sts2.Core.Entities.Cards;
+﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -35,22 +35,22 @@ public sealed class BloodPower : ModPowerTemplate
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
         new[] {         HoverTipFactory.FromPower<StrengthPower>()
         };
-    
-    public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target,
-        DamageResult _, ValueProp props, Creature? dealer, CardModel? __)
+
+
+
+    public override async Task AfterDamageReceivedLate(PlayerChoiceContext choiceContext, Creature target, DamageResult result, ValueProp props,
+        Creature? dealer, CardModel? cardSource)
     {
-        if (target != Owner || dealer == null || props == ValueProp.Unpowered)
+        if (target != Owner || dealer == null || (props & ValueProp.Unpowered) != 0)
             return;
 
-        if (_.UnblockedDamage == 0)
+        if (result.UnblockedDamage == 0)
         {
             return;
         }
-        await PowerCmd.Apply<StrengthPower>(choiceContext, Owner, (int)_.UnblockedDamage*Amount, Owner, null);
-        
-   
-        
+        await PowerCmd.Apply<StrengthPower>(choiceContext, Owner, (int)result.UnblockedDamage*Amount, Owner, null);
     }
+    
 
    
 }

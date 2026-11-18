@@ -27,7 +27,8 @@ public class Rainworld_Liver_Neurone : LiverCardModel
     // 是否在卡牌图鉴中显示
     private const bool shouldShowInCardLibrary = true;
 
-    protected override HashSet<CardTag> CanonicalTags => new() { };
+    // 不可被生成类效果抽到：打出即永久加最大生命并从卡组移除，随机生成会白送资源。
+    protected override HashSet<CardTag> CanonicalTags => new() { RainworldCardTags.CantGenerate };
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromKeyword(RainworldKeywords.Worklevel),HoverTipFactory.FromKeyword(RainworldKeywords.Food) };
     
     public override TargetType TargetType

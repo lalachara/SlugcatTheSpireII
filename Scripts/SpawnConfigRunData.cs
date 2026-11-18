@@ -22,4 +22,5 @@ public sealed class SpawnConfigRunData
 
 	public MonsterSpawnMode RaindeerEventSpawnMode { get; set; } = MonsterSpawnMode.Always;
 	public MonsterSpawnMode WatcherEventSpawnMode { get; set; } = MonsterSpawnMode.Always;
+	public MonsterSpawnMode ScavengerEventSpawnMode { get; set; } = MonsterSpawnMode.Always;
 }

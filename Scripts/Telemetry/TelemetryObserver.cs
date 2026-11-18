@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
@@ -27,14 +27,6 @@ public sealed class TelemetryObserver : ILifecycleObserver
     {
         switch (evt)
         {
-            case RelicObtainedEvent relic:
-                Entry.Logger.Info("[遥测][observer] 收到事件: " + nameof(RelicObtainedEvent));
-                OnRelicObtained(relic);
-                break;
-            case RewardTakenEvent reward:
-                Entry.Logger.Info("[遥测][observer] 收到事件: " + nameof(RewardTakenEvent));
-                OnRewardTaken(reward);
-                break;
             case RunEndedEvent runEnded:
                 Entry.Logger.Info("[遥测][observer] 收到事件: " + nameof(RunEndedEvent));
                 OnRunEnded(runEnded);
@@ -46,55 +38,7 @@ public sealed class TelemetryObserver : ILifecycleObserver
         }
     }
 
-    private static void OnRelicObtained(RelicObtainedEvent evt)
-    {
-        try
-        {
-            Entry.Logger.Info($"[遥测] 触发 relic_obtained: relic={RelicId(evt.Relic)}，character={CharacterId(evt.Player)}");
-            // 同样记一笔遗物获得（RelicObtainedEvent 与 RelicReward 可能重复触发，这里用统一事件名便于去重分析）。
-            TelemetrySetup.CaptureGameplay(
-                "relic_obtained",
-                new Dictionary<string, object?>
-                {
-                    ["relic"] = RelicId(evt.Relic),
-                    ["character"] = CharacterId(evt.Player),
-                });
-        }
-        catch (Exception ex)
-        {
-            Entry.Logger.Warn($"[遥测] relic_obtained 上报失败: {ex.Message}");
-        }
-    }
 
-    private static void OnRewardTaken(RewardTakenEvent evt)
-    {
-        try
-        {
-            Entry.Logger.Info($"[遥测] 触发 reward_taken: type={RewardTypeName(evt.Reward)}，character={CharacterId(evt.Player)}");
-            var props = new Dictionary<string, object?>
-            {
-                ["reward_type"] = RewardTypeName(evt.Reward),
-                ["character"] = CharacterId(evt.Player),
-            };
-
-            switch (evt.Reward)
-            {
-                case RelicReward relicReward when relicReward.Relic != null:
-                    props["relic"] = RelicId(relicReward.Relic);
-                    break;
-                case CardReward cardReward:
-                    // 奖励弹窗里的卡牌可能不止一张（展示3选1），这里只记录卡池里出现的卡牌数量。
-                    props["card_count"] = CountCards(cardReward);
-                    break;
-            }
-
-            TelemetrySetup.CaptureGameplay("reward_taken", props);
-        }
-        catch (Exception ex)
-        {
-            Entry.Logger.Warn($"[遥测] reward_taken 上报失败: {ex.Message}");
-        }
-    }
 
     private static void OnRunEnded(RunEndedEvent evt)
     {
@@ -124,6 +68,10 @@ public sealed class TelemetryObserver : ILifecycleObserver
                     ["karma_level"] = KarmaLevel(),
                     // 失败时处于第几幕（0-based 索引 +1）；胜利/弃权/取不到时输出 0。
                     ["failed_act"] = FailedActNumber(evt.IsVictory),
+#if STS2_0_113_0
+                    // 是否恐惧模式（Dread）对局：0.113 才有，0.111 不统计
+                    ["is_dread"] = IsDreadRun(evt.Run),
+#endif
                     ["victory"] = evt.IsVictory,
                     ["abandoned"] = evt.IsAbandoned,
                 });
@@ -230,7 +178,8 @@ public sealed class TelemetryObserver : ILifecycleObserver
     private readonly record struct CardRunInfo(ModelId? Id, string CardId, int MaxUpgrade, int Count, string CharacterId);
 
     /// <summary>
-    /// 从结束跑局的可序列化快照中，收集本局牌组里出现过的本 mod 卡（去重），并记录每种卡在本局的最高升级等级与出现次数。
+    /// 从结束跑局的可序列化快照中，收集本机玩家（自己）牌组里出现过的本 mod 卡（去重），并记录每种卡在本局的最高升级等级与出现次数。
+    /// 只统计本机玩家的牌组：多人合作下每个客户端各自上报自己的数据，避免各客户端遍历全队导致同一份数据被重复上报。
     /// 仅统计本 mod 的卡，用 mod 卡 Entry 前缀（如 SLUGCAT_THE_SPIRE_II_CARD_...）判断。
     /// </summary>
     private static IEnumerable<CardRunInfo> CollectRunModCards(SerializableRun run)
@@ -238,36 +187,32 @@ public sealed class TelemetryObserver : ILifecycleObserver
         if (run == null)
             yield break;
 
-        var stats = new Dictionary<string, (ModelId? Id, int MaxUpgrade, int Count, string CharacterId)>(StringComparer.OrdinalIgnoreCase);
-        var players = run.Players;
-        if (players == null)
+        // 只取本机玩家，多人时不再遍历队友牌组。
+        var me = LocalPlayerOf(run);
+        var deck = me?.Deck;
+        if (deck == null)
             yield break;
 
-        for (var i = 0; i < players.Count; i++)
+        var characterId = me?.CharacterId?.Entry?.ToString() ?? "unknown";
+        var stats = new Dictionary<string, (ModelId? Id, int MaxUpgrade, int Count, string CharacterId)>(StringComparer.OrdinalIgnoreCase);
+
+        var matchedInPlayer = 0;
+        foreach (var serializableCard in deck)
         {
-            var characterId = players[i]?.CharacterId?.Entry?.ToString() ?? "unknown";
-            var deck = players[i]?.Deck;
-            if (deck == null)
+            var entry = serializableCard?.Id?.Entry?.ToString();
+            if (string.IsNullOrEmpty(entry))
                 continue;
-
-            var matchedInPlayer = 0;
-            foreach (var serializableCard in deck)
-            {
-                var entry = serializableCard?.Id?.Entry?.ToString();
-                if (string.IsNullOrEmpty(entry))
-                    continue;
-                if (!entry.StartsWith(ModCardIdPrefix, StringComparison.OrdinalIgnoreCase))
-                    continue;
-                matchedInPlayer++;
-                var upgrade = serializableCard?.CurrentUpgradeLevel ?? 0;
-                if (stats.TryGetValue(entry, out var existing))
-                    stats[entry] = (existing.Id, Math.Max(existing.MaxUpgrade, upgrade), existing.Count + 1, existing.CharacterId);
-                else
-                    stats[entry] = (serializableCard?.Id, upgrade, 1, characterId);
-            }
-
-            Entry.Logger.Info($"[遥测] 采集牌组 Player[{i}] 可选卡数={deck.Count}，匹配到的 mod 卡={matchedInPlayer}");
+            if (!entry.StartsWith(ModCardIdPrefix, StringComparison.OrdinalIgnoreCase))
+                continue;
+            matchedInPlayer++;
+            var upgrade = serializableCard?.CurrentUpgradeLevel ?? 0;
+            if (stats.TryGetValue(entry, out var existing))
+                stats[entry] = (existing.Id, Math.Max(existing.MaxUpgrade, upgrade), existing.Count + 1, existing.CharacterId);
+            else
+                stats[entry] = (serializableCard?.Id, upgrade, 1, characterId);
         }
+
+        Entry.Logger.Info($"[遥测] 采集本机牌组 可选卡数={deck.Count}，匹配到的 mod 卡={matchedInPlayer}");
 
         foreach (var pair in stats)
             yield return new CardRunInfo(pair.Value.Id, pair.Key, pair.Value.MaxUpgrade, pair.Value.Count, pair.Value.CharacterId);
@@ -277,7 +222,8 @@ public sealed class TelemetryObserver : ILifecycleObserver
     private readonly record struct RelicRunInfo(ModelId? Id, string RelicId, string CharacterId);
 
     /// <summary>
-    /// 从结束跑局的可序列化快照中，收集本局玩家拥有的本 mod 遗物（去重），并记录所属角色。
+    /// 从结束跑局的可序列化快照中，收集本机玩家（自己）拥有的本 mod 遗物（去重），并记录所属角色。
+    /// 只统计本机玩家的遗物：多人合作下每个客户端各自上报自己的数据，避免各客户端遍历全队导致同一份数据被重复上报。
     /// 仅统计本 mod 的遗物，用 mod 遗物 Entry 前缀（如 SLUGCAT_THE_SPIRE_II_RELIC_...）判断。
     /// </summary>
     private static IEnumerable<RelicRunInfo> CollectRunModRelics(SerializableRun run)
@@ -285,33 +231,29 @@ public sealed class TelemetryObserver : ILifecycleObserver
         if (run == null)
             yield break;
 
-        var players = run.Players;
-        if (players == null)
+        // 只取本机玩家，多人时不再遍历队友遗物。
+        var me = LocalPlayerOf(run);
+        var relics = me?.Relics;
+        if (relics == null)
             yield break;
 
+        var characterId = me?.CharacterId?.Entry?.ToString() ?? "unknown";
         var seen = new Dictionary<string, (ModelId? Id, string CharacterId)>(StringComparer.OrdinalIgnoreCase);
-        for (var i = 0; i < players.Count; i++)
+
+        var matchedInPlayer = 0;
+        foreach (var serializableRelic in relics)
         {
-            var characterId = players[i]?.CharacterId?.Entry?.ToString() ?? "unknown";
-            var relics = players[i]?.Relics;
-            if (relics == null)
+            var entry = serializableRelic?.Id?.Entry?.ToString();
+            if (string.IsNullOrEmpty(entry))
                 continue;
-
-            var matchedInPlayer = 0;
-            foreach (var serializableRelic in relics)
-            {
-                var entry = serializableRelic?.Id?.Entry?.ToString();
-                if (string.IsNullOrEmpty(entry))
-                    continue;
-                if (!entry.StartsWith(ModRelicIdPrefix, StringComparison.OrdinalIgnoreCase))
-                    continue;
-                matchedInPlayer++;
-                if (!seen.ContainsKey(entry))
-                    seen[entry] = (serializableRelic?.Id, characterId);
-            }
-
-            Entry.Logger.Info($"[遥测] 采集遗物 Player[{i}] 数量={relics.Count}，匹配到的 mod 遗物={matchedInPlayer}");
+            if (!entry.StartsWith(ModRelicIdPrefix, StringComparison.OrdinalIgnoreCase))
+                continue;
+            matchedInPlayer++;
+            if (!seen.ContainsKey(entry))
+                seen[entry] = (serializableRelic?.Id, characterId);
         }
+
+        Entry.Logger.Info($"[遥测] 采集本机遗物 数量={relics.Count}，匹配到的 mod 遗物={matchedInPlayer}");
 
         foreach (var pair in seen)
             yield return new RelicRunInfo(pair.Value.Id, pair.Key, pair.Value.CharacterId);
@@ -397,29 +339,6 @@ public sealed class TelemetryObserver : ILifecycleObserver
         return _engTables.TryGetValue(fileName, out var result) ? result : null;
     }
 
-    private static string RelicId(RelicModel relic)
-    {
-        try
-        {
-            return relic?.Id?.Entry?.ToString() ?? "unknown";
-        }
-        catch
-        {
-            return "unknown";
-        }
-    }
-
-    private static string CharacterId(Player player)
-    {
-        try
-        {
-            return player?.Character?.Id?.Entry?.ToString() ?? "unknown";
-        }
-        catch
-        {
-            return "unknown";
-        }
-    }
 
     /// <summary>
     /// 本机玩家（自己）的业力等级（代码内 0-9，实际 1-10，故 +1）。
@@ -428,6 +347,36 @@ public sealed class TelemetryObserver : ILifecycleObserver
     /// 说明：业力是运行时数据（key 为运行时 Player），只能从活着的 RunManager 拿；
     /// RunEndedEvent 只带 SerializableRun，故这里用 DebugOnlyGetState() 读运行时玩家。
     /// </summary>
+#if STS2_0_113_0
+    /// <summary>
+    /// 本局是否为恐惧模式（Dread）。
+    /// 优先读运行时 <see cref="RunState" /> 的 GameMode / RunModels（结束时状态通常还在），
+    /// 取不到时退回结束事件里的 <c>SerializableRun.GameMode</c>。
+    /// </summary>
+    private static bool IsDreadRun(SerializableRun? run)
+    {
+        try
+        {
+            var state = RunManager.Instance?.DebugOnlyGetState();
+            if (state != null)
+            {
+                if (state.GameMode == GameMode.Dread)
+                    return true;
+
+                if (state.RunModels != null &&
+                    state.RunModels.Any(m => m is MegaCrit.Sts2.Core.Models.Dread.DreadRunModel))
+                    return true;
+            }
+
+            return run?.GameMode == GameMode.Dread;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+#endif
+
     private static int KarmaLevel()
     {
         try
@@ -503,27 +452,20 @@ public sealed class TelemetryObserver : ILifecycleObserver
         }
     }
 
-    private static string RewardTypeName(Reward reward)
+    /// <summary>
+    /// 结束跑局快照中的本机玩家（自己）状态。多人合作模式下只取自己，避免各客户端遍历全队重复上报。
+    /// <c>LocalContext.GetMe(run)</c> 在本机 NetId 为空时返回 null、快照内找不到本机座位时抛异常，故这里统一兜底为 null。
+    /// </summary>
+    private static SerializablePlayer? LocalPlayerOf(SerializableRun run)
     {
         try
         {
-            return reward?.GetType().Name ?? "unknown";
+            return run == null ? null : LocalContext.GetMe(run);
         }
         catch
         {
-            return "unknown";
+            return null;
         }
     }
 
-    private static int CountCards(CardReward cardReward)
-    {
-        try
-        {
-            return cardReward?.Cards?.Count() ?? 0;
-        }
-        catch
-        {
-            return 0;
-        }
-    }
 }

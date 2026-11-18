@@ -30,8 +30,6 @@ public class Rainworld_Liver_Dissolve : LiverCardModel
 
     // 是否在卡牌图鉴中显示
     private const bool shouldShowInCardLibrary = true;
-
-    public override bool GainsBlock => true;
     protected override HashSet<CardTag> CanonicalTags => new() { };
     public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Exhaust };
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromCard<Slimed>() };

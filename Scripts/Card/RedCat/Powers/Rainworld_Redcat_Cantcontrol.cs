@@ -20,7 +20,7 @@ public class Rainworld_Redcat_Cantcontrol : RedCatCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
-    protected override HashSet<CardTag> CanonicalTags => new() { };
+    protected override HashSet<CardTag> CanonicalTags => new() { RainworldCardTags.CantGenerate };
     public override IEnumerable<CardKeyword> CanonicalKeywords => new [] { RainworldKeywords.Corrupt };
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [

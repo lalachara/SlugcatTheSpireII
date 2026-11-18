@@ -78,6 +78,7 @@ public class Rainworld_Redcat_Spearboom : RedCatCardModel
             .WithHitFx(sfx:"event:/Rainworld/sfx/bombspear")
             .Execute(choiceContext);
         await Cmd.Wait(0.5f);
+        Vfx.BombBurstVfx.Play(CombatState!.HittableEnemies);
             await DamageCmd
                 .Attack(DynamicVars.Damage.BaseValue)
                 .FromCard(this,cardPlay)

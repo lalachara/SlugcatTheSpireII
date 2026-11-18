@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
@@ -50,7 +50,7 @@ public class Rainworld_Redcat_Firewind : RedCatCardModel
             .Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this,cardPlay)
             .TargetingAllOpponents(CombatState)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx("vfx/vfx_giant_horizontal_slash")
             .WithHitCount(DynamicVars.Cards.IntValue)
             .Execute(choiceContext);
         await CardPileCmd.Draw(choiceContext, DynamicVars.Cards.BaseValue, Owner);

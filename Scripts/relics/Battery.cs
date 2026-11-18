@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Godot;
 using MegaCrit.Sts2.Core.Combat;
@@ -18,6 +18,7 @@ using MegaCrit.Sts2.Core.Saves.Runs;
 using MegaCrit.Sts2.Core.ValueProps;
 using Rainworld.Godot.Character;
 using Rainworld.Scripts;
+using Rainworld.Scripts.Skins;
 using STS2RitsuLib.Interop.AutoRegistration;
 using STS2RitsuLib.Scaffolding.Content;
 
@@ -77,7 +78,7 @@ public sealed class Battery : ModRelicTemplate
 
     public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult result, ValueProp props, Creature? dealer, CardModel? cardSource)
     {
-        if (WasUsed || target != Owner.Creature||result.UnblockedDamage==0 ||props==ValueProp.Unpowered)
+        if (WasUsed || target != Owner.Creature||result.UnblockedDamage==0 ||(props & ValueProp.Unpowered) != 0)
             return;
 
         _hitCount++;
@@ -95,7 +96,7 @@ public sealed class Battery : ModRelicTemplate
             var visuals = NCombatRoom.Instance?.GetCreatureNode(Owner.Creature)?.Visuals;
             if (visuals is NRiver river)
             {
-                river.SetSkin("dianchi2");
+                river.SetItemSkin(SlugcatSkins.RiverBatteryEmptyItemSkin);
             }
         }
     }

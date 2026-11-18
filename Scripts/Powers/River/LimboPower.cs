@@ -1,4 +1,4 @@
-﻿using MegaCrit.Sts2.Core.Entities.Cards;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
@@ -38,7 +38,7 @@ public sealed class LimboPower : ModPowerTemplate
     public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target,
         DamageResult _, ValueProp props, Creature? dealer, CardModel? __)
     {
-        if (target != Owner || dealer == null || props == ValueProp.Unpowered)
+        if (target != Owner || dealer == null || (props & ValueProp.Unpowered) != 0)
             return;
 
         if (_.UnblockedDamage == 0)

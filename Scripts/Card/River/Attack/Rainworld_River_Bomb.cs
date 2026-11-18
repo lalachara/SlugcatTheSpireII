@@ -54,6 +54,7 @@ public class Rainworld_River_Bomb : RiverCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        Vfx.BombBurstVfx.Play(CombatState!.HittableEnemies);
         await DamageCmd
             .Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this,cardPlay)

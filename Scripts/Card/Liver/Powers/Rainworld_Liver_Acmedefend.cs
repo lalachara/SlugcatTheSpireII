@@ -52,6 +52,6 @@ public class Rainworld_Liver_Acmedefend : LiverCardModel
     // 升级后的效果逻辑
     protected override void OnUpgrade()
     {
-        EnergyCost.UpgradeBy(-1);
+        AddKeyword(CardKeyword.Innate);
     }
 }

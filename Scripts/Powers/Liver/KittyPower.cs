@@ -37,12 +37,19 @@ public sealed class KittyPower : ModPowerTemplate
   public override PowerType Type => PowerType.Buff;
 
   public override PowerStackType StackType => PowerStackType.Counter;
-
+  private bool enable = true;
   public override async Task AfterPlayerTurnStart(PlayerChoiceContext choiceContext, Player player)
   {
-    if (player == Owner.Player)
+    if (player == Owner.Player &&  Owner.Player?.Character is Slugcat slugcat)
     {
-          await CardPileCmd.Draw(choiceContext, base.Amount, Owner.Player);
+      if (SlugcatData.GetFood(Owner.Player) < 1)
+      {
+        enable = false;
+        return;
+      }
+      await SlugcatData.addfood(Owner.Player,-1);
+      enable = true;
+      await CardPileCmd.Draw(choiceContext, base.Amount, Owner.Player);
           await PlayerCmd.GainEnergy(base.Amount, Owner.Player);
     }
 
@@ -51,7 +58,7 @@ public sealed class KittyPower : ModPowerTemplate
   
   public override async Task BeforeFlushLate(PlayerChoiceContext choiceContext, Player player)
   {
-    if (player != base.Owner.Player || !Hook.ShouldFlush(player.Creature.CombatState, player))
+    if (player != base.Owner.Player || !Hook.ShouldFlush(player.Creature.CombatState, player) || !enable)
     {
       return;
     }

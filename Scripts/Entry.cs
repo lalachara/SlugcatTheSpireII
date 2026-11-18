@@ -1,13 +1,15 @@
-﻿﻿using System.Reflection;
+using System.Reflection;
     using Godot;
     using MegaCrit.Sts2.Core.Modding;
     using MegaCrit.Sts2.Core.Models;
     using Rainworld.relics;
 using Rainworld.Scripts.Card;
 using Rainworld.Scripts.Card.Liver.Attack;
+using Rainworld.Scripts.Card.Monk;
 using Rainworld.Scripts.Card.RedCat;
 using Rainworld.Scripts.Card.River.Skills;
 using Rainworld.Scripts.patches;
+using Rainworld.Scripts.Monster.Minions;
 using Rainworld.Scripts.Telemetry;
 using STS2RitsuLib;
 using STS2RitsuLib.Audio;
@@ -28,6 +30,9 @@ public class Entry
     {
         var assembly = Assembly.GetExecutingAssembly();
 
+        // 注册自定义卡牌 tag（必须在模型初始化之前完成，否则会被 RitsuLib 拒绝）
+        RainworldCardTags.Register();
+
         // 使用 RitsuLib 封装的补丁系统
         var patcher = RitsuLibFramework.CreatePatcher(ModId, "core-patches");
         patcher.RegisterPatches<RainworldPatches>();
@@ -40,9 +45,6 @@ public class Entry
         // 注册遥测（直连 PostHog）
         TelemetrySetup.Register();
 
-        // 挂接全局未捕获异常钩子，把玩家运行时异常上报到 PostHog（需授权 diagnostics）
-        TelemetrySetup.AttachGlobalExceptionHooks();
-
         // 注册次级资源（食物、业力等级）
         SlugcatResources.Register();
 
@@ -51,16 +53,19 @@ public class Entry
 
         // 自动注册内容（卡牌、遗物、能力等）
         ModTypeDiscoveryHub.RegisterModAssembly(ModId, assembly);
-        
+
+
         SlugCatCardTargets.Register();
         
         RitsuLibFramework.RegisterArchaicToothTranscendenceMapping<Rainworld_Liver_Spear, Rainworld_Liver_Spearfire>();
         RitsuLibFramework.RegisterArchaicToothTranscendenceMapping<Rainworld_River_Inertia, Rainworld_River_Playwater>();
         RitsuLibFramework.RegisterArchaicToothTranscendenceMapping<Rainworld_Redcat_Better, Rainworld_Redcat_Starter>();
+        RitsuLibFramework.RegisterArchaicToothTranscendenceMapping<Rainworld_Monk_Interact, Rainworld_Monk_Wake>();
 
         RitsuLibFramework.RegisterTouchOfOrobasRefinementMapping<Liver_Fruit1, Liver_Fruit2>();
         RitsuLibFramework.RegisterTouchOfOrobasRefinementMapping<River_Waterball1, River_Waterball2>();
         RitsuLibFramework.RegisterTouchOfOrobasRefinementMapping<Redcat_Book1, Redcat_Book2>();
+        RitsuLibFramework.RegisterTouchOfOrobasRefinementMapping<Monk_Bottlecab, Monk_BigBottlecab>();
         
         ModCardHandOutlineRegistry.Register<CardModel>(ModCardHandOutlineRules.Fixed( // 特定种类卡牌。可以设置为你的卡牌基类，让所有子类发光。
             card => card.Keywords.Contains(RainworldKeywords.Corrupt), // 发光条件

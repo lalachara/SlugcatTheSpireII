@@ -26,7 +26,7 @@ public class Rainworld_River_Bigjump : RiverCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(10m, ValueProp.Move)
+        new BlockVar(8m, ValueProp.Move)
     ];
 
     public Rainworld_River_Bigjump() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

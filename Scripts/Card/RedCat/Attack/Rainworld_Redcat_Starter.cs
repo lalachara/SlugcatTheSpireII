@@ -12,7 +12,7 @@ namespace Rainworld.Scripts.Card.RedCat;
 
 public class Rainworld_Redcat_Starter : RedCatCardModel
 {
-    private const int energyCost = 1;
+    private const int energyCost = 0;
     private const CardType type = CardType.Attack;
     private const CardRarity rarity = CardRarity.Ancient;
     private const TargetType targetType = TargetType.AnyEnemy;
@@ -20,7 +20,7 @@ public class Rainworld_Redcat_Starter : RedCatCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(10m, ValueProp.Move|ValueProp.Unblockable)
+        new DamageVar(9m, ValueProp.Move|ValueProp.Unblockable)
     ];
 
     public Rainworld_Redcat_Starter() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
@@ -41,6 +41,6 @@ public class Rainworld_Redcat_Starter : RedCatCardModel
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(4m);
+        DynamicVars.Damage.UpgradeValueBy(3m);
     }
 }

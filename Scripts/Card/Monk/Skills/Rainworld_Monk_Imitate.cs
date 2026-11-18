@@ -1,19 +1,22 @@
-﻿using System.Linq;
+using System.Linq;
+using MegaCrit.Sts2.Core.CardSelection;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
-using MegaCrit.Sts2.Core.Entities.Powers;
-using MegaCrit.Sts2.Core.Factories;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
-using MegaCrit.Sts2.Core.Models.Powers;
+using MegaCrit.Sts2.Core.Models;
 
 namespace Rainworld.Scripts.Card.Monk;
 
+/// <summary>
+/// 心领神会：查看 1 名盟友的整副卡组，从中选 1 张，把它的复制品加入手牌；
+/// 本卡强化后，复制品也会被强化。
+/// </summary>
 public class Rainworld_Monk_Imitate : MonkCardModel
 {
     private const int energyCost = 1;
     private const CardType type = CardType.Skill;
-    private const CardRarity rarity = CardRarity.Uncommon;
+    private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.AnyAlly;
     private const bool shouldShowInCardLibrary = true;
 
@@ -27,32 +30,38 @@ public class Rainworld_Monk_Imitate : MonkCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
-        var allyPlayer = cardPlay.Target.Player;
-        if (allyPlayer == null)
+        Player? ally = cardPlay.Target.Player;
+        if (ally == null || ally == Owner)
             return;
 
-        var allyPowers = cardPlay.Target.Powers
-            .Where(p => p.Type == PowerType.Buff)
+        // 盟友的「卡组」= 战斗中四个牌堆里属于卡组的牌（DeckVersion 非空，排除临时生成的牌）
+        var deck = CardPile.GetCards(ally, PileType.Draw, PileType.Hand, PileType.Discard, PileType.Exhaust)
+            .Where(c => c.DeckVersion != null)
             .ToList();
-        if (allyPowers.Count > 0)
+        if (deck.Count == 0)
+            return;
+
+        // 由自己来挑：网格里显示的是盟友的卡组
+        var selected = (await CardSelectCmd.FromSimpleGrid(
+            choiceContext,
+            deck,
+            Owner,
+            new CardSelectorPrefs(SelectionScreenPrompt, 1))).FirstOrDefault();
+        if (selected == null)
+            return;
+
+        // 用选中的这张牌（战斗中的可变实例）克隆：CombatState.CreateCard 只接受「范本」模型，
+        // 传可变实例会抛 MutableModelException（之前深度记忆卡死的直接原因）。
+        CardModel clone = selected.CreateCloneForPlayer(Owner);
+
+        // 本卡是强化版时，复制品再强化一次（原型已强化 / 不可强化的跳过）
+        if (IsUpgraded && clone.IsUpgradable && !clone.IsUpgraded)
         {
-            var randomPower = allyPowers[Owner.RunState.Rng.CombatCardGeneration.NextInt(0, allyPowers.Count)];
-            var amount = randomPower.Amount;
-            var powerType = randomPower.GetType();
-            var method = typeof(PowerCmd).GetMethod("Apply")!.MakeGenericMethod(powerType);
-            await (Task)method.Invoke(null, new object[] { choiceContext, Owner.Creature, amount, Owner.Creature, this })!;
+            clone.UpgradeInternal();
+            clone.FinalizeUpgradeInternal();
         }
 
-        var handCards = PileType.Hand.GetPile(allyPlayer).Cards.ToList();
-        if (handCards.Count > 0)
-        {
-            var maxRarity = handCards.Max(c => c.Rarity);
-            var rareCards = handCards.Where(c => c.Rarity == maxRarity).ToList();
-            var picked = rareCards[Owner.RunState.Rng.CombatCardGeneration.NextInt(0, rareCards.Count)];
-            var distinct = CardFactory.GetDistinctForCombat(Owner, new[] { picked }, 1, Owner.RunState.Rng.CombatCardGeneration);
-            var clone = distinct.First();
-            await CardPileCmd.AddGeneratedCardToCombat(clone, PileType.Hand, Owner);
-        }
+        await CardPileCmd.AddGeneratedCardToCombat(clone, PileType.Hand, Owner);
     }
 
     protected override void OnUpgrade()

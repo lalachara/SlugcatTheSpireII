@@ -1,4 +1,4 @@
-﻿﻿using MegaCrit.Sts2.Core.Entities.Cards;
+﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -40,7 +40,7 @@ public sealed class OldframPower : ModPowerTemplate
     // protected override IEnumerable<IHoverTip> ExtraHoverTips => new[] { (HoverTipFactory.FromPower<DoomPower>()) }; 
     public override async Task AfterDamageGiven(PlayerChoiceContext choiceContext, Creature? dealer, DamageResult result, ValueProp props, Creature target, CardModel? cardSource)
     {
-        if (dealer != null && (dealer == base.Owner || dealer.PetOwner?.Creature == base.Owner) && props!=ValueProp.Unpowered && result.TotalDamage > 0)
+        if (dealer != null && (dealer == base.Owner || dealer.PetOwner?.Creature == base.Owner) && (props & ValueProp.Unpowered) == 0 && result.TotalDamage > 0)
         {
             Flash();
             await CreatureCmd.GainBlock(base.Owner, (decimal)(result.UnblockedDamage*0.5*Amount),ValueProp.Unpowered, null);

@@ -1,6 +1,7 @@
 using Godot;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Context;
+using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization;
@@ -35,6 +36,44 @@ public partial class NAutoButton : NButton
 	private Control _visuals = null!;
 	private TextureRect _image = null!;
 	private ButtonState _currentState = ButtonState.Active;
+
+	// ========== 不可点击时仍允许悬停，保留提示信息 ==========
+	protected override bool AllowFocusWhileDisabled => true;
+
+	// ========== 订阅战斗事件：玩家结束回合后立即变为不可点击 ==========
+	public override void _EnterTree()
+	{
+		base._EnterTree();
+		CombatManager.Instance.TurnStarted += OnTurnStarted;
+		CombatManager.Instance.PlayerEndedTurn += OnPlayerEndedTurn;
+		CombatManager.Instance.PlayerUnendedTurn += OnPlayerUnendedTurn;
+	}
+
+	public override void _ExitTree()
+	{
+		CombatManager.Instance.TurnStarted -= OnTurnStarted;
+		CombatManager.Instance.PlayerEndedTurn -= OnPlayerEndedTurn;
+		CombatManager.Instance.PlayerUnendedTurn -= OnPlayerUnendedTurn;
+		base._ExitTree();
+	}
+
+	private void OnTurnStarted(CombatState state)
+	{
+		if (state.CurrentSide != CombatSide.Player)
+			CombatUiPatch.SetSleepUnavailable();
+	}
+
+	private void OnPlayerEndedTurn(Player player, bool canBackOut)
+	{
+		if (LocalContext.IsMe(player))
+			CombatUiPatch.SetSleepUnavailable();
+	}
+
+	private void OnPlayerUnendedTurn(Player player)
+	{
+		if (LocalContext.IsMe(player))
+			CombatUiPatch.RestoreSleepButton();
+	}
 
 	public override void _Ready()
 	{
@@ -94,20 +133,22 @@ public partial class NAutoButton : NButton
 	// ========== 核心逻辑：更新按钮可点击状态 ==========
 	private void UpdateButtonEnabledState()
 	{
+		//只有 Active 状态可以点击，其余状态（Down/Down1/Down2）都不可点击
+		if (_currentState == ButtonState.Active)
 			Enable();
-		
+		else
+			Disable();
 	}
 
-	// ========== 点击逻辑：仅Active状态下点击切换到Down2 ==========
+	// ========== 点击逻辑：只有玩家回合内、且尚未结束回合时才能休眠 ==========
 	protected override void OnRelease()
 	{
-		 if(_currentState == ButtonState.Active&&CombatUiPatch.creature.CombatState.CurrentSide==CombatSide.Player) {
-			 SetState(ButtonState.Down2);
-					 CombatUiPatch.callSleep();
-		 }
-
-		 // Active状态下点击 → 切换到Down2
-		
+		if (_currentState != ButtonState.Active)
+			return;
+		//玩家已结束回合（或不在玩家回合）时不再响应点击
+		if (!CombatUiPatch.IsSleepAvailable())
+			return;
+		CombatUiPatch.callSleep();
 	}
 
 

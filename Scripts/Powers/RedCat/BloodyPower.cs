@@ -1,4 +1,4 @@
-﻿﻿using MegaCrit.Sts2.Core.Entities.Cards;
+﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
@@ -42,7 +42,10 @@ public sealed class BloodyPower : ModPowerTemplate
  public override decimal ModifyHpLostAfterOstyLate(Creature target, decimal amount, ValueProp props,
      Creature? dealer, CardModel? cardSource)
  {
-     if (target == base.Owner && amount > 0&&props!=ValueProp.Unpowered)
+     // 伙伴替主人挡下攻击时浴血照样生效：先减 8 点，剩下的才由伙伴掉血
+     // 生命流失（内伤、中毒等）不吃减伤：塔2 的流失伤害带的是 Unblockable|Unpowered 组合标记，
+     // 用 != 与 ValueProp.Unpowered 做相等比较会漏判，必须按位测试。
+     if (FriendGuardPower.IsOwnerOrGuardingPet(base.Owner, target) && amount > 0 && (props & ValueProp.Unpowered) == 0)
      {
          _triggered = true;
          return Math.Max(0, amount - 8);

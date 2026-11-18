@@ -1,4 +1,4 @@
-﻿﻿using MegaCrit.Sts2.Core.Entities.Cards;
+﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
@@ -39,7 +39,7 @@ public sealed class DonttouchPower : ModPowerTemplate
   public override async Task AfterDamageGiven(PlayerChoiceContext choiceContext, Creature? dealer, DamageResult result, ValueProp props,
     Creature target, CardModel? cardSource)
   {
-    if (dealer == base.Owner && props != ValueProp.Unpowered&&Owner.HasPower<RedmushroomPower>()&&target!=Owner)
+    if (dealer == base.Owner && (props & ValueProp.Unpowered) == 0&&Owner.HasPower<RedmushroomPower>()&&target!=Owner)
     {
       await PowerCmd.Apply<CatConstrictPower>(choiceContext, target, Amount, base.Owner, null);
     }
@@ -49,7 +49,7 @@ public sealed class DonttouchPower : ModPowerTemplate
   public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult result, ValueProp props,
     Creature? dealer, CardModel? cardSource)
   {
-    if (target == base.Owner && dealer != null && props != ValueProp.Unpowered&&Owner.HasPower<RedmushroomPower>()&&dealer!=Owner)
+    if (target == base.Owner && dealer != null && (props & ValueProp.Unpowered) == 0&&Owner.HasPower<RedmushroomPower>()&&dealer!=Owner)
     {
       await PowerCmd.Apply<CatConstrictPower>(choiceContext, dealer, Amount, base.Owner, null);
     }

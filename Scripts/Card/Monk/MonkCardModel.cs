@@ -10,7 +10,7 @@ using STS2RitsuLib.Scaffolding.Content;
 
 namespace Rainworld.Scripts.Card;
 
-//[RegisterCard(typeof(Rainworld_Monk_CardPool), Inherit = true)]
+[RegisterCard(typeof(Rainworld_Monk_CardPool), Inherit = true)]
 
 public abstract class MonkCardModel : ModCardTemplate
 {
@@ -19,9 +19,9 @@ public abstract class MonkCardModel : ModCardTemplate
         
         FramePath: Type switch
         {
-            CardType.Attack => "res://Resource/Card/RedCat/CardAtk1024.png",
-            CardType.Skill => "res://Resource/Card/RedCat/CardSkill1024.png",
-            CardType.Power => "res://Resource/Card/RedCat/CardPower1024.png",
+            CardType.Attack => "res://Resource/Card/Monk/CardAtk1024.png",
+            CardType.Skill => "res://Resource/Card/Monk/CardSkill1024.png",
+            CardType.Power => "res://Resource/Card/Monk/CardPower1024.png",
             _ => ""
         }
 

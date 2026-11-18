@@ -22,8 +22,8 @@ public class Rainworld_River_Bubble : RiverCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(12m, ValueProp.Move),
-        new BlockVar(10m, ValueProp.Move)
+        new DamageVar(10m, ValueProp.Move),
+        new BlockVar(9m, ValueProp.Move)
     ];
 
     public Rainworld_River_Bubble() : base(energyCost, type, rarity, CustomTargetType.Anyone, shouldShowInCardLibrary)
@@ -59,7 +59,7 @@ public class Rainworld_River_Bubble : RiverCardModel
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Damage.UpgradeValueBy(4m);
+        DynamicVars.Damage.UpgradeValueBy(3m);
         DynamicVars.Block.UpgradeValueBy(3m);
     }
 }

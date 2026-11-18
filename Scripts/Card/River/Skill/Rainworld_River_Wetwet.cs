@@ -25,7 +25,7 @@ public class Rainworld_River_Wetwet : RiverCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(12m, ValueProp.Move)
+        new BlockVar(10m, ValueProp.Move)
     ];
 
     public Rainworld_River_Wetwet() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

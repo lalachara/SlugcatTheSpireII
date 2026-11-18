@@ -8,6 +8,7 @@ using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.ValueProps;
+using Rainworld.Scripts;
 using Rainworld.Scripts.Powers;
 
 namespace Rainworld.Scripts.Card.RedCat;
@@ -19,6 +20,10 @@ public class Rainworld_Redcat_Eat : RedCatCardModel
     private const CardRarity rarity = CardRarity.Rare;
     private const TargetType targetType = TargetType.AllEnemies;
     private const bool shouldShowInCardLibrary = true;
+    // 不可被生成类效果抽到：只在持有红蘑菇力量时才能打出，单独抽到完全无用。
+    protected override HashSet<CardTag> CanonicalTags => new() { RainworldCardTags.CantGenerate };
+
+    private bool needaddmaxhp = false;
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromPower<RedmushroomPower>(), HoverTipFactory.FromPower<MushblockPower>()};
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
         [
@@ -38,6 +43,7 @@ public class Rainworld_Redcat_Eat : RedCatCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         AttackContext attackContext = await AttackCommand.CreateContextAsync(CombatState!, choiceContext, cardPlay);
+        needaddmaxhp = false;
         try
         {
             var damageResults = await CreatureCmd.Damage(
@@ -60,12 +66,13 @@ public class Rainworld_Redcat_Eat : RedCatCardModel
                     await CreatureCmd.GainMaxHp(Owner.Creature, 5m);
                 }
 
-                if (result.Receiver.CurrentHp < playerEffectiveHp)
+                else if (result.Receiver.CurrentHp < playerEffectiveHp)
                 {
                     await CreatureCmd.Kill(result.Receiver);
                     await CreatureCmd.GainMaxHp(Owner.Creature, 5m); 
                 }
             }
+            
             
             
         }

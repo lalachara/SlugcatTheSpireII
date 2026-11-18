@@ -1,4 +1,4 @@
-﻿﻿﻿﻿using Godot;
+﻿﻿using Godot;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Context;
@@ -63,6 +63,24 @@ namespace Rainworld.Scripts
         public static int GetMaxWorkLevel(Player player)
         {
             return SlugcatResources.Data.Get(player).MaxWorkLevel;
+        }
+
+        /// <summary>
+        /// 火堆「休息」回复的业力等级：Monk 2 级，其余蛞蝓猫 1 级。
+        /// 火堆描述文本与实际结算（<see cref="addworklevel"/>）共用这一处数值，避免显示与实际不一致。
+        /// </summary>
+        public static int GetRestKarmaLevel(Player player)
+        {
+            return player.Character is Rainworld_Monk ? 2 : 1;
+        }
+
+        /// <summary>
+        /// 火堆「朝圣」提升的业力上限：Monk 2 级，其余蛞蝓猫 1 级。
+        /// 选项描述文本（{Karma} 占位符）与实际结算共用这一处数值，避免显示与实际不一致。
+        /// </summary>
+        public static int GetShelterKarmaLevel(Player player)
+        {
+            return player.Character is Rainworld_Monk ? 2 : 1;
         }
 
         public SlugcatData(Creature creature)
@@ -186,9 +204,11 @@ namespace Rainworld.Scripts
         {
             if(player.GetRelic<Redmushroom>()!=null)
                 return;
-            if(player.Creature == CombatUiPatch.creature&&level>0)
+            // 战斗内 CombatUiPatch.creature 才是本地玩家的战斗体；战斗外（事件、火堆等）它为空，
+            // 所以用 LocalContext 判断「这是本地玩家」，让战斗外扣业力同样有音效，也不会替队友播
+            if(LocalContext.IsMe(player)&&level>0)
                 SfxCmd.Play("event:/Rainworld/sfx/worklevelup");
-            if (player.Creature == CombatUiPatch.creature&&level<0)
+            if (LocalContext.IsMe(player)&&level<0)
                 SfxCmd.Play("event:/Rainworld/sfx/workleveldown");
             await CreatureCmd.Heal(player.Creature,player.Creature.MaxHp-player.Creature.CurrentHp,false);
             if (level > 0 && player.Creature.HasPower<WorkerrorPower>())
@@ -202,6 +222,7 @@ namespace Rainworld.Scripts
             if(player.GetRelic<Redmushroom>()!=null)
                 return;
             var data = SlugcatResources.Data.Get(player);
+            int before = data.WorkLevel;
             if (level > data.MaxWorkLevel)
             {
                 level = data.MaxWorkLevel;
@@ -214,6 +235,10 @@ namespace Rainworld.Scripts
                 level = 0;
                 await CreatureCmd.Damage(new ThrowingPlayerChoiceContext(), player.Creature, 9999,ValueProp.Move, player.Creature);
             }
+            // 战斗内业力实际减少：记下标记，「轮回之花」在战斗奖励里补一个瓶装业力花
+            // （对齐塔1 lossWorkLevel 里「COMBAT 阶段且 workLevel > 0」才触发遗物的判定）。
+            if (level < before && player.Creature.CombatState is { } combatState && combatState.IsLiveCombat())
+                SlugcatResources.Data.Modify(player, d => d.KarmaLostInCombat = true);
             SlugcatResources.Data.Modify(player, d => d.WorkLevel = level);
             CombatUiPatch.SetWorklevel(level, player);
             SavetoRelic(player);

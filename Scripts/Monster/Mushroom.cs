@@ -120,7 +120,7 @@ public class Mushroom : ModMonsterTemplate
         var daze = new MoveState(
             "Mushroom_xuanyun",
             DazedMove,
-            new StatusIntent(DazedCount*2)
+            new StatusIntent(DazedCount*2),new BuffIntent()
         );
 
         var health = new MoveState(
@@ -171,6 +171,7 @@ public class Mushroom : ModMonsterTemplate
         //await CreatureCmd.TriggerAnim(Creature, "Vomit", 0.7f);
         await CardPileCmd.AddToCombatAndPreview<Dazed>( targets, PileType.Discard, DazedCount,  null);
         await CardPileCmd.AddToCombatAndPreview<Dazed>(targets, PileType.Draw, DazedCount,  null);
+        await PowerCmd.Apply<StrengthPower>(new ThrowingPlayerChoiceContext(), Creature, 6+2*DazedCount, Creature, null);
 
     }
     private async Task HealthMove(IReadOnlyList<Creature> targets)

@@ -18,7 +18,7 @@ public class Rainworld_Redcat_Catlost : RedCatCardModel
 
     public override IEnumerable<CardKeyword> CanonicalKeywords =>
     [
-        CardKeyword.Retain,RainworldKeywords.Backtohand
+        RainworldKeywords.Backtohand
     ];
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>

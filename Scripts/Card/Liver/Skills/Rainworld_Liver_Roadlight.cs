@@ -53,6 +53,6 @@ public class Rainworld_Liver_Roadlight : LiverCardModel
     // 升级后的效果逻辑
     protected override void OnUpgrade()
     {
-        RemoveKeyword(CardKeyword.Exhaust);
+        AddKeyword(CardKeyword.Innate);
     }
 }

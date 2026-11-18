@@ -1,4 +1,4 @@
-﻿// Decompiled with JetBrains decompiler
+// Decompiled with JetBrains decompiler
 // Type: MegaCrit.Sts2.Core.Models.Powers.CatConstrictPower
 // Assembly: sts2, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null
 // MVID: F7D2A9E0-F1AE-4213-B874-1504473AAEDB
@@ -46,9 +46,11 @@ public sealed class CatConstrictPower : ModPowerTemplate
         IEnumerable<DamageResult> damageResults = await CreatureCmd.Damage(choiceContext, CatConstrictPower.Owner, (Decimal) CatConstrictPower.Amount, ValueProp.Unpowered, CatConstrictPower.Owner);
     }
 
+    // 0.113：AbstractModel.AfterDeath 新增了 CardModel? source 参数（致命伤害来源卡牌）
     public override async Task AfterDeath(
         PlayerChoiceContext choiceContext,
         Creature creature,
+        CardModel? source,
         bool wasRemovalPrevented,
         float deathAnimLength)
     {

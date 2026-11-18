@@ -46,6 +46,6 @@ public class Rainworld_River_Adroitstrike : RiverCardModel
     protected override void OnUpgrade()
     {
         DynamicVars.Damage.UpgradeValueBy(3m);
-        DynamicVars["Special"].UpgradeValueBy(1m);
+        // DynamicVars["Special"].UpgradeValueBy(1m);
     }
 }

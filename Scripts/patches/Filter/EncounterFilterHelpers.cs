@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Rooms;
 using MegaCrit.Sts2.Core.Runs;
 using Rainworld.Scripts.Monster;
+using Rainworld.Scripts.Monster.MonkeyToll;
 using STS2RitsuLib.Patching.Models;
 
 namespace Rainworld.Scripts.patches;
@@ -44,6 +45,9 @@ internal static class EncounterFilterHelpers
 				return SpawnConfigRuntime.ModeShouldAppear(cfg.GreencabMonsterSpawnMode);
 
 			if (t == typeof(ThreeChickenEvent))
+				return false;
+			// 拾荒者收费站：事件专用遭遇，同样不进随机池
+			if (t == typeof(MonkeyTollEncounter))
 				return false;
 			return true;
 		});

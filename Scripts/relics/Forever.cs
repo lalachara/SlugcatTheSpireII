@@ -25,7 +25,7 @@ public sealed class Forever : ModRelicTemplate
 
     public override RelicAssetProfile AssetProfile => new(
         IconPath: "res://Resource/Relics/Eternal.png",
-        IconOutlinePath: "res://Resource/Relics/outline/momo.png",
+        IconOutlinePath: "res://Resource/Relics/outline/Eternal.png",
         BigIconPath: "res://Resource/Relics/Eternal.png"
     );
 

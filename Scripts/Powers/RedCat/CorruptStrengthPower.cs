@@ -1,4 +1,4 @@
-﻿﻿using MegaCrit.Sts2.Core.Entities.Cards;
+﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
@@ -41,7 +41,7 @@ public sealed class CorruptStrengthPower : ModPowerTemplate
     CardModel? cardSource, CardPlay? cardPlay)
   {
     
-    if (props == ValueProp.Unpowered || dealer != Owner ||target == Owner || !Owner.HasPower<RedmushroomPower>())
+    if ((props & ValueProp.Unpowered) != 0 || dealer != Owner ||target == Owner || !Owner.HasPower<RedmushroomPower>())
       return 0;
 
     return amount;

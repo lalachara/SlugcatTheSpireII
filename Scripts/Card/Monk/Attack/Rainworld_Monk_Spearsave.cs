@@ -11,9 +11,9 @@ namespace Rainworld.Scripts.Card.Monk;
 
 public class Rainworld_Monk_Spearsave : MonkCardModel
 {
-    private const int energyCost = 1;
+    private const int energyCost = 2;
     private const CardType type = CardType.Attack;
-    private const CardRarity rarity = CardRarity.Common;
+    private const CardRarity rarity = CardRarity.Uncommon;
     private const TargetType targetType = TargetType.AnyEnemy;
     private const bool shouldShowInCardLibrary = true;
 
@@ -22,7 +22,7 @@ public class Rainworld_Monk_Spearsave : MonkCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(6m, ValueProp.Move)
+        new DamageVar(11m, ValueProp.Move)
     ];
 
     public Rainworld_Monk_Spearsave() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)

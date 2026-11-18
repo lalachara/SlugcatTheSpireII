@@ -4,6 +4,7 @@ using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Localization.DynamicVars;
 using MegaCrit.Sts2.Core.ValueProps;
+using Rainworld.Scripts;
 using Rainworld.Scripts.Powers;
 
 namespace Rainworld.Scripts.Card.RedCat;
@@ -15,6 +16,9 @@ public class Rainworld_Redcat_Besame : RedCatCardModel
     private const CardRarity rarity = CardRarity.Uncommon;
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
+
+    // 不可被生成类效果抽到：只对红猫的腐蚀值机制有意义。
+    protected override HashSet<CardTag> CanonicalTags => new() { RainworldCardTags.CantGenerate };
 
     protected override IEnumerable<DynamicVar> CanonicalVars => [];
 

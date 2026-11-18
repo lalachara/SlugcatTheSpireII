@@ -42,7 +42,8 @@ public sealed class IcewaterPower : ModPowerTemplate
         Creature? dealer,
         CardModel? cardSource)
     {
-        if (target != Owner || amount <= 0)
+        // 伙伴替主人挡下攻击时冰晶照样生效：先扣冰晶，剩下的才由伙伴掉血
+        if (!FriendGuardPower.IsOwnerOrGuardingPet(Owner, target) || amount <= 0)
             return amount;
 
         if (amount >= Amount)

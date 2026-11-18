@@ -20,7 +20,7 @@ public class Rainworld_Monk_Fullback : MonkCardModel
 
     public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Exhaust };
     protected override IEnumerable<IHoverTip> AdditionalHoverTips =>
-        new[] { HoverTipFactory.FromCard<Rainworld_Liver_Fruit>() };
+        new[] { HoverTipFactory.FromCard<Rainworld_Liver_Fruit>(), HoverTipFactory.FromCard<Rainworld_Redcat_Smallcent>(), HoverTipFactory.FromCard<Rainworld_River_Waterfruit>() };
 
     public Rainworld_Monk_Fullback() : base(energyCost, type, rarity, targetType, shouldShowInCardLibrary)
     {

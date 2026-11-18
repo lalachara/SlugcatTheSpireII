@@ -79,7 +79,8 @@ public sealed class LivewillPower : ModPowerTemplate
      Creature? dealer,
      CardModel? cardSource)
  {
-     return target != this.Owner ? amount : 0M;
+     // 本回合完全免疫：伙伴替主人挡下的伤害同样归零
+     return FriendGuardPower.IsOwnerOrGuardingPet(this.Owner, target) ? 0M : amount;
  }
  
  public override Task AfterModifyingDamageAmount(CardModel? cardSource)

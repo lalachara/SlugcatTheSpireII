@@ -1,4 +1,4 @@
-﻿﻿using MegaCrit.Sts2.Core.Entities.Cards;
+﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Cards;
@@ -47,7 +47,7 @@ public sealed class AcidslimePower : ModPowerTemplate
  }
  public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult _, ValueProp props, Creature? dealer, CardModel? __)
  {
-     if (target == base.Owner && dealer != null && props!=ValueProp.Unpowered)
+     if (target == base.Owner && (props & ValueProp.Unpowered) == 0)
      {
          Slimed slimed = CombatState.CreateCard<Slimed>(Owner.Player);
          slimed.AddKeyword(CardKeyword.Ethereal);

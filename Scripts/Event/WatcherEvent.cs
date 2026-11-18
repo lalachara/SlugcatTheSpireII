@@ -141,7 +141,7 @@ public sealed class WatcherEvent : ModEventTemplate
     // 失去金币
     private async Task Run()
     {
-        SetEventFinished(L10NLookup($"{Id.Entry}_EVENT_RAINDEER_EVENT.pages.RUN.description"));
+        SetEventFinished(L10NLookup($"{Id.Entry}.pages.INITIAL.options.RUN.description"));
     }
 
     private Task Fight()

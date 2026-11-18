@@ -1,4 +1,4 @@
-﻿using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -37,7 +37,7 @@ public class Rainworld_Redcat_Rock : RedCatCardModel
             .Attack(DynamicVars.Damage.BaseValue)
             .FromCard(this,cardPlay)
             .Targeting(cardPlay.Target)
-            .WithHitFx("vfx/vfx_attack_slash")
+            .WithHitFx("vfx/vfx_attack_blunt", null, "blunt_attack.mp3")
             .Execute(choiceContext);
         await PowerCmd.Apply<WeakPower>(choiceContext, cardPlay.Target, DynamicVars["Summon"].BaseValue,
             Owner.Creature, this);

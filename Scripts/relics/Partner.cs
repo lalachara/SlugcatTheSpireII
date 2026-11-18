@@ -28,7 +28,7 @@ using STS2RitsuLib.Keywords;
 using STS2RitsuLib.Scaffolding.Content;
 
 namespace Rainworld.relics;
-[RegisterRelic(typeof(Rainworld_Liver_RelicPool))]
+[RegisterRelic(typeof(SharedRelicPool))]
 public sealed class Partner : ModRelicTemplate
 {
 	public override RelicRarity Rarity => RelicRarity.Ancient;

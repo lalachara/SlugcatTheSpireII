@@ -1,4 +1,4 @@
-﻿﻿﻿﻿using Godot;
+﻿﻿﻿using Godot;
 using MegaCrit.Sts2.Core.Commands.Builders;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
@@ -45,7 +45,7 @@ public sealed class HuntsignPower : ModPowerTemplate
   public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult result, ValueProp props,
     Creature? dealer, CardModel? cardSource)
   {
-    if (target == base.Owner && dealer != null && (props!=ValueProp.Unpowered || cardSource is Omnislice))
+    if (target == base.Owner && dealer != null && ((props & ValueProp.Unpowered) == 0 || cardSource is Omnislice))
     {
       if (dealer.Player?.Character is Slugcat)
       {

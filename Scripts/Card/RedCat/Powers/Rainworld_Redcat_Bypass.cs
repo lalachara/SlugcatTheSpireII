@@ -47,7 +47,7 @@ public class Rainworld_Redcat_Bypass : RedCatCardModel
             ? localizedPath 
             : $"res://Resource/Card/RedCat/{cardName}.png"; // 回退到默认
     }
-    protected override HashSet<CardTag> CanonicalTags => new() { };
+    protected override HashSet<CardTag> CanonicalTags => new() { RainworldCardTags.CantGenerate };
     public override IEnumerable<CardKeyword> CanonicalKeywords => new[] { CardKeyword.Ethereal,CardKeyword.Innate};
     protected override IEnumerable<IHoverTip> AdditionalHoverTips => new[] { HoverTipFactory.FromKeyword(RainworldKeywords.Worklevel)};
 

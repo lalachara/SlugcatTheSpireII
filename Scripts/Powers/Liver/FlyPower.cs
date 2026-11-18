@@ -1,4 +1,4 @@
-﻿﻿using MegaCrit.Sts2.Core.Entities.Cards;
+﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
@@ -53,7 +53,10 @@ public sealed class FlyPower : ModPowerTemplate
      Creature? dealer,
      CardModel? cardSource)
  {
-     if(target == this.Owner &&props!=ValueProp.Unpowered)
+     // 飞行减半：伙伴替主人挡下的伤害同样减半
+     // 生命流失（内伤、中毒等）不吃减伤：塔2 的流失伤害带的是 Unblockable|Unpowered 组合标记，
+     // 用 == / != 与 ValueProp.Unpowered 做相等比较会漏判，必须按位测试。
+     if(FriendGuardPower.IsOwnerOrGuardingPet(this.Owner, target) && (props & ValueProp.Unpowered) == 0)
          return amount/2; 
      return amount;
  }
@@ -65,7 +68,8 @@ public sealed class FlyPower : ModPowerTemplate
  }
  public override async Task AfterDamageReceived(PlayerChoiceContext choiceContext, Creature target, DamageResult _, ValueProp props, Creature? dealer, CardModel? __)
  {
-     if (target == base.Owner && dealer != null && props!=ValueProp.Unpowered&&_.UnblockedDamage>0)
+     // 掉层口径与减伤一致：伙伴替主人挡下的那一击也消耗一层
+     if (FriendGuardPower.IsOwnerOrGuardingPet(base.Owner, target) && dealer != null && (props & ValueProp.Unpowered) == 0 && _.UnblockedDamage>0)
      {
          await PowerCmd.Decrement(this);
      }

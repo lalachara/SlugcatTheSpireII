@@ -23,6 +23,7 @@ public sealed class RelicFilterConfigSyncObserver : ILifecycleObserver
             d.EnableHpRelicFix = RainworldModConfig.EnableHpRelicFix;
             d.EnableMaxHpRelicFix = RainworldModConfig.EnableMaxHpRelicFix;
             d.EnableCombatCantLossMaxHp = RainworldModConfig.EnableCombatCantLossMaxHp;
+            d.EnableDisableAbyssalBaths = RainworldModConfig.EnableDisableAbyssalBaths;
         });
     }
 }

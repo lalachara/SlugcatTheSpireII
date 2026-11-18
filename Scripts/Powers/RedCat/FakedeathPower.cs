@@ -1,4 +1,4 @@
-﻿using MegaCrit.Sts2.Core.Combat;
+using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -44,7 +44,8 @@ public sealed class FakedeathPower : ModPowerTemplate
         Creature? dealer,
         CardModel? cardSource)
     {
-        if (target != Owner)
+        // 假死期间不掉血：伙伴替主人挡下的伤害同样归零
+        if (!FriendGuardPower.IsOwnerOrGuardingPet(Owner, target))
             return amount;
         return 0;
 
@@ -60,7 +61,8 @@ public sealed class FakedeathPower : ModPowerTemplate
         
     }
 
-    public override async Task AfterDeath(PlayerChoiceContext choiceContext, Creature creature, bool wasRemovalPrevented, float deathAnimLength)
+    // 0.113：AbstractModel.AfterDeath 新增了 CardModel? source 参数（致命伤害来源卡牌）
+    public override async Task AfterDeath(PlayerChoiceContext choiceContext, Creature creature, CardModel? source, bool wasRemovalPrevented, float deathAnimLength)
     {
         if (wasRemovalPrevented  || !creature.IsPlayer || creature == Owner)
             return;

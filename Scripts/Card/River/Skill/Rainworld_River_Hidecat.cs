@@ -41,7 +41,7 @@ public class Rainworld_River_Hidecat : RiverCardModel
 
     protected override void OnUpgrade()
     {
-        DynamicVars.Block.UpgradeValueBy(2m);
-        DynamicVars["Special"].UpgradeValueBy(1m);
+        DynamicVars.Block.UpgradeValueBy(3m);
+        // DynamicVars["Special"].UpgradeValueBy(1m);
     }
 }

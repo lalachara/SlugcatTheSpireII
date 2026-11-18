@@ -20,7 +20,7 @@ public class Rainworld_Redcat_Acmeattack : RedCatCardModel
     private const TargetType targetType = TargetType.Self;
     private const bool shouldShowInCardLibrary = true;
 
-    protected override HashSet<CardTag> CanonicalTags => new() { };
+    protected override HashSet<CardTag> CanonicalTags => new() { RainworldCardTags.CantGenerate };
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
         new("Summon", 2m)

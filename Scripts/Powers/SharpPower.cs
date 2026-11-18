@@ -1,4 +1,4 @@
-﻿﻿﻿using MegaCrit.Sts2.Core.Entities.Cards;
+﻿﻿using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.HoverTips;
 using MegaCrit.Sts2.Core.Models;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -41,7 +41,7 @@ public sealed class SharpPower : ModPowerTemplate
  public override decimal ModifyDamageAdditive(Creature? target, decimal amount, ValueProp props, Creature? dealer,
      CardModel? cardSource, CardPlay? cardPlay)
  {
-     if (props != ValueProp.Unpowered&&cardSource!=null&&cardSource.Keywords.Contains(RainworldKeywords.Spear)&&dealer==base.Owner)
+     if ((props & ValueProp.Unpowered) == 0&&cardSource!=null&&cardSource.Keywords.Contains(RainworldKeywords.Spear)&&dealer==base.Owner)
          return Amount;
      else
      {

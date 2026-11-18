@@ -5,6 +5,7 @@ using MegaCrit.Sts2.Core.Models.Cards;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using Rainworld.Patches;
 using Rainworld.Scripts;
+using Rainworld.Scripts.Skins;
 using SlugcatTheSpireII.Scripts.patches.Singleton;
 
 namespace Rainworld.Godot.Character;
@@ -15,6 +16,11 @@ public partial class NLiver : NCreatureVisuals
 	{
 		base._Ready();
 		SetProcessInput(true);
+
+		var creature = GetParent() as NCreature;
+		var player = creature?.Entity?.Player;
+		// 联机时队友的皮肤要等同步数据到达，ApplyWithRetry 会在数据变化后重新套用
+		SlugcatSkins.ApplyWithRetry(this, this, player, () => new[] { SlugcatSkins.GetSelectedSkin(player) });
 	}
 
 	public override void _Input(InputEvent @event)

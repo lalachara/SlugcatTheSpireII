@@ -71,6 +71,7 @@ public class Rainworld_Redcat_Bomb : RedCatCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         //ArgumentNullException.ThrowIfNull(cardPlay.Target, "cardPlay.Target");
+        Vfx.BombBurstVfx.Play(CombatState!.HittableEnemies);
         await DamageCmd.Attack(DynamicVars.Damage.BaseValue).FromCard(this,cardPlay)
             .WithHitFx(sfx: "event:/Rainworld/sfx/bomb")
             .TargetingAllOpponents(CombatState)
