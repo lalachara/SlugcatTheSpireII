@@ -28,7 +28,7 @@ public class Rainworld_Monk_Seduce : MonkCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new DamageVar(1m, ValueProp.Move),
+        new DamageVar(4m, ValueProp.Move),
         new PowerVar<VulnerablePower>(1m)
     ];
 
@@ -47,12 +47,11 @@ public class Rainworld_Monk_Seduce : MonkCardModel
             .Execute(choiceContext);
         await PowerCmd.Apply<VulnerablePower>(choiceContext, cardPlay.Target, DynamicVars.Vulnerable.BaseValue, Owner.Creature, this);
         await PowerCmd.Apply<PriorityPower>(choiceContext, cardPlay.Target, 1m, Owner.Creature, this);
-        await PowerCmd.Apply<VulnerablePower>(choiceContext, Owner.Creature, DynamicVars.Vulnerable.BaseValue, Owner.Creature, this);
+        await PowerCmd.Apply<VulnerablePower>(choiceContext, Owner.Creature,1, Owner.Creature, this);
     }
 
     protected override void OnUpgrade()
     {
-        // 塔1：升级后伤害 1 → 4
-        DynamicVars.Damage.UpgradeValueBy(3m);
+        DynamicVars.Vulnerable.UpgradeValueBy(1m);
     }
 }

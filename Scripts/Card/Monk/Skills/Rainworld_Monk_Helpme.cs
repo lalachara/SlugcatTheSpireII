@@ -34,7 +34,10 @@ public class Rainworld_Monk_Helpme : MonkCardModel
         var friends = FriendPositions.Count(Owner);
         if (friends <= 0)
             return;
-        await CreatureCmd.GainBlock(Owner.Creature, friends * DynamicVars.Block.BaseValue, ValueProp.Move, cardPlay);
+        for (int i = 0; i < friends; i++)
+        { 
+            await CreatureCmd.GainBlock(Owner.Creature,  DynamicVars.Block, cardPlay);
+        }
     }
 
     protected override void OnUpgrade()

@@ -14,7 +14,7 @@ namespace Rainworld.Scripts.patches;
 /// 原版 <c>CombatManager.HandlePlayerDeath</c> 只清空死者的能量、星辰与卡牌
 /// （手牌/抽牌堆/弃牌堆/消耗堆/出牌堆），不处理宠物；单人 / 全灭时战斗直接结束、
 /// 宠物随场景清理，所以只有「队友还在打」的多人战斗会看到伙伴继续留在场上。
-/// 这里在死亡处理跑完后统一调用 <see cref="FriendPositions.LoseFriend" />，
+/// 这里在死亡处理跑完后统一调用 <see cref="FriendPositions.RetireFriend" />（软退场：保留场景节点），
 /// 让伙伴跳过死亡与休眠复活流程直接退场
 /// （不能用 <c>CreatureCmd.Escape</c>：会被记入逃离者名单、按比例扣减战斗金币奖励）。
 /// </summary>
@@ -60,7 +60,7 @@ public sealed class FriendPetOwnerDeathPatch : IPatchMethod
             foreach (Creature friend in FriendPositions.All(player).ToList())
             {
                 if (friend.Monster is FriendPetBase)
-                    FriendPositions.LoseFriend(player, friend);
+                    FriendPositions.RetireFriend(player, friend);
             }
         }
         catch (Exception e)

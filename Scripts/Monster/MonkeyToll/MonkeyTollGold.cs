@@ -17,7 +17,7 @@ namespace Rainworld.Scripts.Monster.MonkeyToll;
 [RegisterMonster]
 public sealed class MonkeyTollGold : MonkeyTollBase
 {
-	protected override int AttackDamage => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 14, 11);
+	protected override int AttackDamage => AscensionHelper.GetValueIfAscension(AscensionLevel.DeadlyEnemies, 11, 8);
 
 	/// <summary>塔1 Monkey1 的皮肤。</summary>
 	protected override string SkinName => "scavenger1";

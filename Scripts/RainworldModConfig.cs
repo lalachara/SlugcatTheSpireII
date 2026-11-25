@@ -57,6 +57,16 @@ public sealed class RainworldModSettings
 	public string RiverSkin { get; set; } = string.Empty;
 	public string LiverSkin { get; set; } = string.Empty;
 	public string MonkSkin { get; set; } = string.Empty;
+
+	// 键位（保存的是设置界面规范化后的按键标记，例如 "C"、"Ctrl+C"；空字符串 = 未绑定）
+	/// <summary>隐藏 / 显示所有伙伴（全局开关，默认 C）。</summary>
+	public string ToggleAllFriendsKey { get; set; } = "C";
+
+	/// <summary>休眠按钮快捷键（默认不绑定，避免误触）。</summary>
+	public string SleepHotkey { get; set; } = string.Empty;
+
+	/// <summary>点击队友角色隐藏 / 显示其伙伴（默认开启；仅本机显示，不参与联机同步）。</summary>
+	public bool EnableTeammateClickHide { get; set; } = true;
 }
 
 public static class RainworldModConfig
@@ -177,6 +187,22 @@ public static class RainworldModConfig
 		Entry.ModId, DataKey, SaveScope.Global,
 		static s => s.MonkSkin,
 		static (s, v) => s.MonkSkin = v);
+
+	// 键位绑定。
+	private static readonly ModSettingsValueBinding<RainworldModSettings, string> ToggleAllFriendsKeyBinding = new(
+		Entry.ModId, DataKey, SaveScope.Global,
+		static s => s.ToggleAllFriendsKey,
+		static (s, v) => s.ToggleAllFriendsKey = v);
+
+	private static readonly ModSettingsValueBinding<RainworldModSettings, string> SleepHotkeyBinding = new(
+		Entry.ModId, DataKey, SaveScope.Global,
+		static s => s.SleepHotkey,
+		static (s, v) => s.SleepHotkey = v);
+
+	private static readonly ModSettingsValueBinding<RainworldModSettings, bool> EnableTeammateClickHideBinding = new(
+		Entry.ModId, DataKey, SaveScope.Global,
+		static s => s.EnableTeammateClickHide,
+		static (s, v) => s.EnableTeammateClickHide = v);
 
 	/// <summary>
 	/// 事件区总控。写入总控值时把该值一并写入全部事件明细绑定，RitsuLib 会因每个绑定被写入而自动刷新对应的明细行，
@@ -317,6 +343,27 @@ public static class RainworldModConfig
 		set { MonkSkinBinding.Write(value); MonkSkinBinding.Save(); }
 	}
 
+	/// <summary>隐藏 / 显示所有伙伴的全局快捷键（规范化按键标记，例如 "C"）。</summary>
+	public static string ToggleAllFriendsKey
+	{
+		get => ToggleAllFriendsKeyBinding.Read();
+		set { ToggleAllFriendsKeyBinding.Write(value); ToggleAllFriendsKeyBinding.Save(); }
+	}
+
+	/// <summary>休眠按钮快捷键（空字符串 = 未绑定）。</summary>
+	public static string SleepHotkey
+	{
+		get => SleepHotkeyBinding.Read();
+		set { SleepHotkeyBinding.Write(value); SleepHotkeyBinding.Save(); }
+	}
+
+	/// <summary>点击队友隐藏 / 显示其伙伴（默认开启；仅本机显示，不联机同步）。</summary>
+	public static bool EnableTeammateClickHide
+	{
+		get => EnableTeammateClickHideBinding.Read();
+		set { EnableTeammateClickHideBinding.Write(value); EnableTeammateClickHideBinding.Save(); }
+	}
+
 	/// <summary>
 	/// 生成一份当前本地配置的 spawn 快照，供宿主机下发给全体客户端（多人以宿主机为准）。
 	/// 离线或单人时则直接使用该快照作为生效配置。
@@ -422,6 +469,10 @@ public static class RainworldModConfig
 					T("RAINWORLD-config.enableDisableAbyssalBaths"),
 					EnableDisableAbyssalBathsBinding,
 					T("RAINWORLD-config.enableDisableAbyssalBaths.desc"))
+				.AddToggle("enableTeammateClickHide",
+					T("RAINWORLD-config.enableTeammateClickHide"),
+					EnableTeammateClickHideBinding,
+					T("RAINWORLD-config.enableTeammateClickHide.desc"))
 
 			)
 			.AddSection("monster", section => section
@@ -461,6 +512,22 @@ public static class RainworldModConfig
 					GreencabMonsterSpawnModeBinding,
 					SpawnModeLabelText,
 					T("RAINWORLD-config.greencabMonsterSpawnMode.desc"))
+			).AddSection("keys", section => section
+				.WithTitle(T("RAINWORLD-config.section.keys"))
+				.AddInputBinding("toggleAllFriendsKey",
+					T("RAINWORLD-config.toggleAllFriendsKey"),
+					ToggleAllFriendsKeyBinding,
+					allowModifierCombos: true,
+					allowModifierOnly: false,
+					allowActionBindings: true,
+					description: T("RAINWORLD-config.toggleAllFriendsKey.desc"))
+				.AddInputBinding("sleepHotkey",
+					T("RAINWORLD-config.sleepHotkey"),
+					SleepHotkeyBinding,
+					allowModifierCombos: true,
+					allowModifierOnly: false,
+					allowActionBindings: true,
+					description: T("RAINWORLD-config.sleepHotkey.desc"))
 			).AddSection("event", section => section
 				.WithTitle(T("RAINWORLD-config.section.event"))
 				.AddEnumChoice<MonsterSpawnMode>("eventMasterSpawnMode",

@@ -1,9 +1,12 @@
-using Godot;
+﻿using Godot;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Context;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Nodes.Combat;
+using Rainworld.Scripts.Monster;
+using MegaCrit.Sts2.Core.Nodes.Audio;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Nodes.GodotExtensions;
 using MegaCrit.Sts2.Core.Rooms;
 using Rainworld.Scripts;
@@ -24,7 +27,54 @@ public static class CombatUiPatch
 	internal static WorkLevelIndicator? _workLevelIndicator;
 	internal static CorruptionIndicator? _corruptionIndicator;
 	internal static CabBlockIndicator? _cabBlockIndicator;
+	internal static FriendHotkeyWatcher? _friendHotkeyWatcher;
 	public static bool wawawa = false;
+
+	// ———— 变异长腿菌 BGM（事件是循环音效，不能交给原版 CustomBgm 的停止流程）————
+	internal const string MushroomBossBgm = "event:/Rainworld/sfx/mushroom";
+	private static bool _mushroomBossBgmActive;
+
+	/// <summary>
+	/// 进入变异长腿菌战斗：BGM 的「开始」交给原版 CustomBgm（进遭遇时替换本幕音乐），
+	/// 这里只记录本场是 Boss 战，供战斗结束时兜底停止它。
+	/// </summary>
+	internal static void StartMushroomBossBgm(CombatState state)
+	{
+		try
+		{
+			_mushroomBossBgmActive = state.RunState?.CurrentRoom is CombatRoom { Encounter: MushroomBoss };
+		}
+		catch (System.Exception e)
+		{
+			Entry.Logger.Info($"[战斗音乐] 记录变异长腿菌 BGM 状态失败：{e.Message}");
+		}
+	}
+
+	/// <summary>
+	/// 离开战斗：停掉 Boss 曲，并让音乐控制器恢复本幕曲目。
+	/// 不调用 NRunMusicController.StopMusic（会卸载幕音乐 bank）；
+	/// StopCustomMusic 会停当前音乐并按 _currentTrack（仍是本幕曲目）重新播放。
+	/// </summary>
+	internal static void StopMushroomBossBgm()
+	{
+		if (!_mushroomBossBgmActive)
+			return;
+
+		_mushroomBossBgmActive = false;
+
+		try
+		{
+			// 该事件不是 event:/music/... 音乐事件，原版退出战斗时可能没停掉：
+			// 1) 若它是作为循环音效实例在播，按路径停止；
+			// 2) 再走 StopCustomMusic：停止当前自定义音乐，并把本幕曲目重新放出来。
+			SfxCmd.StopLoop(MushroomBossBgm);
+			NRunMusicController.Instance?.StopCustomMusic();
+		}
+		catch (System.Exception e)
+		{
+			Entry.Logger.Info($"[战斗音乐] 停止变异长腿菌 BGM 失败：{e.Message}");
+		}
+	}
 	internal static bool IsInstanceValid(GodotObject? obj) => obj != null && GodotObject.IsInstanceValid(obj);
 
 	/// <summary>当前是否处于玩家回合。</summary>
@@ -257,6 +307,15 @@ public sealed class CombatUiReadyPatch : IPatchMethod
 				__instance.AddChild(CombatUiPatch._cabBlockIndicator);
 				CombatUiPatch._cabBlockIndicator.TreeExiting += () => CombatUiPatch._cabBlockIndicator = null;
 			}
+
+			// 全局快捷键（隐藏/显示所有伙伴、休眠按钮）：战斗 UI 下挂一个节点做边沿检测
+			if (CombatUiPatch._friendHotkeyWatcher == null || !CombatUiPatch.IsInstanceValid(CombatUiPatch._friendHotkeyWatcher))
+			{
+				CombatUiPatch._friendHotkeyWatcher = new FriendHotkeyWatcher();
+				CombatUiPatch._friendHotkeyWatcher.Name = "RainworldFriendHotkeyWatcher";
+				__instance.AddChild(CombatUiPatch._friendHotkeyWatcher);
+				CombatUiPatch._friendHotkeyWatcher.TreeExiting += () => CombatUiPatch._friendHotkeyWatcher = null;
+			}
 		}
 		catch (System.Exception ex)
 		{
@@ -276,6 +335,9 @@ public sealed class CombatUiActivatePatch : IPatchMethod
 	public static void Postfix(NCombatUi __instance, CombatState state)
 	{
 		CombatUiPatch.creature = LocalContext.GetMe(state).Creature;
+
+		// 变异长腿菌战斗：BGM 由我们自己播放/停止（见 StopMushroomBossBgm）
+		CombatUiPatch.StartMushroomBossBgm(state);
 
 		// 新一场战斗从「伙伴可见」开始：上一场如果点了收起，这里恢复显示
 		FriendVisibility.Reset();
@@ -341,6 +403,9 @@ public sealed class CombatUiDeactivatePatch : IPatchMethod
 
 	public static void Postfix()
 	{
+		// 战斗结束：先停掉变异长腿菌的 BGM（循环音效不能依赖原版自定义音乐停止流程）
+		CombatUiPatch.StopMushroomBossBgm();
+
 		// 战斗结束：伙伴显示开关复位，别带到下一场
 		FriendVisibility.Reset();
 

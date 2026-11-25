@@ -1,3 +1,4 @@
+﻿using System;
 using Godot;
 using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Context;
@@ -157,6 +158,24 @@ public partial class NAutoButton : NButton
 	protected override void OnFocus()
 	{
 		base.OnFocus();
+
+		// 描述 + 设置了休眠快捷键时在最后追加一行「快捷键：“{key}”」
+		LocString description = new LocString("settings_ui", "RAINWORLD-Sleep_description");
+		string hotkey = RainworldModConfig.SleepHotkey?.Trim() ?? string.Empty;
+		if (hotkey.Length > 0)
+		{
+			// 手柄绑定录成 action:<动作名>，显示时去掉前缀
+			if (hotkey.StartsWith("action:", StringComparison.OrdinalIgnoreCase))
+				hotkey = hotkey["action:".Length..].Trim();
+
+			LocString suffix = new LocString("settings_ui", "RAINWORLD-Sleep_hotkey");
+			suffix.Add("Hotkey", hotkey);
+			_hoverTip = new HoverTip(workleveltitle, description.GetFormattedText() + suffix.GetFormattedText());
+		}
+		else
+		{
+			_hoverTip = new HoverTip(workleveltitle, description);
+		}
 
 		NHoverTipSet nHoverTipSet = NHoverTipSet.CreateAndShow(this, _hoverTip);
 		nHoverTipSet.GlobalPosition = base.GlobalPosition + new Vector2(0f, base.Size.Y + 20f);

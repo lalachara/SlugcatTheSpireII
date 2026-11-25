@@ -1,4 +1,4 @@
-using MegaCrit.Sts2.Core.Animation;
+﻿using MegaCrit.Sts2.Core.Animation;
 using MegaCrit.Sts2.Core.Bindings.MegaSpine;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -111,10 +111,10 @@ public abstract class FKittyBase : FriendPetBase
         MoveState attackState = new("FRIEND_KITTY_ATTACK", _ => Task.CompletedTask, CreateAttackIntents());
         attackState.FollowUpState = attackState;
 
-        MoveState defendState = new("FRIEND_KITTY_DEFEND", _ => Task.CompletedTask, new DefendIntent());
+        MoveState defendState = new("FRIEND_KITTY_DEFEND", _ => Task.CompletedTask, new FriendDefendIntent());
         defendState.FollowUpState = defendState;
 
-        MoveState buffState = new("FRIEND_KITTY_BUFF", _ => Task.CompletedTask, new BuffIntent());
+        MoveState buffState = new("FRIEND_KITTY_BUFF", _ => Task.CompletedTask, new FriendBuffIntent());
         buffState.FollowUpState = buffState;
 
         _attackState = attackState;
@@ -126,8 +126,8 @@ public abstract class FKittyBase : FriendPetBase
 
     private AbstractIntent[] CreateAttackIntents()
     {
-        AbstractIntent attack = new SingleAttackIntent(() => ComputeAttackDamage(AttackDamage));
-        return AttackHasDebuff ? [attack, new DebuffIntent()] : [attack];
+        AbstractIntent attack = new FriendSingleAttackIntent(() => ComputeAttackDamage(AttackDamage));
+        return AttackHasDebuff ? [attack, new FriendDebuffIntent()] : [attack];
     }
 
     /// <summary>按轮换计数切换意图（攻击 → 防御 → 增益，循环）。</summary>

@@ -1,4 +1,4 @@
-using MegaCrit.Sts2.Core.Commands;
+﻿using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -12,6 +12,11 @@ namespace Rainworld.Scripts.Card.Monk;
 /// </summary>
 public class Rainworld_Monk_Monkey : MonkCardModel
 {
+
+#if STS2_0_113_0 || STS2_0_114_0
+    /// <summary>快速模式（Blitz）没有金币概念：与原版贪婪之手 / 我的小钱钱一致，不在该模式生成。</summary>
+    public override bool IsAllowedInBlitz => false;
+#endif
     private const int energyCost = 0;
     private const CardType type = CardType.Skill;
     private const CardRarity rarity = CardRarity.Uncommon;

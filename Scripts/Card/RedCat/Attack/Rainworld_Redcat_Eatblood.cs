@@ -1,4 +1,4 @@
-﻿using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.HoverTips;
@@ -90,14 +90,22 @@ public class Rainworld_Redcat_Eatblood : RedCatCardModel
 
     public void AddMisc(int amount)
     {
+        // 先用「当前」字段把 DynamicVars 建出来：否则首次访问会用已经 +amount 的 CurrentDamage 重建 DamageVar，
+        // 下面再 += amount 就会多加一份（数值与本机/重建路径对不上，反过来又是不同步源）
+        _ = DynamicVars.Damage;
+
         IncreasedDamage += amount;
         IncreasedSummon += amount;
-        UpdateValues();
-    }
 
-    private void UpdateValues()
-    {
-        CurrentDamage = _baseDamage + IncreasedDamage;
+        // 伤害必须按「增量」叠加，不能用固定基础值重算：
+        // 重算会把升级（OnUpgrade 的 +2）和附魔加成一起冲掉，使本机内存里的这张牌变成「6 + 加成」；
+        // 而其他玩家在下一场战斗开始时，会用 SavedProperties（CurrentDamage）+ CurrentUpgradeLevel
+        // 重新建出同一张牌，得到「6 + 加成 + 2」——两端数值不同，打出后 checksum 对不上，
+        // 多人模式就会报 StateDivergence（不同步）。
+        _currentDamage += amount;
+        DynamicVars.Damage.BaseValue += amount;
+
+        // 菌壁（Summon）没有升级 / 附魔加成，继续按基础值重算即可
         CurrentSummon = _baseSummon + IncreasedSummon;
     }
 

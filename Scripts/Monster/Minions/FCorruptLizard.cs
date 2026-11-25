@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -146,7 +146,7 @@ public sealed class FCorruptLizard : FriendCabBase, IStunForeverFriend
         MoveState corruptState = new("FRIEND_CORRUPT_ATTACK", _ => Task.CompletedTask, CreateCorruptAttackIntent());
         corruptState.FollowUpState = corruptState;
 
-        MoveState dormantState = new("FRIEND_CAB_DORMANT", _ => Task.CompletedTask, new StunIntent());
+        MoveState dormantState = new("FRIEND_CAB_DORMANT", _ => Task.CompletedTask, new FriendStunIntent());
         dormantState.FollowUpState = dormantState;
 
         _attackState = attackState;
@@ -402,11 +402,14 @@ internal sealed class CorruptAllEnemiesAttackIntent : SingleAttackIntent
     {
     }
 
+    public override int GetTotalDamage(IEnumerable<Creature> targets, Creature owner) =>
+        FriendIntentPreview.GetDamageInt(DamageCalc!, owner);
+
     protected override LocString GetIntentDescription(IEnumerable<Creature> targets, Creature owner)
     {
         LocString description =
             new("powers", "SLUGCAT_THE_SPIRE_II_POWER_CORRUPT_LIZARD_POWER.rotIntentDescription");
-        description.Add("Damage", GetSingleDamage(targets, owner));
+        description.Add("Damage", GetTotalDamage(targets, owner));
         return description;
     }
 }

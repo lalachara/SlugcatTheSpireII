@@ -41,10 +41,8 @@ public sealed class DreamPower : ModPowerTemplate
         var prefs = new CardSelectorPrefs(SelectionScreenPrompt, 1, (int)Amount);
         var selected = await CardSelectCmd.FromSimpleGrid(choiceContext, cards, player, prefs);
 
-        var card = selected.FirstOrDefault();
-        if (card != null)
-        {
-            await CardPileCmd.Add(card, PileType.Hand, CardPilePosition.Random, this);
-        }
+
+        await CardPileCmd.Add(selected, PileType.Hand, CardPilePosition.Random, this);
+        
     }
 }

@@ -42,7 +42,8 @@ public class Rainworld_Monk_Wake : MonkCardModel
         await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block, cardPlay);
 
         // 唤醒：所有处于眩晕（休眠）的伙伴满血复活，意图切回攻击（同「治愈」的结束眩晕流程）。
-        List<Creature> friends = FriendPositions.All(Owner).ToList();
+        // 只处理本 mod 的伙伴：原版宠物（异鸟、瓦皮、Pael's Legion 等）不参与唤醒，也不执行意图
+        List<Creature> friends = FriendPositions.ModFriends(Owner);
         foreach (Creature friend in friends)
         {
             if (friend.GetPower<FriendDormantPower>() is { IsDormant: true } dormant)

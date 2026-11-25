@@ -60,7 +60,7 @@ public class Rainworld_Monk_Spearcharge : MonkCardModel
             var hitsExtra = new DynamicVar("HitsExtra", 1m);
             return
             [
-                new CalculationBaseVar(12m),
+                new CalculationBaseVar(9m),
                 // 伤害不再随伙伴数增长，ExtraDamage 置 0 后 CalculatedDamage 恒为基础值。
                 new ExtraDamageVar(0m),
                 new CalculatedDamageVar(ValueProp.Move).WithMultiplier(CountFriends),

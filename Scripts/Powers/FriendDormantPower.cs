@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Godot;
 using MegaCrit.Sts2.Core.Combat;
@@ -19,14 +19,14 @@ namespace Rainworld.Scripts.Powers;
 
 /// <summary>
 /// 伙伴休眠：蜥蜴类伙伴替主人挡伤倒下后不会退场，而是休眠数回合后满血复活（对应塔1 GreenCab 的休眠机制）。
-/// 首次休眠 2 回合，此后每次倒下 +1 回合；休眠期间无法行动、不再被命中。
+/// 首次休眠 3 回合，此后每次倒下 +1 回合；休眠期间无法行动、不再被命中。
 /// 剩余回合数显示在能力图标（Counter）上，悬停可查看描述。
 /// </summary>
 [RegisterPower]
 public sealed class FriendDormantPower : ModPowerTemplate
 {
-    /// <summary>塔一数值：首次休眠 2 回合，之后每次倒下 +1。</summary>
-    private const int BaseDormantTurns = 2;
+    /// <summary>首次休眠 3 回合，之后每次倒下 +1（塔一原值为 2，本 mod 上调 1）。</summary>
+    private const int BaseDormantTurns = 3;
 
     /// <summary>休眠变暗色（参考塔一 DORMANT_TINT）。</summary>
     private static readonly Color DormantTint = new(0.45f, 0.45f, 0.5f);

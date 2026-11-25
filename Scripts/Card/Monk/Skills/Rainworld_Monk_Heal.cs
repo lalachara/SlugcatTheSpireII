@@ -33,7 +33,8 @@ public class Rainworld_Monk_Heal : MonkCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        List<Creature> friends = FriendPositions.All(Owner).ToList();
+        // 只统计本 mod 的伙伴（拾荒者、蜥蜴、猫崽等）：原版宠物（异鸟、瓦皮、Pael's Legion 等）不参与治疗
+        List<Creature> friends = FriendPositions.ModFriends(Owner);
 
         // 休眠（眩晕）的伙伴优先；它们此时 HP 为 0，唤醒时会自动回满。
         List<Creature> dormant = friends

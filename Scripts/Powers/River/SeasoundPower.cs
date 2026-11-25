@@ -30,7 +30,8 @@ public sealed class SeasoundPower : ModPowerTemplate
 
     public override PowerType Type => PowerType.Buff;
 
-    public override PowerStackType StackType => PowerStackType.Single;
+    /// <summary>层数 = 每累计给予 10 层水蚀时获得的伶俐上限数。</summary>
+    public override PowerStackType StackType => PowerStackType.Counter;
 
     private int storedAmount = 0;
 
@@ -49,13 +50,16 @@ public sealed class SeasoundPower : ModPowerTemplate
 
     public async Task OnCorrodeApplied(PlayerChoiceContext choiceContext, int corrodeAmount)
     {
+        // 每累计给予 10 层水蚀，获得「层数」层伶俐上限（堆叠只影响这里，水蚀下限永远是 1）
+        int reward = (int)Math.Max(1m, Amount);
+
         for (int i = 0; i < corrodeAmount; i++)
         {
             storedAmount++;
             if (storedAmount >= 10)
             {
                 storedAmount = 0;
-                await PowerCmd.Apply<AdroitcapPower>(choiceContext, Owner, 1, Owner, null);
+                await PowerCmd.Apply<AdroitcapPower>(choiceContext, Owner, reward, Owner, null);
             }
         }
     }

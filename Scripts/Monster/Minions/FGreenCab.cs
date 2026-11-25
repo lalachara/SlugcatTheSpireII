@@ -1,4 +1,4 @@
-using MegaCrit.Sts2.Core.Commands;
+﻿using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.MonsterMoves.Intents;
@@ -22,7 +22,7 @@ public sealed class FGreenCab : FriendCabBase
 
     /// <summary>绿蜥蜴的意图是「攻击 + 格挡」：剑（单体伤害）+ 盾（攻击后给主人的格挡）。</summary>
     protected override AbstractIntent[] CreateAttackIntents() =>
-        [CreateAttackIntent(), new DefendIntent()];
+        [CreateAttackIntent(), new FriendDefendIntent()];
     /// <summary>攻击意图顺带给主人 3 + 「协调」层格挡（塔1 GreenCab intentArmor = getblock()）。</summary>
     public override decimal IntentArmor => Creature.IsAlive ? 3m + TuneAmount() : 0m;
 

@@ -75,7 +75,11 @@ public class Rainworld_Monk_Cloud : MonkCardModel
     {
         var total = (int)((CalculatedVar)DynamicVars["CalculatedColors"]).Calculate(null);
         if (total > 0)
-            await CreatureCmd.GainBlock(Owner.Creature, total * DynamicVars.Block.BaseValue, ValueProp.Move, cardPlay);
+            for (var i = 0; i < total; i++)
+            {
+                await CreatureCmd.GainBlock(Owner.Creature, DynamicVars.Block.BaseValue, ValueProp.Move, cardPlay);
+            }
+
     }
 
     protected override void OnUpgrade()

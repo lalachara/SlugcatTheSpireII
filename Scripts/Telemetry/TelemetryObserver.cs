@@ -68,7 +68,7 @@ public sealed class TelemetryObserver : ILifecycleObserver
                     ["karma_level"] = KarmaLevel(),
                     // 失败时处于第几幕（0-based 索引 +1）；胜利/弃权/取不到时输出 0。
                     ["failed_act"] = FailedActNumber(evt.IsVictory),
-#if STS2_0_113_0
+#if STS2_0_113_0 || STS2_0_114_0
                     // 是否恐惧模式（Dread）对局：0.113 才有，0.111 不统计
                     ["is_dread"] = IsDreadRun(evt.Run),
 #endif
@@ -347,7 +347,7 @@ public sealed class TelemetryObserver : ILifecycleObserver
     /// 说明：业力是运行时数据（key 为运行时 Player），只能从活着的 RunManager 拿；
     /// RunEndedEvent 只带 SerializableRun，故这里用 DebugOnlyGetState() 读运行时玩家。
     /// </summary>
-#if STS2_0_113_0
+#if STS2_0_113_0 || STS2_0_114_0
     /// <summary>
     /// 本局是否为恐惧模式（Dread）。
     /// 优先读运行时 <see cref="RunState" /> 的 GameMode / RunModels（结束时状态通常还在），

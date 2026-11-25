@@ -1,5 +1,6 @@
-using MegaCrit.Sts2.Core.Combat;
+﻿using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Entities.Powers;
@@ -11,6 +12,8 @@ using MegaCrit.Sts2.Core.MonsterMoves.MonsterMoveStateMachine;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 using MegaCrit.Sts2.Core.ValueProps;
 using Godot;
+using MegaCrit.Sts2.Core.Models;
+using MegaCrit.Sts2.Core.Models.Cards;
 using Rainworld.Scripts.Powers;
 using STS2RitsuLib.Scaffolding.Content;
 // 0.113 游戏本体新增了同名 TunePower，这里显式指定本 mod 的协调能力
@@ -77,8 +80,8 @@ public abstract class FriendPetBase : ModMonsterTemplate, IFriendPetTurn
     /// <summary>有死亡音效。</summary>
     public override bool HasDeathSfx => true;
 
-#if !STS2_0_113_0
-    /// <summary>0.111/0.111.1 的宠物血条开关：不覆盖时友方伙伴不显示血条（0.113 已移除该属性）。</summary>
+#if !STS2_0_113_0 && !STS2_0_114_0
+    /// <summary>0.111/0.111.1 的宠物血条开关：不覆盖时友方伙伴不显示血条（0.113/0.114 已移除该属性）。</summary>
     public override bool IsHealthBarVisible => true;
 #endif
 
@@ -218,8 +221,98 @@ public abstract class FriendPetBase : ModMonsterTemplate, IFriendPetTurn
     }
 
     /// <summary>伤害结算（带「技能来源」标记，吃攻击者的力量/活力等加成）。</summary>
-    protected Task DealDamage(PlayerChoiceContext choiceContext, Creature target, decimal damage) =>
-        CreatureCmd.Damage(choiceContext, target, damage, ValueProp.Move, Creature);
+    /// <para>结算后自行处理目标身上的「人体蜂房」(PersonalHivePower)：
+    /// 伙伴本身不触发原版能力（原版只认 Osty，伙伴会造出无 owner 的眩晕把回合搞崩），
+    /// 改由这里按蜂房层数给<b>伙伴主人</b>塞等量眩晕。</para>
+    protected async Task DealDamage(PlayerChoiceContext choiceContext, Creature target, decimal damage)
+    {
+        await DealHiveAwareDamageAsync(choiceContext, Creature, target, damage, ValueProp.Move);
+    }
+
+    /// <summary>
+    /// 伙伴造成的伤害统一入口，顺带处理目标身上的「人体蜂房」(PersonalHivePower)。
+    /// <para><b>不依赖补丁、也不摘挂能力</b>：目标带蜂房时，这一击改成 <see cref="ValueProp.Unpowered" />，
+    /// 原版 <c>PersonalHivePower.AfterDamageReceived</c> 的 <c>props.IsPoweredAttack()</c> 直接为 false，
+    /// 不会执行到 <c>CreateCard&lt;Dazed&gt;(dealer.Player)</c> 那个主因为宠物没有 Player 的空引用，
+    /// 也不会出现「敌人反复获得/失去能力」的特效闪烁。</para>
+    /// <para>代价是这条伤害不再经过能力管线，所以这里手工补上会影响伙伴伤害的加成：
+    /// 伙伴自身力量/活力（加法）、目标易伤、伙伴自身虚弱（乘法）；协调与进化已经在
+    /// <see cref="ComputeAttackDamage" /> 里算进基础伤害了，不需要重复计算。</para>
+    /// </summary>
+    public static async Task DealHiveAwareDamageAsync(PlayerChoiceContext choiceContext, Creature pet,
+        Creature target, decimal amount, ValueProp props, CardModel? cardSource = null, CardPlay? cardPlay = null)
+    {
+        PersonalHivePower? hive = target.GetPower<PersonalHivePower>();
+
+        if (hive is null)
+        {
+            if (cardSource != null)
+                await CreatureCmd.Damage(choiceContext, target, amount, props, pet, cardSource, cardPlay);
+            else
+                await CreatureCmd.Damage(choiceContext, target, amount, props, pet);
+            return;
+        }
+
+        // 目标带「人体蜂房」：Unpowered 让原版能力直接跳过，加成在这里手工算
+        decimal damage = ComputeHivePartyDamage(pet, target, amount);
+
+        if (cardSource != null)
+            await CreatureCmd.Damage(choiceContext, target, damage, props | ValueProp.Unpowered, pet, cardSource, cardPlay);
+        else
+            await CreatureCmd.Damage(choiceContext, target, damage, props | ValueProp.Unpowered, pet);
+
+        // 眩晕按蜂房层数给伙伴的主人（原版那段对非 Osty 宠物会空引用，所以自己发）
+        await GrantHiveDazedAsync(choiceContext, pet, (int)decimal.Ceiling(hive.Amount));
+    }
+
+    /// <summary>
+    /// 目标带「人体蜂房」时的手工伤害计算，顺序与原版 <c>Hook.ModifyDamageInternal</c> 一致：
+    /// 先所有加法，再所有乘法，最后取 <c>max(0)</c>。
+    /// </summary>
+    private static decimal ComputeHivePartyDamage(Creature pet, Creature target, decimal amount)
+    {
+        decimal value = amount;
+
+        // 加法：伙伴自身的力量 / 活力
+        value += pet.GetPower<StrengthPower>()?.Amount ?? 0m;
+        value += pet.GetPower<VigorPower>()?.Amount ?? 0m;
+
+        // 乘法：目标的易伤
+        if (target.GetPower<VulnerablePower>() is { } vulnerable)
+            value *= vulnerable.DynamicVars["DamageIncrease"].BaseValue;
+
+        // 乘法：伙伴自身的虚弱
+        if (pet.GetPower<WeakPower>() is { } weak)
+            value *= 1m - weak.DynamicVars["DamageDecrease"].BaseValue;
+
+        return Math.Max(0m, value);
+    }
+
+    /// <summary>
+    /// 给伙伴的主人塞 <paramref name="count"/> 张眩晕（随机插入抽牌堆），对应原版「人体蜂房」的效果。
+    /// 主人取自 <c>pet.PetOwner</c>，不依赖 <c>dealer.Player</c>，所以不会出现无 owner 的牌。
+    /// </summary>
+    public static async Task GrantHiveDazedAsync(PlayerChoiceContext choiceContext, Creature pet, int count)
+    {
+        if (count <= 0)
+            return;
+
+        if (pet.PetOwner is not { } owner)
+            return;
+
+        if (pet.CombatState is not { } combatState)
+            return;
+
+        var results = new CardPileAddResult[count];
+        for (var i = 0; i < count; i++)
+        {
+            CardModel card = combatState.CreateCard<Dazed>(owner);
+            results[i] = await CardPileCmd.AddGeneratedCardToCombat(card, PileType.Draw, null, CardPilePosition.Random);
+        }
+
+        CardCmd.PreviewCardPileAdd(results);
+        await Cmd.Wait(0.5f);
+    }
 
     /// <summary>刷新意图显示（力量、「协调」、进化变化后攻击数字保持最新）。</summary>
     protected void RefreshFriendIntents()

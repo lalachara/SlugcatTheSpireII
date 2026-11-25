@@ -1,4 +1,4 @@
-using MegaCrit.Sts2.Core.Combat;
+﻿using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -216,7 +216,10 @@ public class Rainworld_Monk_Order : ModCardTemplate
         foreach (Creature target in list)
             VfxCmd.PlayOnCreature(target, "vfx/vfx_attack_slash");
 
-        await CreatureCmd.Damage(choiceContext, list, amount, ValueProp.Move, monkey.Creature, this, cardPlay);
+        // 逐个目标结算：内部会先摘下目标的「人体蜂房」再打，原版不可能拿到宠物 dealer 去空引用
+        foreach (Creature target in list)
+            await FriendPetBase.DealHiveAwareDamageAsync(choiceContext, monkey.Creature, target, amount,
+                ValueProp.Move, this, cardPlay);
     }
 
     /// <summary>本次打出额外获得的协调加成：伤害与格挡都吃它（替代力量/敏捷）。</summary>

@@ -15,6 +15,11 @@ namespace Rainworld.Scripts.Card.Liver.Attack;
 public class Rainworld_Liver_Workcat : LiverCardModel
 
 {
+
+#if STS2_0_113_0 || STS2_0_114_0
+    /// <summary>快速模式（Blitz）没有金币概念：与原版贪婪之手 / 我的小钱钱一致，不在该模式生成。</summary>
+    public override bool IsAllowedInBlitz => false;
+#endif
     // 基础耗能
     private const int energyCost = 1;
 

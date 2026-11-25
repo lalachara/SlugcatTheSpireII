@@ -1,4 +1,4 @@
-using MegaCrit.Sts2.Core.Commands;
+﻿using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Models.Powers;
@@ -22,7 +22,7 @@ public sealed class FFireCab : FriendCabBase
 
     /// <summary>攻击意图为多段（4×2），伤害数字随「协调」/力量实时刷新。</summary>
     protected override AbstractIntent CreateAttackIntent() =>
-        new CabMultiAttackIntent(ComputeAttackDamage, 2);
+        new FriendMultiAttackIntent(ComputeAttackDamage, 2);
 
     /// <summary>与上面 2 段意图一致：护甲面板按两段合计预计输出（塔1 intentTotalOutput）。</summary>
     protected override int IntentHitCount => 2;

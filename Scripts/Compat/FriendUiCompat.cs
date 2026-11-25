@@ -1,4 +1,4 @@
-#if !STS2_0_113_0
+﻿#if !STS2_0_113_0 && !STS2_0_114_0
 using Godot;
 using MegaCrit.Sts2.Core.Nodes.Combat;
 

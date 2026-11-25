@@ -36,6 +36,6 @@ public sealed class FKittyRiver : FKittyBase
         Creature? playerCreature = Creature.PetOwner?.Creature;
         if (playerCreature == null)
             return;
-        await PowerCmd.Apply<AdroitPower>(choiceContext, playerCreature, BuffAmount + TuneAmount(), playerCreature, null);
+        await PowerCmd.Apply<AdroitcapPower>(choiceContext, playerCreature, BuffAmount + TuneAmount(), playerCreature, null);
     }
 }

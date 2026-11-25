@@ -1,4 +1,4 @@
-using MegaCrit.Sts2.Core.Animation;
+﻿using MegaCrit.Sts2.Core.Animation;
 using MegaCrit.Sts2.Core.Bindings.MegaSpine;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -159,7 +159,7 @@ public abstract class FriendCabBase : FriendPetBase, IFriendCabCombat
         MoveState attackState = new("FRIEND_CAB_ATTACK", _ => Task.CompletedTask, CreateAttackIntents());
         attackState.FollowUpState = attackState;
 
-        MoveState dormantState = new("FRIEND_CAB_DORMANT", _ => Task.CompletedTask, new StunIntent());
+        MoveState dormantState = new("FRIEND_CAB_DORMANT", _ => Task.CompletedTask, new FriendStunIntent());
         dormantState.FollowUpState = dormantState;
 
         _attackState = attackState;
@@ -170,7 +170,7 @@ public abstract class FriendCabBase : FriendPetBase, IFriendCabCombat
 
     /// <summary>攻击意图：默认单体，数值随「协调」与力量动态显示；烈焰蜥蜴覆盖为多段。</summary>
     protected virtual AbstractIntent CreateAttackIntent() =>
-        new SingleAttackIntent(ComputeAttackDamage);
+        new FriendSingleAttackIntent(ComputeAttackDamage);
 
     /// <summary>
     /// 攻击状态要显示的意图组（默认只有攻击）。绿蜥蜴这类「攻击后还给主人格挡」的伙伴

@@ -42,7 +42,8 @@ public class Rainworld_River_Spearrust : RiverCardModel
             .Execute(choiceContext);
         await PowerCmd.Apply<CorrodePower>(choiceContext, cardPlay.Target, DynamicVars["Special"].BaseValue,
             Owner.Creature, this);
-        await PowerCmd.Apply<RustspearPower>(choiceContext, cardPlay.Target, 1, Owner.Creature, this);
+        // 1 层锈蚀 = 水蚀伤害 +1%，所以一次直接给 50 层（= +50%）
+        await PowerCmd.Apply<RustspearPower>(choiceContext, cardPlay.Target, 50, Owner.Creature, this);
     }
 
     protected override void OnUpgrade()

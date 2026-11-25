@@ -1,4 +1,4 @@
-using MegaCrit.Sts2.Core.Combat;
+﻿using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Nodes.Combat;
@@ -54,6 +54,14 @@ public static class FriendPositions
     public static int Count(Player player) => All(player).Count;
 
     /// <summary>
+    /// 玩家当前的本 mod 伙伴（拾荒者、蜥蜴、猫崽等）。
+    /// 原版宠物（异鸟、瓦皮、Pael's Legion 等）与其它 mod 的随从都不计入，
+    /// 避免它们被当成「伙伴」参与治疗、执行意图等结算。
+    /// </summary>
+    public static List<Creature> ModFriends(Player player) =>
+        All(player).Where(pet => pet.Monster is FriendPetBase).ToList();
+
+    /// <summary>
     /// 该玩家是否有「未处于眩晕」的伙伴：存活且未休眠（倒地等待复活的不算）。
     /// 只统计本 mod 的伙伴，别家随从不计入。
     /// </summary>
@@ -95,7 +103,7 @@ public static class FriendPositions
         if (room != null && node != null)
         {
             room.RemoveCreatureNode(node);
-            CreatureNodeCompat.SetInteractable(node, false);
+            SetNodeInteractable(node, false);
             node.Visible = false;
         }
 
@@ -105,4 +113,47 @@ public static class FriendPositions
         if (combatState != null && combatState.ContainsCreature(friend))
             combatState.RemoveCreature(friend, true);
     }
+
+    /// <summary>
+    /// 软退场：主人战死后把伙伴撤下，但<b>保留场景节点</b>（只隐藏），不调用
+    /// <c>NCombatRoom.RemoveCreatureNode</c>。
+    /// <para>原因：原版无厌沙虫的 <c>SandpitPower.AfterRemoved</c> 会在一个 foreach 里先
+    /// <c>Kill</c> 被吞玩家、再遍历当时快照下来的宠物数组；杀玩家会同步触发
+    /// <c>HandlePlayerDeath</c>。如果这时我们立刻销毁宠物节点，沙虫那边仍拿着旧快照，
+    /// <c>NCombatRoom.GetCreatureNode</c> 返回 null 之后马上访问 <c>.Visuals</c> → 空引用，
+    /// 表现为「队友被沙虫吞掉后整局卡死」。保留节点就不会走到 null。</para>
+    /// <para>节点会在战斗结束、场景清理时统一销毁，不需要额外收尾。</para>
+    /// </summary>
+    public static void RetireFriend(Player player, Creature friend)
+    {
+        RawList(player)?.Remove(friend);
+
+        friend.RemoveAllPowersInternalExcept(null);
+
+        // 只隐藏，不摘节点
+        NCombatRoom? room = NCombatRoom.Instance;
+        NCreature? node = room?.GetCreatureNode(friend);
+        if (node != null)
+        {
+            node.Visible = false;
+            SetNodeInteractable(node, false);
+        }
+
+        CombatManager.Instance?.RemoveCreature(friend);
+        ICombatState? combatState = friend.CombatState;
+        if (combatState != null && combatState.ContainsCreature(friend))
+            combatState.RemoveCreature(friend, true);
+    }
+    /// <summary>关闭节点上的悬停交互（0.113 用 SetIsInteractable，0.111 用 ToggleIsInteractable + AnimDisableUi）。</summary>
+    private static void SetNodeInteractable(NCreature node, bool on)
+    {
+#if STS2_0_113_0 || STS2_0_114_0
+        CreatureNodeCompat.SetInteractable(node, on);
+#else
+        node.ToggleIsInteractable(on);
+        if (!on)
+            node.AnimDisableUi();
+#endif
+    }
+
 }

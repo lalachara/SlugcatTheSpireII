@@ -40,7 +40,7 @@ public sealed class InhurtPower : ModPowerTemplate
     public override async Task AfterDamageGiven(PlayerChoiceContext choiceContext, Creature? dealer,
         DamageResult result, ValueProp props, Creature target, CardModel? cardSource)
     {
-        if (dealer != Owner || target == Owner || !target.IsAlive || Amount <= 0)
+        if (dealer != Owner || target == Owner || !target.IsAlive )
             return;
 
         // 生命流失（包括本能力自己追加的那一次）不能再触发，否则会无限连锁。
@@ -50,7 +50,7 @@ public sealed class InhurtPower : ModPowerTemplate
             return;
 
         // 只对「本次伤害不大于阈值」的攻击追加；TotalDamage 是未扣格挡的原始伤害，与塔1 damageAmount 同口径。
-        if (result.TotalDamage <= 0 || result.TotalDamage > Threshold)
+        if (result.TotalDamage > Threshold)
             return;
 
         Flash();

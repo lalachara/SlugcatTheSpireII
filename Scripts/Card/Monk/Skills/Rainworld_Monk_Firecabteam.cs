@@ -26,14 +26,18 @@ public class Rainworld_Monk_Firecabteam : MonkCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        List<Creature>? friends = FriendPositions.RawList(Owner);
-        if (friends == null || friends.Count == 0)
+        // 只处理本 mod 的伙伴（拾荒者、蜥蜴、猫崽等）：
+        // 原版异鸟、瓦皮、Pael's Legion 等宠物不响应这张牌——强行让它们退场会破坏原版逻辑，导致卡死
+        List<Creature> friends = FriendPositions.All(Owner)
+            .Where(friend => friend.Monster is FriendPetBase)
+            .ToList();
+        if (friends.Count == 0)
             return;
 
         var count = friends.Count;
 
         // 失去全部伙伴（休眠中的也一并退场）
-        foreach (Creature friend in friends.ToList())
+        foreach (Creature friend in friends)
         {
             FriendPositions.LoseFriend(Owner, friend);
         }

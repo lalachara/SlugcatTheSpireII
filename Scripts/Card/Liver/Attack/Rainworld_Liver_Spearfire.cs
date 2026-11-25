@@ -1,4 +1,4 @@
-﻿﻿using MegaCrit.Sts2.Core.Commands;
+using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Commands.Builders;
 using MegaCrit.Sts2.Core.Entities.Cards;
 using MegaCrit.Sts2.Core.Entities.Creatures;
@@ -118,12 +118,27 @@ public class Rainworld_Liver_Spearfire : LiverCardModel
         UpdateDamage();
     }
 
+    /// <summary>
+    /// 斩杀后的永久伤害加成。
+    /// <para>必须按「增量」往上加，不能用 <see cref="_baseDamage" /> 重算整个伤害：
+    /// 重算会把升级（<see cref="OnUpgrade" /> 的 +6）和附魔的伤害加成一起冲掉，
+    /// 使本机内存里的这张牌变成「16 + 永久加成」；而其他玩家在下一场战斗开始的同步里，
+    /// 会用 SavedProperties（CurrentDamage）+ CurrentUpgradeLevel 重新建出同一张牌，
+    /// 得到「16 + 永久加成 + 6」——两端同一张牌伤害不同，打出后 checksum 对不上，
+    /// 多人模式就会报 StateDivergence（不同步）。</para>
+    /// </summary>
     private void BuffFromPlay(int extraDamage)
     {
-        IncreasedDamage += extraDamage;
-        UpdateDamage();
+        // 先用「当前」字段把 DynamicVars 建出来：否则首次访问会用已经 +extraDamage 的 CurrentDamage 重建 DamageVar，
+        // 下面再 += 就会多加一份
+        _ = DynamicVars.Damage;
+
+        IncreasedDamage += extraDamage;                 // 存档字段：基础伤害 + 已累积的永久加成
+        _currentDamage += extraDamage;                  // 直接改字段，保持「16 + 加成」（属性 setter 会把 DynamicVars 重置掉）
+        DynamicVars.Damage.BaseValue += extraDamage;    // 在当前伤害上叠加，保留升级 / 附魔加成
     }
 
+    /// <summary>降级后把伤害重置回「基础 + 永久加成」（升级加成由 <see cref="OnUpgrade" /> 负责重新加）。</summary>
     private void UpdateDamage()
     {
         CurrentDamage = _baseDamage + IncreasedDamage;

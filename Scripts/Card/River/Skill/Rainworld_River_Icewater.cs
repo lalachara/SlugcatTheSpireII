@@ -1,4 +1,4 @@
-﻿// Rainworld_River_IceWater.cs
+// Rainworld_River_IceWater.cs
 
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Cards;
@@ -34,17 +34,20 @@ public class Rainworld_River_Icewater : RiverCardModel
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
         var owner = Owner.Creature;
-        var blockAmt = (int)DynamicVars.Block.BaseValue;
-        if (owner.Block > 0)
-        {
-            var total = owner.Block + blockAmt;
-            await CreatureCmd.LoseBlock(choiceContext,owner, owner.Block,owner);
-            await PowerCmd.Apply<IcewaterPower>(choiceContext, owner, total, owner, this);
-        }
-        else
-        {
-            await PowerCmd.Apply<IcewaterPower>(choiceContext, owner, blockAmt, owner, this);
-        }
+
+        // ① 先按正常流程「获得格挡」：走引擎的完整格挡管线
+        //    （Hook.ModifyBlock 里的敏捷/格挡加成、BeforeBlockGained、AfterModifyingBlockAmount、
+        //    格挡音效与特效都会正常触发），所以对格挡敏感的能力都会响应。
+        //    以前直接用 DynamicVars.Block.BaseValue 自己算，等于绕开了这条管线，吃不到任何格挡加成。
+        await CreatureCmd.GainBlock(owner, DynamicVars.Block, cardPlay);
+
+        // ② 再把「现有格挡 + 刚获得的格挡」全部转成冰晶的减伤层（和卡面描述一致）。
+        decimal total = owner.Block;
+        if (total <= 0m)
+            return;
+
+        await CreatureCmd.LoseBlock(choiceContext, owner, total, owner);
+        await PowerCmd.Apply<IcewaterPower>(choiceContext, owner, total, owner, this);
     }
 
     protected override void OnUpgrade()

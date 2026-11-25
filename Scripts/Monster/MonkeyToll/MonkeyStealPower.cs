@@ -66,11 +66,6 @@ public abstract class MonkeyStealPower : ModPowerTemplate
 	/// <summary>金币专用的「已偷取 N 金币」模板（自带前缀，省一次拼接）。</summary>
 	private const string StolenGoldLocKey = "SLUGCAT_THE_SPIRE_II_MONKEY_STEAL.stolenGold";
 
-	/// <summary>
-	/// 每个玩家各自被偷的东西（NetId → 展示文本）。多人模式下每个客户端只显示
-	/// 「本地玩家」被偷的那一行，别人被偷了什么在自己的悬停里看不到（模仿原版偷窃能力）。
-	/// </summary>
-	private readonly Dictionary<ulong, string> _stolenByPlayer = [];
 
 	/// <summary>
 	/// 悬停描述：本地化里的 <c>description</c> 原文，偷到东西后再追加一行「已偷取：xxx」。
@@ -89,7 +84,7 @@ public abstract class MonkeyStealPower : ModPowerTemplate
 
 			// 只显示「本地玩家」被偷的东西：多人模式下别人的赃物不显示在自己的悬停里
 			string stolen = string.Empty;
-			if (LocalContext.NetId is { } netId && _stolenByPlayer.TryGetValue(netId, out string? line))
+			if (LocalContext.NetId is { } netId && State.StolenByPlayer.TryGetValue(netId, out string? line))
 				stolen = line;
 			composed.Add("Stolen", stolen);
 			return composed;
@@ -102,7 +97,7 @@ public abstract class MonkeyStealPower : ModPowerTemplate
 		var prefix = new LocString("powers", StolenPrefixLocKey);
 		if (!prefix.Exists())
 			return;
-		_stolenByPlayer[player.NetId] = prefix.GetFormattedText() + itemName;
+		State.StolenByPlayer[player.NetId] = prefix.GetFormattedText() + itemName;
 	}
 
 	/// <summary>记录「已偷取 N 金币」（金币模板自带「已偷取：」和颜色标签）。</summary>
@@ -112,7 +107,7 @@ public abstract class MonkeyStealPower : ModPowerTemplate
 		if (!line.Exists())
 			return;
 		line.Add("Amount", amount);
-		_stolenByPlayer[player.NetId] = line.GetFormattedText();
+		State.StolenByPlayer[player.NetId] = line.GetFormattedText();
 	}
 
 	/// <summary>偷卡稀有度优先级（塔1 StealAction.CARD_ORDER：RARE → UNCOMMON → COMMON → BASIC → SPECIAL → CURSE）。</summary>
@@ -128,6 +123,25 @@ public abstract class MonkeyStealPower : ModPowerTemplate
 		CardRarity.Curse,
 	];
 
+	/// <summary>
+	/// 每场战斗的可变状态。必须放在 InternalData 里：PowerModel 的 mutable 克隆是
+	/// MemberwiseClone（浅拷贝），普通字段里的字典会与 canonical 实例共享，
+	/// 导致上一场偷到的东西 / 赃物袋残留到下一场（客户端悬停显示旧东西、赃物重复发放）。
+	/// InitInternalData 每个 mutable 实例各建一份，战斗结束随实例一起丢弃。
+	/// </summary>
+	private sealed class Data
+	{
+		/// <summary>每个玩家各自被偷的东西（NetId → 展示文本）。</summary>
+		public readonly Dictionary<ulong, string> StolenByPlayer = [];
+
+		/// <summary>赃物袋：按被偷玩家分开记账，死亡时各还各的。</summary>
+		public readonly Dictionary<Player, StolenPouch> Pouches = [];
+	}
+
+	protected override object InitInternalData() => new Data();
+
+	private Data State => GetInternalData<Data>();
+
 	/// <summary>击杀偷金拾荒者的额外金币奖励（不含被它偷走的金币）。</summary>
 	private const int KillGoldReward = 20;
 
@@ -140,14 +154,14 @@ public abstract class MonkeyStealPower : ModPowerTemplate
 		public readonly List<RelicModel> Relics = [];
 	}
 
-	private readonly Dictionary<Player, StolenPouch> _pouches = [];
+	
 
 	private StolenPouch GetPouch(Player player)
 	{
-		if (!_pouches.TryGetValue(player, out StolenPouch? pouch))
+		if (!State.Pouches.TryGetValue(player, out StolenPouch? pouch))
 		{
 			pouch = new StolenPouch();
-			_pouches[player] = pouch;
+			State.Pouches[player] = pouch;
 		}
 		return pouch;
 	}
@@ -271,7 +285,7 @@ public abstract class MonkeyStealPower : ModPowerTemplate
 			return Task.CompletedTask;
 
 		// 1）被偷的东西还给被偷的人
-		foreach ((Player player, StolenPouch pouch) in _pouches)
+		foreach ((Player player, StolenPouch pouch) in State.Pouches)
 		{
 			if (pouch.Gold > 0)
 				MonkeyTollLoot.Add(player, new GoldReward((int)pouch.Gold, player, wasGoldStolenBack: true));
@@ -291,8 +305,8 @@ public abstract class MonkeyStealPower : ModPowerTemplate
 			foreach (RelicModel relic in pouch.Relics)
 				MonkeyTollLoot.Add(player, new RelicReward(relic, player));
 		}
-		_pouches.Clear();
-		_stolenByPlayer.Clear();
+		State.Pouches.Clear();
+		State.StolenByPlayer.Clear();
 
 		// 2）击杀补给：拾荒者被打死时给所有玩家的战利品
 		foreach (Player player in runState.Players)

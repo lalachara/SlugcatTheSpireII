@@ -48,8 +48,9 @@ public sealed class CorrodePower : ModPowerTemplate,IHealthBarForecastSource
             Flash();
             var damage = (int)Amount;
 
-            if (Owner.HasPower<RustspearPower>())
-                damage += damage / 2;
+            // 锈蚀：每层使受到的水蚀伤害 +1%（锈蚀长矛一次给 50 层 = +50%）
+            if (Owner.GetPower<RustspearPower>() is { } rust)
+                damage += (int)Math.Floor(damage * rust.Amount / 100m);
 
             if (Owner.HasPower<WaterworldPower>())
                 damage /= 2;
@@ -67,8 +68,9 @@ public sealed class CorrodePower : ModPowerTemplate,IHealthBarForecastSource
             Flash();
             var damage = (int)Amount;
 
-            if (Owner.HasPower<RustspearPower>())
-                damage += damage / 2;
+            // 锈蚀：每层使受到的水蚀伤害 +1%（锈蚀长矛一次给 50 层 = +50%）
+            if (Owner.GetPower<RustspearPower>() is { } rust)
+                damage += (int)Math.Floor(damage * rust.Amount / 100m);
 
             if (Owner.HasPower<WaterworldPower>())
                 damage /= 2;
@@ -97,8 +99,7 @@ public sealed class CorrodePower : ModPowerTemplate,IHealthBarForecastSource
 
         if (dealer.HasPower<SeasoundPower>())
         {
-            var seasound = dealer.GetPower<SeasoundPower>()!;
-            await ((SeasoundPower)seasound).OnCorrodeApplied(choiceContext, 1);
+            // 液态猫：自身水蚀层数固定不低于 1（不随层数变化），多余的这层才转给目标
             if (Amount > 1)
                 await PowerCmd.Decrement(this);
         }
@@ -107,6 +108,24 @@ public sealed class CorrodePower : ModPowerTemplate,IHealthBarForecastSource
             await PowerCmd.Decrement(this);
         }
     }
+    /// <summary>
+    /// 任意来源给某个单位施加「水蚀」时（amount &gt; 0），如果施加者身上有「液态猫」，
+    /// 就把这次施加的层数累计进液态猫（每 10 层给 1 层伶俐上限）。
+    /// 旧实现只在「水蚀持有者造成伤害顺带施加 1 层」这条路径里调用，卡牌/能力直接
+    /// PowerCmd.Apply&lt;CorrodePower&gt; 给敌人的水蚀完全不计数，所以看起来没生效。
+    /// </summary>
+    public override async Task AfterPowerAmountChanged(PlayerChoiceContext choiceContext, PowerModel power, decimal amount,
+        Creature? applier, CardModel? cardSource)
+    {
+        if (power != this || amount <= 0m || applier == null || applier == Owner)
+            return;
+
+        if (applier.GetPower<SeasoundPower>() is not { } seasound)
+            return;
+
+        await seasound.OnCorrodeApplied(choiceContext, (int)amount);
+    }
+
     public IEnumerable<HealthBarForecastSegment> GetHealthBarForecastSegments(HealthBarForecastContext context)
     {
         return HealthBarForecasts.Single(

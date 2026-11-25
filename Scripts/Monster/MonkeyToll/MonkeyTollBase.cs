@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +9,7 @@ using MegaCrit.Sts2.Core.Combat;
 using MegaCrit.Sts2.Core.Commands;
 using MegaCrit.Sts2.Core.Entities.Ascension;
 using MegaCrit.Sts2.Core.Entities.Creatures;
+using MegaCrit.Sts2.Core.Extensions;
 using MegaCrit.Sts2.Core.GameActions.Multiplayer;
 using MegaCrit.Sts2.Core.Helpers;
 using MegaCrit.Sts2.Core.Models;
@@ -281,7 +282,16 @@ public abstract class MonkeyTollBase : ModMonsterTemplate
 			tween.TweenCallback(Callable.From(() => PlayRunAnim(node)));
 
 		tween.TweenProperty(node, "position", node.Position + new Vector2(1200f, 0f), duration);
-		await node.ToSignal(tween, Tween.SignalName.Finished);
+
+		// 动画等待必须带超时兜底：逃跑过程中若战斗结束 / 节点被释放，tween 不会再发 Finished，
+		// 直接 await 会让这只怪的回合永远停在这里（逃走导致整局卡死的已知来源）。
+		Task finished = node.ToSignal(tween, Tween.SignalName.Finished).ToTask();
+		Task timeout = node.ToSignal(node.GetTree().CreateTimer(duration + 1.5f), "timeout").ToTask();
+		await Task.WhenAny(finished, timeout);
+
+		// 战斗已结束 / 本体已被移除时不要再走 Escape（避免操作已释放的对象）
+		if (Creature.CombatState is not { } combatState || !combatState.IsLiveCombat() || !Creature.IsAlive)
+			return;
 
 		await CreatureCmd.Escape(Creature);
 	}

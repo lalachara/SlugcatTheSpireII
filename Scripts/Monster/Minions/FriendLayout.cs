@@ -1,4 +1,4 @@
-using Godot;
+﻿using Godot;
 using MegaCrit.Sts2.Core.Entities.Creatures;
 using MegaCrit.Sts2.Core.Entities.Players;
 using MegaCrit.Sts2.Core.Nodes.Combat;
@@ -92,7 +92,7 @@ public static class FriendLayout
                 // 显示开关：玩家点伙伴护甲面板收起伙伴时，隐藏期间新召唤的伙伴也要一起藏起来
                 FriendVisibility.ApplyTo(node);
 
-#if !STS2_0_113_0
+#if !STS2_0_113_0 && !STS2_0_114_0
                 // 0.111 专用：把血条/能力图标所在的状态显示强制打开
                 FriendUiCompat.EnsureUiVisible(node);
 #endif

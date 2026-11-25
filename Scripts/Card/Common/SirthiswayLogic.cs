@@ -19,11 +19,13 @@ using MegaCrit.Sts2.Core.ValueProps;
 using Rainworld.Scripts.Card.Colorless;
 using Rainworld.Scripts.Card.Liver.Attack;
 using Rainworld.Scripts.Card.Liver.Skills;
+using Rainworld.Scripts.Card.Monk;
 using Rainworld.Scripts.Card.RedCat;
 using Rainworld.Scripts.Card.River.Attack;
 using Rainworld.Scripts.Monster.Minions;
 using Rainworld.Scripts.Powers;
 using SlugcatTheSpireII.Scripts;
+using SlugcatTheSpireII.Scripts.Card.Monk.Attack;
 
 namespace Rainworld.Scripts.Card.Common;
 
@@ -228,7 +230,7 @@ public static class SirthiswayLogic
 
     private static async Task applydebuff(CardModel cardModel, PlayerChoiceContext choiceContext)
     {
-        var random = cardModel.Owner.RunState.Rng.CombatCardGeneration.NextInt(0, 11);
+        var random = cardModel.Owner.RunState.Rng.CombatCardGeneration.NextInt(0, 13);
         switch (random)
         {
             case 0: //3层灾厄
@@ -275,21 +277,29 @@ public static class SirthiswayLogic
             case 10: //1层昏眩
                 await PowerCmd.Apply<RingingPower>(choiceContext, cardModel.Owner.Creature, 1, cardModel.Owner.Creature, cardModel);
                 break;
+            case 11://芝士三件套
+                await PowerCmd.Apply<SlothPower>(choiceContext, cardModel.Owner.Creature, 3, cardModel.Owner.Creature, cardModel);
+                await PowerCmd.Apply<WasteAwayPower>(choiceContext, cardModel.Owner.Creature, 1, cardModel.Owner.Creature, cardModel);
+                await PowerCmd.Apply<MindRotPower>(choiceContext, cardModel.Owner.Creature, 1, cardModel.Owner.Creature, cardModel);
+                break;
+            case 12://乐嘉+沙漏+沙虫的支配
+                await PowerCmd.Apply<InsatiableDominionPower>(choiceContext, cardModel.Owner.Creature, 1, cardModel.Owner.Creature, cardModel);
+                await PowerCmd.Apply<AeonglassDominionPower>(choiceContext, cardModel.Owner.Creature, 1, cardModel.Owner.Creature, cardModel);
+                await PowerCmd.Apply<LagavulinMatriarchDominionPower>(choiceContext, cardModel.Owner.Creature, 1, cardModel.Owner.Creature, cardModel);
+                break;
         }
     }
 
     private static async Task drawcard(CardModel cardModel)
     {
-        var random = cardModel.Owner.RunState.Rng.CombatCardGeneration.NextInt(0, 11);
+        var random = cardModel.Owner.RunState.Rng.CombatCardGeneration.NextInt(0, 14);
         switch (random)
         {
             case 0: //3张黏液
                 for (var i = 0; i < 3; i++)
                     CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(cardModel.CombatState!.CreateCard<Slimed>(cardModel.Owner), PileType.Hand, cardModel.Owner));
                 break;
-            case 1: //印随机牌
-            case 9:
-            case 10:
+            case 10: //印1张随机牌
                 var distinctForCombat = CardFactory.GetDistinctForCombat(cardModel.Owner,
                     from c in cardModel.Owner.Character.CardPool.GetUnlockedCards(cardModel.Owner.UnlockState,
                         cardModel.Owner.RunState.CardMultiplayerConstraint)
@@ -298,6 +308,54 @@ public static class SirthiswayLogic
                     select c, 1, cardModel.Owner.RunState.Rng.CombatCardGeneration);
                 await CardPileCmd.AddGeneratedCardsToCombat(distinctForCombat, PileType.Hand, cardModel.Owner);
                 break;
+            case 1: //印3张相同的随机牌
+            {
+                CardModel? sameRandomCard = CardFactory.GetDistinctForCombat(cardModel.Owner,
+                    from c in cardModel.Owner.Character.CardPool.GetUnlockedCards(cardModel.Owner.UnlockState,
+                        cardModel.Owner.RunState.CardMultiplayerConstraint)
+                    where (c.Type == CardType.Attack || c.Type == CardType.Skill) && (c.Rarity == CardRarity.Common ||
+                        c.Rarity == CardRarity.Uncommon || c.Rarity == CardRarity.Rare)
+                    select c, 1, cardModel.Owner.RunState.Rng.CombatCardGeneration).FirstOrDefault();
+                if (sameRandomCard != null)
+                {
+                    for (int i = 0; i < 3; i++)
+                        CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(
+                            sameRandomCard.CreateClone(), PileType.Hand, cardModel.Owner));
+                }
+                break;
+            }
+            case 9: //+12 凋萎
+            {
+                Wither wither = cardModel.CombatState!.CreateCard<Wither>(cardModel.Owner);
+                for (int i = 0; i < 12; i++)
+                    wither.FakeUpgrade();
+                CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(wither, PileType.Hand, cardModel.Owner));
+                break;
+            }
+#if STS2_0_113_0 || STS2_0_114_0
+            case 11: //随机塔罗牌
+            {
+                var tarots = TarotCards.All;
+                CardModel tarotCanonical = cardModel.Owner.RunState.Rng.CombatCardGeneration.NextItem(tarots) ?? tarots[0];
+                CardModel tarot = cardModel.CombatState!.CreateCard(tarotCanonical, cardModel.Owner);
+                CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(tarot, PileType.Hand, cardModel.Owner));
+                break;
+            }
+#endif
+#if !STS2_0_113_0 && !STS2_0_114_0
+            case 11: //111 没有塔罗牌：第 12 档（索引 11）给电流相生
+#endif
+            case 12: //电流相生（重放9）+ 闪电充能球 + 失去 8 集中
+            {
+                CardModel voltaic = cardModel.CombatState!.CreateCard<Voltaic>(cardModel.Owner);
+                voltaic.BaseReplayCount = 9;
+                CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(voltaic, PileType.Hand, cardModel.Owner));
+
+                var orbContext = new BlockingPlayerChoiceContext();
+                await OrbCmd.Channel<LightningOrb>(orbContext, cardModel.Owner);
+                await PowerCmd.Apply<FocusPower>(orbContext, cardModel.Owner.Creature, -8, cardModel.Owner.Creature, cardModel);
+                break;
+            }
             case 2: //3猫咬
                 for (var i = 0; i < 3; i++)
                     CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(cardModel.CombatState.CreateCard<Rainworld_Liver_Cateat>(cardModel.Owner), PileType.Hand, cardModel.Owner));
@@ -334,9 +392,12 @@ public static class SirthiswayLogic
                 await PowerCmd.Apply<VigorPower>(new BlockingPlayerChoiceContext(), cardModel.Owner.Creature, 2, cardModel.Owner.Creature, cardModel);
                 await PowerCmd.Apply<NimblePower>(new BlockingPlayerChoiceContext(), cardModel.Owner.Creature, 2, cardModel.Owner.Creature, cardModel);
                 await PowerCmd.Apply<AdroitcapPower>(new BlockingPlayerChoiceContext(), cardModel.Owner.Creature, 2, cardModel.Owner.Creature, cardModel);
+                await PowerCmd.Apply<TubePower>(new BlockingPlayerChoiceContext(), cardModel.Owner.Creature, 1, cardModel.Owner.Creature, cardModel);
                 CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(cardModel.CombatState!.CreateCard<Rainworld_Liver_Kick>(cardModel.Owner), PileType.Hand, cardModel.Owner));
                 CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(cardModel.CombatState.CreateCard<Rainworld_Redcat_Kick>(cardModel.Owner), PileType.Hand, cardModel.Owner));
                 CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(cardModel.CombatState.CreateCard<Rainworld_River_Kick>(cardModel.Owner), PileType.Hand, cardModel.Owner));
+                CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(cardModel.CombatState.CreateCard<Rainworld_Monk_Kick>(cardModel.Owner), PileType.Hand, cardModel.Owner));
+
                 break;
             case 8://4张轨道
                 var ORBIT = cardModel.CombatState!.CreateCard<Orbit>(cardModel.Owner);
@@ -349,7 +410,7 @@ public static class SirthiswayLogic
 
     private static async Task bigevnet(CardModel cardModel, PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
-        var random = cardModel.Owner.RunState.Rng.CombatCardGeneration.NextInt(0, 12);
+        var random = cardModel.Owner.RunState.Rng.CombatCardGeneration.NextInt(0, 15);
         switch (random)
         {
             case 0: //巨石
@@ -381,6 +442,7 @@ public static class SirthiswayLogic
                 await PowerCmd.Apply<ReaperFormPower>(choiceContext, cardModel.Owner.Creature, 1, cardModel.Owner.Creature, cardModel);
                 await PowerCmd.Apply<WraithFormPower>(choiceContext, cardModel.Owner.Creature, 1, cardModel.Owner.Creature, cardModel);
                 await PowerCmd.Apply<SerpentFormPower>(choiceContext, cardModel.Owner.Creature, 1, cardModel.Owner.Creature, cardModel);
+                await PowerCmd.Apply<MythicFormPower>(choiceContext, cardModel.Owner.Creature, 1, cardModel.Owner.Creature, cardModel);
                 break;
             case 6:
                 await discardand(cardModel, choiceContext, cardPlay);
@@ -410,6 +472,16 @@ public static class SirthiswayLogic
             case 13:
                 await PowerCmd.Apply<IcewaterPower>(choiceContext, cardModel.Owner.Creature, 99, cardModel.Owner.Creature, cardModel);
                 break;
+            case 14://4张本我1张驱魔
+                for (int i = 0; i < 4; i++)
+                {
+                    CardModel c = cardModel.CombatState!.CreateCard<Rainworld_Monk_Think>(cardModel.Owner);
+                    CardCmd.Upgrade(c);
+                    CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(c, PileType.Hand, cardModel.Owner));
+                }
+                CardModel qm = cardModel.CombatState!.CreateCard<Rainworld_Monk_Quitmagic>(cardModel.Owner);
+                CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(qm, PileType.Hand, cardModel.Owner));
+                break;
         }
     }
 
@@ -417,7 +489,7 @@ public static class SirthiswayLogic
     {
         await CardCmd.Discard(choiceContext, PileType.Hand.GetPile(cardModel.Owner).Cards);
 
-        var random = cardModel.Owner.RunState.Rng.CombatCardGeneration.NextInt(0, 6);
+        var random = cardModel.Owner.RunState.Rng.CombatCardGeneration.NextInt(0, 9);
         switch (random)
         {
             case 0: //重启和重放仙人指路
@@ -462,6 +534,21 @@ public static class SirthiswayLogic
                 for (int i = 0; i < 5; i++)
                     CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(cardModel.CombatState!.CreateCard<Rainworld_Redcat_Simulated>(cardModel.Owner), PileType.Hand, cardModel.Owner));
                 break;
+            case 6://5奇异
+                for (int i = 0; i < 5; i++)
+                    CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(cardModel.CombatState!.CreateCard<Rainworld_Monk_Strange>(cardModel.Owner), PileType.Hand, cardModel.Owner));
+                break;
+            case 7://
+                CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(
+                    cardModel.CombatState!.CreateCard<Brace>(cardModel.Owner), PileType.Hand, cardModel.Owner));
+                await PlayerCmd.GainEnergy(99, cardModel.Owner);
+
+                break;
+            case 8://10安可
+                for (int i = 0; i < 10; i++)
+                    CardCmd.PreviewCardPileAdd(await CardPileCmd.AddGeneratedCardToCombat(cardModel.CombatState!.CreateCard<Encore>(cardModel.Owner), PileType.Hand, cardModel.Owner));
+                break;
+
         }
     }
 

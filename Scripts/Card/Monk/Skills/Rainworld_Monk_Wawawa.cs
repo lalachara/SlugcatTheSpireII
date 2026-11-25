@@ -24,6 +24,9 @@ public class Rainworld_Monk_Wawawa : MonkCardModel
 
     protected override async Task OnPlay(PlayerChoiceContext choiceContext, CardPlay cardPlay)
     {
+        SfxCmd.Play("event:/Rainworld/sfx/wawawa",0.7f);
+        if(Owner.Character is Slugcat slugcat)
+            slugcat.wawawa = true;
         foreach (var hittableEnemy in CombatState.HittableEnemies)
             await PowerCmd.Apply<WeakPower>(choiceContext, hittableEnemy, 99, Owner.Creature, this);
     }

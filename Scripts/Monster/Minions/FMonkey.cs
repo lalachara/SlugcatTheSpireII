@@ -1,4 +1,4 @@
-using Godot;
+﻿using Godot;
 using MegaCrit.Sts2.Core.Animation;
 using MegaCrit.Sts2.Core.Bindings.MegaSpine;
 using MegaCrit.Sts2.Core.Combat;
@@ -110,7 +110,7 @@ public sealed class FMonkey : FriendPetBase
 
     protected override MonsterMoveStateMachine GenerateMoveStateMachine()
     {
-        MoveState orderState = new("FRIEND_MONKEY_ORDER", _ => Task.CompletedTask, new UnknownIntent());
+        MoveState orderState = new("FRIEND_MONKEY_ORDER", _ => Task.CompletedTask, new FriendUnknownIntent());
         orderState.FollowUpState = orderState;
 
         _orderState = orderState;

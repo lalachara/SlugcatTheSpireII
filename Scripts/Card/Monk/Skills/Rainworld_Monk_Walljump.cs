@@ -20,7 +20,7 @@ public class Rainworld_Monk_Walljump : MonkCardModel
 
     protected override IEnumerable<DynamicVar> CanonicalVars =>
     [
-        new BlockVar(3m, ValueProp.Move),
+        new BlockVar(4m, ValueProp.Move),
         new("Repeat", 2m)
     ];
 

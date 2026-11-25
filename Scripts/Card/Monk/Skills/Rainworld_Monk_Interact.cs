@@ -39,7 +39,8 @@ public class Rainworld_Monk_Interact : MonkCardModel
         // 塔1 allLizardFriendTakeTurn：所有蜥蜴类伙伴立刻执行一次意图；
         // 休眠伙伴的意图就是「眩晕 -1」，所以强制执行时同样推进休眠倒计时（归零则满血复活）。
         // 其余伙伴（猫崽等）不响应交互（与塔1一致）。
-        foreach (Creature friend in FriendPositions.All(Owner).ToList())
+        // 只驱动本 mod 的伙伴：原版宠物（异鸟、瓦皮、Pael's Legion 等）不响应交互
+        foreach (Creature friend in FriendPositions.ModFriends(Owner))
         {
             if (friend.Monster is not IFriendCabCombat)
                 continue;

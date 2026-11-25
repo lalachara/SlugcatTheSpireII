@@ -11,8 +11,8 @@ public class Rainworld_Monk_CardPool : TypeListCardPoolModel
     private static readonly Material? _poolFrameMaterial = MaterialUtils.CreateUnmodulatedHsvShaderMaterial(); // 如果你是自定义卡框，使用这个
     public override Material? PoolFrameMaterial => _poolFrameMaterial;
     
-    public override string Title => "RAINWORLD_REDCAT_CARD_POOL";
-    public override string EnergyColorName => "RAINWORLD_REDCAT_CARD_POOL";
+    public override string Title => "RAINWORLD_MONK_CARD_POOL";
+    public override string EnergyColorName => "RAINWORLD_MONK_CARD_POOL";
 
     public override Color DeckEntryCardColor => new("000000");
     public override string BigEnergyIconPath => "res://Resource/SlugCat/card_orb.png";
